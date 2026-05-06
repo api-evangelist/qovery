@@ -1,0 +1,1888 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Qovery API
+  description: '- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider. - ℹ️ The API is stable and
+    still in development.'
+  tags:
+  - Qovery
+  - API
+  created: '2026-05-06'
+  modified: '2026-05-06'
+capability:
+  consumes:
+  - type: http
+    namespace: qovery
+    baseUri: https://api.qovery.com
+    description: Qovery API HTTP API.
+    authentication:
+      type: bearer
+      token: '{{QOVERY_TOKEN}}'
+    resources:
+    - name: organization
+      path: /organization
+      operations:
+      - name: listorganization
+        method: GET
+        description: List user organizations
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createorganization
+        method: POST
+        description: Create an organization
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: organization-organizationid
+      path: /organization/{organizationId}
+      operations:
+      - name: getorganization
+        method: GET
+        description: Get organization by ID
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: editorganization
+        method: PUT
+        description: Edit an organization
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: deleteorganization
+        method: DELETE
+        description: Delete an organization
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: organization-organizationid-apitoken
+      path: /organization/{organizationId}/apiToken
+      operations:
+      - name: listorganizationapitokens
+        method: GET
+        description: List organization api tokens
+        inputParameters:
+        - name: name
+          in: query
+          type: string
+          description: Name of the token to filter results by.
+        - name: creatorName
+          in: query
+          type: string
+          description: Name of the token creator to filter results by.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createorganizationapitoken
+        method: POST
+        description: Create an organization api token
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: organization-organizationid-apitoken-apitokenid
+      path: /organization/{organizationId}/apiToken/{apiTokenId}
+      operations:
+      - name: deleteorganizationapitoken
+        method: DELETE
+        description: Delete organization api token
+        inputParameters:
+        - name: apiTokenId
+          in: path
+          type: string
+          required: true
+          description: Organization Api Token ID
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: organization-organizationid-availablerole
+      path: /organization/{organizationId}/availableRole
+      operations:
+      - name: listorganizationavailableroles
+        method: GET
+        description: List organization available roles
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: organization-organizationid-gittoken
+      path: /organization/{organizationId}/gitToken
+      operations:
+      - name: listorganizationgittokens
+        method: GET
+        description: List organization git tokens
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: creategittoken
+        method: POST
+        description: Create a git token
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: organization-organizationid-gittoken-gittokenid
+      path: /organization/{organizationId}/gitToken/{gitTokenId}
+      operations:
+      - name: getorganizationgittoken
+        method: GET
+        description: Get organization git token
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: editgittoken
+        method: PUT
+        description: Edit a git token
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: deletegittoken
+        method: DELETE
+        description: Delete a git token
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: organization-organizationid-gittoken-gittokenid-
+      path: /organization/{organizationId}/gitToken/{gitTokenId}/associatedServices
+      operations:
+      - name: getgittokenassociatedservices
+        method: GET
+        description: Get organization git token associated services
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: organization-organizationid-listdirectoriesfromg
+      path: /organization/{organizationId}/listDirectoriesFromGitRepository
+      operations:
+      - name: listdirectoriesfromgitrepository
+        method: POST
+        description: List directories from a git repository
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: organization-organizationid-member
+      path: /organization/{organizationId}/member
+      operations:
+      - name: getorganizationmembers
+        method: GET
+        description: Get organization members
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: editorganizationmemberrole
+        method: PUT
+        description: Edit an organization member role
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: deletemember
+        method: DELETE
+        description: Remove a member
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: organization-organizationid-invitemember
+      path: /organization/{organizationId}/inviteMember
+      operations:
+      - name: getorganizationinvitedmembers
+        method: GET
+        description: Get invited members
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: postinvitemember
+        method: POST
+        description: Invite someone in the organization
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: organization-organizationid-invitemember-invitei
+      path: /organization/{organizationId}/inviteMember/{inviteId}
+      operations:
+      - name: getmemberinvitation
+        method: GET
+        description: Get member invitation
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: postacceptinvitemember
+        method: POST
+        description: Accept Invite in the organization
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: deleteinvitemember
+        method: DELETE
+        description: Remove an invited member
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: organization-organizationid-transferownership
+      path: /organization/{organizationId}/transferOwnership
+      operations:
+      - name: postorganizationtransferownership
+        method: POST
+        description: Transfer organization ownership to another user
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: organization-organizationid-currentcost
+      path: /organization/{organizationId}/currentCost
+      operations:
+      - name: getorganizationcurrentcost
+        method: GET
+        description: Get organization current cost
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: organization-organizationid-creditcode
+      path: /organization/{organizationId}/creditCode
+      operations:
+      - name: addcreditcode
+        method: POST
+        description: Add credit code
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: organization-organizationid-changeplan
+      path: /organization/{organizationId}/changePlan
+      operations:
+      - name: changeplan
+        method: POST
+        description: Change organization plan
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: organization-organizationid-cluster-clusterid-cu
+      path: /organization/{organizationId}/cluster/{clusterId}/currentCost
+      operations:
+      - name: getclustercurrentcost
+        method: GET
+        description: Get cluster current cost
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: organization-organizationid-billinginfo
+      path: /organization/{organizationId}/billingInfo
+      operations:
+      - name: getorganizationbillinginfo
+        method: GET
+        description: Get organization billing info
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: editorganizationbillinginfo
+        method: PUT
+        description: Edit Organization Billing Info
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: organization-organizationid-billingstatus
+      path: /organization/{organizationId}/billingStatus
+      operations:
+      - name: getorganizationbillingstatus
+        method: GET
+        description: Get organization billing status
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: organization-organizationid-billingusagereport
+      path: /organization/{organizationId}/billingUsageReport
+      operations:
+      - name: generatebillingusagereport
+        method: POST
+        description: Generate organization billing usage report
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: organization-organizationid-billingexternalid
+      path: /organization/{organizationId}/billingExternalId
+      operations:
+      - name: getorganizationbillingexternalid
+        method: GET
+        description: Get organization billing external ID
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: organization-organizationid-invoice
+      path: /organization/{organizationId}/invoice
+      operations:
+      - name: listorganizationinvoice
+        method: GET
+        description: List organization invoices
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: organization-organizationid-invoice-invoiceid
+      path: /organization/{organizationId}/invoice/{invoiceId}
+      operations:
+      - name: getorganizationinvoice
+        method: GET
+        description: Get organization invoice
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: organization-organizationid-invoice-invoiceid-do
+      path: /organization/{organizationId}/invoice/{invoiceId}/download
+      operations:
+      - name: getorganizationinvoicepdf
+        method: GET
+        description: Get invoice link
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: organization-organizationid-downloadinvoices
+      path: /organization/{organizationId}/downloadInvoices
+      operations:
+      - name: organizationdownloadallinvoices
+        method: POST
+        description: Download all invoices
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: organization-organizationid-creditcard
+      path: /organization/{organizationId}/creditCard
+      operations:
+      - name: listorganizationcreditcards
+        method: GET
+        description: List organization credit cards
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: addcreditcard
+        method: POST
+        description: Add credit card
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: organization-organizationid-creditcard-creditcar
+      path: /organization/{organizationId}/creditCard/{creditCardId}
+      operations:
+      - name: deletecreditcard
+        method: DELETE
+        description: Delete credit card
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: organization-organizationid-project
+      path: /organization/{organizationId}/project
+      operations:
+      - name: listproject
+        method: GET
+        description: List projects
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createproject
+        method: POST
+        description: Create a project
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: organization-organizationid-project-stats
+      path: /organization/{organizationId}/project/stats
+      operations:
+      - name: getorganizationprojectstats
+        method: GET
+        description: List total number of services and environments for each project of the organization
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: organization-organizationid-cluster
+      path: /organization/{organizationId}/cluster
+      operations:
+      - name: listorganizationcluster
+        method: GET
+        description: List organization clusters
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createcluster
+        method: POST
+        description: Create a cluster
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: organization-organizationid-cluster-status
+      path: /organization/{organizationId}/cluster/status
+      operations:
+      - name: getorganizationclusterstatus
+        method: GET
+        description: List all clusters statuses
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: organization-organizationid-cluster-clusterid
+      path: /organization/{organizationId}/cluster/{clusterId}
+      operations:
+      - name: deletecluster
+        method: DELETE
+        description: Delete a cluster
+        inputParameters:
+        - name: deleteMode
+          in: query
+          type: string
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: editcluster
+        method: PUT
+        description: Edit a cluster
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: organization-organizationid-cluster-clusterid-st
+      path: /organization/{organizationId}/cluster/{clusterId}/status
+      operations:
+      - name: getclusterstatus
+        method: GET
+        description: Get cluster status
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: organization-organizationid-cluster-clusterid-in
+      path: /organization/{organizationId}/cluster/{clusterId}/installationHelmValues
+      operations:
+      - name: getinstallationhelmvalues
+        method: GET
+        description: Get cluster helm values for self managed installation
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: organization-organizationid-cluster-clusterid-ku
+      path: /organization/{organizationId}/cluster/{clusterId}/kubeconfig
+      operations:
+      - name: getclusterkubeconfig
+        method: GET
+        description: Get cluster kubeconfig
+        inputParameters:
+        - name: with_token_from_cli
+          in: query
+          type: boolean
+          description: If true, the user auth part will have an exec command with qovery cli
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: editclusterkubeconfig
+        method: PUT
+        description: Edit cluster kubeconfig
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: organization-organizationid-cluster-clusterid-ad
+      path: /organization/{organizationId}/cluster/{clusterId}/advancedSettings
+      operations:
+      - name: getclusteradvancedsettings
+        method: GET
+        description: Get advanced settings
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: editclusteradvancedsettings
+        method: PUT
+        description: Edit advanced settings
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: organization-organizationid-cluster-clusterid-ro
+      path: /organization/{organizationId}/cluster/{clusterId}/routingTable
+      operations:
+      - name: getroutingtable
+        method: GET
+        description: Get routing table
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: editroutingtable
+        method: PUT
+        description: Edit routing table
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: organization-organizationid-cluster-clusterid-lo
+      path: /organization/{organizationId}/cluster/{clusterId}/logs
+      operations:
+      - name: listclusterlogs
+        method: GET
+        description: List Cluster Logs
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: organization-organizationid-aws-credentials
+      path: /organization/{organizationId}/aws/credentials
+      operations:
+      - name: listawscredentials
+        method: GET
+        description: List AWS credentials
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createawscredentials
+        method: POST
+        description: Create AWS credentials set
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+  exposes:
+  - type: rest
+    port: 8080
+    namespace: qovery-rest
+    description: REST adapter for Qovery API.
+    resources:
+    - path: /organization
+      name: listorganization
+      operations:
+      - method: GET
+        name: listorganization
+        description: List user organizations
+        call: qovery.listorganization
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /organization
+      name: createorganization
+      operations:
+      - method: POST
+        name: createorganization
+        description: Create an organization
+        call: qovery.createorganization
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /organization/{organizationId}
+      name: getorganization
+      operations:
+      - method: GET
+        name: getorganization
+        description: Get organization by ID
+        call: qovery.getorganization
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /organization/{organizationId}
+      name: editorganization
+      operations:
+      - method: PUT
+        name: editorganization
+        description: Edit an organization
+        call: qovery.editorganization
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /organization/{organizationId}
+      name: deleteorganization
+      operations:
+      - method: DELETE
+        name: deleteorganization
+        description: Delete an organization
+        call: qovery.deleteorganization
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /organization/{organizationId}/apiToken
+      name: listorganizationapitokens
+      operations:
+      - method: GET
+        name: listorganizationapitokens
+        description: List organization api tokens
+        call: qovery.listorganizationapitokens
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /organization/{organizationId}/apiToken
+      name: createorganizationapitoken
+      operations:
+      - method: POST
+        name: createorganizationapitoken
+        description: Create an organization api token
+        call: qovery.createorganizationapitoken
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /organization/{organizationId}/apiToken/{apiTokenId}
+      name: deleteorganizationapitoken
+      operations:
+      - method: DELETE
+        name: deleteorganizationapitoken
+        description: Delete organization api token
+        call: qovery.deleteorganizationapitoken
+        with:
+          apiTokenId: rest.apiTokenId
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /organization/{organizationId}/availableRole
+      name: listorganizationavailableroles
+      operations:
+      - method: GET
+        name: listorganizationavailableroles
+        description: List organization available roles
+        call: qovery.listorganizationavailableroles
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /organization/{organizationId}/gitToken
+      name: listorganizationgittokens
+      operations:
+      - method: GET
+        name: listorganizationgittokens
+        description: List organization git tokens
+        call: qovery.listorganizationgittokens
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /organization/{organizationId}/gitToken
+      name: creategittoken
+      operations:
+      - method: POST
+        name: creategittoken
+        description: Create a git token
+        call: qovery.creategittoken
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /organization/{organizationId}/gitToken/{gitTokenId}
+      name: getorganizationgittoken
+      operations:
+      - method: GET
+        name: getorganizationgittoken
+        description: Get organization git token
+        call: qovery.getorganizationgittoken
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /organization/{organizationId}/gitToken/{gitTokenId}
+      name: editgittoken
+      operations:
+      - method: PUT
+        name: editgittoken
+        description: Edit a git token
+        call: qovery.editgittoken
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /organization/{organizationId}/gitToken/{gitTokenId}
+      name: deletegittoken
+      operations:
+      - method: DELETE
+        name: deletegittoken
+        description: Delete a git token
+        call: qovery.deletegittoken
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /organization/{organizationId}/gitToken/{gitTokenId}/associatedServices
+      name: getgittokenassociatedservices
+      operations:
+      - method: GET
+        name: getgittokenassociatedservices
+        description: Get organization git token associated services
+        call: qovery.getgittokenassociatedservices
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /organization/{organizationId}/listDirectoriesFromGitRepository
+      name: listdirectoriesfromgitrepository
+      operations:
+      - method: POST
+        name: listdirectoriesfromgitrepository
+        description: List directories from a git repository
+        call: qovery.listdirectoriesfromgitrepository
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /organization/{organizationId}/member
+      name: getorganizationmembers
+      operations:
+      - method: GET
+        name: getorganizationmembers
+        description: Get organization members
+        call: qovery.getorganizationmembers
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /organization/{organizationId}/member
+      name: editorganizationmemberrole
+      operations:
+      - method: PUT
+        name: editorganizationmemberrole
+        description: Edit an organization member role
+        call: qovery.editorganizationmemberrole
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /organization/{organizationId}/member
+      name: deletemember
+      operations:
+      - method: DELETE
+        name: deletemember
+        description: Remove a member
+        call: qovery.deletemember
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /organization/{organizationId}/inviteMember
+      name: getorganizationinvitedmembers
+      operations:
+      - method: GET
+        name: getorganizationinvitedmembers
+        description: Get invited members
+        call: qovery.getorganizationinvitedmembers
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /organization/{organizationId}/inviteMember
+      name: postinvitemember
+      operations:
+      - method: POST
+        name: postinvitemember
+        description: Invite someone in the organization
+        call: qovery.postinvitemember
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /organization/{organizationId}/inviteMember/{inviteId}
+      name: getmemberinvitation
+      operations:
+      - method: GET
+        name: getmemberinvitation
+        description: Get member invitation
+        call: qovery.getmemberinvitation
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /organization/{organizationId}/inviteMember/{inviteId}
+      name: postacceptinvitemember
+      operations:
+      - method: POST
+        name: postacceptinvitemember
+        description: Accept Invite in the organization
+        call: qovery.postacceptinvitemember
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /organization/{organizationId}/inviteMember/{inviteId}
+      name: deleteinvitemember
+      operations:
+      - method: DELETE
+        name: deleteinvitemember
+        description: Remove an invited member
+        call: qovery.deleteinvitemember
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /organization/{organizationId}/transferOwnership
+      name: postorganizationtransferownership
+      operations:
+      - method: POST
+        name: postorganizationtransferownership
+        description: Transfer organization ownership to another user
+        call: qovery.postorganizationtransferownership
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /organization/{organizationId}/currentCost
+      name: getorganizationcurrentcost
+      operations:
+      - method: GET
+        name: getorganizationcurrentcost
+        description: Get organization current cost
+        call: qovery.getorganizationcurrentcost
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /organization/{organizationId}/creditCode
+      name: addcreditcode
+      operations:
+      - method: POST
+        name: addcreditcode
+        description: Add credit code
+        call: qovery.addcreditcode
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /organization/{organizationId}/changePlan
+      name: changeplan
+      operations:
+      - method: POST
+        name: changeplan
+        description: Change organization plan
+        call: qovery.changeplan
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /organization/{organizationId}/cluster/{clusterId}/currentCost
+      name: getclustercurrentcost
+      operations:
+      - method: GET
+        name: getclustercurrentcost
+        description: Get cluster current cost
+        call: qovery.getclustercurrentcost
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /organization/{organizationId}/billingInfo
+      name: getorganizationbillinginfo
+      operations:
+      - method: GET
+        name: getorganizationbillinginfo
+        description: Get organization billing info
+        call: qovery.getorganizationbillinginfo
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /organization/{organizationId}/billingInfo
+      name: editorganizationbillinginfo
+      operations:
+      - method: PUT
+        name: editorganizationbillinginfo
+        description: Edit Organization Billing Info
+        call: qovery.editorganizationbillinginfo
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /organization/{organizationId}/billingStatus
+      name: getorganizationbillingstatus
+      operations:
+      - method: GET
+        name: getorganizationbillingstatus
+        description: Get organization billing status
+        call: qovery.getorganizationbillingstatus
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /organization/{organizationId}/billingUsageReport
+      name: generatebillingusagereport
+      operations:
+      - method: POST
+        name: generatebillingusagereport
+        description: Generate organization billing usage report
+        call: qovery.generatebillingusagereport
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /organization/{organizationId}/billingExternalId
+      name: getorganizationbillingexternalid
+      operations:
+      - method: GET
+        name: getorganizationbillingexternalid
+        description: Get organization billing external ID
+        call: qovery.getorganizationbillingexternalid
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /organization/{organizationId}/invoice
+      name: listorganizationinvoice
+      operations:
+      - method: GET
+        name: listorganizationinvoice
+        description: List organization invoices
+        call: qovery.listorganizationinvoice
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /organization/{organizationId}/invoice/{invoiceId}
+      name: getorganizationinvoice
+      operations:
+      - method: GET
+        name: getorganizationinvoice
+        description: Get organization invoice
+        call: qovery.getorganizationinvoice
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /organization/{organizationId}/invoice/{invoiceId}/download
+      name: getorganizationinvoicepdf
+      operations:
+      - method: GET
+        name: getorganizationinvoicepdf
+        description: Get invoice link
+        call: qovery.getorganizationinvoicepdf
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /organization/{organizationId}/downloadInvoices
+      name: organizationdownloadallinvoices
+      operations:
+      - method: POST
+        name: organizationdownloadallinvoices
+        description: Download all invoices
+        call: qovery.organizationdownloadallinvoices
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /organization/{organizationId}/creditCard
+      name: listorganizationcreditcards
+      operations:
+      - method: GET
+        name: listorganizationcreditcards
+        description: List organization credit cards
+        call: qovery.listorganizationcreditcards
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /organization/{organizationId}/creditCard
+      name: addcreditcard
+      operations:
+      - method: POST
+        name: addcreditcard
+        description: Add credit card
+        call: qovery.addcreditcard
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /organization/{organizationId}/creditCard/{creditCardId}
+      name: deletecreditcard
+      operations:
+      - method: DELETE
+        name: deletecreditcard
+        description: Delete credit card
+        call: qovery.deletecreditcard
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /organization/{organizationId}/project
+      name: listproject
+      operations:
+      - method: GET
+        name: listproject
+        description: List projects
+        call: qovery.listproject
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /organization/{organizationId}/project
+      name: createproject
+      operations:
+      - method: POST
+        name: createproject
+        description: Create a project
+        call: qovery.createproject
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /organization/{organizationId}/project/stats
+      name: getorganizationprojectstats
+      operations:
+      - method: GET
+        name: getorganizationprojectstats
+        description: List total number of services and environments for each project of the organization
+        call: qovery.getorganizationprojectstats
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /organization/{organizationId}/cluster
+      name: listorganizationcluster
+      operations:
+      - method: GET
+        name: listorganizationcluster
+        description: List organization clusters
+        call: qovery.listorganizationcluster
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /organization/{organizationId}/cluster
+      name: createcluster
+      operations:
+      - method: POST
+        name: createcluster
+        description: Create a cluster
+        call: qovery.createcluster
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /organization/{organizationId}/cluster/status
+      name: getorganizationclusterstatus
+      operations:
+      - method: GET
+        name: getorganizationclusterstatus
+        description: List all clusters statuses
+        call: qovery.getorganizationclusterstatus
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /organization/{organizationId}/cluster/{clusterId}
+      name: deletecluster
+      operations:
+      - method: DELETE
+        name: deletecluster
+        description: Delete a cluster
+        call: qovery.deletecluster
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /organization/{organizationId}/cluster/{clusterId}
+      name: editcluster
+      operations:
+      - method: PUT
+        name: editcluster
+        description: Edit a cluster
+        call: qovery.editcluster
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /organization/{organizationId}/cluster/{clusterId}/status
+      name: getclusterstatus
+      operations:
+      - method: GET
+        name: getclusterstatus
+        description: Get cluster status
+        call: qovery.getclusterstatus
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /organization/{organizationId}/cluster/{clusterId}/installationHelmValues
+      name: getinstallationhelmvalues
+      operations:
+      - method: GET
+        name: getinstallationhelmvalues
+        description: Get cluster helm values for self managed installation
+        call: qovery.getinstallationhelmvalues
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /organization/{organizationId}/cluster/{clusterId}/kubeconfig
+      name: getclusterkubeconfig
+      operations:
+      - method: GET
+        name: getclusterkubeconfig
+        description: Get cluster kubeconfig
+        call: qovery.getclusterkubeconfig
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /organization/{organizationId}/cluster/{clusterId}/kubeconfig
+      name: editclusterkubeconfig
+      operations:
+      - method: PUT
+        name: editclusterkubeconfig
+        description: Edit cluster kubeconfig
+        call: qovery.editclusterkubeconfig
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /organization/{organizationId}/cluster/{clusterId}/advancedSettings
+      name: getclusteradvancedsettings
+      operations:
+      - method: GET
+        name: getclusteradvancedsettings
+        description: Get advanced settings
+        call: qovery.getclusteradvancedsettings
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /organization/{organizationId}/cluster/{clusterId}/advancedSettings
+      name: editclusteradvancedsettings
+      operations:
+      - method: PUT
+        name: editclusteradvancedsettings
+        description: Edit advanced settings
+        call: qovery.editclusteradvancedsettings
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /organization/{organizationId}/cluster/{clusterId}/routingTable
+      name: getroutingtable
+      operations:
+      - method: GET
+        name: getroutingtable
+        description: Get routing table
+        call: qovery.getroutingtable
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /organization/{organizationId}/cluster/{clusterId}/routingTable
+      name: editroutingtable
+      operations:
+      - method: PUT
+        name: editroutingtable
+        description: Edit routing table
+        call: qovery.editroutingtable
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /organization/{organizationId}/cluster/{clusterId}/logs
+      name: listclusterlogs
+      operations:
+      - method: GET
+        name: listclusterlogs
+        description: List Cluster Logs
+        call: qovery.listclusterlogs
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /organization/{organizationId}/aws/credentials
+      name: listawscredentials
+      operations:
+      - method: GET
+        name: listawscredentials
+        description: List AWS credentials
+        call: qovery.listawscredentials
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /organization/{organizationId}/aws/credentials
+      name: createawscredentials
+      operations:
+      - method: POST
+        name: createawscredentials
+        description: Create AWS credentials set
+        call: qovery.createawscredentials
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    port: 9090
+    namespace: qovery-mcp
+    transport: http
+    description: MCP adapter for Qovery API for AI agent use.
+    tools:
+    - name: listorganization
+      description: List user organizations
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery.listorganization
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: createorganization
+      description: Create an organization
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery.createorganization
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getorganization
+      description: Get organization by ID
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery.getorganization
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: editorganization
+      description: Edit an organization
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: qovery.editorganization
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: deleteorganization
+      description: Delete an organization
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: qovery.deleteorganization
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: listorganizationapitokens
+      description: List organization api tokens
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery.listorganizationapitokens
+      with:
+        name: tools.name
+        creatorName: tools.creatorName
+      inputParameters:
+      - name: name
+        type: string
+        description: Name of the token to filter results by.
+      - name: creatorName
+        type: string
+        description: Name of the token creator to filter results by.
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: createorganizationapitoken
+      description: Create an organization api token
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery.createorganizationapitoken
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: deleteorganizationapitoken
+      description: Delete organization api token
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: qovery.deleteorganizationapitoken
+      with:
+        apiTokenId: tools.apiTokenId
+      inputParameters:
+      - name: apiTokenId
+        type: string
+        description: Organization Api Token ID
+        required: true
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: listorganizationavailableroles
+      description: List organization available roles
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery.listorganizationavailableroles
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: listorganizationgittokens
+      description: List organization git tokens
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery.listorganizationgittokens
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: creategittoken
+      description: Create a git token
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery.creategittoken
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getorganizationgittoken
+      description: Get organization git token
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery.getorganizationgittoken
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: editgittoken
+      description: Edit a git token
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: qovery.editgittoken
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: deletegittoken
+      description: Delete a git token
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: qovery.deletegittoken
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getgittokenassociatedservices
+      description: Get organization git token associated services
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery.getgittokenassociatedservices
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: listdirectoriesfromgitrepository
+      description: List directories from a git repository
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery.listdirectoriesfromgitrepository
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getorganizationmembers
+      description: Get organization members
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery.getorganizationmembers
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: editorganizationmemberrole
+      description: Edit an organization member role
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: qovery.editorganizationmemberrole
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: deletemember
+      description: Remove a member
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: qovery.deletemember
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getorganizationinvitedmembers
+      description: Get invited members
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery.getorganizationinvitedmembers
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: postinvitemember
+      description: Invite someone in the organization
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery.postinvitemember
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getmemberinvitation
+      description: Get member invitation
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery.getmemberinvitation
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: postacceptinvitemember
+      description: Accept Invite in the organization
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery.postacceptinvitemember
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: deleteinvitemember
+      description: Remove an invited member
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: qovery.deleteinvitemember
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: postorganizationtransferownership
+      description: Transfer organization ownership to another user
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery.postorganizationtransferownership
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getorganizationcurrentcost
+      description: Get organization current cost
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery.getorganizationcurrentcost
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: addcreditcode
+      description: Add credit code
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery.addcreditcode
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: changeplan
+      description: Change organization plan
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery.changeplan
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getclustercurrentcost
+      description: Get cluster current cost
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery.getclustercurrentcost
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getorganizationbillinginfo
+      description: Get organization billing info
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery.getorganizationbillinginfo
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: editorganizationbillinginfo
+      description: Edit Organization Billing Info
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: qovery.editorganizationbillinginfo
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getorganizationbillingstatus
+      description: Get organization billing status
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery.getorganizationbillingstatus
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: generatebillingusagereport
+      description: Generate organization billing usage report
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery.generatebillingusagereport
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getorganizationbillingexternalid
+      description: Get organization billing external ID
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery.getorganizationbillingexternalid
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: listorganizationinvoice
+      description: List organization invoices
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery.listorganizationinvoice
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getorganizationinvoice
+      description: Get organization invoice
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery.getorganizationinvoice
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getorganizationinvoicepdf
+      description: Get invoice link
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery.getorganizationinvoicepdf
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: organizationdownloadallinvoices
+      description: Download all invoices
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery.organizationdownloadallinvoices
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: listorganizationcreditcards
+      description: List organization credit cards
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery.listorganizationcreditcards
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: addcreditcard
+      description: Add credit card
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery.addcreditcard
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: deletecreditcard
+      description: Delete credit card
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: qovery.deletecreditcard
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: listproject
+      description: List projects
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery.listproject
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: createproject
+      description: Create a project
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery.createproject
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getorganizationprojectstats
+      description: List total number of services and environments for each project of the organization
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery.getorganizationprojectstats
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: listorganizationcluster
+      description: List organization clusters
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery.listorganizationcluster
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: createcluster
+      description: Create a cluster
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery.createcluster
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getorganizationclusterstatus
+      description: List all clusters statuses
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery.getorganizationclusterstatus
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: deletecluster
+      description: Delete a cluster
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: qovery.deletecluster
+      with:
+        deleteMode: tools.deleteMode
+      inputParameters:
+      - name: deleteMode
+        type: string
+        description: deleteMode
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: editcluster
+      description: Edit a cluster
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: qovery.editcluster
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getclusterstatus
+      description: Get cluster status
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery.getclusterstatus
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getinstallationhelmvalues
+      description: Get cluster helm values for self managed installation
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery.getinstallationhelmvalues
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getclusterkubeconfig
+      description: Get cluster kubeconfig
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery.getclusterkubeconfig
+      with:
+        with_token_from_cli: tools.with_token_from_cli
+      inputParameters:
+      - name: with_token_from_cli
+        type: boolean
+        description: If true, the user auth part will have an exec command with qovery cli
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: editclusterkubeconfig
+      description: Edit cluster kubeconfig
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: qovery.editclusterkubeconfig
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getclusteradvancedsettings
+      description: Get advanced settings
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery.getclusteradvancedsettings
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: editclusteradvancedsettings
+      description: Edit advanced settings
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: qovery.editclusteradvancedsettings
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: getroutingtable
+      description: Get routing table
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery.getroutingtable
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: editroutingtable
+      description: Edit routing table
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: qovery.editroutingtable
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: listclusterlogs
+      description: List Cluster Logs
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery.listclusterlogs
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: listawscredentials
+      description: List AWS credentials
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery.listawscredentials
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: createawscredentials
+      description: Create AWS credentials set
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery.createawscredentials
+      outputParameters:
+      - type: object
+        mapping: $.
+binds:
+- namespace: env
+  keys:
+    QOVERY_TOKEN: QOVERY_TOKEN
