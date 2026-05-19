@@ -1,0 +1,121 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Qovery API — Github App
+  description: 'Qovery API — Github App. 2 operations. Lead operation: Connect a github account to an organization. Self-contained
+    Naftiko capability covering one Qovery business surface.'
+  tags:
+  - Qovery
+  - Github App
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    QOVERY_API_KEY: QOVERY_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: qovery-github-app
+    baseUri: https://api.qovery.com
+    description: Qovery API — Github App business capability. Self-contained, no shared references.
+    resources:
+    - name: organization-organizationId-github-connect
+      path: /organization/{organizationId}/github/connect
+      operations:
+      - name: organizationgithubappconnect
+        method: POST
+        description: Connect a github account to an organization
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: organization-organizationId-github-disconnect
+      path: /organization/{organizationId}/github/disconnect
+      operations:
+      - name: organizationgithubappdisconnect
+        method: DELETE
+        description: Disconnect a github account from an organization
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: force
+          in: query
+          type: boolean
+          description: Indicates if the github app should be disconnected despite github applications linked to organization
+    authentication:
+      type: bearer
+      token: '{{env.QOVERY_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: qovery-github-app-rest
+    port: 8080
+    description: REST adapter for Qovery API — Github App. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/organization/{organizationid}/github/connect
+      name: organization-organizationid-github-connect
+      description: REST surface for organization-organizationId-github-connect.
+      operations:
+      - method: POST
+        name: organizationgithubappconnect
+        description: Connect a github account to an organization
+        call: qovery-github-app.organizationgithubappconnect
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/organization/{organizationid}/github/disconnect
+      name: organization-organizationid-github-disconnect
+      description: REST surface for organization-organizationId-github-disconnect.
+      operations:
+      - method: DELETE
+        name: organizationgithubappdisconnect
+        description: Disconnect a github account from an organization
+        call: qovery-github-app.organizationgithubappdisconnect
+        with:
+          force: rest.force
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: qovery-github-app-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Qovery API — Github App. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: connect-github-account-organization
+      description: Connect a github account to an organization
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery-github-app.organizationgithubappconnect
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: disconnect-github-account-organization
+      description: Disconnect a github account from an organization
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: qovery-github-app.organizationgithubappdisconnect
+      with:
+        force: tools.force
+      outputParameters:
+      - type: object
+        mapping: $.

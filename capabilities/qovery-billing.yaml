@@ -1,0 +1,586 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Qovery API — Billing
+  description: 'Qovery API — Billing. 16 operations. Lead operation: Get organization billing external ID. Self-contained
+    Naftiko capability covering one Qovery business surface.'
+  tags:
+  - Qovery
+  - Billing
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    QOVERY_API_KEY: QOVERY_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: qovery-billing
+    baseUri: https://api.qovery.com
+    description: Qovery API — Billing business capability. Self-contained, no shared references.
+    resources:
+    - name: organization-organizationId-billingExternalId
+      path: /organization/{organizationId}/billingExternalId
+      operations:
+      - name: getorganizationbillingexternalid
+        method: GET
+        description: Get organization billing external ID
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: organization-organizationId-billingInfo
+      path: /organization/{organizationId}/billingInfo
+      operations:
+      - name: getorganizationbillinginfo
+        method: GET
+        description: Get organization billing info
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: editorganizationbillinginfo
+        method: PUT
+        description: Edit Organization Billing Info
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: organization-organizationId-billingStatus
+      path: /organization/{organizationId}/billingStatus
+      operations:
+      - name: getorganizationbillingstatus
+        method: GET
+        description: Get organization billing status
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: organization-organizationId-billingUsageReport
+      path: /organization/{organizationId}/billingUsageReport
+      operations:
+      - name: generatebillingusagereport
+        method: POST
+        description: Generate organization billing usage report
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: organization-organizationId-changePlan
+      path: /organization/{organizationId}/changePlan
+      operations:
+      - name: changeplan
+        method: POST
+        description: Change organization plan
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: organization-organizationId-cluster-clusterId-currentCost
+      path: /organization/{organizationId}/cluster/{clusterId}/currentCost
+      operations:
+      - name: getclustercurrentcost
+        method: GET
+        description: Get cluster current cost
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: organization-organizationId-creditCard
+      path: /organization/{organizationId}/creditCard
+      operations:
+      - name: listorganizationcreditcards
+        method: GET
+        description: List organization credit cards
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: addcreditcard
+        method: POST
+        description: Add credit card
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: organization-organizationId-creditCard-creditCardId
+      path: /organization/{organizationId}/creditCard/{creditCardId}
+      operations:
+      - name: deletecreditcard
+        method: DELETE
+        description: Delete credit card
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: organization-organizationId-creditCode
+      path: /organization/{organizationId}/creditCode
+      operations:
+      - name: addcreditcode
+        method: POST
+        description: Add credit code
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: organization-organizationId-currentCost
+      path: /organization/{organizationId}/currentCost
+      operations:
+      - name: getorganizationcurrentcost
+        method: GET
+        description: Get organization current cost
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: organization-organizationId-downloadInvoices
+      path: /organization/{organizationId}/downloadInvoices
+      operations:
+      - name: organizationdownloadallinvoices
+        method: POST
+        description: Download all invoices
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: organization-organizationId-invoice
+      path: /organization/{organizationId}/invoice
+      operations:
+      - name: listorganizationinvoice
+        method: GET
+        description: List organization invoices
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: organization-organizationId-invoice-invoiceId
+      path: /organization/{organizationId}/invoice/{invoiceId}
+      operations:
+      - name: getorganizationinvoice
+        method: GET
+        description: Get organization invoice
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: organization-organizationId-invoice-invoiceId-download
+      path: /organization/{organizationId}/invoice/{invoiceId}/download
+      operations:
+      - name: getorganizationinvoicepdf
+        method: GET
+        description: Get invoice link
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.QOVERY_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: qovery-billing-rest
+    port: 8080
+    description: REST adapter for Qovery API — Billing. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/organization/{organizationid}/billingexternalid
+      name: organization-organizationid-billingexternalid
+      description: REST surface for organization-organizationId-billingExternalId.
+      operations:
+      - method: GET
+        name: getorganizationbillingexternalid
+        description: Get organization billing external ID
+        call: qovery-billing.getorganizationbillingexternalid
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/organization/{organizationid}/billinginfo
+      name: organization-organizationid-billinginfo
+      description: REST surface for organization-organizationId-billingInfo.
+      operations:
+      - method: GET
+        name: getorganizationbillinginfo
+        description: Get organization billing info
+        call: qovery-billing.getorganizationbillinginfo
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: editorganizationbillinginfo
+        description: Edit Organization Billing Info
+        call: qovery-billing.editorganizationbillinginfo
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/organization/{organizationid}/billingstatus
+      name: organization-organizationid-billingstatus
+      description: REST surface for organization-organizationId-billingStatus.
+      operations:
+      - method: GET
+        name: getorganizationbillingstatus
+        description: Get organization billing status
+        call: qovery-billing.getorganizationbillingstatus
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/organization/{organizationid}/billingusagereport
+      name: organization-organizationid-billingusagereport
+      description: REST surface for organization-organizationId-billingUsageReport.
+      operations:
+      - method: POST
+        name: generatebillingusagereport
+        description: Generate organization billing usage report
+        call: qovery-billing.generatebillingusagereport
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/organization/{organizationid}/changeplan
+      name: organization-organizationid-changeplan
+      description: REST surface for organization-organizationId-changePlan.
+      operations:
+      - method: POST
+        name: changeplan
+        description: Change organization plan
+        call: qovery-billing.changeplan
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/organization/{organizationid}/cluster/{clusterid}/currentcost
+      name: organization-organizationid-cluster-clusterid-currentcost
+      description: REST surface for organization-organizationId-cluster-clusterId-currentCost.
+      operations:
+      - method: GET
+        name: getclustercurrentcost
+        description: Get cluster current cost
+        call: qovery-billing.getclustercurrentcost
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/organization/{organizationid}/creditcard
+      name: organization-organizationid-creditcard
+      description: REST surface for organization-organizationId-creditCard.
+      operations:
+      - method: GET
+        name: listorganizationcreditcards
+        description: List organization credit cards
+        call: qovery-billing.listorganizationcreditcards
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: addcreditcard
+        description: Add credit card
+        call: qovery-billing.addcreditcard
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/organization/{organizationid}/creditcard/{creditcardid}
+      name: organization-organizationid-creditcard-creditcardid
+      description: REST surface for organization-organizationId-creditCard-creditCardId.
+      operations:
+      - method: DELETE
+        name: deletecreditcard
+        description: Delete credit card
+        call: qovery-billing.deletecreditcard
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/organization/{organizationid}/creditcode
+      name: organization-organizationid-creditcode
+      description: REST surface for organization-organizationId-creditCode.
+      operations:
+      - method: POST
+        name: addcreditcode
+        description: Add credit code
+        call: qovery-billing.addcreditcode
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/organization/{organizationid}/currentcost
+      name: organization-organizationid-currentcost
+      description: REST surface for organization-organizationId-currentCost.
+      operations:
+      - method: GET
+        name: getorganizationcurrentcost
+        description: Get organization current cost
+        call: qovery-billing.getorganizationcurrentcost
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/organization/{organizationid}/downloadinvoices
+      name: organization-organizationid-downloadinvoices
+      description: REST surface for organization-organizationId-downloadInvoices.
+      operations:
+      - method: POST
+        name: organizationdownloadallinvoices
+        description: Download all invoices
+        call: qovery-billing.organizationdownloadallinvoices
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/organization/{organizationid}/invoice
+      name: organization-organizationid-invoice
+      description: REST surface for organization-organizationId-invoice.
+      operations:
+      - method: GET
+        name: listorganizationinvoice
+        description: List organization invoices
+        call: qovery-billing.listorganizationinvoice
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/organization/{organizationid}/invoice/{invoiceid}
+      name: organization-organizationid-invoice-invoiceid
+      description: REST surface for organization-organizationId-invoice-invoiceId.
+      operations:
+      - method: GET
+        name: getorganizationinvoice
+        description: Get organization invoice
+        call: qovery-billing.getorganizationinvoice
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/organization/{organizationid}/invoice/{invoiceid}/download
+      name: organization-organizationid-invoice-invoiceid-download
+      description: REST surface for organization-organizationId-invoice-invoiceId-download.
+      operations:
+      - method: GET
+        name: getorganizationinvoicepdf
+        description: Get invoice link
+        call: qovery-billing.getorganizationinvoicepdf
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: qovery-billing-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Qovery API — Billing. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: get-organization-billing-external-id
+      description: Get organization billing external ID
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-billing.getorganizationbillingexternalid
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-organization-billing-info
+      description: Get organization billing info
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-billing.getorganizationbillinginfo
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: edit-organization-billing-info
+      description: Edit Organization Billing Info
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: qovery-billing.editorganizationbillinginfo
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-organization-billing-status
+      description: Get organization billing status
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-billing.getorganizationbillingstatus
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: generate-organization-billing-usage-report
+      description: Generate organization billing usage report
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery-billing.generatebillingusagereport
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: change-organization-plan
+      description: Change organization plan
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery-billing.changeplan
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-cluster-current-cost
+      description: Get cluster current cost
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-billing.getclustercurrentcost
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-organization-credit-cards
+      description: List organization credit cards
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-billing.listorganizationcreditcards
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: add-credit-card
+      description: Add credit card
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery-billing.addcreditcard
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-credit-card
+      description: Delete credit card
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: qovery-billing.deletecreditcard
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: add-credit-code
+      description: Add credit code
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery-billing.addcreditcode
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-organization-current-cost
+      description: Get organization current cost
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-billing.getorganizationcurrentcost
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: download-all-invoices
+      description: Download all invoices
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery-billing.organizationdownloadallinvoices
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-organization-invoices
+      description: List organization invoices
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-billing.listorganizationinvoice
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-organization-invoice
+      description: Get organization invoice
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-billing.getorganizationinvoice
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-invoice-link
+      description: Get invoice link
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-billing.getorganizationinvoicepdf
+      outputParameters:
+      - type: object
+        mapping: $.

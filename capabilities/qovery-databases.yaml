@@ -1,0 +1,211 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Qovery API — Databases
+  description: 'Qovery API — Databases. 5 operations. Lead operation: Clone database. Self-contained Naftiko capability covering
+    one Qovery business surface.'
+  tags:
+  - Qovery
+  - Databases
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    QOVERY_API_KEY: QOVERY_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: qovery-databases
+    baseUri: https://api.qovery.com
+    description: Qovery API — Databases business capability. Self-contained, no shared references.
+    resources:
+    - name: database-databaseId-clone
+      path: /database/{databaseId}/clone
+      operations:
+      - name: clonedatabase
+        method: POST
+        description: Clone database
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: environment-environmentId-database
+      path: /environment/{environmentId}/database
+      operations:
+      - name: listdatabase
+        method: GET
+        description: List environment databases
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createdatabase
+        method: POST
+        description: Create a database
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: environment-environmentId-database-status
+      path: /environment/{environmentId}/database/status
+      operations:
+      - name: getenvironmentdatabasestatus
+        method: GET
+        description: List all environment databases statuses
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: environment-environmentId-databaseConfiguration
+      path: /environment/{environmentId}/databaseConfiguration
+      operations:
+      - name: listenvironmentdatabaseconfig
+        method: GET
+        description: List eligible database types, versions and modes for the environment
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.QOVERY_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: qovery-databases-rest
+    port: 8080
+    description: REST adapter for Qovery API — Databases. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/database/{databaseid}/clone
+      name: database-databaseid-clone
+      description: REST surface for database-databaseId-clone.
+      operations:
+      - method: POST
+        name: clonedatabase
+        description: Clone database
+        call: qovery-databases.clonedatabase
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/environment/{environmentid}/database
+      name: environment-environmentid-database
+      description: REST surface for environment-environmentId-database.
+      operations:
+      - method: GET
+        name: listdatabase
+        description: List environment databases
+        call: qovery-databases.listdatabase
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createdatabase
+        description: Create a database
+        call: qovery-databases.createdatabase
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/environment/{environmentid}/database/status
+      name: environment-environmentid-database-status
+      description: REST surface for environment-environmentId-database-status.
+      operations:
+      - method: GET
+        name: getenvironmentdatabasestatus
+        description: List all environment databases statuses
+        call: qovery-databases.getenvironmentdatabasestatus
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/environment/{environmentid}/databaseconfiguration
+      name: environment-environmentid-databaseconfiguration
+      description: REST surface for environment-environmentId-databaseConfiguration.
+      operations:
+      - method: GET
+        name: listenvironmentdatabaseconfig
+        description: List eligible database types, versions and modes for the environment
+        call: qovery-databases.listenvironmentdatabaseconfig
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: qovery-databases-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Qovery API — Databases. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: clone-database
+      description: Clone database
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery-databases.clonedatabase
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-environment-databases
+      description: List environment databases
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-databases.listdatabase
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-database
+      description: Create a database
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery-databases.createdatabase
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-all-environment-databases-statuses
+      description: List all environment databases statuses
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-databases.getenvironmentdatabasestatus
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-eligible-database-types-versions
+      description: List eligible database types, versions and modes for the environment
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-databases.listenvironmentdatabaseconfig
+      outputParameters:
+      - type: object
+        mapping: $.

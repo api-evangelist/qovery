@@ -1,0 +1,256 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Qovery API — Project Environment Variable
+  description: 'Qovery API — Project Environment Variable. 6 operations. Lead operation: Add an environment variable to the
+    project. Self-contained Naftiko capability covering one Qovery business surface.'
+  tags:
+  - Qovery
+  - Project Environment Variable
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    QOVERY_API_KEY: QOVERY_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: qovery-project-environment-variable
+    baseUri: https://api.qovery.com
+    description: Qovery API — Project Environment Variable business capability. Self-contained, no shared references.
+    resources:
+    - name: project-projectId-environmentVariable
+      path: /project/{projectId}/environmentVariable
+      operations:
+      - name: createprojectenvironmentvariable
+        method: POST
+        description: Add an environment variable to the project
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+      - name: listprojectenvironmentvariable
+        method: GET
+        description: List project environment variables
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: project-projectId-environmentVariable-environmentVariableId
+      path: /project/{projectId}/environmentVariable/{environmentVariableId}
+      operations:
+      - name: deleteprojectenvironmentvariable
+        method: DELETE
+        description: Delete an environment variable from a project
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: editprojectenvironmentvariable
+        method: PUT
+        description: Edit an environment variable belonging to the project
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: project-projectId-environmentVariable-environmentVariableId-alias
+      path: /project/{projectId}/environmentVariable/{environmentVariableId}/alias
+      operations:
+      - name: createprojectenvironmentvariablealias
+        method: POST
+        description: Create an environment variable alias at the project level
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: project-projectId-environmentVariable-environmentVariableId-override
+      path: /project/{projectId}/environmentVariable/{environmentVariableId}/override
+      operations:
+      - name: createprojectenvironmentvariableoverride
+        method: POST
+        description: Create an environment variable override at the project level
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: bearer
+      token: '{{env.QOVERY_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: qovery-project-environment-variable-rest
+    port: 8080
+    description: REST adapter for Qovery API — Project Environment Variable. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/project/{projectid}/environmentvariable
+      name: project-projectid-environmentvariable
+      description: REST surface for project-projectId-environmentVariable.
+      operations:
+      - method: POST
+        name: createprojectenvironmentvariable
+        description: Add an environment variable to the project
+        call: qovery-project-environment-variable.createprojectenvironmentvariable
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: GET
+        name: listprojectenvironmentvariable
+        description: List project environment variables
+        call: qovery-project-environment-variable.listprojectenvironmentvariable
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/project/{projectid}/environmentvariable/{environmentvariableid}
+      name: project-projectid-environmentvariable-environmentvariableid
+      description: REST surface for project-projectId-environmentVariable-environmentVariableId.
+      operations:
+      - method: DELETE
+        name: deleteprojectenvironmentvariable
+        description: Delete an environment variable from a project
+        call: qovery-project-environment-variable.deleteprojectenvironmentvariable
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: editprojectenvironmentvariable
+        description: Edit an environment variable belonging to the project
+        call: qovery-project-environment-variable.editprojectenvironmentvariable
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/project/{projectid}/environmentvariable/{environmentvariableid}/alias
+      name: project-projectid-environmentvariable-environmentvariableid-alias
+      description: REST surface for project-projectId-environmentVariable-environmentVariableId-alias.
+      operations:
+      - method: POST
+        name: createprojectenvironmentvariablealias
+        description: Create an environment variable alias at the project level
+        call: qovery-project-environment-variable.createprojectenvironmentvariablealias
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/project/{projectid}/environmentvariable/{environmentvariableid}/override
+      name: project-projectid-environmentvariable-environmentvariableid-override
+      description: REST surface for project-projectId-environmentVariable-environmentVariableId-override.
+      operations:
+      - method: POST
+        name: createprojectenvironmentvariableoverride
+        description: Create an environment variable override at the project level
+        call: qovery-project-environment-variable.createprojectenvironmentvariableoverride
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: qovery-project-environment-variable-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Qovery API — Project Environment Variable. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: add-environment-variable-project
+      description: Add an environment variable to the project
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery-project-environment-variable.createprojectenvironmentvariable
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-project-environment-variables
+      description: List project environment variables
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-project-environment-variable.listprojectenvironmentvariable
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-environment-variable-project
+      description: Delete an environment variable from a project
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: qovery-project-environment-variable.deleteprojectenvironmentvariable
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: edit-environment-variable-belonging-project
+      description: Edit an environment variable belonging to the project
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: qovery-project-environment-variable.editprojectenvironmentvariable
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-environment-variable-alias-project
+      description: Create an environment variable alias at the project level
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery-project-environment-variable.createprojectenvironmentvariablealias
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-environment-variable-override-project
+      description: Create an environment variable override at the project level
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery-project-environment-variable.createprojectenvironmentvariableoverride
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

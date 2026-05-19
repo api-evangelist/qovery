@@ -1,0 +1,102 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Qovery API — Database Application
+  description: 'Qovery API — Database Application. 2 operations. Lead operation: List applications using the database. Self-contained
+    Naftiko capability covering one Qovery business surface.'
+  tags:
+  - Qovery
+  - Database Application
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    QOVERY_API_KEY: QOVERY_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: qovery-database-application
+    baseUri: https://api.qovery.com
+    description: Qovery API — Database Application business capability. Self-contained, no shared references.
+    resources:
+    - name: database-databaseId-application
+      path: /database/{databaseId}/application
+      operations:
+      - name: listdatabaseapplication
+        method: GET
+        description: List applications using the database
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: database-databaseId-application-targetApplicationId
+      path: /database/{databaseId}/application/{targetApplicationId}
+      operations:
+      - name: removeapplicationfromdatabase
+        method: DELETE
+        description: Remove an application from this database
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.QOVERY_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: qovery-database-application-rest
+    port: 8080
+    description: REST adapter for Qovery API — Database Application. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/database/{databaseid}/application
+      name: database-databaseid-application
+      description: REST surface for database-databaseId-application.
+      operations:
+      - method: GET
+        name: listdatabaseapplication
+        description: List applications using the database
+        call: qovery-database-application.listdatabaseapplication
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/database/{databaseid}/application/{targetapplicationid}
+      name: database-databaseid-application-targetapplicationid
+      description: REST surface for database-databaseId-application-targetApplicationId.
+      operations:
+      - method: DELETE
+        name: removeapplicationfromdatabase
+        description: Remove an application from this database
+        call: qovery-database-application.removeapplicationfromdatabase
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: qovery-database-application-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Qovery API — Database Application. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: list-applications-using-database
+      description: List applications using the database
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-database-application.listdatabaseapplication
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: remove-application-this-database
+      description: Remove an application from this database
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: qovery-database-application.removeapplicationfromdatabase
+      outputParameters:
+      - type: object
+        mapping: $.

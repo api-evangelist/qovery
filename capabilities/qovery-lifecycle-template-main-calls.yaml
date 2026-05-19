@@ -1,0 +1,102 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Qovery API — Lifecycle Template Main Calls
+  description: 'Qovery API — Lifecycle Template Main Calls. 2 operations. Lead operation: List available lifecycle template
+    for this environment. Self-contained Naftiko capability covering one Qovery business surface.'
+  tags:
+  - Qovery
+  - Lifecycle Template Main Calls
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    QOVERY_API_KEY: QOVERY_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: qovery-lifecycle-template-main-calls
+    baseUri: https://api.qovery.com
+    description: Qovery API — Lifecycle Template Main Calls business capability. Self-contained, no shared references.
+    resources:
+    - name: environment-environmentId-lifecycleTemplate
+      path: /environment/{environmentId}/lifecycleTemplate
+      operations:
+      - name: listenvironmentlifecycletemplates
+        method: GET
+        description: List available lifecycle template for this environment
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: environment-environmentId-lifecycleTemplate-lifecycleTemplateId
+      path: /environment/{environmentId}/lifecycleTemplate/{lifecycleTemplateId}
+      operations:
+      - name: getenvironmentlifecycletemplate
+        method: GET
+        description: Get specific lifecycle template
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.QOVERY_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: qovery-lifecycle-template-main-calls-rest
+    port: 8080
+    description: REST adapter for Qovery API — Lifecycle Template Main Calls. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/environment/{environmentid}/lifecycletemplate
+      name: environment-environmentid-lifecycletemplate
+      description: REST surface for environment-environmentId-lifecycleTemplate.
+      operations:
+      - method: GET
+        name: listenvironmentlifecycletemplates
+        description: List available lifecycle template for this environment
+        call: qovery-lifecycle-template-main-calls.listenvironmentlifecycletemplates
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/environment/{environmentid}/lifecycletemplate/{lifecycletemplateid}
+      name: environment-environmentid-lifecycletemplate-lifecycletemplateid
+      description: REST surface for environment-environmentId-lifecycleTemplate-lifecycleTemplateId.
+      operations:
+      - method: GET
+        name: getenvironmentlifecycletemplate
+        description: Get specific lifecycle template
+        call: qovery-lifecycle-template-main-calls.getenvironmentlifecycletemplate
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: qovery-lifecycle-template-main-calls-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Qovery API — Lifecycle Template Main Calls. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: list-available-lifecycle-template-this
+      description: List available lifecycle template for this environment
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-lifecycle-template-main-calls.listenvironmentlifecycletemplates
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-specific-lifecycle-template
+      description: Get specific lifecycle template
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-lifecycle-template-main-calls.getenvironmentlifecycletemplate
+      outputParameters:
+      - type: object
+        mapping: $.

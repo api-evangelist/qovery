@@ -1,0 +1,70 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Qovery API — Container Logs
+  description: 'Qovery API — Container Logs. 1 operations. Lead operation: List logs. Self-contained Naftiko capability covering
+    one Qovery business surface.'
+  tags:
+  - Qovery
+  - Container Logs
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    QOVERY_API_KEY: QOVERY_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: qovery-container-logs
+    baseUri: https://api.qovery.com
+    description: Qovery API — Container Logs business capability. Self-contained, no shared references.
+    resources:
+    - name: container-containerId-log
+      path: /container/{containerId}/log
+      operations:
+      - name: listcontainerlog
+        method: GET
+        description: List logs
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.QOVERY_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: qovery-container-logs-rest
+    port: 8080
+    description: REST adapter for Qovery API — Container Logs. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/container/{containerid}/log
+      name: container-containerid-log
+      description: REST surface for container-containerId-log.
+      operations:
+      - method: GET
+        name: listcontainerlog
+        description: List logs
+        call: qovery-container-logs.listcontainerlog
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: qovery-container-logs-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Qovery API — Container Logs. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: list-logs
+      description: List logs
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-container-logs.listcontainerlog
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,105 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Qovery API — Helm Configuration
+  description: 'Qovery API — Helm Configuration. 2 operations. Lead operation: Get advanced settings. Self-contained Naftiko
+    capability covering one Qovery business surface.'
+  tags:
+  - Qovery
+  - Helm Configuration
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    QOVERY_API_KEY: QOVERY_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: qovery-helm-configuration
+    baseUri: https://api.qovery.com
+    description: Qovery API — Helm Configuration business capability. Self-contained, no shared references.
+    resources:
+    - name: helm-helmId-advancedSettings
+      path: /helm/{helmId}/advancedSettings
+      operations:
+      - name: gethelmadvancedsettings
+        method: GET
+        description: Get advanced settings
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: edithelmadvancedsettings
+        method: PUT
+        description: Edit advanced settings
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: bearer
+      token: '{{env.QOVERY_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: qovery-helm-configuration-rest
+    port: 8080
+    description: REST adapter for Qovery API — Helm Configuration. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/helm/{helmid}/advancedsettings
+      name: helm-helmid-advancedsettings
+      description: REST surface for helm-helmId-advancedSettings.
+      operations:
+      - method: GET
+        name: gethelmadvancedsettings
+        description: Get advanced settings
+        call: qovery-helm-configuration.gethelmadvancedsettings
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: edithelmadvancedsettings
+        description: Edit advanced settings
+        call: qovery-helm-configuration.edithelmadvancedsettings
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: qovery-helm-configuration-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Qovery API — Helm Configuration. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: get-advanced-settings
+      description: Get advanced settings
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-helm-configuration.gethelmadvancedsettings
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: edit-advanced-settings
+      description: Edit advanced settings
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: qovery-helm-configuration.edithelmadvancedsettings
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

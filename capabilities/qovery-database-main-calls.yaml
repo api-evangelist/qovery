@@ -1,0 +1,261 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Qovery API — Database Main Calls
+  description: 'Qovery API — Database Main Calls. 7 operations. Lead operation: Get database by ID. Self-contained Naftiko
+    capability covering one Qovery business surface.'
+  tags:
+  - Qovery
+  - Database Main Calls
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    QOVERY_API_KEY: QOVERY_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: qovery-database-main-calls
+    baseUri: https://api.qovery.com
+    description: Qovery API — Database Main Calls business capability. Self-contained, no shared references.
+    resources:
+    - name: database-databaseId
+      path: /database/{databaseId}
+      operations:
+      - name: getdatabase
+        method: GET
+        description: Get database by ID
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: editdatabase
+        method: PUT
+        description: Edit a database
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+      - name: deletedatabase
+        method: DELETE
+        description: Delete a database
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: database-databaseId-masterCredentials
+      path: /database/{databaseId}/masterCredentials
+      operations:
+      - name: getdatabasemastercredentials
+        method: GET
+        description: Get master credentials of the database
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: editdatabasecredentials
+        method: PUT
+        description: Edit database  master credentials
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: database-databaseId-status
+      path: /database/{databaseId}/status
+      operations:
+      - name: getdatabasestatus
+        method: GET
+        description: Get database status
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: database-databaseId-version
+      path: /database/{databaseId}/version
+      operations:
+      - name: listdatabaseversion
+        method: GET
+        description: List eligible versions for the database
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.QOVERY_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: qovery-database-main-calls-rest
+    port: 8080
+    description: REST adapter for Qovery API — Database Main Calls. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/database/{databaseid}
+      name: database-databaseid
+      description: REST surface for database-databaseId.
+      operations:
+      - method: GET
+        name: getdatabase
+        description: Get database by ID
+        call: qovery-database-main-calls.getdatabase
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: editdatabase
+        description: Edit a database
+        call: qovery-database-main-calls.editdatabase
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletedatabase
+        description: Delete a database
+        call: qovery-database-main-calls.deletedatabase
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/database/{databaseid}/mastercredentials
+      name: database-databaseid-mastercredentials
+      description: REST surface for database-databaseId-masterCredentials.
+      operations:
+      - method: GET
+        name: getdatabasemastercredentials
+        description: Get master credentials of the database
+        call: qovery-database-main-calls.getdatabasemastercredentials
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: editdatabasecredentials
+        description: Edit database  master credentials
+        call: qovery-database-main-calls.editdatabasecredentials
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/database/{databaseid}/status
+      name: database-databaseid-status
+      description: REST surface for database-databaseId-status.
+      operations:
+      - method: GET
+        name: getdatabasestatus
+        description: Get database status
+        call: qovery-database-main-calls.getdatabasestatus
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/database/{databaseid}/version
+      name: database-databaseid-version
+      description: REST surface for database-databaseId-version.
+      operations:
+      - method: GET
+        name: listdatabaseversion
+        description: List eligible versions for the database
+        call: qovery-database-main-calls.listdatabaseversion
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: qovery-database-main-calls-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Qovery API — Database Main Calls. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: get-database-id
+      description: Get database by ID
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-database-main-calls.getdatabase
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: edit-database
+      description: Edit a database
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: qovery-database-main-calls.editdatabase
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-database
+      description: Delete a database
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: qovery-database-main-calls.deletedatabase
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-master-credentials-database
+      description: Get master credentials of the database
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-database-main-calls.getdatabasemastercredentials
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: edit-database-master-credentials
+      description: Edit database  master credentials
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: qovery-database-main-calls.editdatabasecredentials
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-database-status
+      description: Get database status
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-database-main-calls.getdatabasestatus
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-eligible-versions-database
+      description: List eligible versions for the database
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-database-main-calls.listdatabaseversion
+      outputParameters:
+      - type: object
+        mapping: $.

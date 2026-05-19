@@ -1,0 +1,111 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Qovery API — Container Deployment History
+  description: 'Qovery API — Container Deployment History. 2 operations. Lead operation: List container deployments. Self-contained
+    Naftiko capability covering one Qovery business surface.'
+  tags:
+  - Qovery
+  - Container Deployment History
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    QOVERY_API_KEY: QOVERY_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: qovery-container-deployment-history
+    baseUri: https://api.qovery.com
+    description: Qovery API — Container Deployment History business capability. Self-contained, no shared references.
+    resources:
+    - name: container-containerId-deploymentHistory
+      path: /container/{containerId}/deploymentHistory
+      operations:
+      - name: listcontainerdeploymenthistory
+        method: GET
+        description: List container deployments
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: container-containerId-deploymentHistoryV2
+      path: /container/{containerId}/deploymentHistoryV2
+      operations:
+      - name: listcontainerdeploymenthistoryv2
+        method: GET
+        description: List container deployments
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: pageSize
+          in: query
+          type: number
+          description: The number of deployments to return in the current page
+    authentication:
+      type: bearer
+      token: '{{env.QOVERY_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: qovery-container-deployment-history-rest
+    port: 8080
+    description: REST adapter for Qovery API — Container Deployment History. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/container/{containerid}/deploymenthistory
+      name: container-containerid-deploymenthistory
+      description: REST surface for container-containerId-deploymentHistory.
+      operations:
+      - method: GET
+        name: listcontainerdeploymenthistory
+        description: List container deployments
+        call: qovery-container-deployment-history.listcontainerdeploymenthistory
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/container/{containerid}/deploymenthistoryv2
+      name: container-containerid-deploymenthistoryv2
+      description: REST surface for container-containerId-deploymentHistoryV2.
+      operations:
+      - method: GET
+        name: listcontainerdeploymenthistoryv2
+        description: List container deployments
+        call: qovery-container-deployment-history.listcontainerdeploymenthistoryv2
+        with:
+          pageSize: rest.pageSize
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: qovery-container-deployment-history-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Qovery API — Container Deployment History. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: list-container-deployments
+      description: List container deployments
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-container-deployment-history.listcontainerdeploymenthistory
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-container-deployments-2
+      description: List container deployments
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-container-deployment-history.listcontainerdeploymenthistoryv2
+      with:
+        pageSize: tools.pageSize
+      outputParameters:
+      - type: object
+        mapping: $.

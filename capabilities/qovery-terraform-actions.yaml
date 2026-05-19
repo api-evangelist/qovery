@@ -1,0 +1,160 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Qovery API — Terraform Actions
+  description: 'Qovery API — Terraform Actions. 3 operations. Lead operation: Deploy terraform. Self-contained Naftiko capability
+    covering one Qovery business surface.'
+  tags:
+  - Qovery
+  - Terraform Actions
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    QOVERY_API_KEY: QOVERY_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: qovery-terraform-actions
+    baseUri: https://api.qovery.com
+    description: Qovery API — Terraform Actions business capability. Self-contained, no shared references.
+    resources:
+    - name: terraform-terraformId-deploy
+      path: /terraform/{terraformId}/deploy
+      operations:
+      - name: deployterraform
+        method: POST
+        description: Deploy terraform
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: terraform-terraformId-redeploy
+      path: /terraform/{terraformId}/redeploy
+      operations:
+      - name: redeployterraform
+        method: POST
+        description: Redeploy terraform
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: terraform-terraformId-uninstall
+      path: /terraform/{terraformId}/uninstall
+      operations:
+      - name: uninstallterraform
+        method: POST
+        description: Uninstall terraform
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: force_terraform_action
+          in: query
+          type: string
+          description: Force a specific action to be executed by Terraform during uninstall.
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: bearer
+      token: '{{env.QOVERY_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: qovery-terraform-actions-rest
+    port: 8080
+    description: REST adapter for Qovery API — Terraform Actions. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/terraform/{terraformid}/deploy
+      name: terraform-terraformid-deploy
+      description: REST surface for terraform-terraformId-deploy.
+      operations:
+      - method: POST
+        name: deployterraform
+        description: Deploy terraform
+        call: qovery-terraform-actions.deployterraform
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/terraform/{terraformid}/redeploy
+      name: terraform-terraformid-redeploy
+      description: REST surface for terraform-terraformId-redeploy.
+      operations:
+      - method: POST
+        name: redeployterraform
+        description: Redeploy terraform
+        call: qovery-terraform-actions.redeployterraform
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/terraform/{terraformid}/uninstall
+      name: terraform-terraformid-uninstall
+      description: REST surface for terraform-terraformId-uninstall.
+      operations:
+      - method: POST
+        name: uninstallterraform
+        description: Uninstall terraform
+        call: qovery-terraform-actions.uninstallterraform
+        with:
+          force_terraform_action: rest.force_terraform_action
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: qovery-terraform-actions-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Qovery API — Terraform Actions. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: deploy-terraform
+      description: Deploy terraform
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery-terraform-actions.deployterraform
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: redeploy-terraform
+      description: Redeploy terraform
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery-terraform-actions.redeployterraform
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: uninstall-terraform
+      description: Uninstall terraform
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery-terraform-actions.uninstallterraform
+      with:
+        force_terraform_action: tools.force_terraform_action
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

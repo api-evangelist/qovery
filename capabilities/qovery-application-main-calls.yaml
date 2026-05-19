@@ -1,0 +1,258 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Qovery API — Application Main Calls
+  description: 'Qovery API — Application Main Calls. 7 operations. Lead operation: Get application by ID. Self-contained Naftiko
+    capability covering one Qovery business surface.'
+  tags:
+  - Qovery
+  - Application Main Calls
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    QOVERY_API_KEY: QOVERY_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: qovery-application-main-calls
+    baseUri: https://api.qovery.com
+    description: Qovery API — Application Main Calls business capability. Self-contained, no shared references.
+    resources:
+    - name: application-applicationId
+      path: /application/{applicationId}
+      operations:
+      - name: getapplication
+        method: GET
+        description: Get application by ID
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: editapplication
+        method: PUT
+        description: Edit application
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+      - name: deleteapplication
+        method: DELETE
+        description: Delete application
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: application-applicationId-commit
+      path: /application/{applicationId}/commit
+      operations:
+      - name: listapplicationcommit
+        method: GET
+        description: List last commits
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: application-applicationId-contributor
+      path: /application/{applicationId}/contributor
+      operations:
+      - name: listapplicationcontributor
+        method: GET
+        description: List contributors
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: application-applicationId-link
+      path: /application/{applicationId}/link
+      operations:
+      - name: listapplicationlinks
+        method: GET
+        description: List all URLs of the application
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: application-applicationId-status
+      path: /application/{applicationId}/status
+      operations:
+      - name: getapplicationstatus
+        method: GET
+        description: Get application status
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.QOVERY_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: qovery-application-main-calls-rest
+    port: 8080
+    description: REST adapter for Qovery API — Application Main Calls. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/application/{applicationid}
+      name: application-applicationid
+      description: REST surface for application-applicationId.
+      operations:
+      - method: GET
+        name: getapplication
+        description: Get application by ID
+        call: qovery-application-main-calls.getapplication
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: editapplication
+        description: Edit application
+        call: qovery-application-main-calls.editapplication
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deleteapplication
+        description: Delete application
+        call: qovery-application-main-calls.deleteapplication
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/application/{applicationid}/commit
+      name: application-applicationid-commit
+      description: REST surface for application-applicationId-commit.
+      operations:
+      - method: GET
+        name: listapplicationcommit
+        description: List last commits
+        call: qovery-application-main-calls.listapplicationcommit
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/application/{applicationid}/contributor
+      name: application-applicationid-contributor
+      description: REST surface for application-applicationId-contributor.
+      operations:
+      - method: GET
+        name: listapplicationcontributor
+        description: List contributors
+        call: qovery-application-main-calls.listapplicationcontributor
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/application/{applicationid}/link
+      name: application-applicationid-link
+      description: REST surface for application-applicationId-link.
+      operations:
+      - method: GET
+        name: listapplicationlinks
+        description: List all URLs of the application
+        call: qovery-application-main-calls.listapplicationlinks
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/application/{applicationid}/status
+      name: application-applicationid-status
+      description: REST surface for application-applicationId-status.
+      operations:
+      - method: GET
+        name: getapplicationstatus
+        description: Get application status
+        call: qovery-application-main-calls.getapplicationstatus
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: qovery-application-main-calls-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Qovery API — Application Main Calls. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: get-application-id
+      description: Get application by ID
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-application-main-calls.getapplication
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: edit-application
+      description: Edit application
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: qovery-application-main-calls.editapplication
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-application
+      description: Delete application
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: qovery-application-main-calls.deleteapplication
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-last-commits
+      description: List last commits
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-application-main-calls.listapplicationcommit
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-contributors
+      description: List contributors
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-application-main-calls.listapplicationcontributor
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-all-urls-application
+      description: List all URLs of the application
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-application-main-calls.listapplicationlinks
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-application-status
+      description: Get application status
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-application-main-calls.getapplicationstatus
+      outputParameters:
+      - type: object
+        mapping: $.

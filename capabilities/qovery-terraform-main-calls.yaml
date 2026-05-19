@@ -1,0 +1,209 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Qovery API — Terraform Main Calls
+  description: 'Qovery API — Terraform Main Calls. 5 operations. Lead operation: List available Terraform versions. Self-contained
+    Naftiko capability covering one Qovery business surface.'
+  tags:
+  - Qovery
+  - Terraform Main Calls
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    QOVERY_API_KEY: QOVERY_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: qovery-terraform-main-calls
+    baseUri: https://api.qovery.com
+    description: Qovery API — Terraform Main Calls business capability. Self-contained, no shared references.
+    resources:
+    - name: terraform-availableVersion
+      path: /terraform/availableVersion
+      operations:
+      - name: listterraformversions
+        method: GET
+        description: List available Terraform versions
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: terraform-terraformId
+      path: /terraform/{terraformId}
+      operations:
+      - name: getterraform
+        method: GET
+        description: Get terraform by ID
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: editterraform
+        method: PUT
+        description: Edit Terraform
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+      - name: deleteterraform
+        method: DELETE
+        description: Delete Terraform
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: resources_only
+          in: query
+          type: boolean
+          description: When true, only resources are deleted and Qovery configuration is kept.
+        - name: force_terraform_action
+          in: query
+          type: string
+          description: Force a specific action to be executed by Terraform during deletion.
+    - name: terraform-terraformId-commit
+      path: /terraform/{terraformId}/commit
+      operations:
+      - name: listterraformcommit
+        method: GET
+        description: List last commits
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.QOVERY_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: qovery-terraform-main-calls-rest
+    port: 8080
+    description: REST adapter for Qovery API — Terraform Main Calls. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/terraform/availableversion
+      name: terraform-availableversion
+      description: REST surface for terraform-availableVersion.
+      operations:
+      - method: GET
+        name: listterraformversions
+        description: List available Terraform versions
+        call: qovery-terraform-main-calls.listterraformversions
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/terraform/{terraformid}
+      name: terraform-terraformid
+      description: REST surface for terraform-terraformId.
+      operations:
+      - method: GET
+        name: getterraform
+        description: Get terraform by ID
+        call: qovery-terraform-main-calls.getterraform
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: editterraform
+        description: Edit Terraform
+        call: qovery-terraform-main-calls.editterraform
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deleteterraform
+        description: Delete Terraform
+        call: qovery-terraform-main-calls.deleteterraform
+        with:
+          resources_only: rest.resources_only
+          force_terraform_action: rest.force_terraform_action
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/terraform/{terraformid}/commit
+      name: terraform-terraformid-commit
+      description: REST surface for terraform-terraformId-commit.
+      operations:
+      - method: GET
+        name: listterraformcommit
+        description: List last commits
+        call: qovery-terraform-main-calls.listterraformcommit
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: qovery-terraform-main-calls-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Qovery API — Terraform Main Calls. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: list-available-terraform-versions
+      description: List available Terraform versions
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-terraform-main-calls.listterraformversions
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-terraform-id
+      description: Get terraform by ID
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-terraform-main-calls.getterraform
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: edit-terraform
+      description: Edit Terraform
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: qovery-terraform-main-calls.editterraform
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-terraform
+      description: Delete Terraform
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: qovery-terraform-main-calls.deleteterraform
+      with:
+        resources_only: tools.resources_only
+        force_terraform_action: tools.force_terraform_action
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-last-commits
+      description: List last commits
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-terraform-main-calls.listterraformcommit
+      outputParameters:
+      - type: object
+        mapping: $.

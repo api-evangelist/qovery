@@ -1,0 +1,253 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Qovery API — Helms
+  description: 'Qovery API — Helms. 6 operations. Lead operation: List default helm advanced settings. Self-contained Naftiko
+    capability covering one Qovery business surface.'
+  tags:
+  - Qovery
+  - Helms
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    QOVERY_API_KEY: QOVERY_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: qovery-helms
+    baseUri: https://api.qovery.com
+    description: Qovery API — Helms business capability. Self-contained, no shared references.
+    resources:
+    - name: defaultHelmAdvancedSettings
+      path: /defaultHelmAdvancedSettings
+      operations:
+      - name: getdefaulthelmadvancedsettings
+        method: GET
+        description: List default helm advanced settings
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: environment-environmentId-helm
+      path: /environment/{environmentId}/helm
+      operations:
+      - name: listhelms
+        method: GET
+        description: List helms
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createhelm
+        method: POST
+        description: Create a helm
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: environment-environmentId-helm-status
+      path: /environment/{environmentId}/helm/status
+      operations:
+      - name: getenvironmenthelmstatus
+        method: GET
+        description: List all environment helm statuses
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: environment-environmentId-helmDefaultValues
+      path: /environment/{environmentId}/helmDefaultValues
+      operations:
+      - name: createhelmdefaultvalues
+        method: POST
+        description: Get helm default values
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: helm-helmId-clone
+      path: /helm/{helmId}/clone
+      operations:
+      - name: clonehelm
+        method: POST
+        description: Clone helm
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: bearer
+      token: '{{env.QOVERY_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: qovery-helms-rest
+    port: 8080
+    description: REST adapter for Qovery API — Helms. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/defaulthelmadvancedsettings
+      name: defaulthelmadvancedsettings
+      description: REST surface for defaultHelmAdvancedSettings.
+      operations:
+      - method: GET
+        name: getdefaulthelmadvancedsettings
+        description: List default helm advanced settings
+        call: qovery-helms.getdefaulthelmadvancedsettings
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/environment/{environmentid}/helm
+      name: environment-environmentid-helm
+      description: REST surface for environment-environmentId-helm.
+      operations:
+      - method: GET
+        name: listhelms
+        description: List helms
+        call: qovery-helms.listhelms
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createhelm
+        description: Create a helm
+        call: qovery-helms.createhelm
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/environment/{environmentid}/helm/status
+      name: environment-environmentid-helm-status
+      description: REST surface for environment-environmentId-helm-status.
+      operations:
+      - method: GET
+        name: getenvironmenthelmstatus
+        description: List all environment helm statuses
+        call: qovery-helms.getenvironmenthelmstatus
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/environment/{environmentid}/helmdefaultvalues
+      name: environment-environmentid-helmdefaultvalues
+      description: REST surface for environment-environmentId-helmDefaultValues.
+      operations:
+      - method: POST
+        name: createhelmdefaultvalues
+        description: Get helm default values
+        call: qovery-helms.createhelmdefaultvalues
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/helm/{helmid}/clone
+      name: helm-helmid-clone
+      description: REST surface for helm-helmId-clone.
+      operations:
+      - method: POST
+        name: clonehelm
+        description: Clone helm
+        call: qovery-helms.clonehelm
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: qovery-helms-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Qovery API — Helms. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: list-default-helm-advanced-settings
+      description: List default helm advanced settings
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-helms.getdefaulthelmadvancedsettings
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-helms
+      description: List helms
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-helms.listhelms
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-helm
+      description: Create a helm
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery-helms.createhelm
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-all-environment-helm-statuses
+      description: List all environment helm statuses
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-helms.getenvironmenthelmstatus
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-helm-default-values
+      description: Get helm default values
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: qovery-helms.createhelmdefaultvalues
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: clone-helm
+      description: Clone helm
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery-helms.clonehelm
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

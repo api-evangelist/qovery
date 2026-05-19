@@ -1,0 +1,154 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Qovery API — Environment Deployment History
+  description: 'Qovery API — Environment Deployment History. 3 operations. Lead operation: Generate a Grafana snapshot report
+    showing build runner pod usage for a specific deployment. Self-contained Naftiko capability covering one Qovery business
+    surface.'
+  tags:
+  - Qovery
+  - Environment Deployment History
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    QOVERY_API_KEY: QOVERY_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: qovery-environment-deployment-history
+    baseUri: https://api.qovery.com
+    description: Qovery API — Environment Deployment History business capability. Self-contained, no shared references.
+    resources:
+    - name: environment-environmentId-deploymentBuildUsageReport
+      path: /environment/{environmentId}/deploymentBuildUsageReport
+      operations:
+      - name: generatedeploymentbuildusagereport
+        method: POST
+        description: Generate a Grafana snapshot report showing build runner pod usage for a specific deployment
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: environment-environmentId-deploymentHistory
+      path: /environment/{environmentId}/deploymentHistory
+      operations:
+      - name: listenvironmentdeploymenthistory
+        method: GET
+        description: List environment deployments
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: environment-environmentId-deploymentHistoryV2
+      path: /environment/{environmentId}/deploymentHistoryV2
+      operations:
+      - name: listenvironmentdeploymenthistoryv2
+        method: GET
+        description: List environment deployments
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: pageSize
+          in: query
+          type: number
+          description: The number of deployments to return in the current page
+    authentication:
+      type: bearer
+      token: '{{env.QOVERY_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: qovery-environment-deployment-history-rest
+    port: 8080
+    description: REST adapter for Qovery API — Environment Deployment History. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/environment/{environmentid}/deploymentbuildusagereport
+      name: environment-environmentid-deploymentbuildusagereport
+      description: REST surface for environment-environmentId-deploymentBuildUsageReport.
+      operations:
+      - method: POST
+        name: generatedeploymentbuildusagereport
+        description: Generate a Grafana snapshot report showing build runner pod usage for a specific deployment
+        call: qovery-environment-deployment-history.generatedeploymentbuildusagereport
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/environment/{environmentid}/deploymenthistory
+      name: environment-environmentid-deploymenthistory
+      description: REST surface for environment-environmentId-deploymentHistory.
+      operations:
+      - method: GET
+        name: listenvironmentdeploymenthistory
+        description: List environment deployments
+        call: qovery-environment-deployment-history.listenvironmentdeploymenthistory
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/environment/{environmentid}/deploymenthistoryv2
+      name: environment-environmentid-deploymenthistoryv2
+      description: REST surface for environment-environmentId-deploymentHistoryV2.
+      operations:
+      - method: GET
+        name: listenvironmentdeploymenthistoryv2
+        description: List environment deployments
+        call: qovery-environment-deployment-history.listenvironmentdeploymenthistoryv2
+        with:
+          pageSize: rest.pageSize
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: qovery-environment-deployment-history-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Qovery API — Environment Deployment History. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: generate-grafana-snapshot-report-showing
+      description: Generate a Grafana snapshot report showing build runner pod usage for a specific deployment
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery-environment-deployment-history.generatedeploymentbuildusagereport
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-environment-deployments
+      description: List environment deployments
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-environment-deployment-history.listenvironmentdeploymenthistory
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-environment-deployments-2
+      description: List environment deployments
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-environment-deployment-history.listenvironmentdeploymenthistoryv2
+      with:
+        pageSize: tools.pageSize
+      outputParameters:
+      - type: object
+        mapping: $.

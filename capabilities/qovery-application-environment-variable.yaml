@@ -1,0 +1,298 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Qovery API — Application Environment Variable
+  description: 'Qovery API — Application Environment Variable. 7 operations. Lead operation: List environment variables. Self-contained
+    Naftiko capability covering one Qovery business surface.'
+  tags:
+  - Qovery
+  - Application Environment Variable
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    QOVERY_API_KEY: QOVERY_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: qovery-application-environment-variable
+    baseUri: https://api.qovery.com
+    description: Qovery API — Application Environment Variable business capability. Self-contained, no shared references.
+    resources:
+    - name: application-applicationId-environmentVariable
+      path: /application/{applicationId}/environmentVariable
+      operations:
+      - name: listapplicationenvironmentvariable
+        method: GET
+        description: List environment variables
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createapplicationenvironmentvariable
+        method: POST
+        description: Add an environment variable to the application
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: application-applicationId-environmentVariable-import
+      path: /application/{applicationId}/environmentVariable/import
+      operations:
+      - name: importenvironmentvariable
+        method: POST
+        description: Import variables
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: application-applicationId-environmentVariable-environmentVariableId
+      path: /application/{applicationId}/environmentVariable/{environmentVariableId}
+      operations:
+      - name: deleteapplicationenvironmentvariable
+        method: DELETE
+        description: Delete an environment variable from an application
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: editapplicationenvironmentvariable
+        method: PUT
+        description: Edit an environment variable belonging to the application
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: application-applicationId-environmentVariable-environmentVariableId-alias
+      path: /application/{applicationId}/environmentVariable/{environmentVariableId}/alias
+      operations:
+      - name: createapplicationenvironmentvariablealias
+        method: POST
+        description: Create an environment variable alias at the application level
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: application-applicationId-environmentVariable-environmentVariableId-override
+      path: /application/{applicationId}/environmentVariable/{environmentVariableId}/override
+      operations:
+      - name: createapplicationenvironmentvariableoverride
+        method: POST
+        description: Create an environment variable override at the application level
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: bearer
+      token: '{{env.QOVERY_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: qovery-application-environment-variable-rest
+    port: 8080
+    description: REST adapter for Qovery API — Application Environment Variable. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/application/{applicationid}/environmentvariable
+      name: application-applicationid-environmentvariable
+      description: REST surface for application-applicationId-environmentVariable.
+      operations:
+      - method: GET
+        name: listapplicationenvironmentvariable
+        description: List environment variables
+        call: qovery-application-environment-variable.listapplicationenvironmentvariable
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createapplicationenvironmentvariable
+        description: Add an environment variable to the application
+        call: qovery-application-environment-variable.createapplicationenvironmentvariable
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/application/{applicationid}/environmentvariable/import
+      name: application-applicationid-environmentvariable-import
+      description: REST surface for application-applicationId-environmentVariable-import.
+      operations:
+      - method: POST
+        name: importenvironmentvariable
+        description: Import variables
+        call: qovery-application-environment-variable.importenvironmentvariable
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/application/{applicationid}/environmentvariable/{environmentvariableid}
+      name: application-applicationid-environmentvariable-environmentvariableid
+      description: REST surface for application-applicationId-environmentVariable-environmentVariableId.
+      operations:
+      - method: DELETE
+        name: deleteapplicationenvironmentvariable
+        description: Delete an environment variable from an application
+        call: qovery-application-environment-variable.deleteapplicationenvironmentvariable
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: editapplicationenvironmentvariable
+        description: Edit an environment variable belonging to the application
+        call: qovery-application-environment-variable.editapplicationenvironmentvariable
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/application/{applicationid}/environmentvariable/{environmentvariableid}/alias
+      name: application-applicationid-environmentvariable-environmentvariableid-alias
+      description: REST surface for application-applicationId-environmentVariable-environmentVariableId-alias.
+      operations:
+      - method: POST
+        name: createapplicationenvironmentvariablealias
+        description: Create an environment variable alias at the application level
+        call: qovery-application-environment-variable.createapplicationenvironmentvariablealias
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/application/{applicationid}/environmentvariable/{environmentvariableid}/override
+      name: application-applicationid-environmentvariable-environmentvariableid-override
+      description: REST surface for application-applicationId-environmentVariable-environmentVariableId-override.
+      operations:
+      - method: POST
+        name: createapplicationenvironmentvariableoverride
+        description: Create an environment variable override at the application level
+        call: qovery-application-environment-variable.createapplicationenvironmentvariableoverride
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: qovery-application-environment-variable-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Qovery API — Application Environment Variable. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: list-environment-variables
+      description: List environment variables
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-application-environment-variable.listapplicationenvironmentvariable
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: add-environment-variable-application
+      description: Add an environment variable to the application
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery-application-environment-variable.createapplicationenvironmentvariable
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: import-variables
+      description: Import variables
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery-application-environment-variable.importenvironmentvariable
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-environment-variable-application
+      description: Delete an environment variable from an application
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: qovery-application-environment-variable.deleteapplicationenvironmentvariable
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: edit-environment-variable-belonging-application
+      description: Edit an environment variable belonging to the application
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: qovery-application-environment-variable.editapplicationenvironmentvariable
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-environment-variable-alias-application
+      description: Create an environment variable alias at the application level
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery-application-environment-variable.createapplicationenvironmentvariablealias
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-environment-variable-override-application
+      description: Create an environment variable override at the application level
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery-application-environment-variable.createapplicationenvironmentvariableoverride
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

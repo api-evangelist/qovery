@@ -1,0 +1,105 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Qovery API — Account Info
+  description: 'Qovery API — Account Info. 2 operations. Lead operation: Get Account information. Self-contained Naftiko capability
+    covering one Qovery business surface.'
+  tags:
+  - Qovery
+  - Account Info
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    QOVERY_API_KEY: QOVERY_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: qovery-account-info
+    baseUri: https://api.qovery.com
+    description: Qovery API — Account Info business capability. Self-contained, no shared references.
+    resources:
+    - name: account
+      path: /account
+      operations:
+      - name: getaccountinformation
+        method: GET
+        description: Get Account information
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: editaccountinformation
+        method: PUT
+        description: Edit account information
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: bearer
+      token: '{{env.QOVERY_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: qovery-account-info-rest
+    port: 8080
+    description: REST adapter for Qovery API — Account Info. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/account
+      name: account
+      description: REST surface for account.
+      operations:
+      - method: GET
+        name: getaccountinformation
+        description: Get Account information
+        call: qovery-account-info.getaccountinformation
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: editaccountinformation
+        description: Edit account information
+        call: qovery-account-info.editaccountinformation
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: qovery-account-info-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Qovery API — Account Info. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: get-account-information
+      description: Get Account information
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-account-info.getaccountinformation
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: edit-account-information
+      description: Edit account information
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: qovery-account-info.editaccountinformation
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

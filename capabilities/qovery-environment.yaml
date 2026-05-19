@@ -1,0 +1,238 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Qovery API — Environment
+  description: 'Qovery API — Environment. 5 operations. Lead operation: Check container image configuration is correct. Self-contained
+    Naftiko capability covering one Qovery business surface.'
+  tags:
+  - Qovery
+  - Environment
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    QOVERY_API_KEY: QOVERY_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: qovery-environment
+    baseUri: https://api.qovery.com
+    description: Qovery API — Environment business capability. Self-contained, no shared references.
+    resources:
+    - name: environment-environmentId-checkContainerImage
+      path: /environment/{environmentId}/checkContainerImage
+      operations:
+      - name: checkcontainerimage
+        method: POST
+        description: Check container image configuration is correct
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: environment-environmentId-checkDockerfile
+      path: /environment/{environmentId}/checkDockerfile
+      operations:
+      - name: checkdockerfile
+        method: POST
+        description: Check dockerfile configuration is correct
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: environment-environmentId-checkGitFile
+      path: /environment/{environmentId}/checkGitFile
+      operations:
+      - name: checkgitfile
+        method: POST
+        description: Check git file configuration is correct
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: environment-environmentId-checkHelmRepository
+      path: /environment/{environmentId}/checkHelmRepository
+      operations:
+      - name: checkhelmrepository
+        method: POST
+        description: Check helm repository configuration is correct
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: environment-environmentId-link
+      path: /environment/{environmentId}/link
+      operations:
+      - name: listenvironmentserviceslinks
+        method: GET
+        description: List environment services links
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.QOVERY_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: qovery-environment-rest
+    port: 8080
+    description: REST adapter for Qovery API — Environment. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/environment/{environmentid}/checkcontainerimage
+      name: environment-environmentid-checkcontainerimage
+      description: REST surface for environment-environmentId-checkContainerImage.
+      operations:
+      - method: POST
+        name: checkcontainerimage
+        description: Check container image configuration is correct
+        call: qovery-environment.checkcontainerimage
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/environment/{environmentid}/checkdockerfile
+      name: environment-environmentid-checkdockerfile
+      description: REST surface for environment-environmentId-checkDockerfile.
+      operations:
+      - method: POST
+        name: checkdockerfile
+        description: Check dockerfile configuration is correct
+        call: qovery-environment.checkdockerfile
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/environment/{environmentid}/checkgitfile
+      name: environment-environmentid-checkgitfile
+      description: REST surface for environment-environmentId-checkGitFile.
+      operations:
+      - method: POST
+        name: checkgitfile
+        description: Check git file configuration is correct
+        call: qovery-environment.checkgitfile
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/environment/{environmentid}/checkhelmrepository
+      name: environment-environmentid-checkhelmrepository
+      description: REST surface for environment-environmentId-checkHelmRepository.
+      operations:
+      - method: POST
+        name: checkhelmrepository
+        description: Check helm repository configuration is correct
+        call: qovery-environment.checkhelmrepository
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/environment/{environmentid}/link
+      name: environment-environmentid-link
+      description: REST surface for environment-environmentId-link.
+      operations:
+      - method: GET
+        name: listenvironmentserviceslinks
+        description: List environment services links
+        call: qovery-environment.listenvironmentserviceslinks
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: qovery-environment-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Qovery API — Environment. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: check-container-image-configuration-is
+      description: Check container image configuration is correct
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: qovery-environment.checkcontainerimage
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: check-dockerfile-configuration-is-correct
+      description: Check dockerfile configuration is correct
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: qovery-environment.checkdockerfile
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: check-git-file-configuration-is
+      description: Check git file configuration is correct
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: qovery-environment.checkgitfile
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: check-helm-repository-configuration-is
+      description: Check helm repository configuration is correct
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: qovery-environment.checkhelmrepository
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-environment-services-links
+      description: List environment services links
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-environment.listenvironmentserviceslinks
+      outputParameters:
+      - type: object
+        mapping: $.

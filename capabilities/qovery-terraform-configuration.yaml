@@ -1,0 +1,105 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Qovery API — Terraform Configuration
+  description: 'Qovery API — Terraform Configuration. 2 operations. Lead operation: Get Advanced settings. Self-contained
+    Naftiko capability covering one Qovery business surface.'
+  tags:
+  - Qovery
+  - Terraform Configuration
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    QOVERY_API_KEY: QOVERY_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: qovery-terraform-configuration
+    baseUri: https://api.qovery.com
+    description: Qovery API — Terraform Configuration business capability. Self-contained, no shared references.
+    resources:
+    - name: terraform-terraformId-advancedSettings
+      path: /terraform/{terraformId}/advancedSettings
+      operations:
+      - name: getterraformadvancedsettings
+        method: GET
+        description: Get Advanced settings
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: editterraformadvancedsettings
+        method: PUT
+        description: Edit Advanced settings
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: bearer
+      token: '{{env.QOVERY_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: qovery-terraform-configuration-rest
+    port: 8080
+    description: REST adapter for Qovery API — Terraform Configuration. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/terraform/{terraformid}/advancedsettings
+      name: terraform-terraformid-advancedsettings
+      description: REST surface for terraform-terraformId-advancedSettings.
+      operations:
+      - method: GET
+        name: getterraformadvancedsettings
+        description: Get Advanced settings
+        call: qovery-terraform-configuration.getterraformadvancedsettings
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: editterraformadvancedsettings
+        description: Edit Advanced settings
+        call: qovery-terraform-configuration.editterraformadvancedsettings
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: qovery-terraform-configuration-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Qovery API — Terraform Configuration. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: get-advanced-settings
+      description: Get Advanced settings
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-terraform-configuration.getterraformadvancedsettings
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: edit-advanced-settings
+      description: Edit Advanced settings
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: qovery-terraform-configuration.editterraformadvancedsettings
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

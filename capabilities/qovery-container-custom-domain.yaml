@@ -1,0 +1,236 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Qovery API — Container Custom Domain
+  description: 'Qovery API — Container Custom Domain. 6 operations. Lead operation: Check Container Custom Domain. Self-contained
+    Naftiko capability covering one Qovery business surface.'
+  tags:
+  - Qovery
+  - Container Custom Domain
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    QOVERY_API_KEY: QOVERY_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: qovery-container-custom-domain
+    baseUri: https://api.qovery.com
+    description: Qovery API — Container Custom Domain business capability. Self-contained, no shared references.
+    resources:
+    - name: container-containerId-checkCustomDomain
+      path: /container/{containerId}/checkCustomDomain
+      operations:
+      - name: checkcontainercustomdomain
+        method: GET
+        description: Check Container Custom Domain
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: container-containerId-customDomain
+      path: /container/{containerId}/customDomain
+      operations:
+      - name: listcontainercustomdomain
+        method: GET
+        description: List container custom domains
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createcontainercustomdomain
+        method: POST
+        description: Add custom domain to the container.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: container-containerId-customDomain-customDomainId
+      path: /container/{containerId}/customDomain/{customDomainId}
+      operations:
+      - name: editcontainercustomdomain
+        method: PUT
+        description: Edit a Custom Domain
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+      - name: deletecontainercustomdomain
+        method: DELETE
+        description: Delete a Custom Domain
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: container-containerId-customDomain-customDomainId-status
+      path: /container/{containerId}/customDomain/{customDomainId}/status
+      operations:
+      - name: getcontainercustomdomainstatus
+        method: GET
+        description: Get Custom Domain status
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.QOVERY_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: qovery-container-custom-domain-rest
+    port: 8080
+    description: REST adapter for Qovery API — Container Custom Domain. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/container/{containerid}/checkcustomdomain
+      name: container-containerid-checkcustomdomain
+      description: REST surface for container-containerId-checkCustomDomain.
+      operations:
+      - method: GET
+        name: checkcontainercustomdomain
+        description: Check Container Custom Domain
+        call: qovery-container-custom-domain.checkcontainercustomdomain
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/container/{containerid}/customdomain
+      name: container-containerid-customdomain
+      description: REST surface for container-containerId-customDomain.
+      operations:
+      - method: GET
+        name: listcontainercustomdomain
+        description: List container custom domains
+        call: qovery-container-custom-domain.listcontainercustomdomain
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createcontainercustomdomain
+        description: Add custom domain to the container.
+        call: qovery-container-custom-domain.createcontainercustomdomain
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/container/{containerid}/customdomain/{customdomainid}
+      name: container-containerid-customdomain-customdomainid
+      description: REST surface for container-containerId-customDomain-customDomainId.
+      operations:
+      - method: PUT
+        name: editcontainercustomdomain
+        description: Edit a Custom Domain
+        call: qovery-container-custom-domain.editcontainercustomdomain
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletecontainercustomdomain
+        description: Delete a Custom Domain
+        call: qovery-container-custom-domain.deletecontainercustomdomain
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/container/{containerid}/customdomain/{customdomainid}/status
+      name: container-containerid-customdomain-customdomainid-status
+      description: REST surface for container-containerId-customDomain-customDomainId-status.
+      operations:
+      - method: GET
+        name: getcontainercustomdomainstatus
+        description: Get Custom Domain status
+        call: qovery-container-custom-domain.getcontainercustomdomainstatus
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: qovery-container-custom-domain-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Qovery API — Container Custom Domain. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: check-container-custom-domain
+      description: Check Container Custom Domain
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-container-custom-domain.checkcontainercustomdomain
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-container-custom-domains
+      description: List container custom domains
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-container-custom-domain.listcontainercustomdomain
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: add-custom-domain-container
+      description: Add custom domain to the container.
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery-container-custom-domain.createcontainercustomdomain
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: edit-custom-domain
+      description: Edit a Custom Domain
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: qovery-container-custom-domain.editcontainercustomdomain
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-custom-domain
+      description: Delete a Custom Domain
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: qovery-container-custom-domain.deletecontainercustomdomain
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-custom-domain-status
+      description: Get Custom Domain status
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-container-custom-domain.getcontainercustomdomainstatus
+      outputParameters:
+      - type: object
+        mapping: $.

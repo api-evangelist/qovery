@@ -1,0 +1,288 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Qovery API — Alert Receivers
+  description: 'Qovery API — Alert Receivers. 7 operations. Lead operation: Create alert receiver. Self-contained Naftiko
+    capability covering one Qovery business surface.'
+  tags:
+  - Qovery
+  - Alert Receivers
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    QOVERY_API_KEY: QOVERY_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: qovery-alert-receivers
+    baseUri: https://api.qovery.com
+    description: Qovery API — Alert Receivers business capability. Self-contained, no shared references.
+    resources:
+    - name: alert-receivers
+      path: /alert-receivers
+      operations:
+      - name: createalertreceiver
+        method: POST
+        description: Create alert receiver
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: alert-receivers-validate
+      path: /alert-receivers/validate
+      operations:
+      - name: validatenewalertreceiver
+        method: POST
+        description: Validate New Alert Receiver
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: alert-receivers-alertReceiverId
+      path: /alert-receivers/{alertReceiverId}
+      operations:
+      - name: getalertreceiver
+        method: GET
+        description: Get alert receiver
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: editalertreceiver
+        method: PUT
+        description: Update alert receiver
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+      - name: deletealertreceiver
+        method: DELETE
+        description: Delete alert receiver
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: alert-receivers-alertReceiverId-validate
+      path: /alert-receivers/{alertReceiverId}/validate
+      operations:
+      - name: validateexistingalertreceiver
+        method: POST
+        description: Validate Existing Alert Receiver
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: organization-organizationId-alert-receivers
+      path: /organization/{organizationId}/alert-receivers
+      operations:
+      - name: getalertreceivers
+        method: GET
+        description: List alert receivers
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.QOVERY_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: qovery-alert-receivers-rest
+    port: 8080
+    description: REST adapter for Qovery API — Alert Receivers. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/alert-receivers
+      name: alert-receivers
+      description: REST surface for alert-receivers.
+      operations:
+      - method: POST
+        name: createalertreceiver
+        description: Create alert receiver
+        call: qovery-alert-receivers.createalertreceiver
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/alert-receivers/validate
+      name: alert-receivers-validate
+      description: REST surface for alert-receivers-validate.
+      operations:
+      - method: POST
+        name: validatenewalertreceiver
+        description: Validate New Alert Receiver
+        call: qovery-alert-receivers.validatenewalertreceiver
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/alert-receivers/{alertreceiverid}
+      name: alert-receivers-alertreceiverid
+      description: REST surface for alert-receivers-alertReceiverId.
+      operations:
+      - method: GET
+        name: getalertreceiver
+        description: Get alert receiver
+        call: qovery-alert-receivers.getalertreceiver
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: editalertreceiver
+        description: Update alert receiver
+        call: qovery-alert-receivers.editalertreceiver
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletealertreceiver
+        description: Delete alert receiver
+        call: qovery-alert-receivers.deletealertreceiver
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/alert-receivers/{alertreceiverid}/validate
+      name: alert-receivers-alertreceiverid-validate
+      description: REST surface for alert-receivers-alertReceiverId-validate.
+      operations:
+      - method: POST
+        name: validateexistingalertreceiver
+        description: Validate Existing Alert Receiver
+        call: qovery-alert-receivers.validateexistingalertreceiver
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/organization/{organizationid}/alert-receivers
+      name: organization-organizationid-alert-receivers
+      description: REST surface for organization-organizationId-alert-receivers.
+      operations:
+      - method: GET
+        name: getalertreceivers
+        description: List alert receivers
+        call: qovery-alert-receivers.getalertreceivers
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: qovery-alert-receivers-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Qovery API — Alert Receivers. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: create-alert-receiver
+      description: Create alert receiver
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery-alert-receivers.createalertreceiver
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: validate-new-alert-receiver
+      description: Validate New Alert Receiver
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: qovery-alert-receivers.validatenewalertreceiver
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-alert-receiver
+      description: Get alert receiver
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-alert-receivers.getalertreceiver
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-alert-receiver
+      description: Update alert receiver
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: qovery-alert-receivers.editalertreceiver
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-alert-receiver
+      description: Delete alert receiver
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: qovery-alert-receivers.deletealertreceiver
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: validate-existing-alert-receiver
+      description: Validate Existing Alert Receiver
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: qovery-alert-receivers.validateexistingalertreceiver
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-alert-receivers
+      description: List alert receivers
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-alert-receivers.getalertreceivers
+      outputParameters:
+      - type: object
+        mapping: $.

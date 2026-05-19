@@ -1,0 +1,331 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Qovery API — Git repositories
+  description: 'Qovery API — Git repositories. 8 operations. Lead operation: Get bitbucket repositories of the connected user.
+    Self-contained Naftiko capability covering one Qovery business surface.'
+  tags:
+  - Qovery
+  - Git repositories
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    QOVERY_API_KEY: QOVERY_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: qovery-git-repositories
+    baseUri: https://api.qovery.com
+    description: Qovery API — Git repositories business capability. Self-contained, no shared references.
+    resources:
+    - name: account-bitbucket-repository
+      path: /account/bitbucket/repository
+      operations:
+      - name: getbitbucketrepositories
+        method: GET
+        description: Get bitbucket repositories of the connected user
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: account-bitbucket-repository-branch
+      path: /account/bitbucket/repository/branch
+      operations:
+      - name: getbitbucketrepositorybranches
+        method: GET
+        description: Get bitbucket branches of the specified repository
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: name
+          in: query
+          type: string
+          description: The name of the repository where to retrieve the branches
+    - name: account-gitAuthProvider
+      path: /account/gitAuthProvider
+      operations:
+      - name: getgitprovideraccount
+        method: GET
+        description: Get git provider accounts
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: account-github-repository
+      path: /account/github/repository
+      operations:
+      - name: getgithubrepositories
+        method: GET
+        description: Get github repositories of the connected user
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: account-github-repository-branch
+      path: /account/github/repository/branch
+      operations:
+      - name: getgithubrepositorybranches
+        method: GET
+        description: Get github branches of the specified repository
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: name
+          in: query
+          type: string
+          description: The name of the repository where to retrieve the branches
+    - name: account-gitlab-repository
+      path: /account/gitlab/repository
+      operations:
+      - name: getgitlabrepositories
+        method: GET
+        description: Get gitlab repositories of the connected user
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: account-gitlab-repository-branch
+      path: /account/gitlab/repository/branch
+      operations:
+      - name: getgitlabrepositorybranches
+        method: GET
+        description: Get gitlab branches of the specified repository
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: name
+          in: query
+          type: string
+          description: The name of the repository to retrieve the branches
+    - name: organization-organizationId-listDirectoriesFromGitRepository
+      path: /organization/{organizationId}/listDirectoriesFromGitRepository
+      operations:
+      - name: listdirectoriesfromgitrepository
+        method: POST
+        description: List directories from a git repository
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: bearer
+      token: '{{env.QOVERY_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: qovery-git-repositories-rest
+    port: 8080
+    description: REST adapter for Qovery API — Git repositories. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/account/bitbucket/repository
+      name: account-bitbucket-repository
+      description: REST surface for account-bitbucket-repository.
+      operations:
+      - method: GET
+        name: getbitbucketrepositories
+        description: Get bitbucket repositories of the connected user
+        call: qovery-git-repositories.getbitbucketrepositories
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/account/bitbucket/repository/branch
+      name: account-bitbucket-repository-branch
+      description: REST surface for account-bitbucket-repository-branch.
+      operations:
+      - method: GET
+        name: getbitbucketrepositorybranches
+        description: Get bitbucket branches of the specified repository
+        call: qovery-git-repositories.getbitbucketrepositorybranches
+        with:
+          name: rest.name
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/account/gitauthprovider
+      name: account-gitauthprovider
+      description: REST surface for account-gitAuthProvider.
+      operations:
+      - method: GET
+        name: getgitprovideraccount
+        description: Get git provider accounts
+        call: qovery-git-repositories.getgitprovideraccount
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/account/github/repository
+      name: account-github-repository
+      description: REST surface for account-github-repository.
+      operations:
+      - method: GET
+        name: getgithubrepositories
+        description: Get github repositories of the connected user
+        call: qovery-git-repositories.getgithubrepositories
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/account/github/repository/branch
+      name: account-github-repository-branch
+      description: REST surface for account-github-repository-branch.
+      operations:
+      - method: GET
+        name: getgithubrepositorybranches
+        description: Get github branches of the specified repository
+        call: qovery-git-repositories.getgithubrepositorybranches
+        with:
+          name: rest.name
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/account/gitlab/repository
+      name: account-gitlab-repository
+      description: REST surface for account-gitlab-repository.
+      operations:
+      - method: GET
+        name: getgitlabrepositories
+        description: Get gitlab repositories of the connected user
+        call: qovery-git-repositories.getgitlabrepositories
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/account/gitlab/repository/branch
+      name: account-gitlab-repository-branch
+      description: REST surface for account-gitlab-repository-branch.
+      operations:
+      - method: GET
+        name: getgitlabrepositorybranches
+        description: Get gitlab branches of the specified repository
+        call: qovery-git-repositories.getgitlabrepositorybranches
+        with:
+          name: rest.name
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/organization/{organizationid}/listdirectoriesfromgitrepository
+      name: organization-organizationid-listdirectoriesfromgitrepository
+      description: REST surface for organization-organizationId-listDirectoriesFromGitRepository.
+      operations:
+      - method: POST
+        name: listdirectoriesfromgitrepository
+        description: List directories from a git repository
+        call: qovery-git-repositories.listdirectoriesfromgitrepository
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: qovery-git-repositories-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Qovery API — Git repositories. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: get-bitbucket-repositories-connected-user
+      description: Get bitbucket repositories of the connected user
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-git-repositories.getbitbucketrepositories
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-bitbucket-branches-specified-repository
+      description: Get bitbucket branches of the specified repository
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-git-repositories.getbitbucketrepositorybranches
+      with:
+        name: tools.name
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-git-provider-accounts
+      description: Get git provider accounts
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-git-repositories.getgitprovideraccount
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-github-repositories-connected-user
+      description: Get github repositories of the connected user
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-git-repositories.getgithubrepositories
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-github-branches-specified-repository
+      description: Get github branches of the specified repository
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-git-repositories.getgithubrepositorybranches
+      with:
+        name: tools.name
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-gitlab-repositories-connected-user
+      description: Get gitlab repositories of the connected user
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-git-repositories.getgitlabrepositories
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-gitlab-branches-specified-repository
+      description: Get gitlab branches of the specified repository
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-git-repositories.getgitlabrepositorybranches
+      with:
+        name: tools.name
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-directories-git-repository
+      description: List directories from a git repository
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: qovery-git-repositories.listdirectoriesfromgitrepository
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

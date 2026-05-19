@@ -1,0 +1,682 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Qovery API — Organization Main Calls
+  description: 'Qovery API — Organization Main Calls. 19 operations. Lead operation: List user organizations. Self-contained
+    Naftiko capability covering one Qovery business surface.'
+  tags:
+  - Qovery
+  - Organization Main Calls
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    QOVERY_API_KEY: QOVERY_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: qovery-organization-main-calls
+    baseUri: https://api.qovery.com
+    description: Qovery API — Organization Main Calls business capability. Self-contained, no shared references.
+    resources:
+    - name: organization
+      path: /organization
+      operations:
+      - name: listorganization
+        method: GET
+        description: List user organizations
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createorganization
+        method: POST
+        description: Create an organization
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: organization-organizationId
+      path: /organization/{organizationId}
+      operations:
+      - name: getorganization
+        method: GET
+        description: Get organization by ID
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: editorganization
+        method: PUT
+        description: Edit an organization
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+      - name: deleteorganization
+        method: DELETE
+        description: Delete an organization
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: organization-organizationId-availableRole
+      path: /organization/{organizationId}/availableRole
+      operations:
+      - name: listorganizationavailableroles
+        method: GET
+        description: List organization available roles
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: organization-organizationId-containerRegistry-containerRegistryId-associatedServ
+      path: /organization/{organizationId}/containerRegistry/{containerRegistryId}/associatedServices
+      operations:
+      - name: getcontainerregistryassociatedservices
+        method: GET
+        description: Get organization container registry associated services
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: organization-organizationId-credentials
+      path: /organization/{organizationId}/credentials
+      operations:
+      - name: listorganizationcredentials
+        method: GET
+        description: List credentials of an organization and their associated clusters
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: organization-organizationId-environments
+      path: /organization/{organizationId}/environments
+      operations:
+      - name: listenvironmentsbyorganizationid
+        method: GET
+        description: List Environments By OrganizationId
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: organization-organizationId-gitToken
+      path: /organization/{organizationId}/gitToken
+      operations:
+      - name: listorganizationgittokens
+        method: GET
+        description: List organization git tokens
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: creategittoken
+        method: POST
+        description: Create a git token
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: organization-organizationId-gitToken-gitTokenId
+      path: /organization/{organizationId}/gitToken/{gitTokenId}
+      operations:
+      - name: getorganizationgittoken
+        method: GET
+        description: Get organization git token
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: editgittoken
+        method: PUT
+        description: Edit a git token
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+      - name: deletegittoken
+        method: DELETE
+        description: Delete a git token
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: organization-organizationId-gitToken-gitTokenId-associatedServices
+      path: /organization/{organizationId}/gitToken/{gitTokenId}/associatedServices
+      operations:
+      - name: getgittokenassociatedservices
+        method: GET
+        description: Get organization git token associated services
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: organization-organizationId-helmRepository-helmRepositoryId-associatedServices
+      path: /organization/{organizationId}/helmRepository/{helmRepositoryId}/associatedServices
+      operations:
+      - name: gethelmrepositoryassociatedservices
+        method: GET
+        description: Get organization helm repository associated services
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: organization-organizationId-listTfVarsFilesFromGitRepo
+      path: /organization/{organizationId}/listTfVarsFilesFromGitRepo
+      operations:
+      - name: listtfvarsfilesfromgitrepo
+        method: POST
+        description: List Terraform tfvars files from Git repository
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: organization-organizationId-parseTerraformVariablesFromGitRepo
+      path: /organization/{organizationId}/parseTerraformVariablesFromGitRepo
+      operations:
+      - name: parseterraformvariablesfromgitrepo
+        method: POST
+        description: Parse Terraform variables from Git repository
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: organization-organizationId-services
+      path: /organization/{organizationId}/services
+      operations:
+      - name: listservicesbyorganizationid
+        method: GET
+        description: List Services By OrganizationId
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: project_id
+          in: query
+          type: string
+        - name: environment_id
+          in: query
+          type: string
+        - name: cluster_id
+          in: query
+          type: string
+    authentication:
+      type: bearer
+      token: '{{env.QOVERY_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: qovery-organization-main-calls-rest
+    port: 8080
+    description: REST adapter for Qovery API — Organization Main Calls. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/organization
+      name: organization
+      description: REST surface for organization.
+      operations:
+      - method: GET
+        name: listorganization
+        description: List user organizations
+        call: qovery-organization-main-calls.listorganization
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createorganization
+        description: Create an organization
+        call: qovery-organization-main-calls.createorganization
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/organization/{organizationid}
+      name: organization-organizationid
+      description: REST surface for organization-organizationId.
+      operations:
+      - method: GET
+        name: getorganization
+        description: Get organization by ID
+        call: qovery-organization-main-calls.getorganization
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: editorganization
+        description: Edit an organization
+        call: qovery-organization-main-calls.editorganization
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deleteorganization
+        description: Delete an organization
+        call: qovery-organization-main-calls.deleteorganization
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/organization/{organizationid}/availablerole
+      name: organization-organizationid-availablerole
+      description: REST surface for organization-organizationId-availableRole.
+      operations:
+      - method: GET
+        name: listorganizationavailableroles
+        description: List organization available roles
+        call: qovery-organization-main-calls.listorganizationavailableroles
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/organization/{organizationid}/containerregistry/{containerregistryid}/associatedservices
+      name: organization-organizationid-containerregistry-containerregistryid-associatedserv
+      description: REST surface for organization-organizationId-containerRegistry-containerRegistryId-associatedServ.
+      operations:
+      - method: GET
+        name: getcontainerregistryassociatedservices
+        description: Get organization container registry associated services
+        call: qovery-organization-main-calls.getcontainerregistryassociatedservices
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/organization/{organizationid}/credentials
+      name: organization-organizationid-credentials
+      description: REST surface for organization-organizationId-credentials.
+      operations:
+      - method: GET
+        name: listorganizationcredentials
+        description: List credentials of an organization and their associated clusters
+        call: qovery-organization-main-calls.listorganizationcredentials
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/organization/{organizationid}/environments
+      name: organization-organizationid-environments
+      description: REST surface for organization-organizationId-environments.
+      operations:
+      - method: GET
+        name: listenvironmentsbyorganizationid
+        description: List Environments By OrganizationId
+        call: qovery-organization-main-calls.listenvironmentsbyorganizationid
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/organization/{organizationid}/gittoken
+      name: organization-organizationid-gittoken
+      description: REST surface for organization-organizationId-gitToken.
+      operations:
+      - method: GET
+        name: listorganizationgittokens
+        description: List organization git tokens
+        call: qovery-organization-main-calls.listorganizationgittokens
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: creategittoken
+        description: Create a git token
+        call: qovery-organization-main-calls.creategittoken
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/organization/{organizationid}/gittoken/{gittokenid}
+      name: organization-organizationid-gittoken-gittokenid
+      description: REST surface for organization-organizationId-gitToken-gitTokenId.
+      operations:
+      - method: GET
+        name: getorganizationgittoken
+        description: Get organization git token
+        call: qovery-organization-main-calls.getorganizationgittoken
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: editgittoken
+        description: Edit a git token
+        call: qovery-organization-main-calls.editgittoken
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletegittoken
+        description: Delete a git token
+        call: qovery-organization-main-calls.deletegittoken
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/organization/{organizationid}/gittoken/{gittokenid}/associatedservices
+      name: organization-organizationid-gittoken-gittokenid-associatedservices
+      description: REST surface for organization-organizationId-gitToken-gitTokenId-associatedServices.
+      operations:
+      - method: GET
+        name: getgittokenassociatedservices
+        description: Get organization git token associated services
+        call: qovery-organization-main-calls.getgittokenassociatedservices
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/organization/{organizationid}/helmrepository/{helmrepositoryid}/associatedservices
+      name: organization-organizationid-helmrepository-helmrepositoryid-associatedservices
+      description: REST surface for organization-organizationId-helmRepository-helmRepositoryId-associatedServices.
+      operations:
+      - method: GET
+        name: gethelmrepositoryassociatedservices
+        description: Get organization helm repository associated services
+        call: qovery-organization-main-calls.gethelmrepositoryassociatedservices
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/organization/{organizationid}/listtfvarsfilesfromgitrepo
+      name: organization-organizationid-listtfvarsfilesfromgitrepo
+      description: REST surface for organization-organizationId-listTfVarsFilesFromGitRepo.
+      operations:
+      - method: POST
+        name: listtfvarsfilesfromgitrepo
+        description: List Terraform tfvars files from Git repository
+        call: qovery-organization-main-calls.listtfvarsfilesfromgitrepo
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/organization/{organizationid}/parseterraformvariablesfromgitrepo
+      name: organization-organizationid-parseterraformvariablesfromgitrepo
+      description: REST surface for organization-organizationId-parseTerraformVariablesFromGitRepo.
+      operations:
+      - method: POST
+        name: parseterraformvariablesfromgitrepo
+        description: Parse Terraform variables from Git repository
+        call: qovery-organization-main-calls.parseterraformvariablesfromgitrepo
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/organization/{organizationid}/services
+      name: organization-organizationid-services
+      description: REST surface for organization-organizationId-services.
+      operations:
+      - method: GET
+        name: listservicesbyorganizationid
+        description: List Services By OrganizationId
+        call: qovery-organization-main-calls.listservicesbyorganizationid
+        with:
+          project_id: rest.project_id
+          environment_id: rest.environment_id
+          cluster_id: rest.cluster_id
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: qovery-organization-main-calls-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Qovery API — Organization Main Calls. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: list-user-organizations
+      description: List user organizations
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-organization-main-calls.listorganization
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-organization
+      description: Create an organization
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery-organization-main-calls.createorganization
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-organization-id
+      description: Get organization by ID
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-organization-main-calls.getorganization
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: edit-organization
+      description: Edit an organization
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: qovery-organization-main-calls.editorganization
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-organization
+      description: Delete an organization
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: qovery-organization-main-calls.deleteorganization
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-organization-available-roles
+      description: List organization available roles
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-organization-main-calls.listorganizationavailableroles
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-organization-container-registry-associated
+      description: Get organization container registry associated services
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-organization-main-calls.getcontainerregistryassociatedservices
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-credentials-organization-and-their
+      description: List credentials of an organization and their associated clusters
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-organization-main-calls.listorganizationcredentials
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-environments-organizationid
+      description: List Environments By OrganizationId
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-organization-main-calls.listenvironmentsbyorganizationid
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-organization-git-tokens
+      description: List organization git tokens
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-organization-main-calls.listorganizationgittokens
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-git-token
+      description: Create a git token
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery-organization-main-calls.creategittoken
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-organization-git-token
+      description: Get organization git token
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-organization-main-calls.getorganizationgittoken
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: edit-git-token
+      description: Edit a git token
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: qovery-organization-main-calls.editgittoken
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-git-token
+      description: Delete a git token
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: qovery-organization-main-calls.deletegittoken
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-organization-git-token-associated
+      description: Get organization git token associated services
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-organization-main-calls.getgittokenassociatedservices
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-organization-helm-repository-associated
+      description: Get organization helm repository associated services
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-organization-main-calls.gethelmrepositoryassociatedservices
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-terraform-tfvars-files-git
+      description: List Terraform tfvars files from Git repository
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: qovery-organization-main-calls.listtfvarsfilesfromgitrepo
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: parse-terraform-variables-git-repository
+      description: Parse Terraform variables from Git repository
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery-organization-main-calls.parseterraformvariablesfromgitrepo
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-services-organizationid
+      description: List Services By OrganizationId
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-organization-main-calls.listservicesbyorganizationid
+      with:
+        project_id: tools.project_id
+        environment_id: tools.environment_id
+        cluster_id: tools.cluster_id
+      outputParameters:
+      - type: object
+        mapping: $.

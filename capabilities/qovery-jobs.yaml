@@ -1,0 +1,262 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Qovery API — Jobs
+  description: 'Qovery API — Jobs. 6 operations. Lead operation: List default job advanced settings. Self-contained Naftiko
+    capability covering one Qovery business surface.'
+  tags:
+  - Qovery
+  - Jobs
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    QOVERY_API_KEY: QOVERY_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: qovery-jobs
+    baseUri: https://api.qovery.com
+    description: Qovery API — Jobs business capability. Self-contained, no shared references.
+    resources:
+    - name: defaultJobAdvancedSettings
+      path: /defaultJobAdvancedSettings
+      operations:
+      - name: getdefaultjobadvancedsettings
+        method: GET
+        description: List default job advanced settings
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: environment-environmentId-job
+      path: /environment/{environmentId}/job
+      operations:
+      - name: listjobs
+        method: GET
+        description: List jobs
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: toUpdate
+          in: query
+          type: boolean
+          description: return (or not) results that must be updated
+      - name: createjob
+        method: POST
+        description: Create a job
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: environment-environmentId-job-status
+      path: /environment/{environmentId}/job/status
+      operations:
+      - name: getenvironmentjobstatus
+        method: GET
+        description: List all environment job statuses
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: job-jobId-clone
+      path: /job/{jobId}/clone
+      operations:
+      - name: clonejob
+        method: POST
+        description: Clone job
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: organization-organizationId-job-deploy
+      path: /organization/{organizationId}/job/deploy
+      operations:
+      - name: autodeployjobenvironments
+        method: POST
+        description: Auto deploy jobs
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: bearer
+      token: '{{env.QOVERY_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: qovery-jobs-rest
+    port: 8080
+    description: REST adapter for Qovery API — Jobs. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/defaultjobadvancedsettings
+      name: defaultjobadvancedsettings
+      description: REST surface for defaultJobAdvancedSettings.
+      operations:
+      - method: GET
+        name: getdefaultjobadvancedsettings
+        description: List default job advanced settings
+        call: qovery-jobs.getdefaultjobadvancedsettings
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/environment/{environmentid}/job
+      name: environment-environmentid-job
+      description: REST surface for environment-environmentId-job.
+      operations:
+      - method: GET
+        name: listjobs
+        description: List jobs
+        call: qovery-jobs.listjobs
+        with:
+          toUpdate: rest.toUpdate
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createjob
+        description: Create a job
+        call: qovery-jobs.createjob
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/environment/{environmentid}/job/status
+      name: environment-environmentid-job-status
+      description: REST surface for environment-environmentId-job-status.
+      operations:
+      - method: GET
+        name: getenvironmentjobstatus
+        description: List all environment job statuses
+        call: qovery-jobs.getenvironmentjobstatus
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/job/{jobid}/clone
+      name: job-jobid-clone
+      description: REST surface for job-jobId-clone.
+      operations:
+      - method: POST
+        name: clonejob
+        description: Clone job
+        call: qovery-jobs.clonejob
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/organization/{organizationid}/job/deploy
+      name: organization-organizationid-job-deploy
+      description: REST surface for organization-organizationId-job-deploy.
+      operations:
+      - method: POST
+        name: autodeployjobenvironments
+        description: Auto deploy jobs
+        call: qovery-jobs.autodeployjobenvironments
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: qovery-jobs-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Qovery API — Jobs. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: list-default-job-advanced-settings
+      description: List default job advanced settings
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-jobs.getdefaultjobadvancedsettings
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-jobs
+      description: List jobs
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-jobs.listjobs
+      with:
+        toUpdate: tools.toUpdate
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-job
+      description: Create a job
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery-jobs.createjob
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-all-environment-job-statuses
+      description: List all environment job statuses
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-jobs.getenvironmentjobstatus
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: clone-job
+      description: Clone job
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery-jobs.clonejob
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: auto-deploy-jobs
+      description: Auto deploy jobs
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery-jobs.autodeployjobenvironments
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

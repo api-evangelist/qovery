@@ -1,0 +1,105 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Qovery API — Job Configuration
+  description: 'Qovery API — Job Configuration. 2 operations. Lead operation: Get advanced settings. Self-contained Naftiko
+    capability covering one Qovery business surface.'
+  tags:
+  - Qovery
+  - Job Configuration
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    QOVERY_API_KEY: QOVERY_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: qovery-job-configuration
+    baseUri: https://api.qovery.com
+    description: Qovery API — Job Configuration business capability. Self-contained, no shared references.
+    resources:
+    - name: job-jobId-advancedSettings
+      path: /job/{jobId}/advancedSettings
+      operations:
+      - name: getjobadvancedsettings
+        method: GET
+        description: Get advanced settings
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: editjobadvancedsettings
+        method: PUT
+        description: Edit advanced settings
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: bearer
+      token: '{{env.QOVERY_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: qovery-job-configuration-rest
+    port: 8080
+    description: REST adapter for Qovery API — Job Configuration. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/job/{jobid}/advancedsettings
+      name: job-jobid-advancedsettings
+      description: REST surface for job-jobId-advancedSettings.
+      operations:
+      - method: GET
+        name: getjobadvancedsettings
+        description: Get advanced settings
+        call: qovery-job-configuration.getjobadvancedsettings
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: editjobadvancedsettings
+        description: Edit advanced settings
+        call: qovery-job-configuration.editjobadvancedsettings
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: qovery-job-configuration-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Qovery API — Job Configuration. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: get-advanced-settings
+      description: Get advanced settings
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-job-configuration.getjobadvancedsettings
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: edit-advanced-settings
+      description: Edit advanced settings
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: qovery-job-configuration.editjobadvancedsettings
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

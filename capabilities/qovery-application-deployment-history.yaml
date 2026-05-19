@@ -1,0 +1,111 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Qovery API — Application Deployment History
+  description: 'Qovery API — Application Deployment History. 2 operations. Lead operation: List application deploys. Self-contained
+    Naftiko capability covering one Qovery business surface.'
+  tags:
+  - Qovery
+  - Application Deployment History
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    QOVERY_API_KEY: QOVERY_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: qovery-application-deployment-history
+    baseUri: https://api.qovery.com
+    description: Qovery API — Application Deployment History business capability. Self-contained, no shared references.
+    resources:
+    - name: application-applicationId-deploymentHistory
+      path: /application/{applicationId}/deploymentHistory
+      operations:
+      - name: listapplicationdeploymenthistory
+        method: GET
+        description: List application deploys
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: application-applicationId-deploymentHistoryV2
+      path: /application/{applicationId}/deploymentHistoryV2
+      operations:
+      - name: listapplicationdeploymenthistoryv2
+        method: GET
+        description: List application deploys
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: pageSize
+          in: query
+          type: number
+          description: The number of deployments to return in the current page
+    authentication:
+      type: bearer
+      token: '{{env.QOVERY_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: qovery-application-deployment-history-rest
+    port: 8080
+    description: REST adapter for Qovery API — Application Deployment History. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/application/{applicationid}/deploymenthistory
+      name: application-applicationid-deploymenthistory
+      description: REST surface for application-applicationId-deploymentHistory.
+      operations:
+      - method: GET
+        name: listapplicationdeploymenthistory
+        description: List application deploys
+        call: qovery-application-deployment-history.listapplicationdeploymenthistory
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/application/{applicationid}/deploymenthistoryv2
+      name: application-applicationid-deploymenthistoryv2
+      description: REST surface for application-applicationId-deploymentHistoryV2.
+      operations:
+      - method: GET
+        name: listapplicationdeploymenthistoryv2
+        description: List application deploys
+        call: qovery-application-deployment-history.listapplicationdeploymenthistoryv2
+        with:
+          pageSize: rest.pageSize
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: qovery-application-deployment-history-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Qovery API — Application Deployment History. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: list-application-deploys
+      description: List application deploys
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-application-deployment-history.listapplicationdeploymenthistory
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-application-deploys-2
+      description: List application deploys
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-application-deployment-history.listapplicationdeploymenthistoryv2
+      with:
+        pageSize: tools.pageSize
+      outputParameters:
+      - type: object
+        mapping: $.

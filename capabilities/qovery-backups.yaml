@@ -1,0 +1,137 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Qovery API — Backups
+  description: 'Qovery API — Backups. 3 operations. Lead operation: List database  backups. Self-contained Naftiko capability
+    covering one Qovery business surface.'
+  tags:
+  - Qovery
+  - Backups
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    QOVERY_API_KEY: QOVERY_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: qovery-backups
+    baseUri: https://api.qovery.com
+    description: Qovery API — Backups business capability. Self-contained, no shared references.
+    resources:
+    - name: database-databaseId-backup
+      path: /database/{databaseId}/backup
+      operations:
+      - name: listdatabasebackup
+        method: GET
+        description: List database  backups
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: addbackupdatabase
+        method: POST
+        description: Add a backup to the Database
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: database-databaseId-backup-backupId
+      path: /database/{databaseId}/backup/{backupId}
+      operations:
+      - name: removedatabasebackup
+        method: DELETE
+        description: Remove database  backup
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.QOVERY_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: qovery-backups-rest
+    port: 8080
+    description: REST adapter for Qovery API — Backups. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/database/{databaseid}/backup
+      name: database-databaseid-backup
+      description: REST surface for database-databaseId-backup.
+      operations:
+      - method: GET
+        name: listdatabasebackup
+        description: List database  backups
+        call: qovery-backups.listdatabasebackup
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: addbackupdatabase
+        description: Add a backup to the Database
+        call: qovery-backups.addbackupdatabase
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/database/{databaseid}/backup/{backupid}
+      name: database-databaseid-backup-backupid
+      description: REST surface for database-databaseId-backup-backupId.
+      operations:
+      - method: DELETE
+        name: removedatabasebackup
+        description: Remove database  backup
+        call: qovery-backups.removedatabasebackup
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: qovery-backups-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Qovery API — Backups. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: list-database-backups
+      description: List database  backups
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-backups.listdatabasebackup
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: add-backup-database
+      description: Add a backup to the Database
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery-backups.addbackupdatabase
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: remove-database-backup
+      description: Remove database  backup
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: qovery-backups.removedatabasebackup
+      outputParameters:
+      - type: object
+        mapping: $.

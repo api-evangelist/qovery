@@ -1,0 +1,79 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Qovery API — Environment Export
+  description: 'Qovery API — Environment Export. 1 operations. Lead operation: Export full environment and its resources into
+    Terraform manifests. Self-contained Naftiko capability covering one Qovery business surface.'
+  tags:
+  - Qovery
+  - Environment Export
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    QOVERY_API_KEY: QOVERY_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: qovery-environment-export
+    baseUri: https://api.qovery.com
+    description: Qovery API — Environment Export business capability. Self-contained, no shared references.
+    resources:
+    - name: environment-environmentId-terraformExport
+      path: /environment/{environmentId}/terraformExport
+      operations:
+      - name: exportenvironmentconfigurationintoterraform
+        method: GET
+        description: Export full environment and its resources into Terraform manifests
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: exportSecrets
+          in: query
+          type: boolean
+          description: export Secrets from configuration and include them into Terraform export
+    authentication:
+      type: bearer
+      token: '{{env.QOVERY_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: qovery-environment-export-rest
+    port: 8080
+    description: REST adapter for Qovery API — Environment Export. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/environment/{environmentid}/terraformexport
+      name: environment-environmentid-terraformexport
+      description: REST surface for environment-environmentId-terraformExport.
+      operations:
+      - method: GET
+        name: exportenvironmentconfigurationintoterraform
+        description: Export full environment and its resources into Terraform manifests
+        call: qovery-environment-export.exportenvironmentconfigurationintoterraform
+        with:
+          exportSecrets: rest.exportSecrets
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: qovery-environment-export-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Qovery API — Environment Export. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: export-full-environment-and-its
+      description: Export full environment and its resources into Terraform manifests
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-environment-export.exportenvironmentconfigurationintoterraform
+      with:
+        exportSecrets: tools.exportSecrets
+      outputParameters:
+      - type: object
+        mapping: $.

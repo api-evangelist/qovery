@@ -1,0 +1,172 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Qovery API — Container Configuration
+  description: 'Qovery API — Container Configuration. 4 operations. Lead operation: Get advanced settings. Self-contained
+    Naftiko capability covering one Qovery business surface.'
+  tags:
+  - Qovery
+  - Container Configuration
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    QOVERY_API_KEY: QOVERY_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: qovery-container-configuration
+    baseUri: https://api.qovery.com
+    description: Qovery API — Container Configuration business capability. Self-contained, no shared references.
+    resources:
+    - name: container-containerId-advancedSettings
+      path: /container/{containerId}/advancedSettings
+      operations:
+      - name: getcontaineradvancedsettings
+        method: GET
+        description: Get advanced settings
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: editcontaineradvancedsettings
+        method: PUT
+        description: Edit advanced settings
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: container-containerId-network
+      path: /container/{containerId}/network
+      operations:
+      - name: getcontainernetwork
+        method: GET
+        description: Get Container Network information
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: editcontainernetwork
+        method: PUT
+        description: Edit Container Network
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: bearer
+      token: '{{env.QOVERY_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: qovery-container-configuration-rest
+    port: 8080
+    description: REST adapter for Qovery API — Container Configuration. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/container/{containerid}/advancedsettings
+      name: container-containerid-advancedsettings
+      description: REST surface for container-containerId-advancedSettings.
+      operations:
+      - method: GET
+        name: getcontaineradvancedsettings
+        description: Get advanced settings
+        call: qovery-container-configuration.getcontaineradvancedsettings
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: editcontaineradvancedsettings
+        description: Edit advanced settings
+        call: qovery-container-configuration.editcontaineradvancedsettings
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/container/{containerid}/network
+      name: container-containerid-network
+      description: REST surface for container-containerId-network.
+      operations:
+      - method: GET
+        name: getcontainernetwork
+        description: Get Container Network information
+        call: qovery-container-configuration.getcontainernetwork
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: editcontainernetwork
+        description: Edit Container Network
+        call: qovery-container-configuration.editcontainernetwork
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: qovery-container-configuration-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Qovery API — Container Configuration. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: get-advanced-settings
+      description: Get advanced settings
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-container-configuration.getcontaineradvancedsettings
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: edit-advanced-settings
+      description: Edit advanced settings
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: qovery-container-configuration.editcontaineradvancedsettings
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-container-network-information
+      description: Get Container Network information
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-container-configuration.getcontainernetwork
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: edit-container-network
+      description: Edit Container Network
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: qovery-container-configuration.editcontainernetwork
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

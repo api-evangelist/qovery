@@ -1,0 +1,662 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Qovery API — Cloud Provider
+  description: 'Qovery API — Cloud Provider. 18 operations. Lead operation: List AWS features available. Self-contained Naftiko
+    capability covering one Qovery business surface.'
+  tags:
+  - Qovery
+  - Cloud Provider
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    QOVERY_API_KEY: QOVERY_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: qovery-cloud-provider
+    baseUri: https://api.qovery.com
+    description: Qovery API — Cloud Provider business capability. Self-contained, no shared references.
+    resources:
+    - name: aws-clusterFeature
+      path: /aws/clusterFeature
+      operations:
+      - name: listawsfeatures
+        method: GET
+        description: List AWS features available
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: aws-eks-instanceType-region
+      path: /aws/eks/instanceType/{region}
+      operations:
+      - name: listawseksinstancetype
+        method: GET
+        description: List AWS EKS available instance types
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: only_meets_resource_reqs
+          in: query
+          type: boolean
+        - name: with_gpu
+          in: query
+          type: boolean
+          description: deprecated field, use `gpu` instead
+        - name: gpu
+          in: query
+          type: string
+    - name: aws-instanceType
+      path: /aws/instanceType
+      operations:
+      - name: listawsinstancetype
+        method: GET
+        description: List AWS available instance types
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: aws-managedDatabase-instanceType-region-databaseType
+      path: /aws/managedDatabase/instanceType/{region}/{databaseType}
+      operations:
+      - name: listawsmanageddatabaseinstancetype
+        method: GET
+        description: List AWS available managed database instance types
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: aws-managedDatabase-type
+      path: /aws/managedDatabase/type
+      operations:
+      - name: listawsmanageddatabasetype
+        method: GET
+        description: List AWS available managed database types
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: aws-region
+      path: /aws/region
+      operations:
+      - name: listawsregions
+        method: GET
+        description: List AWS regions
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: azure-aks-instanceType-region
+      path: /azure/aks/instanceType/{region}
+      operations:
+      - name: listazureaksinstancetype
+        method: GET
+        description: List Azure AKS available instance types
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: only_meets_resource_reqs
+          in: query
+          type: boolean
+        - name: with_gpu
+          in: query
+          type: boolean
+          description: deprecated field, use `gpu` instead
+        - name: gpu
+          in: query
+          type: string
+    - name: azure-clusterFeature
+      path: /azure/clusterFeature
+      operations:
+      - name: listazurefeatures
+        method: GET
+        description: List Azure features available
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: azure-region
+      path: /azure/region
+      operations:
+      - name: listazureregions
+        method: GET
+        description: List Azure regions
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: cloudProvider
+      path: /cloudProvider
+      operations:
+      - name: listcloudprovider
+        method: GET
+        description: List Cloud providers available
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: gcp-clusterFeature
+      path: /gcp/clusterFeature
+      operations:
+      - name: listgcpfeatures
+        method: GET
+        description: List GCP features available
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: gcp-instanceType-region
+      path: /gcp/instanceType/{region}
+      operations:
+      - name: listgcpgkeinstancetype
+        method: GET
+        description: List GCP GKE available instance types
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: gcp-region
+      path: /gcp/region
+      operations:
+      - name: listgcpregions
+        method: GET
+        description: List GCP regions
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: scaleway-clusterFeature
+      path: /scaleway/clusterFeature
+      operations:
+      - name: listscalewayfeatures
+        method: GET
+        description: List Scaleway features available
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: scaleway-instanceType
+      path: /scaleway/instanceType
+      operations:
+      - name: listscalewayinstancetype
+        method: GET
+        description: List Scaleway available instance types
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: scaleway-instanceType-zone
+      path: /scaleway/instanceType/{zone}
+      operations:
+      - name: listscalewaykapsuleinstancetype
+        method: GET
+        description: List Scaleway Kapsule available instance types
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: zone
+          in: path
+          type: string
+          description: zone name
+          required: true
+    - name: scaleway-managedDatabase-type
+      path: /scaleway/managedDatabase/type
+      operations:
+      - name: listscwmanageddatabasetype
+        method: GET
+        description: List Scaleway available managed database types
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: scaleway-region
+      path: /scaleway/region
+      operations:
+      - name: listscalewayregions
+        method: GET
+        description: List Scaleway regions
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.QOVERY_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: qovery-cloud-provider-rest
+    port: 8080
+    description: REST adapter for Qovery API — Cloud Provider. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/aws/clusterfeature
+      name: aws-clusterfeature
+      description: REST surface for aws-clusterFeature.
+      operations:
+      - method: GET
+        name: listawsfeatures
+        description: List AWS features available
+        call: qovery-cloud-provider.listawsfeatures
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/aws/eks/instancetype/{region}
+      name: aws-eks-instancetype-region
+      description: REST surface for aws-eks-instanceType-region.
+      operations:
+      - method: GET
+        name: listawseksinstancetype
+        description: List AWS EKS available instance types
+        call: qovery-cloud-provider.listawseksinstancetype
+        with:
+          only_meets_resource_reqs: rest.only_meets_resource_reqs
+          with_gpu: rest.with_gpu
+          gpu: rest.gpu
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/aws/instancetype
+      name: aws-instancetype
+      description: REST surface for aws-instanceType.
+      operations:
+      - method: GET
+        name: listawsinstancetype
+        description: List AWS available instance types
+        call: qovery-cloud-provider.listawsinstancetype
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/aws/manageddatabase/instancetype/{region}/{databasetype}
+      name: aws-manageddatabase-instancetype-region-databasetype
+      description: REST surface for aws-managedDatabase-instanceType-region-databaseType.
+      operations:
+      - method: GET
+        name: listawsmanageddatabaseinstancetype
+        description: List AWS available managed database instance types
+        call: qovery-cloud-provider.listawsmanageddatabaseinstancetype
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/aws/manageddatabase/type
+      name: aws-manageddatabase-type
+      description: REST surface for aws-managedDatabase-type.
+      operations:
+      - method: GET
+        name: listawsmanageddatabasetype
+        description: List AWS available managed database types
+        call: qovery-cloud-provider.listawsmanageddatabasetype
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/aws/region
+      name: aws-region
+      description: REST surface for aws-region.
+      operations:
+      - method: GET
+        name: listawsregions
+        description: List AWS regions
+        call: qovery-cloud-provider.listawsregions
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/azure/aks/instancetype/{region}
+      name: azure-aks-instancetype-region
+      description: REST surface for azure-aks-instanceType-region.
+      operations:
+      - method: GET
+        name: listazureaksinstancetype
+        description: List Azure AKS available instance types
+        call: qovery-cloud-provider.listazureaksinstancetype
+        with:
+          only_meets_resource_reqs: rest.only_meets_resource_reqs
+          with_gpu: rest.with_gpu
+          gpu: rest.gpu
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/azure/clusterfeature
+      name: azure-clusterfeature
+      description: REST surface for azure-clusterFeature.
+      operations:
+      - method: GET
+        name: listazurefeatures
+        description: List Azure features available
+        call: qovery-cloud-provider.listazurefeatures
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/azure/region
+      name: azure-region
+      description: REST surface for azure-region.
+      operations:
+      - method: GET
+        name: listazureregions
+        description: List Azure regions
+        call: qovery-cloud-provider.listazureregions
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/cloudprovider
+      name: cloudprovider
+      description: REST surface for cloudProvider.
+      operations:
+      - method: GET
+        name: listcloudprovider
+        description: List Cloud providers available
+        call: qovery-cloud-provider.listcloudprovider
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/gcp/clusterfeature
+      name: gcp-clusterfeature
+      description: REST surface for gcp-clusterFeature.
+      operations:
+      - method: GET
+        name: listgcpfeatures
+        description: List GCP features available
+        call: qovery-cloud-provider.listgcpfeatures
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/gcp/instancetype/{region}
+      name: gcp-instancetype-region
+      description: REST surface for gcp-instanceType-region.
+      operations:
+      - method: GET
+        name: listgcpgkeinstancetype
+        description: List GCP GKE available instance types
+        call: qovery-cloud-provider.listgcpgkeinstancetype
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/gcp/region
+      name: gcp-region
+      description: REST surface for gcp-region.
+      operations:
+      - method: GET
+        name: listgcpregions
+        description: List GCP regions
+        call: qovery-cloud-provider.listgcpregions
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/scaleway/clusterfeature
+      name: scaleway-clusterfeature
+      description: REST surface for scaleway-clusterFeature.
+      operations:
+      - method: GET
+        name: listscalewayfeatures
+        description: List Scaleway features available
+        call: qovery-cloud-provider.listscalewayfeatures
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/scaleway/instancetype
+      name: scaleway-instancetype
+      description: REST surface for scaleway-instanceType.
+      operations:
+      - method: GET
+        name: listscalewayinstancetype
+        description: List Scaleway available instance types
+        call: qovery-cloud-provider.listscalewayinstancetype
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/scaleway/instancetype/{zone}
+      name: scaleway-instancetype-zone
+      description: REST surface for scaleway-instanceType-zone.
+      operations:
+      - method: GET
+        name: listscalewaykapsuleinstancetype
+        description: List Scaleway Kapsule available instance types
+        call: qovery-cloud-provider.listscalewaykapsuleinstancetype
+        with:
+          zone: rest.zone
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/scaleway/manageddatabase/type
+      name: scaleway-manageddatabase-type
+      description: REST surface for scaleway-managedDatabase-type.
+      operations:
+      - method: GET
+        name: listscwmanageddatabasetype
+        description: List Scaleway available managed database types
+        call: qovery-cloud-provider.listscwmanageddatabasetype
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/scaleway/region
+      name: scaleway-region
+      description: REST surface for scaleway-region.
+      operations:
+      - method: GET
+        name: listscalewayregions
+        description: List Scaleway regions
+        call: qovery-cloud-provider.listscalewayregions
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: qovery-cloud-provider-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Qovery API — Cloud Provider. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: list-aws-features-available
+      description: List AWS features available
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-cloud-provider.listawsfeatures
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-aws-eks-available-instance
+      description: List AWS EKS available instance types
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-cloud-provider.listawseksinstancetype
+      with:
+        only_meets_resource_reqs: tools.only_meets_resource_reqs
+        with_gpu: tools.with_gpu
+        gpu: tools.gpu
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-aws-available-instance-types
+      description: List AWS available instance types
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-cloud-provider.listawsinstancetype
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-aws-available-managed-database
+      description: List AWS available managed database instance types
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-cloud-provider.listawsmanageddatabaseinstancetype
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-aws-available-managed-database-2
+      description: List AWS available managed database types
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-cloud-provider.listawsmanageddatabasetype
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-aws-regions
+      description: List AWS regions
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-cloud-provider.listawsregions
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-azure-aks-available-instance
+      description: List Azure AKS available instance types
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-cloud-provider.listazureaksinstancetype
+      with:
+        only_meets_resource_reqs: tools.only_meets_resource_reqs
+        with_gpu: tools.with_gpu
+        gpu: tools.gpu
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-azure-features-available
+      description: List Azure features available
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-cloud-provider.listazurefeatures
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-azure-regions
+      description: List Azure regions
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-cloud-provider.listazureregions
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-cloud-providers-available
+      description: List Cloud providers available
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-cloud-provider.listcloudprovider
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-gcp-features-available
+      description: List GCP features available
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-cloud-provider.listgcpfeatures
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-gcp-gke-available-instance
+      description: List GCP GKE available instance types
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-cloud-provider.listgcpgkeinstancetype
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-gcp-regions
+      description: List GCP regions
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-cloud-provider.listgcpregions
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-scaleway-features-available
+      description: List Scaleway features available
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-cloud-provider.listscalewayfeatures
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-scaleway-available-instance-types
+      description: List Scaleway available instance types
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-cloud-provider.listscalewayinstancetype
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-scaleway-kapsule-available-instance
+      description: List Scaleway Kapsule available instance types
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-cloud-provider.listscalewaykapsuleinstancetype
+      with:
+        zone: tools.zone
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-scaleway-available-managed-database
+      description: List Scaleway available managed database types
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-cloud-provider.listscwmanageddatabasetype
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-scaleway-regions
+      description: List Scaleway regions
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-cloud-provider.listscalewayregions
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,110 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Qovery API — Environment Logs
+  description: 'Qovery API — Environment Logs. 2 operations. Lead operation: List environment deployment logs. Self-contained
+    Naftiko capability covering one Qovery business surface.'
+  tags:
+  - Qovery
+  - Environment Logs
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    QOVERY_API_KEY: QOVERY_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: qovery-environment-logs
+    baseUri: https://api.qovery.com
+    description: Qovery API — Environment Logs business capability. Self-contained, no shared references.
+    resources:
+    - name: environment-environmentId-log
+      path: /environment/{environmentId}/log
+      operations:
+      - name: listenvironmentlog
+        method: GET
+        description: List environment deployment logs
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: environment-environmentId-logs
+      path: /environment/{environmentId}/logs
+      operations:
+      - name: listenvironmentlogs
+        method: GET
+        description: List environment deployment logs v2
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: version
+          in: query
+          type: string
+    authentication:
+      type: bearer
+      token: '{{env.QOVERY_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: qovery-environment-logs-rest
+    port: 8080
+    description: REST adapter for Qovery API — Environment Logs. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/environment/{environmentid}/log
+      name: environment-environmentid-log
+      description: REST surface for environment-environmentId-log.
+      operations:
+      - method: GET
+        name: listenvironmentlog
+        description: List environment deployment logs
+        call: qovery-environment-logs.listenvironmentlog
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/environment/{environmentid}/logs
+      name: environment-environmentid-logs
+      description: REST surface for environment-environmentId-logs.
+      operations:
+      - method: GET
+        name: listenvironmentlogs
+        description: List environment deployment logs v2
+        call: qovery-environment-logs.listenvironmentlogs
+        with:
+          version: rest.version
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: qovery-environment-logs-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Qovery API — Environment Logs. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: list-environment-deployment-logs
+      description: List environment deployment logs
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-environment-logs.listenvironmentlog
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-environment-deployment-logs-v2
+      description: List environment deployment logs v2
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-environment-logs.listenvironmentlogs
+      with:
+        version: tools.version
+      outputParameters:
+      - type: object
+        mapping: $.

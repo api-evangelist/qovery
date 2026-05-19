@@ -1,0 +1,226 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Qovery API — Database Actions
+  description: 'Qovery API — Database Actions. 5 operations. Lead operation: Deploy database. Self-contained Naftiko capability
+    covering one Qovery business surface.'
+  tags:
+  - Qovery
+  - Database Actions
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    QOVERY_API_KEY: QOVERY_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: qovery-database-actions
+    baseUri: https://api.qovery.com
+    description: Qovery API — Database Actions business capability. Self-contained, no shared references.
+    resources:
+    - name: database-databaseId-deploy
+      path: /database/{databaseId}/deploy
+      operations:
+      - name: deploydatabase
+        method: POST
+        description: Deploy database
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: applyImmediately
+          in: query
+          type: boolean
+          description: Apply immediately regardless of the maintenance window
+    - name: database-databaseId-redeploy
+      path: /database/{databaseId}/redeploy
+      operations:
+      - name: redeploydatabase
+        method: POST
+        description: Redeploy database
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: applyImmediately
+          in: query
+          type: boolean
+          description: Apply immediately regardless of the maintenance window
+    - name: database-databaseId-restart-service
+      path: /database/{databaseId}/restart-service
+      operations:
+      - name: rebootdatabase
+        method: POST
+        description: Retart database
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: database-databaseId-stop
+      path: /database/{databaseId}/stop
+      operations:
+      - name: stopdatabase
+        method: POST
+        description: Stop database
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: database-databaseId-uninstall
+      path: /database/{databaseId}/uninstall
+      operations:
+      - name: uninstalldatabase
+        method: POST
+        description: Uninstall database
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: bearer
+      token: '{{env.QOVERY_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: qovery-database-actions-rest
+    port: 8080
+    description: REST adapter for Qovery API — Database Actions. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/database/{databaseid}/deploy
+      name: database-databaseid-deploy
+      description: REST surface for database-databaseId-deploy.
+      operations:
+      - method: POST
+        name: deploydatabase
+        description: Deploy database
+        call: qovery-database-actions.deploydatabase
+        with:
+          applyImmediately: rest.applyImmediately
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/database/{databaseid}/redeploy
+      name: database-databaseid-redeploy
+      description: REST surface for database-databaseId-redeploy.
+      operations:
+      - method: POST
+        name: redeploydatabase
+        description: Redeploy database
+        call: qovery-database-actions.redeploydatabase
+        with:
+          applyImmediately: rest.applyImmediately
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/database/{databaseid}/restart-service
+      name: database-databaseid-restart-service
+      description: REST surface for database-databaseId-restart-service.
+      operations:
+      - method: POST
+        name: rebootdatabase
+        description: Retart database
+        call: qovery-database-actions.rebootdatabase
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/database/{databaseid}/stop
+      name: database-databaseid-stop
+      description: REST surface for database-databaseId-stop.
+      operations:
+      - method: POST
+        name: stopdatabase
+        description: Stop database
+        call: qovery-database-actions.stopdatabase
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/database/{databaseid}/uninstall
+      name: database-databaseid-uninstall
+      description: REST surface for database-databaseId-uninstall.
+      operations:
+      - method: POST
+        name: uninstalldatabase
+        description: Uninstall database
+        call: qovery-database-actions.uninstalldatabase
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: qovery-database-actions-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Qovery API — Database Actions. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: deploy-database
+      description: Deploy database
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery-database-actions.deploydatabase
+      with:
+        applyImmediately: tools.applyImmediately
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: redeploy-database
+      description: Redeploy database
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery-database-actions.redeploydatabase
+      with:
+        applyImmediately: tools.applyImmediately
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: retart-database
+      description: Retart database
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery-database-actions.rebootdatabase
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: stop-database
+      description: Stop database
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery-database-actions.stopdatabase
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: uninstall-database
+      description: Uninstall database
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery-database-actions.uninstalldatabase
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

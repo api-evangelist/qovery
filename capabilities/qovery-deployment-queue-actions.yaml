@@ -1,0 +1,80 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Qovery API — Deployment Queue Actions
+  description: 'Qovery API — Deployment Queue Actions. 1 operations. Lead operation: Cancel deployment request. Self-contained
+    Naftiko capability covering one Qovery business surface.'
+  tags:
+  - Qovery
+  - Deployment Queue Actions
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    QOVERY_API_KEY: QOVERY_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: qovery-deployment-queue-actions
+    baseUri: https://api.qovery.com
+    description: Qovery API — Deployment Queue Actions business capability. Self-contained, no shared references.
+    resources:
+    - name: deploymentQueue-deploymentRequestId-cancelDeployment
+      path: /deploymentQueue/{deploymentRequestId}/cancelDeployment
+      operations:
+      - name: canceldeploymentrequest
+        method: POST
+        description: Cancel deployment request
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: bearer
+      token: '{{env.QOVERY_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: qovery-deployment-queue-actions-rest
+    port: 8080
+    description: REST adapter for Qovery API — Deployment Queue Actions. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/deploymentqueue/{deploymentrequestid}/canceldeployment
+      name: deploymentqueue-deploymentrequestid-canceldeployment
+      description: REST surface for deploymentQueue-deploymentRequestId-cancelDeployment.
+      operations:
+      - method: POST
+        name: canceldeploymentrequest
+        description: Cancel deployment request
+        call: qovery-deployment-queue-actions.canceldeploymentrequest
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: qovery-deployment-queue-actions-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Qovery API — Deployment Queue Actions. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: cancel-deployment-request
+      description: Cancel deployment request
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery-deployment-queue-actions.canceldeploymentrequest
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

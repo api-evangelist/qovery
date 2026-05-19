@@ -1,0 +1,204 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Qovery API — Alert Rules
+  description: 'Qovery API — Alert Rules. 5 operations. Lead operation: Create alert rule. Self-contained Naftiko capability
+    covering one Qovery business surface.'
+  tags:
+  - Qovery
+  - Alert Rules
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    QOVERY_API_KEY: QOVERY_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: qovery-alert-rules
+    baseUri: https://api.qovery.com
+    description: Qovery API — Alert Rules business capability. Self-contained, no shared references.
+    resources:
+    - name: alert-rules
+      path: /alert-rules
+      operations:
+      - name: createalertrule
+        method: POST
+        description: Create alert rule
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: alert-rules-alertRuleId
+      path: /alert-rules/{alertRuleId}
+      operations:
+      - name: getalertrule
+        method: GET
+        description: Get alert rule
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: editalertrule
+        method: PUT
+        description: Update alert rule
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+      - name: deletealertrule
+        method: DELETE
+        description: Delete alert rule
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: organization-organizationId-alert-rules
+      path: /organization/{organizationId}/alert-rules
+      operations:
+      - name: getalertrules
+        method: GET
+        description: List alert rules
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.QOVERY_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: qovery-alert-rules-rest
+    port: 8080
+    description: REST adapter for Qovery API — Alert Rules. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/alert-rules
+      name: alert-rules
+      description: REST surface for alert-rules.
+      operations:
+      - method: POST
+        name: createalertrule
+        description: Create alert rule
+        call: qovery-alert-rules.createalertrule
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/alert-rules/{alertruleid}
+      name: alert-rules-alertruleid
+      description: REST surface for alert-rules-alertRuleId.
+      operations:
+      - method: GET
+        name: getalertrule
+        description: Get alert rule
+        call: qovery-alert-rules.getalertrule
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: editalertrule
+        description: Update alert rule
+        call: qovery-alert-rules.editalertrule
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletealertrule
+        description: Delete alert rule
+        call: qovery-alert-rules.deletealertrule
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/organization/{organizationid}/alert-rules
+      name: organization-organizationid-alert-rules
+      description: REST surface for organization-organizationId-alert-rules.
+      operations:
+      - method: GET
+        name: getalertrules
+        description: List alert rules
+        call: qovery-alert-rules.getalertrules
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: qovery-alert-rules-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Qovery API — Alert Rules. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: create-alert-rule
+      description: Create alert rule
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery-alert-rules.createalertrule
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-alert-rule
+      description: Get alert rule
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-alert-rules.getalertrule
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-alert-rule
+      description: Update alert rule
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: qovery-alert-rules.editalertrule
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-alert-rule
+      description: Delete alert rule
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: qovery-alert-rules.deletealertrule
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-alert-rules
+      description: List alert rules
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-alert-rules.getalertrules
+      outputParameters:
+      - type: object
+        mapping: $.

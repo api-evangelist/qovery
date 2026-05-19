@@ -1,0 +1,502 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Qovery API — Environment Actions
+  description: 'Qovery API — Environment Actions. 12 operations. Lead operation: Cancel environment deployment. Self-contained
+    Naftiko capability covering one Qovery business surface.'
+  tags:
+  - Qovery
+  - Environment Actions
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    QOVERY_API_KEY: QOVERY_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: qovery-environment-actions
+    baseUri: https://api.qovery.com
+    description: Qovery API — Environment Actions business capability. Self-contained, no shared references.
+    resources:
+    - name: environment-environmentId-cancelDeployment
+      path: /environment/{environmentId}/cancelDeployment
+      operations:
+      - name: cancelenvironmentdeployment
+        method: POST
+        description: Cancel environment deployment
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: environment-environmentId-cleanFailedJobs
+      path: /environment/{environmentId}/cleanFailedJobs
+      operations:
+      - name: cleanfailedjobs
+        method: POST
+        description: Clean failed jobs within an environment
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: environment-environmentId-clone
+      path: /environment/{environmentId}/clone
+      operations:
+      - name: cloneenvironment
+        method: POST
+        description: Clone environment
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: environment-environmentId-deploy
+      path: /environment/{environmentId}/deploy
+      operations:
+      - name: deployenvironment
+        method: POST
+        description: Deploy environment
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: environment-environmentId-redeploy
+      path: /environment/{environmentId}/redeploy
+      operations:
+      - name: redeployenvironment
+        method: POST
+        description: Redeploy environment
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: environment-environmentId-service-delete
+      path: /environment/{environmentId}/service/delete
+      operations:
+      - name: deleteselectedservices
+        method: POST
+        description: Delete services
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: environment-environmentId-service-deploy
+      path: /environment/{environmentId}/service/deploy
+      operations:
+      - name: deployallservices
+        method: POST
+        description: Deploy services
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: environment-environmentId-service-restart-service
+      path: /environment/{environmentId}/service/restart-service
+      operations:
+      - name: rebootservices
+        method: POST
+        description: Reboot services
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: environment-environmentId-service-stop
+      path: /environment/{environmentId}/service/stop
+      operations:
+      - name: stopselectedservices
+        method: POST
+        description: Stop services
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: environment-environmentId-service-uninstall
+      path: /environment/{environmentId}/service/uninstall
+      operations:
+      - name: uninstallselectedservices
+        method: POST
+        description: Uninstall services
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: environment-environmentId-stop
+      path: /environment/{environmentId}/stop
+      operations:
+      - name: stopenvironment
+        method: POST
+        description: Stop environment
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: environment-environmentId-uninstall
+      path: /environment/{environmentId}/uninstall
+      operations:
+      - name: uninstallenvironment
+        method: POST
+        description: Uninstall environment
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.QOVERY_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: qovery-environment-actions-rest
+    port: 8080
+    description: REST adapter for Qovery API — Environment Actions. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/environment/{environmentid}/canceldeployment
+      name: environment-environmentid-canceldeployment
+      description: REST surface for environment-environmentId-cancelDeployment.
+      operations:
+      - method: POST
+        name: cancelenvironmentdeployment
+        description: Cancel environment deployment
+        call: qovery-environment-actions.cancelenvironmentdeployment
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/environment/{environmentid}/cleanfailedjobs
+      name: environment-environmentid-cleanfailedjobs
+      description: REST surface for environment-environmentId-cleanFailedJobs.
+      operations:
+      - method: POST
+        name: cleanfailedjobs
+        description: Clean failed jobs within an environment
+        call: qovery-environment-actions.cleanfailedjobs
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/environment/{environmentid}/clone
+      name: environment-environmentid-clone
+      description: REST surface for environment-environmentId-clone.
+      operations:
+      - method: POST
+        name: cloneenvironment
+        description: Clone environment
+        call: qovery-environment-actions.cloneenvironment
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/environment/{environmentid}/deploy
+      name: environment-environmentid-deploy
+      description: REST surface for environment-environmentId-deploy.
+      operations:
+      - method: POST
+        name: deployenvironment
+        description: Deploy environment
+        call: qovery-environment-actions.deployenvironment
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/environment/{environmentid}/redeploy
+      name: environment-environmentid-redeploy
+      description: REST surface for environment-environmentId-redeploy.
+      operations:
+      - method: POST
+        name: redeployenvironment
+        description: Redeploy environment
+        call: qovery-environment-actions.redeployenvironment
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/environment/{environmentid}/service/delete
+      name: environment-environmentid-service-delete
+      description: REST surface for environment-environmentId-service-delete.
+      operations:
+      - method: POST
+        name: deleteselectedservices
+        description: Delete services
+        call: qovery-environment-actions.deleteselectedservices
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/environment/{environmentid}/service/deploy
+      name: environment-environmentid-service-deploy
+      description: REST surface for environment-environmentId-service-deploy.
+      operations:
+      - method: POST
+        name: deployallservices
+        description: Deploy services
+        call: qovery-environment-actions.deployallservices
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/environment/{environmentid}/service/restart-service
+      name: environment-environmentid-service-restart-service
+      description: REST surface for environment-environmentId-service-restart-service.
+      operations:
+      - method: POST
+        name: rebootservices
+        description: Reboot services
+        call: qovery-environment-actions.rebootservices
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/environment/{environmentid}/service/stop
+      name: environment-environmentid-service-stop
+      description: REST surface for environment-environmentId-service-stop.
+      operations:
+      - method: POST
+        name: stopselectedservices
+        description: Stop services
+        call: qovery-environment-actions.stopselectedservices
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/environment/{environmentid}/service/uninstall
+      name: environment-environmentid-service-uninstall
+      description: REST surface for environment-environmentId-service-uninstall.
+      operations:
+      - method: POST
+        name: uninstallselectedservices
+        description: Uninstall services
+        call: qovery-environment-actions.uninstallselectedservices
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/environment/{environmentid}/stop
+      name: environment-environmentid-stop
+      description: REST surface for environment-environmentId-stop.
+      operations:
+      - method: POST
+        name: stopenvironment
+        description: Stop environment
+        call: qovery-environment-actions.stopenvironment
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/environment/{environmentid}/uninstall
+      name: environment-environmentid-uninstall
+      description: REST surface for environment-environmentId-uninstall.
+      operations:
+      - method: POST
+        name: uninstallenvironment
+        description: Uninstall environment
+        call: qovery-environment-actions.uninstallenvironment
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: qovery-environment-actions-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Qovery API — Environment Actions. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: cancel-environment-deployment
+      description: Cancel environment deployment
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery-environment-actions.cancelenvironmentdeployment
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: clean-failed-jobs-within-environment
+      description: Clean failed jobs within an environment
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery-environment-actions.cleanfailedjobs
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: clone-environment
+      description: Clone environment
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery-environment-actions.cloneenvironment
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: deploy-environment
+      description: Deploy environment
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery-environment-actions.deployenvironment
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: redeploy-environment
+      description: Redeploy environment
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery-environment-actions.redeployenvironment
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-services
+      description: Delete services
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery-environment-actions.deleteselectedservices
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: deploy-services
+      description: Deploy services
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery-environment-actions.deployallservices
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: reboot-services
+      description: Reboot services
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery-environment-actions.rebootservices
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: stop-services
+      description: Stop services
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery-environment-actions.stopselectedservices
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: uninstall-services
+      description: Uninstall services
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery-environment-actions.uninstallselectedservices
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: stop-environment
+      description: Stop environment
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery-environment-actions.stopenvironment
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: uninstall-environment
+      description: Uninstall environment
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery-environment-actions.uninstallenvironment
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,201 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Qovery API — Environments
+  description: 'Qovery API — Environments. 5 operations. Lead operation: List environments. Self-contained Naftiko capability
+    covering one Qovery business surface.'
+  tags:
+  - Qovery
+  - Environments
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    QOVERY_API_KEY: QOVERY_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: qovery-environments
+    baseUri: https://api.qovery.com
+    description: Qovery API — Environments business capability. Self-contained, no shared references.
+    resources:
+    - name: project-projectId-environment
+      path: /project/{projectId}/environment
+      operations:
+      - name: listenvironment
+        method: GET
+        description: List environments
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createenvironment
+        method: POST
+        description: Create an environment
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: project-projectId-environment-overview
+      path: /project/{projectId}/environment/overview
+      operations:
+      - name: getprojectenvironmentsoverview
+        method: GET
+        description: List environments overview
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: project-projectId-environment-stats
+      path: /project/{projectId}/environment/stats
+      operations:
+      - name: getprojectenvironmentservicenumber
+        method: GET
+        description: List total number of services for each environment of the project
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: project-projectId-environment-status
+      path: /project/{projectId}/environment/status
+      operations:
+      - name: getprojectenvironmentsstatus
+        method: GET
+        description: List environments statuses
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.QOVERY_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: qovery-environments-rest
+    port: 8080
+    description: REST adapter for Qovery API — Environments. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/project/{projectid}/environment
+      name: project-projectid-environment
+      description: REST surface for project-projectId-environment.
+      operations:
+      - method: GET
+        name: listenvironment
+        description: List environments
+        call: qovery-environments.listenvironment
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createenvironment
+        description: Create an environment
+        call: qovery-environments.createenvironment
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/project/{projectid}/environment/overview
+      name: project-projectid-environment-overview
+      description: REST surface for project-projectId-environment-overview.
+      operations:
+      - method: GET
+        name: getprojectenvironmentsoverview
+        description: List environments overview
+        call: qovery-environments.getprojectenvironmentsoverview
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/project/{projectid}/environment/stats
+      name: project-projectid-environment-stats
+      description: REST surface for project-projectId-environment-stats.
+      operations:
+      - method: GET
+        name: getprojectenvironmentservicenumber
+        description: List total number of services for each environment of the project
+        call: qovery-environments.getprojectenvironmentservicenumber
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/project/{projectid}/environment/status
+      name: project-projectid-environment-status
+      description: REST surface for project-projectId-environment-status.
+      operations:
+      - method: GET
+        name: getprojectenvironmentsstatus
+        description: List environments statuses
+        call: qovery-environments.getprojectenvironmentsstatus
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: qovery-environments-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Qovery API — Environments. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: list-environments
+      description: List environments
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-environments.listenvironment
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-environment
+      description: Create an environment
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery-environments.createenvironment
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-environments-overview
+      description: List environments overview
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-environments.getprojectenvironmentsoverview
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-total-number-services-each
+      description: List total number of services for each environment of the project
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-environments.getprojectenvironmentservicenumber
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-environments-statuses
+      description: List environments statuses
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-environments.getprojectenvironmentsstatus
+      outputParameters:
+      - type: object
+        mapping: $.

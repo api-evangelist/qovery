@@ -1,0 +1,70 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Qovery API — Application Logs
+  description: 'Qovery API — Application Logs. 1 operations. Lead operation: List logs. Self-contained Naftiko capability
+    covering one Qovery business surface.'
+  tags:
+  - Qovery
+  - Application Logs
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    QOVERY_API_KEY: QOVERY_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: qovery-application-logs
+    baseUri: https://api.qovery.com
+    description: Qovery API — Application Logs business capability. Self-contained, no shared references.
+    resources:
+    - name: application-applicationId-log
+      path: /application/{applicationId}/log
+      operations:
+      - name: listapplicationlog
+        method: GET
+        description: List logs
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.QOVERY_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: qovery-application-logs-rest
+    port: 8080
+    description: REST adapter for Qovery API — Application Logs. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/application/{applicationid}/log
+      name: application-applicationid-log
+      description: REST surface for application-applicationId-log.
+      operations:
+      - method: GET
+        name: listapplicationlog
+        description: List logs
+        call: qovery-application-logs.listapplicationlog
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: qovery-application-logs-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Qovery API — Application Logs. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: list-logs
+      description: List logs
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-application-logs.listapplicationlog
+      outputParameters:
+      - type: object
+        mapping: $.

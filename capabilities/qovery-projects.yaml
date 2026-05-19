@@ -1,0 +1,137 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Qovery API — Projects
+  description: 'Qovery API — Projects. 3 operations. Lead operation: List projects. Self-contained Naftiko capability covering
+    one Qovery business surface.'
+  tags:
+  - Qovery
+  - Projects
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    QOVERY_API_KEY: QOVERY_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: qovery-projects
+    baseUri: https://api.qovery.com
+    description: Qovery API — Projects business capability. Self-contained, no shared references.
+    resources:
+    - name: organization-organizationId-project
+      path: /organization/{organizationId}/project
+      operations:
+      - name: listproject
+        method: GET
+        description: List projects
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createproject
+        method: POST
+        description: Create a project
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: organization-organizationId-project-stats
+      path: /organization/{organizationId}/project/stats
+      operations:
+      - name: getorganizationprojectstats
+        method: GET
+        description: List total number of services and environments for each project of the organization
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.QOVERY_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: qovery-projects-rest
+    port: 8080
+    description: REST adapter for Qovery API — Projects. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/organization/{organizationid}/project
+      name: organization-organizationid-project
+      description: REST surface for organization-organizationId-project.
+      operations:
+      - method: GET
+        name: listproject
+        description: List projects
+        call: qovery-projects.listproject
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createproject
+        description: Create a project
+        call: qovery-projects.createproject
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/organization/{organizationid}/project/stats
+      name: organization-organizationid-project-stats
+      description: REST surface for organization-organizationId-project-stats.
+      operations:
+      - method: GET
+        name: getorganizationprojectstats
+        description: List total number of services and environments for each project of the organization
+        call: qovery-projects.getorganizationprojectstats
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: qovery-projects-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Qovery API — Projects. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: list-projects
+      description: List projects
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-projects.listproject
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-project
+      description: Create a project
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery-projects.createproject
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-total-number-services-and
+      description: List total number of services and environments for each project of the organization
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-projects.getorganizationprojectstats
+      outputParameters:
+      - type: object
+        mapping: $.

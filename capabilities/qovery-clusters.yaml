@@ -1,0 +1,1273 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Qovery API — Clusters
+  description: 'Qovery API — Clusters. 31 operations. Lead operation: List environments services by cluster id. Self-contained
+    Naftiko capability covering one Qovery business surface.'
+  tags:
+  - Qovery
+  - Clusters
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    QOVERY_API_KEY: QOVERY_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: qovery-clusters
+    baseUri: https://api.qovery.com
+    description: Qovery API — Clusters business capability. Self-contained, no shared references.
+    resources:
+    - name: cluster-clusterId-environments
+      path: /cluster/{clusterId}/environments
+      operations:
+      - name: getenvironmentsbyclusterid
+        method: GET
+        description: List environments services by cluster id
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: cluster-clusterId-events
+      path: /cluster/{clusterId}/events
+      operations:
+      - name: getclusterkubernetesevents
+        method: GET
+        description: List Cluster Kubernetes Events
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: from_date_time
+          in: query
+          type: string
+          description: 'The start date time to fetch events from, following ISO-8601 format.  '
+          required: true
+        - name: to_date_time
+          in: query
+          type: string
+          description: 'The end date time to fetch events from, following ISO-8601 format.  '
+          required: true
+        - name: node_name
+          in: query
+          type: string
+          description: The name of the node to fetch event from
+        - name: pod_name
+          in: query
+          type: string
+          description: The name of the pod to fetch event from
+        - name: reporting_component
+          in: query
+          type: string
+          description: The name of the reporting component used to filter events.
+    - name: cluster-clusterId-lock
+      path: /cluster/{clusterId}/lock
+      operations:
+      - name: lockcluster
+        method: POST
+        description: Lock Cluster
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+      - name: unlockcluster
+        method: DELETE
+        description: Unlock Cluster
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: cluster-clusterId-logs
+      path: /cluster/{clusterId}/logs
+      operations:
+      - name: getclusterlogs
+        method: GET
+        description: Fetch cluster logs
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: endpoint
+          in: query
+          type: string
+          required: true
+        - name: query
+          in: query
+          type: string
+          required: true
+        - name: start
+          in: query
+          type: string
+        - name: end
+          in: query
+          type: string
+        - name: limit
+          in: query
+          type: string
+        - name: since
+          in: query
+          type: string
+        - name: step
+          in: query
+          type: string
+        - name: interval
+          in: query
+          type: string
+        - name: direction
+          in: query
+          type: string
+        - name: time
+          in: query
+          type: string
+    - name: cluster-clusterId-metrics
+      path: /cluster/{clusterId}/metrics
+      operations:
+      - name: getclustermetrics
+        method: GET
+        description: Fetch cluster metrics
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: endpoint
+          in: query
+          type: string
+          required: true
+        - name: query
+          in: query
+          type: string
+          required: true
+        - name: start
+          in: query
+          type: string
+        - name: end
+          in: query
+          type: string
+        - name: step
+          in: query
+          type: string
+        - name: time
+          in: query
+          type: string
+        - name: timeout
+          in: query
+          type: string
+        - name: dedup
+          in: query
+          type: string
+        - name: partial_response
+          in: query
+          type: string
+        - name: max_source_resolution
+          in: query
+          type: string
+        - name: engine
+          in: query
+          type: string
+        - name: analyze
+          in: query
+          type: string
+        - name: board_short_name
+          in: query
+          type: string
+        - name: metric_short_name
+          in: query
+          type: string
+        - name: trace_id
+          in: query
+          type: string
+        - name: range
+          in: query
+          type: string
+    - name: cluster-clusterId-upgrade
+      path: /cluster/{clusterId}/upgrade
+      operations:
+      - name: upgradecluster
+        method: POST
+        description: Upgrade a cluster
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: defaultClusterAdvancedSettings
+      path: /defaultClusterAdvancedSettings
+      operations:
+      - name: getdefaultclusteradvancedsettings
+        method: GET
+        description: List default cluster advanced settings
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: organization-organizationId-cluster
+      path: /organization/{organizationId}/cluster
+      operations:
+      - name: listorganizationcluster
+        method: GET
+        description: List organization clusters
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createcluster
+        method: POST
+        description: Create a cluster
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: organization-organizationId-cluster-status
+      path: /organization/{organizationId}/cluster/status
+      operations:
+      - name: getorganizationclusterstatus
+        method: GET
+        description: List all clusters statuses
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: organization-organizationId-cluster-clusterId
+      path: /organization/{organizationId}/cluster/{clusterId}
+      operations:
+      - name: deletecluster
+        method: DELETE
+        description: Delete a cluster
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: deleteMode
+          in: query
+          type: string
+      - name: editcluster
+        method: PUT
+        description: Edit a cluster
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: organization-organizationId-cluster-clusterId-advancedSettings
+      path: /organization/{organizationId}/cluster/{clusterId}/advancedSettings
+      operations:
+      - name: getclusteradvancedsettings
+        method: GET
+        description: Get advanced settings
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: editclusteradvancedsettings
+        method: PUT
+        description: Edit advanced settings
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: organization-organizationId-cluster-clusterId-cloudProviderInfo
+      path: /organization/{organizationId}/cluster/{clusterId}/cloudProviderInfo
+      operations:
+      - name: getorganizationcloudproviderinfo
+        method: GET
+        description: Get cluster cloud provider info and credentials
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: specifyclustercloudproviderinfo
+        method: POST
+        description: Specify cluster cloud provider info and credentials
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: organization-organizationId-cluster-clusterId-deploy
+      path: /organization/{organizationId}/cluster/{clusterId}/deploy
+      operations:
+      - name: deploycluster
+        method: POST
+        description: Deploy a cluster
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: dry_run
+          in: query
+          type: boolean
+          description: 'default: false. Decide if the deployment of the cluster should be done in dry_run mode. Avoiding any
+            changes'
+    - name: organization-organizationId-cluster-clusterId-eks-anywhere-commit
+      path: /organization/{organizationId}/cluster/{clusterId}/eks-anywhere/commit
+      operations:
+      - name: updateeksanywherecommit
+        method: PUT
+        description: Update selected EKS Anywhere commit
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: organization-organizationId-cluster-clusterId-eks-anywhere-commits
+      path: /organization/{organizationId}/cluster/{clusterId}/eks-anywhere/commits
+      operations:
+      - name: listeksanywherecommits
+        method: GET
+        description: List EKS Anywhere commits
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: organization-organizationId-cluster-clusterId-eks-anywhere-jwt
+      path: /organization/{organizationId}/cluster/{clusterId}/eks-anywhere/jwt
+      operations:
+      - name: geteksanywhereclusterjwt
+        method: GET
+        description: Get latest EKS Anywhere cluster JWT
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: organization-organizationId-cluster-clusterId-installationHelmValues
+      path: /organization/{organizationId}/cluster/{clusterId}/installationHelmValues
+      operations:
+      - name: getinstallationhelmvalues
+        method: GET
+        description: Get cluster helm values for self managed installation
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: organization-organizationId-cluster-clusterId-isReady
+      path: /organization/{organizationId}/cluster/{clusterId}/isReady
+      operations:
+      - name: getclusterreadinessstatus
+        method: GET
+        description: Know if a cluster is ready to be deployed or not
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: organization-organizationId-cluster-clusterId-karpenterPrivateSubnetIds
+      path: /organization/{organizationId}/cluster/{clusterId}/karpenterPrivateSubnetIds
+      operations:
+      - name: updatekarpenterprivatefargatesubnetids
+        method: PUT
+        description: Update karpenter private fargate subnet ids
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: organization-organizationId-cluster-clusterId-kubeconfig
+      path: /organization/{organizationId}/cluster/{clusterId}/kubeconfig
+      operations:
+      - name: getclusterkubeconfig
+        method: GET
+        description: Get cluster kubeconfig
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: with_token_from_cli
+          in: query
+          type: boolean
+          description: If true, the user auth part will have an exec command with qovery cli
+      - name: editclusterkubeconfig
+        method: PUT
+        description: Edit cluster kubeconfig
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: organization-organizationId-cluster-clusterId-logs
+      path: /organization/{organizationId}/cluster/{clusterId}/logs
+      operations:
+      - name: listclusterlogs
+        method: GET
+        description: List Cluster Logs
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: organization-organizationId-cluster-clusterId-routingTable
+      path: /organization/{organizationId}/cluster/{clusterId}/routingTable
+      operations:
+      - name: getroutingtable
+        method: GET
+        description: Get routing table
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: editroutingtable
+        method: PUT
+        description: Edit routing table
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: organization-organizationId-cluster-clusterId-status
+      path: /organization/{organizationId}/cluster/{clusterId}/status
+      operations:
+      - name: getclusterstatus
+        method: GET
+        description: Get cluster status
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: organization-organizationId-cluster-clusterId-stop
+      path: /organization/{organizationId}/cluster/{clusterId}/stop
+      operations:
+      - name: stopcluster
+        method: POST
+        description: Stop cluster
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.QOVERY_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: qovery-clusters-rest
+    port: 8080
+    description: REST adapter for Qovery API — Clusters. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/cluster/{clusterid}/environments
+      name: cluster-clusterid-environments
+      description: REST surface for cluster-clusterId-environments.
+      operations:
+      - method: GET
+        name: getenvironmentsbyclusterid
+        description: List environments services by cluster id
+        call: qovery-clusters.getenvironmentsbyclusterid
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/cluster/{clusterid}/events
+      name: cluster-clusterid-events
+      description: REST surface for cluster-clusterId-events.
+      operations:
+      - method: GET
+        name: getclusterkubernetesevents
+        description: List Cluster Kubernetes Events
+        call: qovery-clusters.getclusterkubernetesevents
+        with:
+          from_date_time: rest.from_date_time
+          to_date_time: rest.to_date_time
+          node_name: rest.node_name
+          pod_name: rest.pod_name
+          reporting_component: rest.reporting_component
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/cluster/{clusterid}/lock
+      name: cluster-clusterid-lock
+      description: REST surface for cluster-clusterId-lock.
+      operations:
+      - method: POST
+        name: lockcluster
+        description: Lock Cluster
+        call: qovery-clusters.lockcluster
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: unlockcluster
+        description: Unlock Cluster
+        call: qovery-clusters.unlockcluster
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/cluster/{clusterid}/logs
+      name: cluster-clusterid-logs
+      description: REST surface for cluster-clusterId-logs.
+      operations:
+      - method: GET
+        name: getclusterlogs
+        description: Fetch cluster logs
+        call: qovery-clusters.getclusterlogs
+        with:
+          endpoint: rest.endpoint
+          query: rest.query
+          start: rest.start
+          end: rest.end
+          limit: rest.limit
+          since: rest.since
+          step: rest.step
+          interval: rest.interval
+          direction: rest.direction
+          time: rest.time
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/cluster/{clusterid}/metrics
+      name: cluster-clusterid-metrics
+      description: REST surface for cluster-clusterId-metrics.
+      operations:
+      - method: GET
+        name: getclustermetrics
+        description: Fetch cluster metrics
+        call: qovery-clusters.getclustermetrics
+        with:
+          endpoint: rest.endpoint
+          query: rest.query
+          start: rest.start
+          end: rest.end
+          step: rest.step
+          time: rest.time
+          timeout: rest.timeout
+          dedup: rest.dedup
+          partial_response: rest.partial_response
+          max_source_resolution: rest.max_source_resolution
+          engine: rest.engine
+          analyze: rest.analyze
+          board_short_name: rest.board_short_name
+          metric_short_name: rest.metric_short_name
+          trace_id: rest.trace_id
+          range: rest.range
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/cluster/{clusterid}/upgrade
+      name: cluster-clusterid-upgrade
+      description: REST surface for cluster-clusterId-upgrade.
+      operations:
+      - method: POST
+        name: upgradecluster
+        description: Upgrade a cluster
+        call: qovery-clusters.upgradecluster
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/defaultclusteradvancedsettings
+      name: defaultclusteradvancedsettings
+      description: REST surface for defaultClusterAdvancedSettings.
+      operations:
+      - method: GET
+        name: getdefaultclusteradvancedsettings
+        description: List default cluster advanced settings
+        call: qovery-clusters.getdefaultclusteradvancedsettings
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/organization/{organizationid}/cluster
+      name: organization-organizationid-cluster
+      description: REST surface for organization-organizationId-cluster.
+      operations:
+      - method: GET
+        name: listorganizationcluster
+        description: List organization clusters
+        call: qovery-clusters.listorganizationcluster
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createcluster
+        description: Create a cluster
+        call: qovery-clusters.createcluster
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/organization/{organizationid}/cluster/status
+      name: organization-organizationid-cluster-status
+      description: REST surface for organization-organizationId-cluster-status.
+      operations:
+      - method: GET
+        name: getorganizationclusterstatus
+        description: List all clusters statuses
+        call: qovery-clusters.getorganizationclusterstatus
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/organization/{organizationid}/cluster/{clusterid}
+      name: organization-organizationid-cluster-clusterid
+      description: REST surface for organization-organizationId-cluster-clusterId.
+      operations:
+      - method: DELETE
+        name: deletecluster
+        description: Delete a cluster
+        call: qovery-clusters.deletecluster
+        with:
+          deleteMode: rest.deleteMode
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: editcluster
+        description: Edit a cluster
+        call: qovery-clusters.editcluster
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/organization/{organizationid}/cluster/{clusterid}/advancedsettings
+      name: organization-organizationid-cluster-clusterid-advancedsettings
+      description: REST surface for organization-organizationId-cluster-clusterId-advancedSettings.
+      operations:
+      - method: GET
+        name: getclusteradvancedsettings
+        description: Get advanced settings
+        call: qovery-clusters.getclusteradvancedsettings
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: editclusteradvancedsettings
+        description: Edit advanced settings
+        call: qovery-clusters.editclusteradvancedsettings
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/organization/{organizationid}/cluster/{clusterid}/cloudproviderinfo
+      name: organization-organizationid-cluster-clusterid-cloudproviderinfo
+      description: REST surface for organization-organizationId-cluster-clusterId-cloudProviderInfo.
+      operations:
+      - method: GET
+        name: getorganizationcloudproviderinfo
+        description: Get cluster cloud provider info and credentials
+        call: qovery-clusters.getorganizationcloudproviderinfo
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: specifyclustercloudproviderinfo
+        description: Specify cluster cloud provider info and credentials
+        call: qovery-clusters.specifyclustercloudproviderinfo
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/organization/{organizationid}/cluster/{clusterid}/deploy
+      name: organization-organizationid-cluster-clusterid-deploy
+      description: REST surface for organization-organizationId-cluster-clusterId-deploy.
+      operations:
+      - method: POST
+        name: deploycluster
+        description: Deploy a cluster
+        call: qovery-clusters.deploycluster
+        with:
+          dry_run: rest.dry_run
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/organization/{organizationid}/cluster/{clusterid}/eks-anywhere/commit
+      name: organization-organizationid-cluster-clusterid-eks-anywhere-commit
+      description: REST surface for organization-organizationId-cluster-clusterId-eks-anywhere-commit.
+      operations:
+      - method: PUT
+        name: updateeksanywherecommit
+        description: Update selected EKS Anywhere commit
+        call: qovery-clusters.updateeksanywherecommit
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/organization/{organizationid}/cluster/{clusterid}/eks-anywhere/commits
+      name: organization-organizationid-cluster-clusterid-eks-anywhere-commits
+      description: REST surface for organization-organizationId-cluster-clusterId-eks-anywhere-commits.
+      operations:
+      - method: GET
+        name: listeksanywherecommits
+        description: List EKS Anywhere commits
+        call: qovery-clusters.listeksanywherecommits
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/organization/{organizationid}/cluster/{clusterid}/eks-anywhere/jwt
+      name: organization-organizationid-cluster-clusterid-eks-anywhere-jwt
+      description: REST surface for organization-organizationId-cluster-clusterId-eks-anywhere-jwt.
+      operations:
+      - method: GET
+        name: geteksanywhereclusterjwt
+        description: Get latest EKS Anywhere cluster JWT
+        call: qovery-clusters.geteksanywhereclusterjwt
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/organization/{organizationid}/cluster/{clusterid}/installationhelmvalues
+      name: organization-organizationid-cluster-clusterid-installationhelmvalues
+      description: REST surface for organization-organizationId-cluster-clusterId-installationHelmValues.
+      operations:
+      - method: GET
+        name: getinstallationhelmvalues
+        description: Get cluster helm values for self managed installation
+        call: qovery-clusters.getinstallationhelmvalues
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/organization/{organizationid}/cluster/{clusterid}/isready
+      name: organization-organizationid-cluster-clusterid-isready
+      description: REST surface for organization-organizationId-cluster-clusterId-isReady.
+      operations:
+      - method: GET
+        name: getclusterreadinessstatus
+        description: Know if a cluster is ready to be deployed or not
+        call: qovery-clusters.getclusterreadinessstatus
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/organization/{organizationid}/cluster/{clusterid}/karpenterprivatesubnetids
+      name: organization-organizationid-cluster-clusterid-karpenterprivatesubnetids
+      description: REST surface for organization-organizationId-cluster-clusterId-karpenterPrivateSubnetIds.
+      operations:
+      - method: PUT
+        name: updatekarpenterprivatefargatesubnetids
+        description: Update karpenter private fargate subnet ids
+        call: qovery-clusters.updatekarpenterprivatefargatesubnetids
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/organization/{organizationid}/cluster/{clusterid}/kubeconfig
+      name: organization-organizationid-cluster-clusterid-kubeconfig
+      description: REST surface for organization-organizationId-cluster-clusterId-kubeconfig.
+      operations:
+      - method: GET
+        name: getclusterkubeconfig
+        description: Get cluster kubeconfig
+        call: qovery-clusters.getclusterkubeconfig
+        with:
+          with_token_from_cli: rest.with_token_from_cli
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: editclusterkubeconfig
+        description: Edit cluster kubeconfig
+        call: qovery-clusters.editclusterkubeconfig
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/organization/{organizationid}/cluster/{clusterid}/logs
+      name: organization-organizationid-cluster-clusterid-logs
+      description: REST surface for organization-organizationId-cluster-clusterId-logs.
+      operations:
+      - method: GET
+        name: listclusterlogs
+        description: List Cluster Logs
+        call: qovery-clusters.listclusterlogs
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/organization/{organizationid}/cluster/{clusterid}/routingtable
+      name: organization-organizationid-cluster-clusterid-routingtable
+      description: REST surface for organization-organizationId-cluster-clusterId-routingTable.
+      operations:
+      - method: GET
+        name: getroutingtable
+        description: Get routing table
+        call: qovery-clusters.getroutingtable
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: editroutingtable
+        description: Edit routing table
+        call: qovery-clusters.editroutingtable
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/organization/{organizationid}/cluster/{clusterid}/status
+      name: organization-organizationid-cluster-clusterid-status
+      description: REST surface for organization-organizationId-cluster-clusterId-status.
+      operations:
+      - method: GET
+        name: getclusterstatus
+        description: Get cluster status
+        call: qovery-clusters.getclusterstatus
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/organization/{organizationid}/cluster/{clusterid}/stop
+      name: organization-organizationid-cluster-clusterid-stop
+      description: REST surface for organization-organizationId-cluster-clusterId-stop.
+      operations:
+      - method: POST
+        name: stopcluster
+        description: Stop cluster
+        call: qovery-clusters.stopcluster
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: qovery-clusters-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Qovery API — Clusters. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: list-environments-services-cluster-id
+      description: List environments services by cluster id
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-clusters.getenvironmentsbyclusterid
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-cluster-kubernetes-events
+      description: List Cluster Kubernetes Events
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-clusters.getclusterkubernetesevents
+      with:
+        from_date_time: tools.from_date_time
+        to_date_time: tools.to_date_time
+        node_name: tools.node_name
+        pod_name: tools.pod_name
+        reporting_component: tools.reporting_component
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: lock-cluster
+      description: Lock Cluster
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery-clusters.lockcluster
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: unlock-cluster
+      description: Unlock Cluster
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: qovery-clusters.unlockcluster
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: fetch-cluster-logs
+      description: Fetch cluster logs
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-clusters.getclusterlogs
+      with:
+        endpoint: tools.endpoint
+        query: tools.query
+        start: tools.start
+        end: tools.end
+        limit: tools.limit
+        since: tools.since
+        step: tools.step
+        interval: tools.interval
+        direction: tools.direction
+        time: tools.time
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: fetch-cluster-metrics
+      description: Fetch cluster metrics
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-clusters.getclustermetrics
+      with:
+        endpoint: tools.endpoint
+        query: tools.query
+        start: tools.start
+        end: tools.end
+        step: tools.step
+        time: tools.time
+        timeout: tools.timeout
+        dedup: tools.dedup
+        partial_response: tools.partial_response
+        max_source_resolution: tools.max_source_resolution
+        engine: tools.engine
+        analyze: tools.analyze
+        board_short_name: tools.board_short_name
+        metric_short_name: tools.metric_short_name
+        trace_id: tools.trace_id
+        range: tools.range
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: upgrade-cluster
+      description: Upgrade a cluster
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery-clusters.upgradecluster
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-default-cluster-advanced-settings
+      description: List default cluster advanced settings
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-clusters.getdefaultclusteradvancedsettings
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-organization-clusters
+      description: List organization clusters
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-clusters.listorganizationcluster
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-cluster
+      description: Create a cluster
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery-clusters.createcluster
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-all-clusters-statuses
+      description: List all clusters statuses
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-clusters.getorganizationclusterstatus
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-cluster
+      description: Delete a cluster
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: qovery-clusters.deletecluster
+      with:
+        deleteMode: tools.deleteMode
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: edit-cluster
+      description: Edit a cluster
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: qovery-clusters.editcluster
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-advanced-settings
+      description: Get advanced settings
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-clusters.getclusteradvancedsettings
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: edit-advanced-settings
+      description: Edit advanced settings
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: qovery-clusters.editclusteradvancedsettings
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-cluster-cloud-provider-info
+      description: Get cluster cloud provider info and credentials
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-clusters.getorganizationcloudproviderinfo
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: specify-cluster-cloud-provider-info
+      description: Specify cluster cloud provider info and credentials
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery-clusters.specifyclustercloudproviderinfo
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: deploy-cluster
+      description: Deploy a cluster
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery-clusters.deploycluster
+      with:
+        dry_run: tools.dry_run
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-selected-eks-anywhere-commit
+      description: Update selected EKS Anywhere commit
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: qovery-clusters.updateeksanywherecommit
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-eks-anywhere-commits
+      description: List EKS Anywhere commits
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-clusters.listeksanywherecommits
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-latest-eks-anywhere-cluster
+      description: Get latest EKS Anywhere cluster JWT
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-clusters.geteksanywhereclusterjwt
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-cluster-helm-values-self
+      description: Get cluster helm values for self managed installation
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-clusters.getinstallationhelmvalues
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: know-if-cluster-is-ready
+      description: Know if a cluster is ready to be deployed or not
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-clusters.getclusterreadinessstatus
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-karpenter-private-fargate-subnet
+      description: Update karpenter private fargate subnet ids
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: qovery-clusters.updatekarpenterprivatefargatesubnetids
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-cluster-kubeconfig
+      description: Get cluster kubeconfig
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-clusters.getclusterkubeconfig
+      with:
+        with_token_from_cli: tools.with_token_from_cli
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: edit-cluster-kubeconfig
+      description: Edit cluster kubeconfig
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: qovery-clusters.editclusterkubeconfig
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-cluster-logs
+      description: List Cluster Logs
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-clusters.listclusterlogs
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-routing-table
+      description: Get routing table
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-clusters.getroutingtable
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: edit-routing-table
+      description: Edit routing table
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: qovery-clusters.editroutingtable
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-cluster-status
+      description: Get cluster status
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-clusters.getclusterstatus
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: stop-cluster
+      description: Stop cluster
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery-clusters.stopcluster
+      outputParameters:
+      - type: object
+        mapping: $.

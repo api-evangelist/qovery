@@ -1,0 +1,172 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Qovery API — Job Deployment Restriction
+  description: 'Qovery API — Job Deployment Restriction. 4 operations. Lead operation: Get job deployment restrictions. Self-contained
+    Naftiko capability covering one Qovery business surface.'
+  tags:
+  - Qovery
+  - Job Deployment Restriction
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    QOVERY_API_KEY: QOVERY_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: qovery-job-deployment-restriction
+    baseUri: https://api.qovery.com
+    description: Qovery API — Job Deployment Restriction business capability. Self-contained, no shared references.
+    resources:
+    - name: job-jobId-deploymentRestriction
+      path: /job/{jobId}/deploymentRestriction
+      operations:
+      - name: getjobdeploymentrestrictions
+        method: GET
+        description: Get job deployment restrictions
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createjobdeploymentrestriction
+        method: POST
+        description: Create a job deployment restriction
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    - name: job-jobId-deploymentRestriction-deploymentRestrictionId
+      path: /job/{jobId}/deploymentRestriction/{deploymentRestrictionId}
+      operations:
+      - name: editjobdeploymentrestriction
+        method: PUT
+        description: Edit a job deployment restriction
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+      - name: deletejobdeploymentrestriction
+        method: DELETE
+        description: Delete a job deployment restriction
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.QOVERY_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: qovery-job-deployment-restriction-rest
+    port: 8080
+    description: REST adapter for Qovery API — Job Deployment Restriction. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/job/{jobid}/deploymentrestriction
+      name: job-jobid-deploymentrestriction
+      description: REST surface for job-jobId-deploymentRestriction.
+      operations:
+      - method: GET
+        name: getjobdeploymentrestrictions
+        description: Get job deployment restrictions
+        call: qovery-job-deployment-restriction.getjobdeploymentrestrictions
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createjobdeploymentrestriction
+        description: Create a job deployment restriction
+        call: qovery-job-deployment-restriction.createjobdeploymentrestriction
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/job/{jobid}/deploymentrestriction/{deploymentrestrictionid}
+      name: job-jobid-deploymentrestriction-deploymentrestrictionid
+      description: REST surface for job-jobId-deploymentRestriction-deploymentRestrictionId.
+      operations:
+      - method: PUT
+        name: editjobdeploymentrestriction
+        description: Edit a job deployment restriction
+        call: qovery-job-deployment-restriction.editjobdeploymentrestriction
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletejobdeploymentrestriction
+        description: Delete a job deployment restriction
+        call: qovery-job-deployment-restriction.deletejobdeploymentrestriction
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: qovery-job-deployment-restriction-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Qovery API — Job Deployment Restriction. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: get-job-deployment-restrictions
+      description: Get job deployment restrictions
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-job-deployment-restriction.getjobdeploymentrestrictions
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-job-deployment-restriction
+      description: Create a job deployment restriction
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: qovery-job-deployment-restriction.createjobdeploymentrestriction
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: edit-job-deployment-restriction
+      description: Edit a job deployment restriction
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: qovery-job-deployment-restriction.editjobdeploymentrestriction
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-job-deployment-restriction
+      description: Delete a job deployment restriction
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: qovery-job-deployment-restriction.deletejobdeploymentrestriction
+      outputParameters:
+      - type: object
+        mapping: $.

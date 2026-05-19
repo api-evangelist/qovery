@@ -1,0 +1,111 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Qovery API — Job Deployment History
+  description: 'Qovery API — Job Deployment History. 2 operations. Lead operation: List job deployments. Self-contained Naftiko
+    capability covering one Qovery business surface.'
+  tags:
+  - Qovery
+  - Job Deployment History
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    QOVERY_API_KEY: QOVERY_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: qovery-job-deployment-history
+    baseUri: https://api.qovery.com
+    description: Qovery API — Job Deployment History business capability. Self-contained, no shared references.
+    resources:
+    - name: job-jobId-deploymentHistory
+      path: /job/{jobId}/deploymentHistory
+      operations:
+      - name: listjobdeploymenthistory
+        method: GET
+        description: List job deployments
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: job-jobId-deploymentHistoryV2
+      path: /job/{jobId}/deploymentHistoryV2
+      operations:
+      - name: listjobdeploymenthistoryv2
+        method: GET
+        description: List job deployments
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: pageSize
+          in: query
+          type: number
+          description: The number of deployments to return in the current page
+    authentication:
+      type: bearer
+      token: '{{env.QOVERY_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: qovery-job-deployment-history-rest
+    port: 8080
+    description: REST adapter for Qovery API — Job Deployment History. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/job/{jobid}/deploymenthistory
+      name: job-jobid-deploymenthistory
+      description: REST surface for job-jobId-deploymentHistory.
+      operations:
+      - method: GET
+        name: listjobdeploymenthistory
+        description: List job deployments
+        call: qovery-job-deployment-history.listjobdeploymenthistory
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/job/{jobid}/deploymenthistoryv2
+      name: job-jobid-deploymenthistoryv2
+      description: REST surface for job-jobId-deploymentHistoryV2.
+      operations:
+      - method: GET
+        name: listjobdeploymenthistoryv2
+        description: List job deployments
+        call: qovery-job-deployment-history.listjobdeploymenthistoryv2
+        with:
+          pageSize: rest.pageSize
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: qovery-job-deployment-history-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Qovery API — Job Deployment History. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: list-job-deployments
+      description: List job deployments
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-job-deployment-history.listjobdeploymenthistory
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-job-deployments-2
+      description: List job deployments
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: qovery-job-deployment-history.listjobdeploymenthistoryv2
+      with:
+        pageSize: tools.pageSize
+      outputParameters:
+      - type: object
+        mapping: $.
