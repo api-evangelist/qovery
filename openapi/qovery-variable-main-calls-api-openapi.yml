@@ -1,0 +1,785 @@
+openapi: 3.0.0
+info:
+  version: 1.0.4
+  title: Qovery Account Info Variable Main Calls API
+  description: '- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider.
+
+    - ℹ️ The API is stable and still in development.
+
+    '
+  contact:
+    name: Qovery Product Team
+    url: https://www.qovery.com
+    email: support+api+documentation@qovery.com
+  x-logo:
+    url: https://console.qovery.com/assets/logos/logo-white.svg
+    altText: Qovery
+servers:
+- url: https://api.qovery.com
+security:
+- bearerAuth: []
+- ApiKeyAuth: []
+tags:
+- name: Variable Main Calls
+paths:
+  /variable:
+    get:
+      summary: List variables
+      description: Returns a list of variables. The result can be filtered by using the query parameters.
+      operationId: listVariables
+      parameters:
+      - in: query
+        name: parent_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: it filters the list by returning only the variables accessible by the selected parent_id. This field shall contain the id of a project, environment or service depending on the selected scope. Example, if scope = APPLICATION and parent_id=<application_id>, the result will contain any variable accessible by the application. The result will contain also any variable declared at an higher scope.
+      - in: query
+        name: scope
+        required: true
+        schema:
+          $ref: '#/components/schemas/APIVariableScopeEnum'
+        description: the type of the parent_id (application, project, environment etc..).
+      - in: query
+        name: is_secret
+        schema:
+          type: boolean
+          nullable: true
+          description: it filters the list by returning only the variables of type secret or not
+      tags:
+      - Variable Main Calls
+      responses:
+        '200':
+          description: List variables
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VariableResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    post:
+      summary: Create a variable
+      description: '- Create a variable with the scope defined in the request body.
+
+        '
+      operationId: createVariable
+      tags:
+      - Variable Main Calls
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VariableRequest'
+      responses:
+        '201':
+          description: Create a variable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VariableResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /variable/{variableId}/alias:
+    post:
+      summary: Create a variable alias
+      description: '- Allows you to create an alias of one of the existing variables.
+
+        - You have to specify an alias (key) in the request body, the scope and the parent id of the alias (project id, environment id or service id)
+
+        - The system will create a new variable at the requested level with the same value as the one corresponding to the variable id passed as path parameter.
+
+        - The response body will contain the newly created variable
+
+        - Information regarding the aliased_variable will be exposed in the "aliased_variable" or in the "aliased_secret" field of the newly created variable
+
+        - You can''t create an alias on an alias
+
+        '
+      operationId: createVariableAlias
+      parameters:
+      - $ref: '#/components/parameters/variableId'
+      tags:
+      - Variable Main Calls
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VariableAliasRequest'
+      responses:
+        '201':
+          description: Create variable alias
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VariableResponse'
+        '400':
+          description: Can't create an alias on a higher scope. Aliases can only be created from one scope to a lower scope. Scope hierarchy is ORGANIZATION > PROJECT > ENVIRONMENT > CONTAINER
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /variable/{variableId}/override:
+    post:
+      summary: Create a variable override
+      description: '- Allows you to override a variable that has a higher scope.
+
+        - You have to specify a value (override) in the request body and the scope and the parent id of the variable to override (project id, environment id or service id)
+
+        - The system will create a new environment variable at the requested level with the same key as the one corresponding to the variable id passed as path parameter.
+
+        - The response body will contain the newly created variable
+
+        - Information regarding the overridden_variable will be exposed in the "overridden_variable" or in the "overridden_secret" field of the newly created variable
+
+        '
+      operationId: createVariableOverride
+      parameters:
+      - $ref: '#/components/parameters/variableId'
+      tags:
+      - Variable Main Calls
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VariableOverrideRequest'
+      responses:
+        '201':
+          description: Create variable override
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VariableResponse'
+        '400':
+          description: Can't create an override on a higher scope. Overrides can only be created from one scope to a lower scope. Scope hierarchy is ORGANIZATION > PROJECT > ENVIRONMENT > APPLICATION
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /variable/{variableId}:
+    delete:
+      summary: Delete a variable
+      description: '- To delete a variable
+
+        - You can''t delete a BUILT_IN variable
+
+        - If you delete a variable having override or alias, the associated override/alias will be deleted as well
+
+        '
+      operationId: deleteVariable
+      parameters:
+      - $ref: '#/components/parameters/variableId'
+      tags:
+      - Variable Main Calls
+      responses:
+        '204':
+          $ref: '#/components/responses/204-deletion'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    put:
+      summary: Edit a variable
+      description: '- You can''t edit a BUILT_IN variable
+
+        - For an override, you can''t edit the key
+
+        - For an alias, you can''t edit the value
+
+        '
+      operationId: editVariable
+      parameters:
+      - $ref: '#/components/parameters/variableId'
+      tags:
+      - Variable Main Calls
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VariableEditRequest'
+      responses:
+        '200':
+          description: Edited variable value
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VariableResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /variable/import:
+    post:
+      summary: Import variables
+      description: Import environment variables in a defined scope, with a defined visibility.
+      operationId: importEnvironmentVariables
+      parameters:
+      - in: query
+        name: service_id
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: service id
+      - in: query
+        name: service_type
+        required: true
+        schema:
+          $ref: '#/components/schemas/ServiceTypeForVariableEnum'
+        description: service type
+      tags:
+      - Variable Main Calls
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VariableImportRequest'
+      responses:
+        '201':
+          description: Import environment variables
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VariableImport'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+components:
+  schemas:
+    VariableResponse:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        required:
+        - key
+        - value
+        - scope
+        - variable_type
+        - is_secret
+        properties:
+          key:
+            type: string
+          value:
+            type: string
+            nullable: true
+          mount_path:
+            type: string
+            nullable: true
+          overridden_variable:
+            $ref: '#/components/schemas/VariableOverride'
+          aliased_variable:
+            $ref: '#/components/schemas/VariableAlias'
+          scope:
+            $ref: '#/components/schemas/APIVariableScopeEnum'
+          variable_type:
+            $ref: '#/components/schemas/APIVariableTypeEnum'
+          service_id:
+            type: string
+            format: uuid
+            description: The id of the service referenced by this variable.
+          service_name:
+            type: string
+            description: The name of the service referenced by this variable.
+          service_type:
+            $ref: '#/components/schemas/LinkedServiceTypeEnum'
+          owned_by:
+            type: string
+            description: 'Entity that created/own the variable (i.e: Qovery, Doppler)'
+          is_secret:
+            type: boolean
+          description:
+            type: string
+            x-stoplight:
+              id: n9u4ex1jj4rxa
+          enable_interpolation_in_file:
+            type: boolean
+            x-stoplight:
+              id: 43yxsvszy5k8o
+          secret_manager_access_id:
+            type: string
+            format: uuid
+            nullable: true
+    VariableRequest:
+      type: object
+      required:
+      - key
+      - value
+      - is_secret
+      - variable_scope
+      - variable_parent_id
+      properties:
+        key:
+          type: string
+          description: the key of the environment variable
+        value:
+          type: string
+          description: the value of the environment variable
+        mount_path:
+          type: string
+          description: the path where the file will be mounted (only if type =file)
+          nullable: true
+        is_secret:
+          type: boolean
+          description: if true, the variable will be considered as a secret and will not be accessible after its creation. Only your applications will be able to access its value at build and run time.
+        variable_scope:
+          $ref: '#/components/schemas/APIVariableScopeEnum'
+        variable_parent_id:
+          type: string
+          format: uuid
+          description: based on the selected scope, it contains the ID of the service, environment or project where the variable is attached
+        description:
+          type: string
+          x-stoplight:
+            id: 328cipvix8hjo
+          description: optional variable description (255 characters maximum)
+          maxLength: 255
+          nullable: true
+        enable_interpolation_in_file:
+          type: boolean
+          x-stoplight:
+            id: docfts24qtko6
+          nullable: true
+        secret_manager_access_id:
+          type: string
+          format: uuid
+          nullable: true
+    APIVariableTypeEnum:
+      type: string
+      description: 'type of the environment variable (VALUE, FILE, ALIAS, OVERRIDE or BUIT_IN)
+
+        '
+      enum:
+      - VALUE
+      - ALIAS
+      - OVERRIDE
+      - BUILT_IN
+      - FILE
+    VariableImport:
+      type: object
+      required:
+      - total_variables_to_import
+      - successful_imported_variables
+      properties:
+        total_variables_to_import:
+          type: number
+        successful_imported_variables:
+          type: array
+          items:
+            type: object
+            required:
+            - name
+            - scope
+            - is_secret
+            properties:
+              name:
+                type: string
+              value:
+                type: string
+                description: Optional if the variable is secret
+              scope:
+                $ref: '#/components/schemas/APIVariableScopeEnum'
+              is_secret:
+                type: boolean
+    VariableEditRequest:
+      type: object
+      required:
+      - key
+      properties:
+        key:
+          type: string
+          description: the key of the environment variable
+        value:
+          type: string
+          description: the value of the environment variable
+          nullable: true
+        description:
+          type: string
+          x-stoplight:
+            id: y471ewdkdpr4r
+          maxLength: 255
+          description: optional variable description (255 characters maximum)
+          nullable: true
+        enable_interpolation_in_file:
+          type: boolean
+          nullable: true
+        secret_manager_access_id:
+          type: string
+          format: uuid
+          nullable: true
+    LinkedServiceTypeEnum:
+      type: string
+      description: type of the service (application, database, job, gateway...)
+      enum:
+      - APPLICATION
+      - CONTAINER
+      - DATABASE
+      - JOB
+      - HELM
+      - TERRAFORM
+    VariableOverride:
+      type: object
+      required:
+      - id
+      - key
+      - mount_path
+      - scope
+      - variable_type
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The id of the overriden variable
+        key:
+          type: string
+          description: The key of the overriden variable
+        value:
+          type: string
+          nullable: true
+          description: The value of the overriden variable
+        mount_path:
+          type: string
+          description: The mounth path of the overriden variable (only if environment variable type is 'file')
+        scope:
+          $ref: '#/components/schemas/APIVariableScopeEnum'
+        variable_type:
+          $ref: '#/components/schemas/APIVariableTypeEnum'
+    VariableResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/VariableResponse'
+    VariableOverrideRequest:
+      type: object
+      required:
+      - value
+      - override_scope
+      - override_parent_id
+      properties:
+        value:
+          type: string
+          description: the value to be used as Override of the targeted environment variable.
+        override_scope:
+          $ref: '#/components/schemas/APIVariableScopeEnum'
+        override_parent_id:
+          type: string
+          format: uuid
+          description: the id of the variable that is aliased.
+        description:
+          type: string
+          x-stoplight:
+            id: 4u5nndk8qphxp
+          maxLength: 255
+          description: optional variable description (255 characters maximum)
+          nullable: true
+        enable_interpolation_in_file:
+          type: boolean
+          x-stoplight:
+            id: smk0wzzy31f5u
+          nullable: true
+    VariableAlias:
+      type: object
+      required:
+      - id
+      - key
+      - mount_path
+      - scope
+      - variable_type
+      properties:
+        id:
+          type: string
+          format: uuid
+        key:
+          type: string
+          example: DATABASE_PSQL_NAME
+        value:
+          type: string
+          nullable: true
+        mount_path:
+          type: string
+        scope:
+          $ref: '#/components/schemas/APIVariableScopeEnum'
+        variable_type:
+          $ref: '#/components/schemas/APIVariableTypeEnum'
+    APIVariableScopeEnum:
+      type: string
+      enum:
+      - APPLICATION
+      - BUILT_IN
+      - ENVIRONMENT
+      - PROJECT
+      - CONTAINER
+      - JOB
+      - HELM
+      - TERRAFORM
+    VariableImportRequest:
+      type: object
+      required:
+      - vars
+      - overwrite
+      properties:
+        overwrite:
+          type: boolean
+          default: false
+        vars:
+          type: array
+          items:
+            type: object
+            required:
+            - name
+            - value
+            - scope
+            - is_secret
+            properties:
+              name:
+                type: string
+              value:
+                type: string
+              scope:
+                $ref: '#/components/schemas/APIVariableScopeEnum'
+              is_secret:
+                type: boolean
+    VariableAliasRequest:
+      type: object
+      required:
+      - key
+      - alias_scope
+      - alias_parent_id
+      properties:
+        key:
+          type: string
+          description: the value to be used as Alias of the targeted environment variable.
+        alias_scope:
+          $ref: '#/components/schemas/APIVariableScopeEnum'
+        alias_parent_id:
+          type: string
+          format: uuid
+          description: the id of the variable that is aliased.
+        description:
+          type: string
+          x-stoplight:
+            id: e1tqebew6jfe8
+          description: optional variable description (255 characters maximum)
+          maxLength: 255
+          nullable: true
+        enable_interpolation_in_file:
+          type: boolean
+          x-stoplight:
+            id: udmfa3jcpde9q
+          nullable: true
+    ServiceTypeForVariableEnum:
+      type: string
+      description: type of the service
+      enum:
+      - APPLICATION
+      - CONTAINER
+      - JOB
+      - HELM
+      - TERRAFORM
+    Base:
+      type: object
+      required:
+      - id
+      - created_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          readOnly: true
+          format: date-time
+        updated_at:
+          type: string
+          readOnly: true
+          format: date-time
+  parameters:
+    variableId:
+      name: variableId
+      in: path
+      description: Variable ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+  responses:
+    '400':
+      description: Bad request
+    204-deletion:
+      description: The resource was deleted successfully
+    '403':
+      description: Access forbidden
+    '404':
+      description: Resource not found
+    '401':
+      description: Access token is missing or invalid
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'JWT tokens should be used with OIDC account (human to machine). JWT tokens used by the Qovery console to communicate with the API have a TTL. Curl Example '' curl https://console.qovery.com/organization -H "Authorization: Bearer $qovery_token" '''
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'Token API are generated by Qovery to manage machine to machine interaction and do not have a TTL. Curl Example '' curl https://console.qovery.com/organization -H "Authorization: Token $qovery_token" '''
+x-tagGroups:
+- name: Organization
+  tags:
+  - Organization Main Calls
+  - Organization Api Token
+  - Organization Account Git Repositories
+  - Organization Cluster Lock
+  - Organization Webhook
+  - Organization Custom Role
+  - Organization Event
+  - Organization Annotations Group
+  - Organization Labels Group
+  - Organization Enterprise Connection
+  - Projects
+  - Members
+  - Billing
+  - Clusters
+  - Cloud Provider
+  - Cloud Provider Credentials
+  - Github App
+  - Container Registries
+  - Helm Repositories
+- name: Project
+  tags:
+  - Project Main Calls
+  - Environments
+  - Project Deployment Rule
+  - Project Environment Variable
+  - Project Secret
+- name: Environment
+  tags:
+  - Environment Main Calls
+  - Applications
+  - Containers
+  - Databases
+  - Jobs
+  - Helms
+  - Terraforms
+  - Environment Actions
+  - Environment Logs
+  - Environment Deployment History
+  - Environment Deployment Rule
+  - Environment Variable
+  - Environment Secret
+  - Environment Export
+- name: Deployment Stage
+  tags:
+  - Deployment Stage Main Calls
+- name: Application
+  tags:
+  - Application Main Calls
+  - Application Actions
+  - Application Configuration
+  - Application Custom Domain
+  - Application Database
+  - Application Logs
+  - Application Deployment Restriction
+  - Application Deployment History
+  - Application Environment Variable
+  - Application Secret
+  - Application Annotations Group
+- name: Container
+  tags:
+  - Container Main Calls
+  - Container Actions
+  - Container Configuration
+  - Container Custom Domain
+  - Container Database
+  - Container Logs
+  - Container Deployment History
+  - Container Environment Variable
+  - Container Secret
+  - Container Annotations Group
+- name: Database
+  tags:
+  - Database Main Calls
+  - Database Actions
+  - Database Applications
+  - Database Deployment History
+  - Database Containers
+  - Database Application
+  - Database Container
+  - Backups
+  - Database Annotations Group
+- name: Job
+  tags:
+  - Job Main Calls
+  - Job Actions
+  - Job Configuration
+  - Job Custom Domain
+  - Job Deployment Restriction
+  - Job Deployment History
+  - Job Environment Variable
+  - Job Secret
+  - Job Annotations Group
+- name: Helm
+  tags:
+  - Helm Main Calls
+  - Helm Actions
+  - Helm Configuration
+  - Helm Custom Domain
+  - Helm Deployment Restriction
+  - Helm Deployment History
+- name: Terraform
+  tags:
+  - Terraform Main Calls
+  - Terraform Actions
+  - Terraform Configuration
+  - Terraform Deployment Restriction
+  - Terraform Deployment History
+- name: Account
+  tags:
+  - Account Info
+  - Git repositories
+  - Referral & Rewards
+- name: Git
+  tags:
+  - Git repositories
+- name: Variable
+  tags:
+  - Variable Main Calls
+- name: Lifecycle Template
+  tags:
+  - Lifecycle Template Main Calls
+- name: Admin
+  tags:
+  - User Sign Up
+- name: Alerting
+  tags:
+  - Alert Receivers
+  - Alert Rules

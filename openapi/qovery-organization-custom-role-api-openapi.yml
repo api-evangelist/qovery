@@ -1,0 +1,462 @@
+openapi: 3.0.0
+info:
+  version: 1.0.4
+  title: Qovery Account Info Organization Custom Role API
+  description: '- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider.
+
+    - ℹ️ The API is stable and still in development.
+
+    '
+  contact:
+    name: Qovery Product Team
+    url: https://www.qovery.com
+    email: support+api+documentation@qovery.com
+  x-logo:
+    url: https://console.qovery.com/assets/logos/logo-white.svg
+    altText: Qovery
+servers:
+- url: https://api.qovery.com
+security:
+- bearerAuth: []
+- ApiKeyAuth: []
+tags:
+- name: Organization Custom Role
+paths:
+  /organization/{organizationId}/customRole:
+    get:
+      summary: List organization custom roles
+      description: List organization custom roles
+      operationId: listOrganizationCustomRoles
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      tags:
+      - Organization Custom Role
+      responses:
+        '200':
+          description: List organization custom roles
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationCustomRoleList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    post:
+      summary: Create an organization custom role
+      description: Create an organization custom role
+      operationId: createOrganizationCustomRole
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      tags:
+      - Organization Custom Role
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizationCustomRoleCreateRequest'
+      responses:
+        '201':
+          description: Organization custom role created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationCustomRole'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+  /organization/{organizationId}/customRole/{customRoleId}:
+    get:
+      summary: 'Get an organization custom role '
+      description: 'Get an organization custom role '
+      operationId: getOrganizationCustomRole
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/customRoleId'
+      tags:
+      - Organization Custom Role
+      responses:
+        '200':
+          description: 'Get an organization custom role '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationCustomRole'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    put:
+      summary: Edit an organization custom role
+      description: Edit an organization custom role
+      operationId: editOrganizationCustomRole
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/customRoleId'
+      tags:
+      - Organization Custom Role
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizationCustomRoleUpdateRequest'
+      responses:
+        '200':
+          description: Edit an organization custom role
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationCustomRole'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    delete:
+      summary: Delete organization custom role
+      description: Delete organization custom role
+      operationId: deleteOrganizationCustomRole
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/customRoleId'
+      tags:
+      - Organization Custom Role
+      responses:
+        '204':
+          $ref: '#/components/responses/204'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+components:
+  schemas:
+    EnvironmentModeEnum:
+      type: string
+      enum:
+      - DEVELOPMENT
+      - PREVIEW
+      - PRODUCTION
+      - STAGING
+      example: PRODUCTION
+    OrganizationCustomRoleClusterPermission:
+      type: string
+      description: 'Indicates the permission for a target cluster, from the lowest to the highest:
+
+        - `VIEWER` user has only read access on target cluster
+
+        - `ENV_CREATOR` user can deploy on the cluster
+
+        - `ADMIN` user can modify the cluster settings
+
+        '
+      enum:
+      - VIEWER
+      - ENV_CREATOR
+      - ADMIN
+      example: VIEWER
+    OrganizationCustomRoleProjectPermission:
+      type: string
+      description: 'Indicates the permission for a target project and a given environment type, from the lowest to the highest:
+
+        - `NO_ACCESS` user has no access
+
+        - `VIEWER` user can access the environment (and applications / containers / databases / variables)
+
+        - `DEPLOYER` user can deploy the environment (dependent on the required cluster permission `ENV_CREATOR`)
+
+        - `MANAGER` user can create an environment (and applications / containers / databases / variables)
+
+        '
+      enum:
+      - NO_ACCESS
+      - VIEWER
+      - DEPLOYER
+      - MANAGER
+      example: NO_ACCESS
+    OrganizationCustomRoleUpdateRequest:
+      type: object
+      required:
+      - name
+      - cluster_permissions
+      - project_permissions
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        cluster_permissions:
+          description: Should contain an entry for every existing cluster
+          type: array
+          items:
+            type: object
+            properties:
+              cluster_id:
+                type: string
+                format: uuid
+              permission:
+                $ref: '#/components/schemas/OrganizationCustomRoleClusterPermission'
+        project_permissions:
+          description: Should contain an entry for every existing project
+          type: array
+          items:
+            type: object
+            properties:
+              project_id:
+                type: string
+                format: uuid
+              is_admin:
+                type: boolean
+                description: "If `is_admin` is `true`, the user is:\n- automatically `MANAGER` for each environment type\n- allowed to manage project deployment rules\n- able to delete the project  \n\nNote that `permissions` can then be ignored for this project\n"
+                default: false
+              permissions:
+                description: "Mandatory if `is_admin` is `false`  \nShould contain an entry for every environment type:\n- `DEVELOPMENT`\n- `PREVIEW`\n- `STAGING`\n- `PRODUCTION`\n"
+                type: array
+                items:
+                  type: object
+                  properties:
+                    environment_type:
+                      $ref: '#/components/schemas/EnvironmentModeEnum'
+                    permission:
+                      $ref: '#/components/schemas/OrganizationCustomRoleProjectPermission'
+    OrganizationCustomRoleList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrganizationCustomRole'
+    OrganizationCustomRole:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        cluster_permissions:
+          type: array
+          items:
+            type: object
+            properties:
+              cluster_id:
+                type: string
+                format: uuid
+              cluster_name:
+                type: string
+              permission:
+                $ref: '#/components/schemas/OrganizationCustomRoleClusterPermission'
+        project_permissions:
+          type: array
+          items:
+            type: object
+            properties:
+              project_id:
+                type: string
+                format: uuid
+              project_name:
+                type: string
+              is_admin:
+                type: boolean
+                description: "If `is_admin` is `true`, the user is:\n- automatically `MANAGER` for each environment type\n- allowed to manage project deployment rules\n- able to delete the project  \n\nNote that `permissions` can then be ignored for this project\n"
+                default: false
+              permissions:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    environment_type:
+                      $ref: '#/components/schemas/EnvironmentModeEnum'
+                    permission:
+                      $ref: '#/components/schemas/OrganizationCustomRoleProjectPermission'
+    OrganizationCustomRoleCreateRequest:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+  parameters:
+    customRoleId:
+      name: customRoleId
+      in: path
+      description: Custom Role ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+    organizationId:
+      name: organizationId
+      in: path
+      description: Organization ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+  responses:
+    '403':
+      description: Access forbidden
+    '204':
+      description: no content
+    '404':
+      description: Resource not found
+    '400':
+      description: Bad request
+    '401':
+      description: Access token is missing or invalid
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'JWT tokens should be used with OIDC account (human to machine). JWT tokens used by the Qovery console to communicate with the API have a TTL. Curl Example '' curl https://console.qovery.com/organization -H "Authorization: Bearer $qovery_token" '''
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'Token API are generated by Qovery to manage machine to machine interaction and do not have a TTL. Curl Example '' curl https://console.qovery.com/organization -H "Authorization: Token $qovery_token" '''
+x-tagGroups:
+- name: Organization
+  tags:
+  - Organization Main Calls
+  - Organization Api Token
+  - Organization Account Git Repositories
+  - Organization Cluster Lock
+  - Organization Webhook
+  - Organization Custom Role
+  - Organization Event
+  - Organization Annotations Group
+  - Organization Labels Group
+  - Organization Enterprise Connection
+  - Projects
+  - Members
+  - Billing
+  - Clusters
+  - Cloud Provider
+  - Cloud Provider Credentials
+  - Github App
+  - Container Registries
+  - Helm Repositories
+- name: Project
+  tags:
+  - Project Main Calls
+  - Environments
+  - Project Deployment Rule
+  - Project Environment Variable
+  - Project Secret
+- name: Environment
+  tags:
+  - Environment Main Calls
+  - Applications
+  - Containers
+  - Databases
+  - Jobs
+  - Helms
+  - Terraforms
+  - Environment Actions
+  - Environment Logs
+  - Environment Deployment History
+  - Environment Deployment Rule
+  - Environment Variable
+  - Environment Secret
+  - Environment Export
+- name: Deployment Stage
+  tags:
+  - Deployment Stage Main Calls
+- name: Application
+  tags:
+  - Application Main Calls
+  - Application Actions
+  - Application Configuration
+  - Application Custom Domain
+  - Application Database
+  - Application Logs
+  - Application Deployment Restriction
+  - Application Deployment History
+  - Application Environment Variable
+  - Application Secret
+  - Application Annotations Group
+- name: Container
+  tags:
+  - Container Main Calls
+  - Container Actions
+  - Container Configuration
+  - Container Custom Domain
+  - Container Database
+  - Container Logs
+  - Container Deployment History
+  - Container Environment Variable
+  - Container Secret
+  - Container Annotations Group
+- name: Database
+  tags:
+  - Database Main Calls
+  - Database Actions
+  - Database Applications
+  - Database Deployment History
+  - Database Containers
+  - Database Application
+  - Database Container
+  - Backups
+  - Database Annotations Group
+- name: Job
+  tags:
+  - Job Main Calls
+  - Job Actions
+  - Job Configuration
+  - Job Custom Domain
+  - Job Deployment Restriction
+  - Job Deployment History
+  - Job Environment Variable
+  - Job Secret
+  - Job Annotations Group
+- name: Helm
+  tags:
+  - Helm Main Calls
+  - Helm Actions
+  - Helm Configuration
+  - Helm Custom Domain
+  - Helm Deployment Restriction
+  - Helm Deployment History
+- name: Terraform
+  tags:
+  - Terraform Main Calls
+  - Terraform Actions
+  - Terraform Configuration
+  - Terraform Deployment Restriction
+  - Terraform Deployment History
+- name: Account
+  tags:
+  - Account Info
+  - Git repositories
+  - Referral & Rewards
+- name: Git
+  tags:
+  - Git repositories
+- name: Variable
+  tags:
+  - Variable Main Calls
+- name: Lifecycle Template
+  tags:
+  - Lifecycle Template Main Calls
+- name: Admin
+  tags:
+  - User Sign Up
+- name: Alerting
+  tags:
+  - Alert Receivers
+  - Alert Rules

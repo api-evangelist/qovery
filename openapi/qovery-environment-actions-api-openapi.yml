@@ -1,0 +1,1082 @@
+openapi: 3.0.0
+info:
+  version: 1.0.4
+  title: Qovery Account Info Environment Actions API
+  description: '- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider.
+
+    - ℹ️ The API is stable and still in development.
+
+    '
+  contact:
+    name: Qovery Product Team
+    url: https://www.qovery.com
+    email: support+api+documentation@qovery.com
+  x-logo:
+    url: https://console.qovery.com/assets/logos/logo-white.svg
+    altText: Qovery
+servers:
+- url: https://api.qovery.com
+security:
+- bearerAuth: []
+- ApiKeyAuth: []
+tags:
+- name: Environment Actions
+paths:
+  /environment/{environmentId}/deploy:
+    post:
+      summary: Deploy environment
+      description: This will deploy all the services of this environment to their latest version.
+      operationId: deployEnvironment
+      parameters:
+      - $ref: '#/components/parameters/environmentId'
+      tags:
+      - Environment Actions
+      responses:
+        '202':
+          description: Deploy environment
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          description: Operation is in progress
+  /environment/{environmentId}/uninstall:
+    parameters:
+    - schema:
+        type: string
+      name: environmentId
+      in: path
+      required: true
+    post:
+      summary: Uninstall environment
+      description: This will uninstall all the services of this environment.
+      operationId: uninstallEnvironment
+      parameters:
+      - $ref: '#/components/parameters/environmentId'
+      tags:
+      - Environment Actions
+      responses:
+        '202':
+          description: uninstall environment
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          description: Operation is in progress
+      x-stoplight:
+        id: g57d57j59zihv
+  /environment/{environmentId}/stop:
+    post:
+      summary: Stop environment
+      operationId: stopEnvironment
+      parameters:
+      - $ref: '#/components/parameters/environmentId'
+      tags:
+      - Environment Actions
+      responses:
+        '202':
+          description: Environment stop has been requested
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnvironmentStatus'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          description: Environment is already stopped or an operation is in progress
+  /environment/{environmentId}/redeploy:
+    post:
+      summary: Redeploy environment
+      operationId: redeployEnvironment
+      parameters:
+      - $ref: '#/components/parameters/environmentId'
+      tags:
+      - Environment Actions
+      responses:
+        '202':
+          description: Environment redeploy has been requested
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnvironmentStatus'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          description: Operation is in progress
+  /environment/{environmentId}/cancelDeployment:
+    post:
+      summary: Cancel environment deployment
+      description: Cancel the current deployment of your environment.
+      operationId: cancelEnvironmentDeployment
+      parameters:
+      - $ref: '#/components/parameters/environmentId'
+      tags:
+      - Environment Actions
+      responses:
+        '202':
+          description: environment deployment cancelling has been requested
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnvironmentStatus'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          description: Environment deployment is already cancelled or an operation is in progress
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                force_cancel:
+                  type: boolean
+                  x-stoplight:
+                    id: c5k0n6yafpsig
+                  default: false
+                  description: Force cancel everything running in this environment if set to true (e.q lifecycle jobs triggered during the deployment).
+  /environment/{environmentId}/clone:
+    post:
+      summary: Clone environment
+      description: You must provide a name. This will create a new environment, with the same configuration, and same applications and databases. Database data is not cloned.
+      operationId: cloneEnvironment
+      parameters:
+      - $ref: '#/components/parameters/environmentId'
+      tags:
+      - Environment Actions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CloneEnvironmentRequest'
+      responses:
+        '202':
+          description: Environment clone has been requested
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Environment'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          description: Operation is in progress
+  /environment/{environmentId}/service/deploy:
+    post:
+      summary: Deploy services
+      description: Update and deploy the selected services
+      operationId: deployAllServices
+      parameters:
+      - $ref: '#/components/parameters/environmentId'
+      tags:
+      - Environment Actions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeployAllRequest'
+      responses:
+        '202':
+          description: Deployed services
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnvironmentStatus'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          description: Operation is in progress
+  /environment/{environmentId}/service/restart-service:
+    post:
+      summary: Reboot services
+      description: Update and reboot the selected services
+      operationId: rebootServices
+      parameters:
+      - $ref: '#/components/parameters/environmentId'
+      tags:
+      - Environment Actions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RebootServicesRequest'
+      responses:
+        '202':
+          description: Reboot services
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          description: Operation is in progress
+  /environment/{environmentId}/service/stop:
+    post:
+      summary: Stop services
+      description: Stop selected services
+      operationId: stopSelectedServices
+      parameters:
+      - $ref: '#/components/parameters/environmentId'
+      tags:
+      - Environment Actions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnvironmentServiceIdsAllRequest'
+      responses:
+        '200':
+          description: Services have been triggered to be deleted
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          description: Operation is in progress
+  /environment/{environmentId}/service/delete:
+    post:
+      summary: Delete services
+      description: Delete selected services
+      operationId: deleteSelectedServices
+      parameters:
+      - $ref: '#/components/parameters/environmentId'
+      tags:
+      - Environment Actions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnvironmentServiceIdsAllRequest'
+      responses:
+        '200':
+          description: Services have been triggered to be deleted
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          description: Operation is in progress
+  /environment/{environmentId}/service/uninstall:
+    parameters:
+    - schema:
+        type: string
+      name: environmentId
+      in: path
+      required: true
+    post:
+      summary: Uninstall services
+      description: uninstall selected services
+      operationId: uninstallSelectedServices
+      parameters:
+      - $ref: '#/components/parameters/environmentId'
+      tags:
+      - Environment Actions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnvironmentServiceIdsAllRequest'
+      responses:
+        '200':
+          description: Services have been triggered to be uninstalled
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          description: Operation is in progress
+      x-stoplight:
+        id: m4lfkqr1n8s97
+  /environment/{environmentId}/cleanFailedJobs:
+    parameters:
+    - schema:
+        type: string
+      name: environmentId
+      in: path
+      required: true
+    post:
+      summary: Clean failed jobs within an environment
+      tags:
+      - Environment Actions
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  clean_job_ids:
+                    type: array
+                    x-stoplight:
+                      id: wfo0kfbtlr6uu
+                    items:
+                      x-stoplight:
+                        id: 7w5e7cmsx9pol
+                      type: string
+                      format: uuid
+                  clean_kubernetes_jobs:
+                    type: array
+                    x-stoplight:
+                      id: hga9nj7dygmcf
+                    items:
+                      x-stoplight:
+                        id: y2fcpi3zltomf
+                      type: string
+      operationId: cleanFailedJobs
+      x-stoplight:
+        id: ivybizdyn78lh
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                job_ids:
+                  type: array
+                  x-stoplight:
+                    id: 9buks2moeeppz
+                  items:
+                    x-stoplight:
+                      id: j5zm35sm6zxp4
+                    type: string
+                    format: uuid
+components:
+  schemas:
+    ReferenceObject:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+    Environment:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        required:
+        - name
+        - cloud_provider
+        - mode
+        - cluster_id
+        - project
+        - organization
+        properties:
+          name:
+            type: string
+            description: name is case insensitive
+          organization:
+            $ref: '#/components/schemas/ReferenceObject'
+          project:
+            $ref: '#/components/schemas/ReferenceObject'
+          last_updated_by:
+            type: string
+            format: uuid
+            description: uuid of the user that made the last update
+          cloud_provider:
+            type: object
+            properties:
+              provider:
+                type: string
+                example: aws
+              cluster:
+                type: string
+                example: us-east-2
+          mode:
+            $ref: '#/components/schemas/EnvironmentModeEnum'
+          cluster_id:
+            type: string
+            format: uuid
+          cluster_name:
+            type: string
+            format: string
+    StageStepMetricNameEnum:
+      type: string
+      enum:
+      - TOTAL
+      - QUEUEING
+      - PROVISION_BUILDER
+      description: 'The name of the deployment step at the stage level:
+
+        - TOTAL: The total duration of the stage deployment.
+
+        - QUEUEING: The step preceding the actual stage deployment step.
+
+        - PROVISION_BUILDER: The step to provision builders before the actual build.
+
+        '
+    EnvironmentDeploymentStatusEnum:
+      title: EnvironmentDeploymentStatusEnum
+      x-stoplight:
+        id: sbw3iw6yteyba
+      enum:
+      - NEVER_DEPLOYED
+      - UP_TO_DATE
+      - OUT_OF_DATE
+    CloneEnvironmentRequest:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          description: name is case insensitive
+        cluster_id:
+          type: string
+          format: uuid
+        mode:
+          $ref: '#/components/schemas/EnvironmentModeEnum'
+        apply_deployment_rule:
+          type: boolean
+          default: false
+        project_id:
+          type: string
+          format: uuid
+    EnvironmentStatus:
+      type: object
+      required:
+      - id
+      - state
+      - last_deployment_state
+      properties:
+        id:
+          type: string
+          format: uuid
+        state:
+          $ref: '#/components/schemas/StateEnum'
+        last_deployment_date:
+          type: string
+          format: date-time
+          nullable: true
+        last_deployment_state:
+          $ref: '#/components/schemas/StateEnum'
+        last_deployment_id:
+          type: string
+          nullable: true
+        total_deployment_duration_in_seconds:
+          type: integer
+          nullable: true
+        origin:
+          $ref: '#/components/schemas/EnvironmentStatusEventOriginEnum'
+        triggered_by:
+          type: string
+          nullable: true
+        deployment_status:
+          $ref: '#/components/schemas/EnvironmentDeploymentStatusEnum'
+        deployment_request_id:
+          type: string
+          format: uuid
+          nullable: true
+        metrics:
+          type: array
+          nullable: true
+          items:
+            $ref: '#/components/schemas/StageStepMetrics'
+    StepMetricStatusEnum:
+      type: string
+      enum:
+      - SUCCESS
+      - ERROR
+      - CANCEL
+      - SKIP
+      description: 'The status of completion for the step:
+
+        - SUCCESS: The step completed successfully.
+
+        - ERROR: The step completed with an error.
+
+        - CANCEL: The step was canceled.
+
+        - SKIP: The step was skipped because it was not necessary.
+
+        '
+    StageStepMetrics:
+      type: object
+      properties:
+        stage_id:
+          type: string
+          format: uuid
+        total_duration_sec:
+          description: The total duration in seconds of the stage deployment or null if the deployment is not completed.
+          type: integer
+          nullable: true
+        details:
+          description: A list of metrics for deployment steps of the stage.
+          type: array
+          items:
+            $ref: '#/components/schemas/StageStepMetric'
+    EnvironmentStatusEventOriginEnum:
+      type: string
+      nullable: true
+      description: Origin of the organization event
+      enum:
+      - API
+      - CLI
+      - CONSOLE
+      - GIT
+      - QOVERY_INTERNAL
+      - TERRAFORM_PROVIDER
+      example: API
+    ServiceSubActionEnum:
+      type: string
+      default: NONE
+      enum:
+      - NONE
+      - TERRAFORM_PLAN_ONLY
+      - TERRAFORM_PLAN_AND_APPLY
+      - TERRAFORM_DESTROY
+      - TERRAFORM_FORCE_UNLOCK_STATE
+      - TERRAFORM_MIGRATE_STATE
+    StageStepMetric:
+      type: object
+      properties:
+        stage_id:
+          type: string
+          format: uuid
+        step_name:
+          $ref: '#/components/schemas/StageStepMetricNameEnum'
+        status:
+          $ref: '#/components/schemas/StepMetricStatusEnum'
+        duration_sec:
+          description: The duration of the step in seconds.
+          type: integer
+    EnvironmentModeEnum:
+      type: string
+      enum:
+      - DEVELOPMENT
+      - PREVIEW
+      - PRODUCTION
+      - STAGING
+      example: PRODUCTION
+    ServiceStepMetric:
+      type: object
+      properties:
+        step_name:
+          $ref: '#/components/schemas/ServiceStepMetricNameEnum'
+        status:
+          $ref: '#/components/schemas/StepMetricStatusEnum'
+        duration_sec:
+          description: The duration of the step in seconds.
+          type: integer
+    RebootServicesRequest:
+      type: object
+      properties:
+        application_ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+        database_ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+        container_ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+    ServiceDeploymentStatusEnum:
+      type: string
+      enum:
+      - NEVER_DEPLOYED
+      - OUT_OF_DATE
+      - UP_TO_DATE
+    ServiceStepMetricNameEnum:
+      type: string
+      enum:
+      - REGISTRY_CREATE_REPOSITORY
+      - GIT_CLONE
+      - BUILD_QUEUEING
+      - BUILD
+      - DEPLOYMENT_QUEUEING
+      - DEPLOYMENT
+      - ROUTER_DEPLOYMENT
+      - MIRROR_IMAGE
+      - EXECUTING
+      description: "The name of the deployment step at the service level:\n- REGISTRY_CREATE_REPOSITORY: The step to create the repository in the registry.\n- GIT_CLONE: The step to clone the source code repository. \n- BUILD_QUEUEING: The queuing time preceding the actual building step.\n- BUILD: The step to build the source code.\n- DEPLOYMENT_QUEUEING: The queuing time preceding the actual deployment step.\n- DEPLOYMENT: The step to deploy the service. \n- ROUTER_DEPLOYMENT: The step to deploy the router. \n- MIRROR_IMAGE: The step to mirror the image to the private registry.\n- EXECUTING: The step to execute a job or terraform apply.\n"
+    ServiceStepMetrics:
+      type: object
+      required:
+      - total_duration_sec
+      - total_computing_duration_sec
+      - details
+      properties:
+        total_duration_sec:
+          description: The total duration in seconds of the service deployment or null if the deployment is not completed.
+          type: integer
+          nullable: true
+        total_computing_duration_sec:
+          description: The total duration in seconds of the service deployment without queuing steps.
+          type: integer
+        details:
+          description: A list of metrics for deployment steps of the service.
+          type: array
+          items:
+            $ref: '#/components/schemas/ServiceStepMetric'
+    TerraformDeployRequest:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          nullable: true
+          description: Terraform service identifier
+        git_commit_id:
+          type: string
+          description: Commit to deploy for chart source.
+        action:
+          type: string
+          nullable: true
+          description: Terraform action to execute.
+          enum:
+          - PLAN
+          - FORCE_UNLOCK
+          - MIGRATE_STATE
+    ServiceActionEnum:
+      type: string
+      enum:
+      - DEPLOY
+      - DELETE
+      - RESTART
+      - STOP
+      - UNKNOWN
+    DeployAllRequest:
+      type: object
+      properties:
+        applications:
+          type: array
+          items:
+            type: object
+            required:
+            - application_id
+            properties:
+              application_id:
+                type: string
+                format: uuid
+                description: id of the application to be deployed.
+              git_commit_id:
+                type: string
+                description: Commit ID to deploy. Can be empty only if the service has been already deployed (in this case the service version won't be changed)
+        databases:
+          type: array
+          items:
+            type: string
+            format: uuid
+        containers:
+          type: array
+          items:
+            type: object
+            required:
+            - id
+            properties:
+              id:
+                type: string
+                format: uuid
+                description: id of the container to be updated.
+              image_tag:
+                type: string
+                description: new tag for the container. Can be empty only if the service has been already deployed (in this case the service version won't be changed)
+        jobs:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+                description: id of the job to be updated.
+              image_tag:
+                type: string
+                description: new tag for the job image. Use only if job is an image source. Can be empty only if the service has been already deployed (in this case the service version won't be changed)
+              git_commit_id:
+                type: string
+                description: Commit ID to deploy. Use only if job is a repository source. Can be empty only if the service has been already deployed (in this case the service version won't be changed)
+        helms:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+                description: id of the helm to be updated.
+              chart_version:
+                type: string
+                description: The new chart version for the Helm source. Use this only if the helm has a Helm repository source.
+              git_commit_id:
+                type: string
+                description: The commit Id to deploy. Use this only if the helm has a Git repository source.
+              values_override_git_commit_id:
+                type: string
+                description: The commit Id of the override values to deploy. Use only if the helm has a Git override values repository.
+        terraforms:
+          type: array
+          items:
+            $ref: '#/components/schemas/TerraformDeployRequest'
+    EnvironmentServiceIdsAllRequest:
+      type: object
+      properties:
+        application_ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+        container_ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+        database_ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+        job_ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+        helm_ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+        terraform_ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+            x-stoplight:
+              id: w1tqy39oq25pf
+    StateEnum:
+      type: string
+      enum:
+      - BUILDING
+      - BUILD_ERROR
+      - CANCELED
+      - CANCELING
+      - DELETED
+      - DELETE_ERROR
+      - DELETE_QUEUED
+      - DELETING
+      - DEPLOYED
+      - DEPLOYING
+      - DEPLOYMENT_ERROR
+      - DEPLOYMENT_QUEUED
+      - EXECUTING
+      - QUEUED
+      - READY
+      - RECAP
+      - RESTARTED
+      - RESTARTING
+      - RESTART_ERROR
+      - RESTART_QUEUED
+      - STOPPED
+      - STOPPING
+      - STOP_ERROR
+      - STOP_QUEUED
+      - UNAVAILABLE
+      - WAITING_DELETING
+      - WAITING_RESTARTING
+      - WAITING_RUNNING
+      - WAITING_STOPPING
+    Status:
+      type: object
+      required:
+      - id
+      - state
+      - service_deployment_status
+      - status_details
+      - is_part_last_deployment
+      - deployment_requests_count
+      - deployment_request_id
+      properties:
+        id:
+          type: string
+          format: uuid
+        state:
+          $ref: '#/components/schemas/StateEnum'
+        service_deployment_status:
+          $ref: '#/components/schemas/ServiceDeploymentStatusEnum'
+        last_deployment_date:
+          type: string
+          format: date-time
+        is_part_last_deployment:
+          type: boolean
+        steps:
+          $ref: '#/components/schemas/ServiceStepMetrics'
+        execution_id:
+          type: string
+          x-stoplight:
+            id: 3o9tz4272s2ct
+        status_details:
+          $ref: '#/components/schemas/StatusDetails'
+        deployment_request_id:
+          type: string
+          x-stoplight:
+            id: bepixrb7tyzme
+          format: uuid
+          nullable: true
+        deployment_requests_count:
+          type: integer
+          x-stoplight:
+            id: crku532vt3v4p
+    ServiceActionStatusEnum:
+      type: string
+      enum:
+      - QUEUED
+      - ONGOING
+      - SUCCESS
+      - ERROR
+      - EXECUTING
+      - CANCELED
+      - CANCELING
+      - NEVER
+    Base:
+      type: object
+      required:
+      - id
+      - created_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          readOnly: true
+          format: date-time
+        updated_at:
+          type: string
+          readOnly: true
+          format: date-time
+    StatusDetails:
+      type: object
+      required:
+      - action
+      - status
+      - sub_action
+      properties:
+        action:
+          $ref: '#/components/schemas/ServiceActionEnum'
+        status:
+          $ref: '#/components/schemas/ServiceActionStatusEnum'
+        sub_action:
+          $ref: '#/components/schemas/ServiceSubActionEnum'
+  parameters:
+    environmentId:
+      name: environmentId
+      in: path
+      description: Environment ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+  responses:
+    '400':
+      description: Bad request
+    '403':
+      description: Access forbidden
+    '404':
+      description: Resource not found
+    '401':
+      description: Access token is missing or invalid
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'JWT tokens should be used with OIDC account (human to machine). JWT tokens used by the Qovery console to communicate with the API have a TTL. Curl Example '' curl https://console.qovery.com/organization -H "Authorization: Bearer $qovery_token" '''
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'Token API are generated by Qovery to manage machine to machine interaction and do not have a TTL. Curl Example '' curl https://console.qovery.com/organization -H "Authorization: Token $qovery_token" '''
+x-tagGroups:
+- name: Organization
+  tags:
+  - Organization Main Calls
+  - Organization Api Token
+  - Organization Account Git Repositories
+  - Organization Cluster Lock
+  - Organization Webhook
+  - Organization Custom Role
+  - Organization Event
+  - Organization Annotations Group
+  - Organization Labels Group
+  - Organization Enterprise Connection
+  - Projects
+  - Members
+  - Billing
+  - Clusters
+  - Cloud Provider
+  - Cloud Provider Credentials
+  - Github App
+  - Container Registries
+  - Helm Repositories
+- name: Project
+  tags:
+  - Project Main Calls
+  - Environments
+  - Project Deployment Rule
+  - Project Environment Variable
+  - Project Secret
+- name: Environment
+  tags:
+  - Environment Main Calls
+  - Applications
+  - Containers
+  - Databases
+  - Jobs
+  - Helms
+  - Terraforms
+  - Environment Actions
+  - Environment Logs
+  - Environment Deployment History
+  - Environment Deployment Rule
+  - Environment Variable
+  - Environment Secret
+  - Environment Export
+- name: Deployment Stage
+  tags:
+  - Deployment Stage Main Calls
+- name: Application
+  tags:
+  - Application Main Calls
+  - Application Actions
+  - Application Configuration
+  - Application Custom Domain
+  - Application Database
+  - Application Logs
+  - Application Deployment Restriction
+  - Application Deployment History
+  - Application Environment Variable
+  - Application Secret
+  - Application Annotations Group
+- name: Container
+  tags:
+  - Container Main Calls
+  - Container Actions
+  - Container Configuration
+  - Container Custom Domain
+  - Container Database
+  - Container Logs
+  - Container Deployment History
+  - Container Environment Variable
+  - Container Secret
+  - Container Annotations Group
+- name: Database
+  tags:
+  - Database Main Calls
+  - Database Actions
+  - Database Applications
+  - Database Deployment History
+  - Database Containers
+  - Database Application
+  - Database Container
+  - Backups
+  - Database Annotations Group
+- name: Job
+  tags:
+  - Job Main Calls
+  - Job Actions
+  - Job Configuration
+  - Job Custom Domain
+  - Job Deployment Restriction
+  - Job Deployment History
+  - Job Environment Variable
+  - Job Secret
+  - Job Annotations Group
+- name: Helm
+  tags:
+  - Helm Main Calls
+  - Helm Actions
+  - Helm Configuration
+  - Helm Custom Domain
+  - Helm Deployment Restriction
+  - Helm Deployment History
+- name: Terraform
+  tags:
+  - Terraform Main Calls
+  - Terraform Actions
+  - Terraform Configuration
+  - Terraform Deployment Restriction
+  - Terraform Deployment History
+- name: Account
+  tags:
+  - Account Info
+  - Git repositories
+  - Referral & Rewards
+- name: Git
+  tags:
+  - Git repositories
+- name: Variable
+  tags:
+  - Variable Main Calls
+- name: Lifecycle Template
+  tags:
+  - Lifecycle Template Main Calls
+- name: Admin
+  tags:
+  - User Sign Up
+- name: Alerting
+  tags:
+  - Alert Receivers
+  - Alert Rules

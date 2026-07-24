@@ -1,0 +1,809 @@
+openapi: 3.0.0
+info:
+  version: 1.0.4
+  title: Qovery Account Info Database Application API
+  description: '- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider.
+
+    - ℹ️ The API is stable and still in development.
+
+    '
+  contact:
+    name: Qovery Product Team
+    url: https://www.qovery.com
+    email: support+api+documentation@qovery.com
+  x-logo:
+    url: https://console.qovery.com/assets/logos/logo-white.svg
+    altText: Qovery
+servers:
+- url: https://api.qovery.com
+security:
+- bearerAuth: []
+- ApiKeyAuth: []
+tags:
+- name: Database Application
+paths:
+  /database/{databaseId}/application:
+    get:
+      summary: List applications using the database
+      operationId: listDatabaseApplication
+      parameters:
+      - $ref: '#/components/parameters/databaseId'
+      tags:
+      - Database Application
+      responses:
+        '200':
+          description: List linked applications
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /database/{databaseId}/application/{targetApplicationId}:
+    delete:
+      summary: 'Remove an application from this database '
+      operationId: removeApplicationFromDatabase
+      parameters:
+      - $ref: '#/components/parameters/databaseId'
+      - $ref: '#/components/parameters/targetApplicationId'
+      tags:
+      - Database Application
+      responses:
+        '204':
+          $ref: '#/components/responses/204'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+components:
+  schemas:
+    ReferenceObject:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+    ServicePortResponseList:
+      type: array
+      items:
+        $ref: '#/components/schemas/ServicePort'
+    GitProviderEnum:
+      type: string
+      enum:
+      - BITBUCKET
+      - GITHUB
+      - GITLAB
+    ServiceStorage:
+      type: object
+      properties:
+        storage:
+          type: array
+          items:
+            type: object
+            required:
+            - id
+            - type
+            - size
+            - mount_point
+            properties:
+              id:
+                type: string
+                format: uuid
+              type:
+                $ref: '#/components/schemas/StorageTypeEnum'
+              size:
+                type: integer
+                description: unit is GB
+                example: 16
+              mount_point:
+                type: string
+                example: /mnt/images
+    OrganizationAnnotationsGroupScopeEnum:
+      type: string
+      description: Annotations Group Scope
+      enum:
+      - DEPLOYMENTS
+      - STATEFUL_SETS
+      - SERVICES
+      - INGRESS
+      - GATEWAY_API_ROUTES
+      - HPA
+      - PODS
+      - SECRETS
+      - JOBS
+      - CRON_JOBS
+    KedaAutoscalingResponse:
+      title: KedaAutoscalingResponse
+      x-stoplight:
+        id: dgcb902szizvv
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        x-stoplight:
+          id: zjlwqohiiyuwf
+        required:
+        - service_id
+        - mode
+        - polling_interval_seconds
+        - cooldown_period_seconds
+        - scalers
+        properties:
+          service_id:
+            type: string
+            x-stoplight:
+              id: j9bxhtiyyl0iv
+            format: uuid
+          mode:
+            $ref: '#/components/schemas/AutoscalingMode'
+          polling_interval_seconds:
+            type: integer
+            x-stoplight:
+              id: uone6zr48amok
+            format: int32
+          cooldown_period_seconds:
+            type: integer
+            x-stoplight:
+              id: j2dapmjjjiafj
+            format: int32
+          scalers:
+            type: array
+            x-stoplight:
+              id: oyhxgvwg36ixz
+            minItems: 1
+            items:
+              $ref: '#/components/schemas/KedaScalerResponse'
+      description: ''
+    BuildModeEnum:
+      type: string
+      enum:
+      - DOCKER
+      description: '`DOCKER` requires `dockerfile_path`
+
+        '
+      default: DOCKER
+    Application:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - $ref: '#/components/schemas/ServiceStorage'
+      - type: object
+        required:
+        - environment
+        - name
+        - healthchecks
+        - icon_uri
+        - service_type
+        properties:
+          environment:
+            $ref: '#/components/schemas/ReferenceObject'
+          git_repository:
+            $ref: '#/components/schemas/ApplicationGitRepository'
+          maximum_cpu:
+            type: integer
+            description: Maximum cpu that can be allocated to the application based on organization cluster configuration. unit is millicores (m). 1000m = 1 cpu
+            example: 16000
+          maximum_memory:
+            type: integer
+            description: Maximum memory that can be allocated to the application based on organization cluster configuration. unit is MB. 1024 MB = 1GB
+            example: 16384
+          maximun_gpu:
+            type: integer
+            x-stoplight:
+              id: ho7l9maiyqe52
+            default: 0
+            minimum: 0
+          name:
+            type: string
+            description: name is case insensitive
+          description:
+            type: string
+            description: give a description to this application
+          build_mode:
+            $ref: '#/components/schemas/BuildModeEnum'
+          dockerfile_path:
+            type: string
+            description: The path of the associated Dockerfile. Only if you are using build_mode = DOCKER
+            nullable: true
+          cpu:
+            type: integer
+            description: unit is millicores (m). 1000m = 1 cpu
+            example: 1250
+          memory:
+            type: integer
+            description: unit is MB. 1024 MB = 1GB
+            example: 1024
+          gpu:
+            type: integer
+            x-stoplight:
+              id: 3n3pebmhkah3k
+            default: 0
+            minimum: 0
+          min_running_instances:
+            type: integer
+            minimum: 0
+            description: 'Minimum number of instances running. This resource auto-scale based on the CPU and Memory consumption.
+
+              Note: 0 means that there is no application running.
+
+              '
+            default: 1
+          max_running_instances:
+            type: integer
+            description: 'Maximum number of instances running. This resource auto-scale based on the CPU and Memory consumption.
+
+              Note: -1 means that there is no limit.
+
+              '
+            default: 1
+          healthchecks:
+            $ref: '#/components/schemas/Healthcheck'
+          auto_preview:
+            type: boolean
+            description: "Specify if the environment preview option is activated or not for this application.  \nIf activated, a preview environment will be automatically cloned at each pull request.  \nIf not specified, it takes the value of the `auto_preview` property from the associated environment.\n"
+            default: true
+          ports:
+            $ref: '#/components/schemas/ServicePortResponseList'
+          arguments:
+            type: array
+            items:
+              type: string
+          entrypoint:
+            type: string
+            description: optional entrypoint when launching container
+          auto_deploy:
+            type: boolean
+            description: Specify if the application will be automatically updated after receiving a new commit.
+          annotations_groups:
+            $ref: '#/components/schemas/OrganizationAnnotationsGroupResponseList'
+          labels_groups:
+            $ref: '#/components/schemas/OrganizationLabelsGroupResponseList'
+          icon_uri:
+            type: string
+            format: uri
+            description: Icon URI representing the application.
+            x-stoplight:
+              id: b8karc43pdxpu
+          service_type:
+            $ref: '#/components/schemas/ServiceTypeEnum'
+          docker_target_build_stage:
+            type: string
+            x-stoplight:
+              id: tdxdfoyowutcx
+            description: The target build stage in the Dockerfile to build
+            nullable: true
+          autoscaling:
+            $ref: '#/components/schemas/AutoscalingPolicyResponse'
+    KedaScalerRole:
+      title: KedaScalerRole
+      x-stoplight:
+        id: 1sl0mlxoqzr8w
+      type: string
+      enum:
+      - PRIMARY
+      - SAFETY
+    OrganizationLabelsGroupResponse:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        required:
+        - name
+        - labels
+        properties:
+          name:
+            type: string
+          labels:
+            type: array
+            items:
+              $ref: '#/components/schemas/Label'
+      title: ''
+    ApplicationGitRepository:
+      type: object
+      required:
+      - provider
+      - owner
+      - name
+      - url
+      properties:
+        has_access:
+          type: boolean
+        provider:
+          $ref: '#/components/schemas/GitProviderEnum'
+        owner:
+          type: string
+          example: John Doe
+        url:
+          type: string
+          format: uri
+        name:
+          type: string
+          description: repository name
+          example: simple-node-app
+        branch:
+          type: string
+        root_path:
+          type: string
+        deployed_commit_id:
+          type: string
+          description: Git commit ID corresponding to the deployed version of the app
+        deployed_commit_date:
+          type: string
+          readOnly: true
+          format: date-time
+          description: Git commit date corresponding to the deployed version of the app
+        deployed_commit_contributor:
+          type: string
+          description: Git commit user corresponding to the deployed version of the app
+        deployed_commit_tag:
+          type: string
+          example: v1.0.1
+        git_token_id:
+          type: string
+          nullable: true
+        git_token_name:
+          type: string
+          nullable: true
+      title: ''
+    StorageTypeEnum:
+      type: string
+      enum:
+      - FAST_SSD
+    Healthcheck:
+      type: object
+      nullable: false
+      properties:
+        readiness_probe:
+          $ref: '#/components/schemas/Probe'
+        liveness_probe:
+          $ref: '#/components/schemas/Probe'
+    ServiceTypeEnum:
+      type: string
+      x-stoplight:
+        id: d66063cd29913
+      description: type of the service (application, database, job, ...)
+      enum:
+      - APPLICATION
+      - DATABASE
+      - CONTAINER
+      - JOB
+      - HELM
+      - TERRAFORM
+      - ARGOCD_APP
+    OrganizationAnnotationsGroupResponse:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        required:
+        - name
+        - annotations
+        - scopes
+        properties:
+          name:
+            type: string
+          annotations:
+            type: array
+            items:
+              $ref: '#/components/schemas/Annotation'
+          scopes:
+            type: array
+            items:
+              $ref: '#/components/schemas/OrganizationAnnotationsGroupScopeEnum'
+    Label:
+      type: object
+      required:
+      - key
+      - value
+      - propagate_to_cloud_provider
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+        propagate_to_cloud_provider:
+          type: boolean
+    Probe:
+      type: object
+      nullable: true
+      properties:
+        type:
+          type: object
+          properties:
+            tcp:
+              type: object
+              nullable: true
+              properties:
+                port:
+                  type: integer
+                host:
+                  type: string
+                  default: null
+                  nullable: true
+            http:
+              type: object
+              nullable: true
+              properties:
+                path:
+                  type: string
+                  default: /
+                scheme:
+                  type: string
+                  default: HTTP
+                port:
+                  type: integer
+            exec:
+              type: object
+              nullable: true
+              description: Execute a command inside the container. The probe succeeds if the command exits with status code 0.
+              properties:
+                command:
+                  type: array
+                  description: 'Command to execute inside the container, specified as an array of strings. The first element is the executable, followed by its arguments. Example: ["sh", "-c", "test -f /tmp/healthy"]'
+                  example:
+                  - sh
+                  - -c
+                  - test -f /tmp/healthy
+                  items:
+                    type: string
+                  minItems: 1
+            grpc:
+              type: object
+              nullable: true
+              properties:
+                service:
+                  type: string
+                  nullable: true
+                  default: null
+                port:
+                  type: integer
+        initial_delay_seconds:
+          type: integer
+          default: 30
+        period_seconds:
+          type: integer
+          default: 10
+        timeout_seconds:
+          type: integer
+          default: 5
+        success_threshold:
+          type: integer
+          default: 1
+        failure_threshold:
+          type: integer
+          default: 9
+    ApplicationResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Application'
+    PortProtocolEnum:
+      type: string
+      default: HTTP
+      enum:
+      - HTTP
+      - GRPC
+      - TCP
+      - UDP
+    KedaTriggerAuthenticationResponse:
+      title: KedaTriggerAuthenticationResponse
+      x-stoplight:
+        id: 7mm4a4sk9jhz3
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        x-stoplight:
+          id: ssejnexbsra11
+        required:
+        - organization_id
+        - name
+        properties:
+          organization_id:
+            type: string
+            x-stoplight:
+              id: akxa3zctvjj5h
+          name:
+            type: string
+            x-stoplight:
+              id: gpvwed95xygk1
+          config_yaml:
+            type: string
+            x-stoplight:
+              id: r5lmrzakyk9o6
+            description: ' Optional raw KEDA TriggerAuthentication YAML configuration.'
+    OrganizationLabelsGroupResponseList:
+      type: array
+      items:
+        $ref: '#/components/schemas/OrganizationLabelsGroupResponse'
+      title: ''
+    Annotation:
+      type: object
+      required:
+      - key
+      - value
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+    AutoscalingPolicyResponse:
+      title: AutoscalingPolicyResponse
+      x-stoplight:
+        id: mjawsx6obi237
+      oneOf:
+      - $ref: '#/components/schemas/KedaAutoscalingResponse'
+      discriminator:
+        propertyName: mode
+        mapping:
+          KEDA: '#/components/schemas/KedaAutoscalingResponse'
+    KedaScalerResponse:
+      title: KedaScalerResponse
+      x-stoplight:
+        id: gaaqg32ivl48h
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        x-stoplight:
+          id: 74tt3hgf95nfe
+        required:
+        - scaler_type
+        - enabled
+        - role
+        properties:
+          scaler_type:
+            type: string
+            x-stoplight:
+              id: 1ckp76ziimkg4
+          enabled:
+            type: boolean
+            x-stoplight:
+              id: 0dnjwnlkuj3kp
+          role:
+            $ref: '#/components/schemas/KedaScalerRole'
+          config_json:
+            type: object
+            nullable: true
+          config_yaml:
+            type: string
+            nullable: true
+          trigger_authentication:
+            $ref: '#/components/schemas/KedaTriggerAuthenticationResponse'
+    AutoscalingMode:
+      title: AutoscalingMode
+      x-stoplight:
+        id: vmgo27882mrl3
+      type: string
+      enum:
+      - KEDA
+    ServicePort:
+      type: object
+      required:
+      - id
+      - internal_port
+      - publicly_accessible
+      - protocol
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        internal_port:
+          type: integer
+          example: 8080
+          description: The listening port of your service.
+        external_port:
+          type: integer
+          example: 8080
+          description: The exposed port for your service. This is optional. If not set a default port will be used.
+        publicly_accessible:
+          type: boolean
+          description: Expose the port to the world
+        is_default:
+          type: boolean
+          description: is the default port to use for domain
+        protocol:
+          $ref: '#/components/schemas/PortProtocolEnum'
+        public_path:
+          type: string
+          description: "Indicate the path or regex that must match for traffic to be accepted on your service\ni.e: /api/ will only accept http calls that start with /api/ \nOnly valid for publicly_accessible HTTP or GRPC ports."
+        public_path_rewrite:
+          type: string
+          description: "Indicate the new path that will be used to reach your service after replacement\ni.e: public_path -> /(.*)  public_path_rewrite -> /api/$1 will append /api/ on all externaly requested url when reaching the service \nexternal/use url -> example.com/foobar  -> url seen by the service -> example.com/api/foobar\nOnly valid for publicly_accessible HTTP or GRPC ports."
+    OrganizationAnnotationsGroupResponseList:
+      type: array
+      items:
+        $ref: '#/components/schemas/OrganizationAnnotationsGroupResponse'
+    Base:
+      type: object
+      required:
+      - id
+      - created_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          readOnly: true
+          format: date-time
+        updated_at:
+          type: string
+          readOnly: true
+          format: date-time
+  responses:
+    '204':
+      description: no content
+    '403':
+      description: Access forbidden
+    '404':
+      description: Resource not found
+    '401':
+      description: Access token is missing or invalid
+  parameters:
+    databaseId:
+      name: databaseId
+      in: path
+      description: Database ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+    targetApplicationId:
+      name: targetApplicationId
+      in: path
+      description: Target application ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'JWT tokens should be used with OIDC account (human to machine). JWT tokens used by the Qovery console to communicate with the API have a TTL. Curl Example '' curl https://console.qovery.com/organization -H "Authorization: Bearer $qovery_token" '''
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'Token API are generated by Qovery to manage machine to machine interaction and do not have a TTL. Curl Example '' curl https://console.qovery.com/organization -H "Authorization: Token $qovery_token" '''
+x-tagGroups:
+- name: Organization
+  tags:
+  - Organization Main Calls
+  - Organization Api Token
+  - Organization Account Git Repositories
+  - Organization Cluster Lock
+  - Organization Webhook
+  - Organization Custom Role
+  - Organization Event
+  - Organization Annotations Group
+  - Organization Labels Group
+  - Organization Enterprise Connection
+  - Projects
+  - Members
+  - Billing
+  - Clusters
+  - Cloud Provider
+  - Cloud Provider Credentials
+  - Github App
+  - Container Registries
+  - Helm Repositories
+- name: Project
+  tags:
+  - Project Main Calls
+  - Environments
+  - Project Deployment Rule
+  - Project Environment Variable
+  - Project Secret
+- name: Environment
+  tags:
+  - Environment Main Calls
+  - Applications
+  - Containers
+  - Databases
+  - Jobs
+  - Helms
+  - Terraforms
+  - Environment Actions
+  - Environment Logs
+  - Environment Deployment History
+  - Environment Deployment Rule
+  - Environment Variable
+  - Environment Secret
+  - Environment Export
+- name: Deployment Stage
+  tags:
+  - Deployment Stage Main Calls
+- name: Application
+  tags:
+  - Application Main Calls
+  - Application Actions
+  - Application Configuration
+  - Application Custom Domain
+  - Application Database
+  - Application Logs
+  - Application Deployment Restriction
+  - Application Deployment History
+  - Application Environment Variable
+  - Application Secret
+  - Application Annotations Group
+- name: Container
+  tags:
+  - Container Main Calls
+  - Container Actions
+  - Container Configuration
+  - Container Custom Domain
+  - Container Database
+  - Container Logs
+  - Container Deployment History
+  - Container Environment Variable
+  - Container Secret
+  - Container Annotations Group
+- name: Database
+  tags:
+  - Database Main Calls
+  - Database Actions
+  - Database Applications
+  - Database Deployment History
+  - Database Containers
+  - Database Application
+  - Database Container
+  - Backups
+  - Database Annotations Group
+- name: Job
+  tags:
+  - Job Main Calls
+  - Job Actions
+  - Job Configuration
+  - Job Custom Domain
+  - Job Deployment Restriction
+  - Job Deployment History
+  - Job Environment Variable
+  - Job Secret
+  - Job Annotations Group
+- name: Helm
+  tags:
+  - Helm Main Calls
+  - Helm Actions
+  - Helm Configuration
+  - Helm Custom Domain
+  - Helm Deployment Restriction
+  - Helm Deployment History
+- name: Terraform
+  tags:
+  - Terraform Main Calls
+  - Terraform Actions
+  - Terraform Configuration
+  - Terraform Deployment Restriction
+  - Terraform Deployment History
+- name: Account
+  tags:
+  - Account Info
+  - Git repositories
+  - Referral & Rewards
+- name: Git
+  tags:
+  - Git repositories
+- name: Variable
+  tags:
+  - Variable Main Calls
+- name: Lifecycle Template
+  tags:
+  - Lifecycle Template Main Calls
+- name: Admin
+  tags:
+  - User Sign Up
+- name: Alerting
+  tags:
+  - Alert Receivers
+  - Alert Rules

@@ -1,0 +1,497 @@
+openapi: 3.0.0
+info:
+  version: 1.0.4
+  title: Qovery Account Info Application Configuration API
+  description: '- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider.
+
+    - ℹ️ The API is stable and still in development.
+
+    '
+  contact:
+    name: Qovery Product Team
+    url: https://www.qovery.com
+    email: support+api+documentation@qovery.com
+  x-logo:
+    url: https://console.qovery.com/assets/logos/logo-white.svg
+    altText: Qovery
+servers:
+- url: https://api.qovery.com
+security:
+- bearerAuth: []
+- ApiKeyAuth: []
+tags:
+- name: Application Configuration
+paths:
+  /application/{applicationId}/network:
+    get:
+      summary: Get Application Network information
+      description: Get status of the application network settings.
+      operationId: getApplicationNetwork
+      parameters:
+      - $ref: '#/components/parameters/applicationId'
+      tags:
+      - Application Configuration
+      responses:
+        '200':
+          description: Network information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationNetwork'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    put:
+      summary: Edit Application Network
+      description: Edit the Network settings of the application.
+      operationId: editApplicationNetwork
+      parameters:
+      - $ref: '#/components/parameters/applicationId'
+      tags:
+      - Application Configuration
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApplicationNetworkRequest'
+      responses:
+        '201':
+          description: Updated application network setting
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationNetwork'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /application/{applicationId}/advancedSettings:
+    get:
+      summary: Get advanced settings
+      description: 'Get list and values of the advanced settings of the application.
+
+        Default values for each setting are available in [our documentation](https://hub.qovery.com/docs/using-qovery/configuration/advanced-settings/)
+
+        '
+      operationId: getAdvancedSettings
+      parameters:
+      - $ref: '#/components/parameters/applicationId'
+      tags:
+      - Application Configuration
+      responses:
+        '200':
+          description: Advanced settings list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationAdvancedSettings'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    put:
+      summary: Edit advanced settings
+      description: Edit advanced settings by returning table of advanced settings.
+      operationId: editAdvancedSettings
+      parameters:
+      - $ref: '#/components/parameters/applicationId'
+      tags:
+      - Application Configuration
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApplicationAdvancedSettings'
+      responses:
+        '201':
+          description: Updated advanced settings
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationAdvancedSettings'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+components:
+  schemas:
+    ApplicationNetworkRequest:
+      type: object
+      properties:
+        sticky_session:
+          type: boolean
+          description: 'Specify if the sticky session option (also called persistant session) is activated or not for this application.
+
+            If activated, user will be redirected by the load balancer to the same instance each time he access to the application.
+
+            '
+          default: false
+    ApplicationNetwork:
+      type: object
+      properties:
+        sticky_session:
+          type: boolean
+          description: 'Specify if the sticky session option (also called persistant session) is activated or not for this application.
+
+            If activated, user will be redirected by the load balancer to the same instance each time he access to the application.
+
+            '
+          default: false
+    ApplicationAdvancedSettings:
+      type: object
+      properties:
+        deployment.custom_domain_check_enabled:
+          type: boolean
+          description: disable custom domain check when deploying an application
+        deployment.termination_grace_period_seconds:
+          type: integer
+          description: define how long in seconds an application is supposed to be stopped gracefully
+        deployment.affinity.node.required:
+          type: object
+          description: Set pod placement on specific Kubernetes nodes labels
+          additionalProperties:
+            type: string
+        deployment.antiaffinity.pod:
+          type: string
+          enum:
+          - Preferred
+          - Requirred
+          description: 'Define how you want pods affinity to behave:
+
+            * `Preferred` allows, but does not require, pods of a given service are not co-located (or co-hosted) on a single node
+
+            * `Requirred` ensures that the pods of a given service are not co-located (or co-hosted) on a single node (safer in term of availability but can be expensive depending on the number of replicas)
+
+            '
+        deployment.topology_spread.zone:
+          type: string
+          enum:
+          - Disabled
+          - ScheduleAnyway
+          - DoNotSchedule
+          description: 'Define how you want pods to be spread across availability zones:
+
+            * `Disabled` no topology spread constraints are applied
+
+            * `ScheduleAnyway` pods are spread across zones on a best-effort basis (soft constraint)
+
+            * `DoNotSchedule` pods must be evenly spread across zones with a maxSkew of 1 (hard constraint)
+
+            '
+        deployment.lifecycle.post_start_exec_command:
+          type: array
+          x-stoplight:
+            id: ucpjmpaclq1wl
+          description: Allows you to run a command after the application is started. The command should be a shell command or script.
+          items:
+            x-stoplight:
+              id: 8zq97yrgn1iom
+            type: string
+        deployment.lifecycle.pre_stop_exec_command:
+          type: array
+          x-stoplight:
+            id: skk1wo5xhz5mc
+          description: Allows you to run a command before the application is stopped. The command should be a shell command or script. Qovery requires the sh shell by default and sets a sleep of 15 seconds to let Nginx update its config. Avoiding error codes returned during a rolling update.
+          items:
+            x-stoplight:
+              id: oomiyuna5h91g
+            type: string
+        deployment.update_strategy.type:
+          type: string
+          enum:
+          - RollingUpdate
+          - Recreate
+          description: '* `RollingUpdate` gracefully rollout new versions, and automatically rollback if the new version fails to start
+
+            * `Recreate` stop all current versions and create new ones once all old ones have been shutdown
+
+            '
+        deployment.update_strategy.rolling_update.max_unavailable_percent:
+          type: integer
+          description: Define the percentage of a maximum number of pods that can be unavailable during the update process
+        deployment.update_strategy.rolling_update.max_surge_percent:
+          type: integer
+          description: Define the percentage of the maximum number of pods that can be created over the desired number of pods
+        build.timeout_max_sec:
+          type: integer
+        build.cpu_max_in_milli:
+          type: integer
+          description: define the max cpu resources (in milli)
+        build.ram_max_in_gib:
+          type: integer
+          description: define the max ram resources (in gib)
+        build.disable_buildkit_cache:
+          type: boolean
+          description: disable buildkit registry cache during build
+        network.ingress.proxy_body_size_mb:
+          type: integer
+        network.ingress.force_ssl_redirect:
+          type: boolean
+          x-stoplight:
+            id: am7oh5tdono3z
+          description: When using SSL offloading outside of cluster, you can enforce a redirect to HTTPS even when there is no TLS certificate available
+        network.ingress.enable_cors:
+          type: boolean
+        network.ingress.cors_allow_origin:
+          type: string
+        network.ingress.cors_allow_methods:
+          type: string
+        network.ingress.cors_allow_headers:
+          type: string
+        network.ingress.proxy_buffer_size_kb:
+          type: integer
+          description: header buffer size used while reading response header from upstream
+        network.ingress.keepalive_time_seconds:
+          type: integer
+          description: Limits the maximum time (in seconds) during which requests can be processed through one keepalive connection
+        network.ingress.keepalive_timeout_seconds:
+          type: integer
+          description: Sets a timeout (in seconds) during which an idle keepalive connection to an upstream server will stay open.
+        network.ingress.send_timeout_seconds:
+          type: integer
+          description: Sets a timeout (in seconds) for transmitting a response to the client
+        network.ingress.proxy_connect_timeout_seconds:
+          type: integer
+          description: Sets a timeout (in seconds) for establishing a connection to a proxied server
+        network.ingress.proxy_send_timeout_seconds:
+          type: integer
+          description: Sets a timeout (in seconds) for transmitting a request to the proxied server
+        network.ingress.proxy_read_timeout_seconds:
+          type: integer
+          description: Sets a timeout (in seconds) for reading a response from the proxied server
+        network.ingress.proxy_buffering:
+          type: string
+          description: Allows to enable or disable nginx `proxy-request-buffering`
+        network.ingress.whitelist_source_range:
+          type: string
+          description: "list of source ranges to allow access to ingress proxy. \nThis property can be used to whitelist source IP ranges for ingress proxy.\nThe value is a comma separated list of CIDRs, e.g. 10.0.0.0/24,172.10.0.1\nTo allow all source ranges, set 0.0.0.0/0.\n"
+        network.ingress.denylist_source_range:
+          type: string
+          description: "list of source ranges to deny access to ingress proxy. \nThis property can be used to blacklist source IP ranges for ingress proxy.\nThe value is a comma separated list of CIDRs, e.g. 10.0.0.0/24,172.10.0.1\n"
+        network.ingress.basic_auth_env_var:
+          type: string
+          description: 'Set the name of an environment variable to use as a basic authentication (`login:crypted_password`) from `htpasswd` command.
+
+            '
+        network.ingress.enable_sticky_session:
+          type: boolean
+          description: 'Enable the load balancer to bind a user''s session to a specific target.
+
+            This ensures that all requests from the user during the session are sent to the same target
+
+            '
+        network.ingress.grpc_send_timeout_seconds:
+          type: integer
+          description: Sets a timeout (in seconds) for transmitting a request to the grpc server
+        network.ingress.grpc_read_timeout_seconds:
+          type: integer
+          description: Sets a timeout (in seconds) for transmitting a request to the grpc server
+        network.ingress.extra_headers:
+          type: string
+          description: Allows to define response headers
+          example: '{"X-Frame-Options":"DENY ","X-Content-Type-Options":"nosniff"}'
+        network.gateway_api.http_request_timeout_seconds:
+          type: integer
+          nullable: true
+          minimum: 0
+          description: Sets a timeout (in seconds) for requests proxied through the Gateway API route.
+        network.gateway_api.http_connection_idle_timeout_seconds:
+          type: integer
+          nullable: true
+          minimum: 0
+          description: Sets the idle timeout (in seconds) for HTTP connections proxied through the Gateway API route.
+        hpa.cpu.average_utilization_percent:
+          type: integer
+          description: Percentage value of cpu usage at which point pods should scale up.
+        hpa.memory.average_utilization_percent:
+          type: integer
+          nullable: true
+          description: Percentage value of memory usage at which point pods should scale up.
+        security.service_account_name:
+          type: string
+          description: 'Allows you to set an existing Kubernetes service account name
+
+            '
+        security.automount_service_account_token:
+          type: boolean
+          description: 'Automount Kubernetes service account token to have access to Kubernetes API from pods
+
+            '
+        security.read_only_root_filesystem:
+          type: boolean
+          description: 'Mounts the container''s root filesystem as read-only
+
+            '
+  responses:
+    '403':
+      description: Access forbidden
+    '404':
+      description: Resource not found
+    '400':
+      description: Bad request
+    '401':
+      description: Access token is missing or invalid
+  parameters:
+    applicationId:
+      name: applicationId
+      in: path
+      description: Application ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'JWT tokens should be used with OIDC account (human to machine). JWT tokens used by the Qovery console to communicate with the API have a TTL. Curl Example '' curl https://console.qovery.com/organization -H "Authorization: Bearer $qovery_token" '''
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'Token API are generated by Qovery to manage machine to machine interaction and do not have a TTL. Curl Example '' curl https://console.qovery.com/organization -H "Authorization: Token $qovery_token" '''
+x-tagGroups:
+- name: Organization
+  tags:
+  - Organization Main Calls
+  - Organization Api Token
+  - Organization Account Git Repositories
+  - Organization Cluster Lock
+  - Organization Webhook
+  - Organization Custom Role
+  - Organization Event
+  - Organization Annotations Group
+  - Organization Labels Group
+  - Organization Enterprise Connection
+  - Projects
+  - Members
+  - Billing
+  - Clusters
+  - Cloud Provider
+  - Cloud Provider Credentials
+  - Github App
+  - Container Registries
+  - Helm Repositories
+- name: Project
+  tags:
+  - Project Main Calls
+  - Environments
+  - Project Deployment Rule
+  - Project Environment Variable
+  - Project Secret
+- name: Environment
+  tags:
+  - Environment Main Calls
+  - Applications
+  - Containers
+  - Databases
+  - Jobs
+  - Helms
+  - Terraforms
+  - Environment Actions
+  - Environment Logs
+  - Environment Deployment History
+  - Environment Deployment Rule
+  - Environment Variable
+  - Environment Secret
+  - Environment Export
+- name: Deployment Stage
+  tags:
+  - Deployment Stage Main Calls
+- name: Application
+  tags:
+  - Application Main Calls
+  - Application Actions
+  - Application Configuration
+  - Application Custom Domain
+  - Application Database
+  - Application Logs
+  - Application Deployment Restriction
+  - Application Deployment History
+  - Application Environment Variable
+  - Application Secret
+  - Application Annotations Group
+- name: Container
+  tags:
+  - Container Main Calls
+  - Container Actions
+  - Container Configuration
+  - Container Custom Domain
+  - Container Database
+  - Container Logs
+  - Container Deployment History
+  - Container Environment Variable
+  - Container Secret
+  - Container Annotations Group
+- name: Database
+  tags:
+  - Database Main Calls
+  - Database Actions
+  - Database Applications
+  - Database Deployment History
+  - Database Containers
+  - Database Application
+  - Database Container
+  - Backups
+  - Database Annotations Group
+- name: Job
+  tags:
+  - Job Main Calls
+  - Job Actions
+  - Job Configuration
+  - Job Custom Domain
+  - Job Deployment Restriction
+  - Job Deployment History
+  - Job Environment Variable
+  - Job Secret
+  - Job Annotations Group
+- name: Helm
+  tags:
+  - Helm Main Calls
+  - Helm Actions
+  - Helm Configuration
+  - Helm Custom Domain
+  - Helm Deployment Restriction
+  - Helm Deployment History
+- name: Terraform
+  tags:
+  - Terraform Main Calls
+  - Terraform Actions
+  - Terraform Configuration
+  - Terraform Deployment Restriction
+  - Terraform Deployment History
+- name: Account
+  tags:
+  - Account Info
+  - Git repositories
+  - Referral & Rewards
+- name: Git
+  tags:
+  - Git repositories
+- name: Variable
+  tags:
+  - Variable Main Calls
+- name: Lifecycle Template
+  tags:
+  - Lifecycle Template Main Calls
+- name: Admin
+  tags:
+  - User Sign Up
+- name: Alerting
+  tags:
+  - Alert Receivers
+  - Alert Rules

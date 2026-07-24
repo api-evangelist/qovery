@@ -1,0 +1,500 @@
+openapi: 3.0.0
+info:
+  version: 1.0.4
+  title: Qovery Account Info Deployment Stage Main Calls API
+  description: '- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider.
+
+    - ℹ️ The API is stable and still in development.
+
+    '
+  contact:
+    name: Qovery Product Team
+    url: https://www.qovery.com
+    email: support+api+documentation@qovery.com
+  x-logo:
+    url: https://console.qovery.com/assets/logos/logo-white.svg
+    altText: Qovery
+servers:
+- url: https://api.qovery.com
+security:
+- bearerAuth: []
+- ApiKeyAuth: []
+tags:
+- name: Deployment Stage Main Calls
+paths:
+  /environment/{environmentId}/deploymentStage:
+    get:
+      summary: List environment deployment stage
+      operationId: ListEnvironmentDeploymentStage
+      parameters:
+      - $ref: '#/components/parameters/environmentId'
+      tags:
+      - Deployment Stage Main Calls
+      responses:
+        '200':
+          description: List deployment stage
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeploymentStageResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    post:
+      summary: Create environment deployment stage
+      operationId: CreateEnvironmentDeploymentStage
+      parameters:
+      - $ref: '#/components/parameters/environmentId'
+      tags:
+      - Deployment Stage Main Calls
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeploymentStageRequest'
+      responses:
+        '200':
+          description: created deployment stage
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeploymentStageResponse'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /deploymentStage/{deploymentStageId}:
+    get:
+      summary: Get Deployment Stage
+      operationId: getDeploymentStage
+      parameters:
+      - $ref: '#/components/parameters/deploymentStageId'
+      tags:
+      - Deployment Stage Main Calls
+      responses:
+        '200':
+          description: Get Deployment Stage
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeploymentStageResponse'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    delete:
+      summary: Delete deployment stage
+      operationId: DeleteDeploymentStage
+      parameters:
+      - $ref: '#/components/parameters/deploymentStageId'
+      tags:
+      - Deployment Stage Main Calls
+      responses:
+        '204':
+          $ref: '#/components/responses/204'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    put:
+      summary: Edit deployment stage
+      operationId: EditDeploymentStage
+      parameters:
+      - $ref: '#/components/parameters/deploymentStageId'
+      tags:
+      - Deployment Stage Main Calls
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeploymentStageRequest'
+      responses:
+        '200':
+          description: created deployment stage
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeploymentStageResponse'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /deploymentStage/{deploymentStageId}/service/{serviceId}:
+    put:
+      summary: Attach service to deployment stage
+      description: 'Moves the service to the specified deployment stage. To skip a service from environment-level deployments while keeping it in its current stage, set `is_skipped: true` in the request body. Moving the service to a different stage automatically un-skips it (sets `is_skipped: false`).'
+      operationId: AttachServiceToDeploymentStage
+      parameters:
+      - $ref: '#/components/parameters/deploymentStageId'
+      - $ref: '#/components/parameters/serviceId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                is_skipped:
+                  type: boolean
+                  description: When true, marks the service as skipped (excluded from environment-level bulk deployments) while keeping it in the specified stage. When false or omitted, the service is moved to the specified stage and un-skipped.
+      tags:
+      - Deployment Stage Main Calls
+      responses:
+        '200':
+          description: List of deployment stages for the env
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeploymentStageResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /deploymentStage/{deploymentStageId}/moveBefore/{stageId}:
+    put:
+      summary: Move deployment stage before requested stage
+      operationId: MoveBeforeDeploymentStage
+      parameters:
+      - $ref: '#/components/parameters/deploymentStageId'
+      - $ref: '#/components/parameters/stageId'
+      tags:
+      - Deployment Stage Main Calls
+      responses:
+        '200':
+          description: List deployment stage
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeploymentStageResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /deploymentStage/{deploymentStageId}/moveAfter/{stageId}:
+    put:
+      summary: Move deployment stage after requested stage
+      operationId: MoveAfterDeploymentStage
+      parameters:
+      - $ref: '#/components/parameters/deploymentStageId'
+      - $ref: '#/components/parameters/stageId'
+      tags:
+      - Deployment Stage Main Calls
+      responses:
+        '200':
+          description: List deployment stage
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeploymentStageResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /service/{serviceId}/deploymentStage:
+    get:
+      summary: Get Service Deployment Stage
+      operationId: getServiceDeploymentStage
+      parameters:
+      - $ref: '#/components/parameters/serviceId'
+      tags:
+      - Deployment Stage Main Calls
+      responses:
+        '200':
+          description: Get Service Deployment Stage
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeploymentStageResponse'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+components:
+  responses:
+    '404':
+      description: Resource not found
+    '403':
+      description: Access forbidden
+    '204':
+      description: no content
+    '401':
+      description: Access token is missing or invalid
+  schemas:
+    DeploymentStageRequest:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          description: The name of the deployment stage
+        description:
+          type: string
+          nullable: true
+          description: free test describing this stage
+    ReferenceObject:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+    DeploymentStageServiceResponse:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        properties:
+          service_id:
+            type: string
+            format: uuid
+            description: id of the service attached to the stage
+          service_type:
+            type: string
+            description: type of the service (i.e APPLICATION, JOB, DATABASE, ...)
+          is_skipped:
+            type: boolean
+            description: whether the service is excluded from environment-level deployments
+    Base:
+      type: object
+      required:
+      - id
+      - created_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          readOnly: true
+          format: date-time
+        updated_at:
+          type: string
+          readOnly: true
+          format: date-time
+    DeploymentStageResponse:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        required:
+        - environment
+        properties:
+          environment:
+            $ref: '#/components/schemas/ReferenceObject'
+          name:
+            type: string
+            description: name is case insensitive
+          description:
+            type: string
+          deployment_order:
+            type: integer
+            description: Position of the deployment stage within the environment
+            example: 1
+          services:
+            $ref: '#/components/schemas/DeploymentStageServiceResponseList'
+    DeploymentStageResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/DeploymentStageResponse'
+    DeploymentStageServiceResponseList:
+      type: array
+      items:
+        $ref: '#/components/schemas/DeploymentStageServiceResponse'
+  parameters:
+    serviceId:
+      name: serviceId
+      in: path
+      description: Service ID of an application/job/container/database
+      required: true
+      schema:
+        type: string
+        format: uuid
+    stageId:
+      name: stageId
+      in: path
+      description: Deployment Stage ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+    deploymentStageId:
+      name: deploymentStageId
+      in: path
+      description: Deployment Stage ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+    environmentId:
+      name: environmentId
+      in: path
+      description: Environment ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'JWT tokens should be used with OIDC account (human to machine). JWT tokens used by the Qovery console to communicate with the API have a TTL. Curl Example '' curl https://console.qovery.com/organization -H "Authorization: Bearer $qovery_token" '''
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'Token API are generated by Qovery to manage machine to machine interaction and do not have a TTL. Curl Example '' curl https://console.qovery.com/organization -H "Authorization: Token $qovery_token" '''
+x-tagGroups:
+- name: Organization
+  tags:
+  - Organization Main Calls
+  - Organization Api Token
+  - Organization Account Git Repositories
+  - Organization Cluster Lock
+  - Organization Webhook
+  - Organization Custom Role
+  - Organization Event
+  - Organization Annotations Group
+  - Organization Labels Group
+  - Organization Enterprise Connection
+  - Projects
+  - Members
+  - Billing
+  - Clusters
+  - Cloud Provider
+  - Cloud Provider Credentials
+  - Github App
+  - Container Registries
+  - Helm Repositories
+- name: Project
+  tags:
+  - Project Main Calls
+  - Environments
+  - Project Deployment Rule
+  - Project Environment Variable
+  - Project Secret
+- name: Environment
+  tags:
+  - Environment Main Calls
+  - Applications
+  - Containers
+  - Databases
+  - Jobs
+  - Helms
+  - Terraforms
+  - Environment Actions
+  - Environment Logs
+  - Environment Deployment History
+  - Environment Deployment Rule
+  - Environment Variable
+  - Environment Secret
+  - Environment Export
+- name: Deployment Stage
+  tags:
+  - Deployment Stage Main Calls
+- name: Application
+  tags:
+  - Application Main Calls
+  - Application Actions
+  - Application Configuration
+  - Application Custom Domain
+  - Application Database
+  - Application Logs
+  - Application Deployment Restriction
+  - Application Deployment History
+  - Application Environment Variable
+  - Application Secret
+  - Application Annotations Group
+- name: Container
+  tags:
+  - Container Main Calls
+  - Container Actions
+  - Container Configuration
+  - Container Custom Domain
+  - Container Database
+  - Container Logs
+  - Container Deployment History
+  - Container Environment Variable
+  - Container Secret
+  - Container Annotations Group
+- name: Database
+  tags:
+  - Database Main Calls
+  - Database Actions
+  - Database Applications
+  - Database Deployment History
+  - Database Containers
+  - Database Application
+  - Database Container
+  - Backups
+  - Database Annotations Group
+- name: Job
+  tags:
+  - Job Main Calls
+  - Job Actions
+  - Job Configuration
+  - Job Custom Domain
+  - Job Deployment Restriction
+  - Job Deployment History
+  - Job Environment Variable
+  - Job Secret
+  - Job Annotations Group
+- name: Helm
+  tags:
+  - Helm Main Calls
+  - Helm Actions
+  - Helm Configuration
+  - Helm Custom Domain
+  - Helm Deployment Restriction
+  - Helm Deployment History
+- name: Terraform
+  tags:
+  - Terraform Main Calls
+  - Terraform Actions
+  - Terraform Configuration
+  - Terraform Deployment Restriction
+  - Terraform Deployment History
+- name: Account
+  tags:
+  - Account Info
+  - Git repositories
+  - Referral & Rewards
+- name: Git
+  tags:
+  - Git repositories
+- name: Variable
+  tags:
+  - Variable Main Calls
+- name: Lifecycle Template
+  tags:
+  - Lifecycle Template Main Calls
+- name: Admin
+  tags:
+  - User Sign Up
+- name: Alerting
+  tags:
+  - Alert Receivers
+  - Alert Rules

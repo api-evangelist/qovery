@@ -1,0 +1,356 @@
+openapi: 3.0.0
+info:
+  version: 1.0.4
+  title: Qovery Account Info Organization Api Token API
+  description: '- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider.
+
+    - ℹ️ The API is stable and still in development.
+
+    '
+  contact:
+    name: Qovery Product Team
+    url: https://www.qovery.com
+    email: support+api+documentation@qovery.com
+  x-logo:
+    url: https://console.qovery.com/assets/logos/logo-white.svg
+    altText: Qovery
+servers:
+- url: https://api.qovery.com
+security:
+- bearerAuth: []
+- ApiKeyAuth: []
+tags:
+- name: Organization Api Token
+paths:
+  /organization/{organizationId}/apiToken:
+    get:
+      summary: List organization api tokens
+      description: List organization api tokens
+      operationId: listOrganizationApiTokens
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - in: query
+        name: name
+        schema:
+          type: string
+        required: false
+        description: Name of the token to filter results by.
+      - in: query
+        name: creatorName
+        schema:
+          type: string
+        required: false
+        description: Name of the token creator to filter results by.
+      tags:
+      - Organization Api Token
+      responses:
+        '200':
+          description: List organization api tokens
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationApiTokenResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    post:
+      summary: Create an organization api token
+      description: Create an organization api token. You can use the generated token to interact in a programmatic way with our API.
+      operationId: createOrganizationApiToken
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      tags:
+      - Organization Api Token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizationApiTokenCreateRequest'
+      responses:
+        '201':
+          description: Organization api token created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationApiTokenCreate'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          description: Organization Api Token name is already taken
+  /organization/{organizationId}/apiToken/{apiTokenId}:
+    delete:
+      summary: Delete organization api token
+      description: Delete organization api token
+      operationId: deleteOrganizationApiToken
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - name: apiTokenId
+        in: path
+        description: Organization Api Token ID
+        required: true
+        schema:
+          type: string
+          format: uuid
+      tags:
+      - Organization Api Token
+      responses:
+        '204':
+          $ref: '#/components/responses/204'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+components:
+  schemas:
+    OrganizationApiToken:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        properties:
+          name:
+            type: string
+          description:
+            type: string
+          role_name:
+            type: string
+          role_id:
+            type: string
+            format: uuid
+    OrganizationApiTokenCreateRequest:
+      type: object
+      required:
+      - name
+      - role_id
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        scope:
+          $ref: '#/components/schemas/OrganizationApiTokenScope'
+        role_id:
+          type: string
+          format: uuid
+          nullable: true
+          description: the roleId provided by the "List organization custom roles" endpoint.
+    OrganizationApiTokenCreate:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        properties:
+          name:
+            type: string
+          description:
+            type: string
+          token:
+            type: string
+            description: the generated token to send in 'Authorization' header prefixed by 'Token '
+          role_name:
+            type: string
+          role_id:
+            type: string
+            format: uuid
+    OrganizationApiTokenScope:
+      type: string
+      nullable: true
+      description: deprecated
+      enum:
+      - ADMIN
+    Base:
+      type: object
+      required:
+      - id
+      - created_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          readOnly: true
+          format: date-time
+        updated_at:
+          type: string
+          readOnly: true
+          format: date-time
+    OrganizationApiTokenResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrganizationApiToken'
+  responses:
+    '403':
+      description: Access forbidden
+    '204':
+      description: no content
+    '404':
+      description: Resource not found
+    '400':
+      description: Bad request
+    '401':
+      description: Access token is missing or invalid
+  parameters:
+    organizationId:
+      name: organizationId
+      in: path
+      description: Organization ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'JWT tokens should be used with OIDC account (human to machine). JWT tokens used by the Qovery console to communicate with the API have a TTL. Curl Example '' curl https://console.qovery.com/organization -H "Authorization: Bearer $qovery_token" '''
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'Token API are generated by Qovery to manage machine to machine interaction and do not have a TTL. Curl Example '' curl https://console.qovery.com/organization -H "Authorization: Token $qovery_token" '''
+x-tagGroups:
+- name: Organization
+  tags:
+  - Organization Main Calls
+  - Organization Api Token
+  - Organization Account Git Repositories
+  - Organization Cluster Lock
+  - Organization Webhook
+  - Organization Custom Role
+  - Organization Event
+  - Organization Annotations Group
+  - Organization Labels Group
+  - Organization Enterprise Connection
+  - Projects
+  - Members
+  - Billing
+  - Clusters
+  - Cloud Provider
+  - Cloud Provider Credentials
+  - Github App
+  - Container Registries
+  - Helm Repositories
+- name: Project
+  tags:
+  - Project Main Calls
+  - Environments
+  - Project Deployment Rule
+  - Project Environment Variable
+  - Project Secret
+- name: Environment
+  tags:
+  - Environment Main Calls
+  - Applications
+  - Containers
+  - Databases
+  - Jobs
+  - Helms
+  - Terraforms
+  - Environment Actions
+  - Environment Logs
+  - Environment Deployment History
+  - Environment Deployment Rule
+  - Environment Variable
+  - Environment Secret
+  - Environment Export
+- name: Deployment Stage
+  tags:
+  - Deployment Stage Main Calls
+- name: Application
+  tags:
+  - Application Main Calls
+  - Application Actions
+  - Application Configuration
+  - Application Custom Domain
+  - Application Database
+  - Application Logs
+  - Application Deployment Restriction
+  - Application Deployment History
+  - Application Environment Variable
+  - Application Secret
+  - Application Annotations Group
+- name: Container
+  tags:
+  - Container Main Calls
+  - Container Actions
+  - Container Configuration
+  - Container Custom Domain
+  - Container Database
+  - Container Logs
+  - Container Deployment History
+  - Container Environment Variable
+  - Container Secret
+  - Container Annotations Group
+- name: Database
+  tags:
+  - Database Main Calls
+  - Database Actions
+  - Database Applications
+  - Database Deployment History
+  - Database Containers
+  - Database Application
+  - Database Container
+  - Backups
+  - Database Annotations Group
+- name: Job
+  tags:
+  - Job Main Calls
+  - Job Actions
+  - Job Configuration
+  - Job Custom Domain
+  - Job Deployment Restriction
+  - Job Deployment History
+  - Job Environment Variable
+  - Job Secret
+  - Job Annotations Group
+- name: Helm
+  tags:
+  - Helm Main Calls
+  - Helm Actions
+  - Helm Configuration
+  - Helm Custom Domain
+  - Helm Deployment Restriction
+  - Helm Deployment History
+- name: Terraform
+  tags:
+  - Terraform Main Calls
+  - Terraform Actions
+  - Terraform Configuration
+  - Terraform Deployment Restriction
+  - Terraform Deployment History
+- name: Account
+  tags:
+  - Account Info
+  - Git repositories
+  - Referral & Rewards
+- name: Git
+  tags:
+  - Git repositories
+- name: Variable
+  tags:
+  - Variable Main Calls
+- name: Lifecycle Template
+  tags:
+  - Lifecycle Template Main Calls
+- name: Admin
+  tags:
+  - User Sign Up
+- name: Alerting
+  tags:
+  - Alert Receivers
+  - Alert Rules

@@ -1,0 +1,563 @@
+openapi: 3.0.0
+info:
+  version: 1.0.4
+  title: Qovery Account Info Organization Event API
+  description: '- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider.
+
+    - ℹ️ The API is stable and still in development.
+
+    '
+  contact:
+    name: Qovery Product Team
+    url: https://www.qovery.com
+    email: support+api+documentation@qovery.com
+  x-logo:
+    url: https://console.qovery.com/assets/logos/logo-white.svg
+    altText: Qovery
+servers:
+- url: https://api.qovery.com
+security:
+- bearerAuth: []
+- ApiKeyAuth: []
+tags:
+- name: Organization Event
+paths:
+  /organization/{organizationId}/events:
+    get:
+      summary: Get all events inside the organization
+      description: Get all events inside the organization
+      operationId: getOrganizationEvents
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - in: query
+        name: pageSize
+        description: The number of events to display in the current page
+        schema:
+          type: number
+          nullable: true
+          default: 10
+      - in: query
+        name: fromTimestamp
+        description: "Display events triggered since this timestamp.  \nA range of date can be specified by using `from-timestamp` with `to-timestamp`\nThe format is a timestamp with nano precision\n"
+        schema:
+          type: string
+          nullable: true
+      - in: query
+        name: toTimestamp
+        description: "Display events triggered before this timestamp.  \nA range of date can be specified by using `to-timestamp` with `from-timestamp`\nThe format is a timestamp with nano precision\n"
+        schema:
+          type: string
+          nullable: true
+      - in: query
+        name: continueToken
+        description: 'Token used to fetch the next page results
+
+          The format is a timestamp with nano precision
+
+          '
+        schema:
+          type: string
+      - in: query
+        name: stepBackToken
+        description: 'Token used to fetch the previous page results
+
+          The format is a timestamp with nano precision
+
+          '
+        schema:
+          type: string
+      - in: query
+        name: eventType
+        schema:
+          $ref: '#/components/schemas/OrganizationEventType'
+      - in: query
+        name: targetType
+        schema:
+          $ref: '#/components/schemas/OrganizationEventTargetType'
+      - in: query
+        name: targetId
+        description: "The target resource id to search.  \nMust be specified with the corresponding `target_type`\n"
+        schema:
+          type: string
+          format: uuid
+          nullable: true
+      - in: query
+        name: subTargetType
+        schema:
+          $ref: '#/components/schemas/OrganizationEventSubTargetType'
+      - in: query
+        name: triggeredBy
+        description: Information about the owner of the event (user name / apitoken / automatic action)
+        schema:
+          type: string
+      - in: query
+        name: origin
+        schema:
+          $ref: '#/components/schemas/OrganizationEventOrigin'
+      - in: query
+        name: serviceProjectId
+        description: The project chosen when filtering on a service type
+        schema:
+          type: string
+      - in: query
+        name: serviceEnvironmentId
+        description: The environment chosen when filtering on a service type
+        schema:
+          type: string
+      tags:
+      - Organization Event
+      responses:
+        '200':
+          description: Get organization events
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationEventResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /organization/{organizationId}/targets:
+    get:
+      summary: Get available event targets to filter events
+      description: Get available event targets to filter events
+      operationId: getOrganizationEventTargets
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - in: query
+        name: fromTimestamp
+        description: "Display targets available since this timestamp.  \nA range of date can be specified by using `from-timestamp` with `to-timestamp`\nThe format is a timestamp with nano precision\n"
+        schema:
+          type: string
+          nullable: true
+      - in: query
+        name: toTimestamp
+        description: "Display targets triggered before this timestamp.  \nA range of date can be specified by using `to-timestamp` with `from-timestamp`\nThe format is a timestamp with nano precision\n"
+        schema:
+          type: string
+          nullable: true
+      - in: query
+        name: eventType
+        schema:
+          $ref: '#/components/schemas/OrganizationEventType'
+      - in: query
+        name: targetType
+        schema:
+          $ref: '#/components/schemas/OrganizationEventTargetType'
+      - in: query
+        name: triggeredBy
+        description: Information about the owner of the event (user name / apitoken / automatic action)
+        schema:
+          type: string
+      - in: query
+        name: origin
+        schema:
+          $ref: '#/components/schemas/OrganizationEventOrigin'
+      - in: query
+        name: projectId
+        description: Mandatory when requesting an environment or a service
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: environmentId
+        description: Mandatory when requesting a service
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: targetLevelToFetch
+        description: Used only to retrieve projects or environments linked to service typed events
+        schema:
+          $ref: '#/components/schemas/OrganizationEventTargetLevel'
+      tags:
+      - Organization Event
+      responses:
+        '200':
+          description: Get organization event targets
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationEventTargetResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+components:
+  schemas:
+    OrganizationEventTargetLevel:
+      type: string
+      description: The target level to fetch
+      enum:
+      - PROJECT
+      - ENVIRONMENT
+    OrganizationEventOrigin:
+      type: string
+      description: Origin of the organization event
+      enum:
+      - API
+      - CLI
+      - CONSOLE
+      - GIT
+      - QOVERY_INTERNAL
+      - TERRAFORM_PROVIDER
+      example: API
+    OrganizationEventSubTargetType:
+      type: string
+      description: Type of the organization event
+      nullable: true
+      enum:
+      - ADVANCED_SETTINGS
+      - ALERT_RULE
+      - ANNOTATIONS_GROUP
+      - API_TOKEN
+      - BILLING_INFO
+      - BILLING_USAGE_REPORT
+      - CLOUD_PROVIDER_CREDENTIALS
+      - CLUSTER_CREDENTIALS
+      - CLUSTER_ROUTING_TABLE
+      - CONFIG
+      - CREDIT_CARD
+      - CREDIT_CODE
+      - CUSTOM_DOMAIN
+      - CUSTOM_ROLE
+      - DEPLOYMENT_RULE
+      - DEPLOYMENT_STAGE
+      - GITHUB_APP
+      - GIT_REPOSITORY
+      - GIT_TOKEN
+      - INVITATION
+      - KUBERNETES_CONFIGURATION
+      - KUBERNETES_CREDENTIALS
+      - LABELS_GROUP
+      - MEMBER_ROLE
+      - PLAN
+      - REMOTE_ACCESS
+      - SECRET
+      - SSO
+      - TERRAFORM
+      - TRANSFER_OWNERSHIP
+      - VARIABLE
+      example: ADVANCED_SETTINGS
+    OrganizationEventResponseList:
+      type: object
+      properties:
+        links:
+          type: object
+          properties:
+            previous:
+              type: string
+              format: uri
+            next:
+              type: string
+              format: uri
+        organization_max_limit_reached:
+          type: boolean
+          description: Indicates if you cannot see previous logs according to your organization max limit
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrganizationEventResponse'
+    OrganizationEventResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        timestamp:
+          type: string
+          format: date-time
+        event_type:
+          $ref: '#/components/schemas/OrganizationEventType'
+        target_id:
+          type: string
+          format: uuid
+          nullable: true
+        target_name:
+          type: string
+        target_type:
+          $ref: '#/components/schemas/OrganizationEventTargetType'
+        sub_target_type:
+          $ref: '#/components/schemas/OrganizationEventSubTargetType'
+        change:
+          type: string
+        origin:
+          $ref: '#/components/schemas/OrganizationEventOrigin'
+        triggered_by:
+          type: string
+        project_id:
+          type: string
+          format: uuid
+          nullable: true
+        project_name:
+          type: string
+        environment_id:
+          type: string
+          format: uuid
+          nullable: true
+        environment_name:
+          type: string
+        user_agent:
+          type: string
+          nullable: true
+        original_change:
+          type: string
+          nullable: true
+      description: ''
+      title: ''
+    OrganizationEventTargetType:
+      type: string
+      description: Type of the organization event
+      enum:
+      - APPLICATION
+      - CLUSTER
+      - CONTAINER
+      - CONTAINER_REGISTRY
+      - DATABASE
+      - ENTERPRISE_CONNECTION
+      - ENVIRONMENT
+      - JOB
+      - HELM
+      - HELM_REPOSITORY
+      - MEMBERS_AND_ROLES
+      - ORGANIZATION
+      - PROJECT
+      - WEBHOOK
+      - TERRAFORM
+      example: APPLICATION
+      title: ''
+    OrganizationEventTargetResponseList:
+      type: object
+      properties:
+        targets:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              name:
+                type: string
+    OrganizationEventType:
+      type: string
+      description: Type of the organization event
+      enum:
+      - CREATE
+      - UPDATE
+      - DELETE
+      - ACCEPT
+      - EXPORT
+      - CLONE
+      - DEPLOY_QUEUED
+      - STOP_QUEUED
+      - RESTART_QUEUED
+      - DELETE_QUEUED
+      - UNINSTALL_QUEUED
+      - MAINTENANCE
+      - DRY_RUN
+      - TRIGGER_REDEPLOY
+      - TRIGGER_CANCEL
+      - FORCE_RUN_QUEUED
+      - FORCE_RUN_QUEUED_DEPLOY
+      - FORCE_RUN_QUEUED_STOP
+      - FORCE_RUN_QUEUED_DELETE
+      - TRIGGER_DEPLOY
+      - TRIGGER_STOP
+      - TRIGGER_RESTART
+      - TRIGGER_DELETE
+      - TRIGGER_UNINSTALL
+      - TRIGGER_DEPLOY_DRY_RUN
+      - TRIGGER_TERRAFORM_FORCE_UNLOCK
+      - TRIGGER_TERRAFORM_MIGRATE_STATE
+      - TRIGGER_FORCE_RUN
+      - TRIGGER_FORCE_RUN_DEPLOY
+      - TRIGGER_FORCE_RUN_STOP
+      - TRIGGER_FORCE_RUN_DELETE
+      - DEPLOYED
+      - STOPPED
+      - DELETED
+      - UNINSTALLED
+      - RESTARTED
+      - DEPLOYED_DRY_RUN
+      - FORCE_RUN_SUCCEEDED
+      - TERRAFORM_FORCE_UNLOCK_SUCCEEDED
+      - TERRAFORM_MIGRATE_STATE_SUCCEEDED
+      - DEPLOY_FAILED
+      - STOP_FAILED
+      - DELETE_FAILED
+      - UNINSTALL_FAILED
+      - RESTART_FAILED
+      - DEPLOYED_DRY_RUN_FAILED
+      - FORCE_RUN_FAILED
+      - TERRAFORM_FORCE_UNLOCK_FAILED
+      - TERRAFORM_MIGRATE_STATE_FAILED
+      - SHELL
+      - PORT_FORWARD
+      - REMOTE_DEBUG
+      - IMPORT
+      - LOCK
+      - UNLOCK
+      example: CREATE
+  responses:
+    '403':
+      description: Access forbidden
+    '404':
+      description: Resource not found
+    '401':
+      description: Access token is missing or invalid
+  parameters:
+    organizationId:
+      name: organizationId
+      in: path
+      description: Organization ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'JWT tokens should be used with OIDC account (human to machine). JWT tokens used by the Qovery console to communicate with the API have a TTL. Curl Example '' curl https://console.qovery.com/organization -H "Authorization: Bearer $qovery_token" '''
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'Token API are generated by Qovery to manage machine to machine interaction and do not have a TTL. Curl Example '' curl https://console.qovery.com/organization -H "Authorization: Token $qovery_token" '''
+x-tagGroups:
+- name: Organization
+  tags:
+  - Organization Main Calls
+  - Organization Api Token
+  - Organization Account Git Repositories
+  - Organization Cluster Lock
+  - Organization Webhook
+  - Organization Custom Role
+  - Organization Event
+  - Organization Annotations Group
+  - Organization Labels Group
+  - Organization Enterprise Connection
+  - Projects
+  - Members
+  - Billing
+  - Clusters
+  - Cloud Provider
+  - Cloud Provider Credentials
+  - Github App
+  - Container Registries
+  - Helm Repositories
+- name: Project
+  tags:
+  - Project Main Calls
+  - Environments
+  - Project Deployment Rule
+  - Project Environment Variable
+  - Project Secret
+- name: Environment
+  tags:
+  - Environment Main Calls
+  - Applications
+  - Containers
+  - Databases
+  - Jobs
+  - Helms
+  - Terraforms
+  - Environment Actions
+  - Environment Logs
+  - Environment Deployment History
+  - Environment Deployment Rule
+  - Environment Variable
+  - Environment Secret
+  - Environment Export
+- name: Deployment Stage
+  tags:
+  - Deployment Stage Main Calls
+- name: Application
+  tags:
+  - Application Main Calls
+  - Application Actions
+  - Application Configuration
+  - Application Custom Domain
+  - Application Database
+  - Application Logs
+  - Application Deployment Restriction
+  - Application Deployment History
+  - Application Environment Variable
+  - Application Secret
+  - Application Annotations Group
+- name: Container
+  tags:
+  - Container Main Calls
+  - Container Actions
+  - Container Configuration
+  - Container Custom Domain
+  - Container Database
+  - Container Logs
+  - Container Deployment History
+  - Container Environment Variable
+  - Container Secret
+  - Container Annotations Group
+- name: Database
+  tags:
+  - Database Main Calls
+  - Database Actions
+  - Database Applications
+  - Database Deployment History
+  - Database Containers
+  - Database Application
+  - Database Container
+  - Backups
+  - Database Annotations Group
+- name: Job
+  tags:
+  - Job Main Calls
+  - Job Actions
+  - Job Configuration
+  - Job Custom Domain
+  - Job Deployment Restriction
+  - Job Deployment History
+  - Job Environment Variable
+  - Job Secret
+  - Job Annotations Group
+- name: Helm
+  tags:
+  - Helm Main Calls
+  - Helm Actions
+  - Helm Configuration
+  - Helm Custom Domain
+  - Helm Deployment Restriction
+  - Helm Deployment History
+- name: Terraform
+  tags:
+  - Terraform Main Calls
+  - Terraform Actions
+  - Terraform Configuration
+  - Terraform Deployment Restriction
+  - Terraform Deployment History
+- name: Account
+  tags:
+  - Account Info
+  - Git repositories
+  - Referral & Rewards
+- name: Git
+  tags:
+  - Git repositories
+- name: Variable
+  tags:
+  - Variable Main Calls
+- name: Lifecycle Template
+  tags:
+  - Lifecycle Template Main Calls
+- name: Admin
+  tags:
+  - User Sign Up
+- name: Alerting
+  tags:
+  - Alert Receivers
+  - Alert Rules

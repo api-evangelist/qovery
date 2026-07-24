@@ -1,0 +1,620 @@
+openapi: 3.0.0
+info:
+  version: 1.0.4
+  title: Qovery Account Info Container Registries API
+  description: '- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider.
+
+    - ℹ️ The API is stable and still in development.
+
+    '
+  contact:
+    name: Qovery Product Team
+    url: https://www.qovery.com
+    email: support+api+documentation@qovery.com
+  x-logo:
+    url: https://console.qovery.com/assets/logos/logo-white.svg
+    altText: Qovery
+servers:
+- url: https://api.qovery.com
+security:
+- bearerAuth: []
+- ApiKeyAuth: []
+tags:
+- name: Container Registries
+paths:
+  /organization/{organizationId}/containerRegistry:
+    get:
+      summary: List organization container registries
+      operationId: listContainerRegistry
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      tags:
+      - Container Registries
+      responses:
+        '200':
+          description: List container registries
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContainerRegistryResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    post:
+      summary: Create a container registry
+      operationId: createContainerRegistry
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      tags:
+      - Container Registries
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContainerRegistryRequest'
+      responses:
+        '201':
+          description: Create a Container Registry
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContainerRegistryResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /organization/{organizationId}/containerRegistry/{containerRegistryId}:
+    get:
+      summary: Get a container registry
+      operationId: getContainerRegistry
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/containerRegistryId'
+      tags:
+      - Container Registries
+      responses:
+        '200':
+          description: The container registry
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContainerRegistryResponse'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    delete:
+      summary: Delete a container registry
+      operationId: deleteContainerRegistry
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/containerRegistryId'
+      tags:
+      - Container Registries
+      responses:
+        '204':
+          $ref: '#/components/responses/204-deletion'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    put:
+      summary: Edit a container registry
+      operationId: editContainerRegistry
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/containerRegistryId'
+      tags:
+      - Container Registries
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContainerRegistryRequest'
+      responses:
+        '200':
+          description: Edited the container registry
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContainerRegistryResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /organization/{organizationId}/containerRegistry/{containerRegistryId}/images:
+    get:
+      summary: List image version for a container registry
+      operationId: getContainerVersions
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/containerRegistryId'
+      - $ref: '#/components/parameters/imageName'
+      - $ref: '#/components/parameters/searchImageName'
+      tags:
+      - Container Registries
+      responses:
+        '200':
+          description: The container registry versions list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContainerVersionResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /availableContainerRegistry:
+    get:
+      summary: List supported container registries
+      description: List supported container registries by Qovery and get the mandatory authentification configuration.
+      operationId: listAvailableContainerRegistry
+      tags:
+      - Container Registries
+      responses:
+        '200':
+          description: supported container registries
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AvailableContainerRegistryResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+components:
+  responses:
+    '404':
+      description: Resource not found
+    204-deletion:
+      description: The resource was deleted successfully
+    '403':
+      description: Access forbidden
+    '400':
+      description: Bad request
+    '401':
+      description: Access token is missing or invalid
+  parameters:
+    searchImageName:
+      name: search
+      in: query
+      required: false
+      description: partial container image name to search
+      schema:
+        type: string
+    containerRegistryId:
+      name: containerRegistryId
+      in: path
+      description: Container Registry ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+    imageName:
+      name: imageName
+      in: query
+      required: false
+      description: container image name
+      schema:
+        type: string
+    organizationId:
+      name: organizationId
+      in: path
+      description: Organization ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+  schemas:
+    ContainerVersionResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContainerVersionResponse'
+    ContainerRegistryResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContainerRegistryResponse'
+    ContainerRegistryKindEnum:
+      type: string
+      enum:
+      - ECR
+      - SCALEWAY_CR
+      - DOCKER_HUB
+      - GITHUB_CR
+      - GITHUB_ENTERPRISE_CR
+      - GITLAB_CR
+      - PUBLIC_ECR
+      - DOCR
+      - GENERIC_CR
+      - GCP_ARTIFACT_REGISTRY
+      - AZURE_CR
+      description: The type of your container registry
+    ContainerVersionResponse:
+      type: object
+      properties:
+        image_name:
+          type: string
+        versions:
+          type: array
+          items:
+            type: string
+    AvailableContainerRegistryResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/AvailableContainerRegistryResponse'
+    ContainerRegistryRequest:
+      type: object
+      required:
+      - name
+      - kind
+      - config
+      properties:
+        name:
+          type: string
+        kind:
+          $ref: '#/components/schemas/ContainerRegistryKindEnum'
+        description:
+          type: string
+        url:
+          type: string
+          format: uri
+          description: 'URL of the container registry:
+
+            * For `DOCKER_HUB`: it must be `https://docker.io` (default with ''https://docker.io'' if no url provided for `DOCKER_HUB`)
+
+            * For `GITHUB_CR`: it must be `https://ghcr.io` (default with ''https://ghcr.io'' if no url provided for `GITHUB_CR`)
+
+            * For `GITLAB_CR`: it must be `https://registry.gitlab.com` (default with ''https://registry.gitlab.com'' if no url provided for `GITLAB_CR`)
+
+            * For others: it''s required and must start by `https://`
+
+            '
+        config:
+          type: object
+          description: 'This field is dependent of the container registry kind:
+
+            * `ECR` needs in the config: region, access_key_id, secret_access_key
+
+            * `SCALEWAY_CR` needs in the config: region, scaleway_access_key, scaleway_secret_key
+
+            * `GCP_ARTIFACT_REGISTRY` needs in the config: region, json_credentials
+
+            * `DOCKER_HUB` needs in the config (optional): username, password
+
+            * `GITHUB_CR` needs in the config (optional): username, password
+
+            * `GITLAB_CR` needs in the config (optional): username, password
+
+            * `PUBLIC_ECR` doesn''t need credentials info
+
+            * `GENERIC_CR` needs in the config (optional): username, password
+
+            * `DOCR` is not supported anymore
+
+            '
+          properties:
+            access_key_id:
+              type: string
+              description: Required if kind is `ECR` or `PUBLIC_ECR`
+            secret_access_key:
+              type: string
+              description: Required if kind is `ECR` or `PUBLIC_ECR`
+            region:
+              type: string
+              description: Required if kind is `ECR` or `SCALEWAY_CR`
+            scaleway_access_key:
+              type: string
+              description: Required if kind is `SCALEWAY_CR`
+            scaleway_secret_key:
+              type: string
+              description: Required if kind is `SCALEWAY_CR`
+            scaleway_project_id:
+              type: string
+              x-stoplight:
+                id: eomu5mjvhi6uu
+              description: Required if kind is `SCALEWAY_CR`
+            json_credentials:
+              type: string
+              description: Required if kind is `GCP_ARTIFACT_REGISTRY`
+            username:
+              type: string
+              description: "optional, for kind `DOCKER_HUB`  \nWe encourage you to set credentials for Docker Hub due to the limits on the pull rate\n"
+            password:
+              type: string
+              description: "optional, for kind `DOCKER_HUB`  \nWe encourage you to set credentials for Docker Hub due to the limits on the pull rate\n"
+            role_arn:
+              type: string
+              x-stoplight:
+                id: mzi9w1zsswj47
+              description: For ECR, you can either set a static access_key or use a role arn that we are going to assume
+            azure_tenant_id:
+              type: string
+              x-stoplight:
+                id: zjybtgippp0k2
+              description: Required if kind is `AZURE_CR`.
+            azure_subscription_id:
+              type: string
+              x-stoplight:
+                id: eaqm4swmqt9ty
+              description: Required if kind is `AZURE_CR`.
+    ContainerRegistryResponse:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        properties:
+          name:
+            type: string
+          kind:
+            $ref: '#/components/schemas/ContainerRegistryKindEnum'
+          description:
+            type: string
+          url:
+            type: string
+            description: URL of the container registry
+          cluster:
+            type: object
+            required:
+            - id
+            - name
+            properties:
+              id:
+                type: string
+                x-stoplight:
+                  id: y0l22s5yhh4ez
+                format: uuid
+              name:
+                type: string
+                x-stoplight:
+                  id: 5jak2m85ljxaa
+          associated_services_count:
+            type: integer
+            x-stoplight:
+              id: 02mqr04rogfem
+            description: The number of services using this container registry
+          config:
+            type: object
+            x-stoplight:
+              id: s9rg5wox9j00z
+            properties:
+              username:
+                type: string
+                x-stoplight:
+                  id: 9g2hk57o11s8k
+              region:
+                type: string
+                x-stoplight:
+                  id: fo0nnlsnrdn0k
+              scaleway_access_key:
+                type: string
+                x-stoplight:
+                  id: fdb55y4vnpndk
+              scaleway_project_id:
+                type: string
+                x-stoplight:
+                  id: ra9oc489c2wyt
+              access_key_id:
+                type: string
+                x-stoplight:
+                  id: s5elye0gv4lks
+              role_arn:
+                type: string
+                x-stoplight:
+                  id: iusxfgcmg72tl
+              azure_tenant_id:
+                type: string
+                x-stoplight:
+                  id: obk7v9hlx3jv4
+              azure_subscription_id:
+                type: string
+                x-stoplight:
+                  id: nrvn3j8xq81da
+              azure_application_id:
+                type: string
+                x-stoplight:
+                  id: t4jvfihz1ml04
+              azure_application_object_id:
+                type: string
+                x-stoplight:
+                  id: 2soynl0stz0lh
+    AvailableContainerRegistryResponse:
+      type: object
+      required:
+      - kind
+      - required_config
+      - is_mandatory
+      properties:
+        kind:
+          $ref: '#/components/schemas/ContainerRegistryKindEnum'
+        required_config:
+          type: object
+          additionalProperties: true
+        is_mandatory:
+          type: boolean
+    Base:
+      type: object
+      required:
+      - id
+      - created_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          readOnly: true
+          format: date-time
+        updated_at:
+          type: string
+          readOnly: true
+          format: date-time
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'JWT tokens should be used with OIDC account (human to machine). JWT tokens used by the Qovery console to communicate with the API have a TTL. Curl Example '' curl https://console.qovery.com/organization -H "Authorization: Bearer $qovery_token" '''
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'Token API are generated by Qovery to manage machine to machine interaction and do not have a TTL. Curl Example '' curl https://console.qovery.com/organization -H "Authorization: Token $qovery_token" '''
+x-tagGroups:
+- name: Organization
+  tags:
+  - Organization Main Calls
+  - Organization Api Token
+  - Organization Account Git Repositories
+  - Organization Cluster Lock
+  - Organization Webhook
+  - Organization Custom Role
+  - Organization Event
+  - Organization Annotations Group
+  - Organization Labels Group
+  - Organization Enterprise Connection
+  - Projects
+  - Members
+  - Billing
+  - Clusters
+  - Cloud Provider
+  - Cloud Provider Credentials
+  - Github App
+  - Container Registries
+  - Helm Repositories
+- name: Project
+  tags:
+  - Project Main Calls
+  - Environments
+  - Project Deployment Rule
+  - Project Environment Variable
+  - Project Secret
+- name: Environment
+  tags:
+  - Environment Main Calls
+  - Applications
+  - Containers
+  - Databases
+  - Jobs
+  - Helms
+  - Terraforms
+  - Environment Actions
+  - Environment Logs
+  - Environment Deployment History
+  - Environment Deployment Rule
+  - Environment Variable
+  - Environment Secret
+  - Environment Export
+- name: Deployment Stage
+  tags:
+  - Deployment Stage Main Calls
+- name: Application
+  tags:
+  - Application Main Calls
+  - Application Actions
+  - Application Configuration
+  - Application Custom Domain
+  - Application Database
+  - Application Logs
+  - Application Deployment Restriction
+  - Application Deployment History
+  - Application Environment Variable
+  - Application Secret
+  - Application Annotations Group
+- name: Container
+  tags:
+  - Container Main Calls
+  - Container Actions
+  - Container Configuration
+  - Container Custom Domain
+  - Container Database
+  - Container Logs
+  - Container Deployment History
+  - Container Environment Variable
+  - Container Secret
+  - Container Annotations Group
+- name: Database
+  tags:
+  - Database Main Calls
+  - Database Actions
+  - Database Applications
+  - Database Deployment History
+  - Database Containers
+  - Database Application
+  - Database Container
+  - Backups
+  - Database Annotations Group
+- name: Job
+  tags:
+  - Job Main Calls
+  - Job Actions
+  - Job Configuration
+  - Job Custom Domain
+  - Job Deployment Restriction
+  - Job Deployment History
+  - Job Environment Variable
+  - Job Secret
+  - Job Annotations Group
+- name: Helm
+  tags:
+  - Helm Main Calls
+  - Helm Actions
+  - Helm Configuration
+  - Helm Custom Domain
+  - Helm Deployment Restriction
+  - Helm Deployment History
+- name: Terraform
+  tags:
+  - Terraform Main Calls
+  - Terraform Actions
+  - Terraform Configuration
+  - Terraform Deployment Restriction
+  - Terraform Deployment History
+- name: Account
+  tags:
+  - Account Info
+  - Git repositories
+  - Referral & Rewards
+- name: Git
+  tags:
+  - Git repositories
+- name: Variable
+  tags:
+  - Variable Main Calls
+- name: Lifecycle Template
+  tags:
+  - Lifecycle Template Main Calls
+- name: Admin
+  tags:
+  - User Sign Up
+- name: Alerting
+  tags:
+  - Alert Receivers
+  - Alert Rules

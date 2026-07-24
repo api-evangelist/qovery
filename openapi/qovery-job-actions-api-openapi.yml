@@ -1,0 +1,548 @@
+openapi: 3.0.0
+info:
+  version: 1.0.4
+  title: Qovery Account Info Job Actions API
+  description: '- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider.
+
+    - ℹ️ The API is stable and still in development.
+
+    '
+  contact:
+    name: Qovery Product Team
+    url: https://www.qovery.com
+    email: support+api+documentation@qovery.com
+  x-logo:
+    url: https://console.qovery.com/assets/logos/logo-white.svg
+    altText: Qovery
+servers:
+- url: https://api.qovery.com
+security:
+- bearerAuth: []
+- ApiKeyAuth: []
+tags:
+- name: Job Actions
+paths:
+  /job/{jobId}/deploy:
+    post:
+      summary: Deploy job
+      description: You must provide a git commit id or an image tag depending on the source location of your code (git vs image repository).
+      operationId: deployJob
+      parameters:
+      - $ref: '#/components/parameters/jobId'
+      - name: forceEvent
+        in: query
+        required: false
+        description: "When filled, it indicates the target event to be deployed.  \nIf the concerned job hasn't the target event provided, the job won't be deployed.\n"
+        schema:
+          $ref: '#/components/schemas/JobForceEvent'
+      tags:
+      - Job Actions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JobDeployRequest'
+      responses:
+        '202':
+          description: Deploy job
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          description: Operation is in progress
+  /job/{jobId}/uninstall:
+    parameters:
+    - schema:
+        type: string
+      name: jobId
+      in: path
+      required: true
+    post:
+      summary: Uninstall job
+      description: Delete the resources of the job but keep Qovery configuration
+      operationId: uninstallJob
+      parameters:
+      - $ref: '#/components/parameters/jobId'
+      tags:
+      - Job Actions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: {}
+      responses:
+        '202':
+          description: Delete the compute and data of the service, but keep Qovery configuration
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '204':
+          description: No deployment has been triggered
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          description: Operation is in progress
+      x-stoplight:
+        id: s4xgct6hdxymt
+  /job/{jobId}/redeploy:
+    post:
+      summary: Redeploy job
+      operationId: redeployJob
+      parameters:
+      - $ref: '#/components/parameters/jobId'
+      - name: forceEvent
+        in: query
+        required: false
+        description: "When filled, it indicates the target event to be deployed.  \nIf the concerned job hasn't the target event provided, the job won't be deployed.\n"
+        schema:
+          $ref: '#/components/schemas/JobForceEvent'
+      tags:
+      - Job Actions
+      responses:
+        '202':
+          description: Job redeploy has been requested
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          description: Operation is in progress
+  /job/{jobId}/stop:
+    post:
+      summary: Stop job
+      operationId: stopJob
+      parameters:
+      - $ref: '#/components/parameters/jobId'
+      tags:
+      - Job Actions
+      responses:
+        '202':
+          description: Job stop has been requested
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          description: Job is already stopped or an operation is in progress
+  /job/{jobId}/cleanFailedJob:
+    parameters:
+    - schema:
+        type: string
+      name: jobId
+      in: path
+      required: true
+    post:
+      summary: Clean a failed job
+      tags:
+      - Job Actions
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  clean_kubernetes_jobs:
+                    type: array
+                    x-stoplight:
+                      id: 2mgfos3e33m8v
+                    items:
+                      x-stoplight:
+                        id: r4hfdr509e05z
+                      type: string
+      operationId: cleanFailedJob
+      x-stoplight:
+        id: eu77thczavme3
+components:
+  schemas:
+    ServiceStepMetric:
+      type: object
+      properties:
+        step_name:
+          $ref: '#/components/schemas/ServiceStepMetricNameEnum'
+        status:
+          $ref: '#/components/schemas/StepMetricStatusEnum'
+        duration_sec:
+          description: The duration of the step in seconds.
+          type: integer
+    ServiceActionStatusEnum:
+      type: string
+      enum:
+      - QUEUED
+      - ONGOING
+      - SUCCESS
+      - ERROR
+      - EXECUTING
+      - CANCELED
+      - CANCELING
+      - NEVER
+    StateEnum:
+      type: string
+      enum:
+      - BUILDING
+      - BUILD_ERROR
+      - CANCELED
+      - CANCELING
+      - DELETED
+      - DELETE_ERROR
+      - DELETE_QUEUED
+      - DELETING
+      - DEPLOYED
+      - DEPLOYING
+      - DEPLOYMENT_ERROR
+      - DEPLOYMENT_QUEUED
+      - EXECUTING
+      - QUEUED
+      - READY
+      - RECAP
+      - RESTARTED
+      - RESTARTING
+      - RESTART_ERROR
+      - RESTART_QUEUED
+      - STOPPED
+      - STOPPING
+      - STOP_ERROR
+      - STOP_QUEUED
+      - UNAVAILABLE
+      - WAITING_DELETING
+      - WAITING_RESTARTING
+      - WAITING_RUNNING
+      - WAITING_STOPPING
+    ServiceActionEnum:
+      type: string
+      enum:
+      - DEPLOY
+      - DELETE
+      - RESTART
+      - STOP
+      - UNKNOWN
+    ServiceDeploymentStatusEnum:
+      type: string
+      enum:
+      - NEVER_DEPLOYED
+      - OUT_OF_DATE
+      - UP_TO_DATE
+    ServiceSubActionEnum:
+      type: string
+      default: NONE
+      enum:
+      - NONE
+      - TERRAFORM_PLAN_ONLY
+      - TERRAFORM_PLAN_AND_APPLY
+      - TERRAFORM_DESTROY
+      - TERRAFORM_FORCE_UNLOCK_STATE
+      - TERRAFORM_MIGRATE_STATE
+    Status:
+      type: object
+      required:
+      - id
+      - state
+      - service_deployment_status
+      - status_details
+      - is_part_last_deployment
+      - deployment_requests_count
+      - deployment_request_id
+      properties:
+        id:
+          type: string
+          format: uuid
+        state:
+          $ref: '#/components/schemas/StateEnum'
+        service_deployment_status:
+          $ref: '#/components/schemas/ServiceDeploymentStatusEnum'
+        last_deployment_date:
+          type: string
+          format: date-time
+        is_part_last_deployment:
+          type: boolean
+        steps:
+          $ref: '#/components/schemas/ServiceStepMetrics'
+        execution_id:
+          type: string
+          x-stoplight:
+            id: 3o9tz4272s2ct
+        status_details:
+          $ref: '#/components/schemas/StatusDetails'
+        deployment_request_id:
+          type: string
+          x-stoplight:
+            id: bepixrb7tyzme
+          format: uuid
+          nullable: true
+        deployment_requests_count:
+          type: integer
+          x-stoplight:
+            id: crku532vt3v4p
+    ServiceStepMetrics:
+      type: object
+      required:
+      - total_duration_sec
+      - total_computing_duration_sec
+      - details
+      properties:
+        total_duration_sec:
+          description: The total duration in seconds of the service deployment or null if the deployment is not completed.
+          type: integer
+          nullable: true
+        total_computing_duration_sec:
+          description: The total duration in seconds of the service deployment without queuing steps.
+          type: integer
+        details:
+          description: A list of metrics for deployment steps of the service.
+          type: array
+          items:
+            $ref: '#/components/schemas/ServiceStepMetric'
+    JobDeployRequest:
+      type: object
+      properties:
+        image_tag:
+          type: string
+          description: "Image tag to deploy.  \nCannot be set if `git_commit_id` is defined\n"
+        git_commit_id:
+          type: string
+          description: 'Commit to deploy
+
+            Cannot be set if `image_tag` is defined
+
+            '
+    StepMetricStatusEnum:
+      type: string
+      enum:
+      - SUCCESS
+      - ERROR
+      - CANCEL
+      - SKIP
+      description: 'The status of completion for the step:
+
+        - SUCCESS: The step completed successfully.
+
+        - ERROR: The step completed with an error.
+
+        - CANCEL: The step was canceled.
+
+        - SKIP: The step was skipped because it was not necessary.
+
+        '
+    JobForceEvent:
+      type: string
+      enum:
+      - START
+      - STOP
+      - DELETE
+      - CRON
+    ServiceStepMetricNameEnum:
+      type: string
+      enum:
+      - REGISTRY_CREATE_REPOSITORY
+      - GIT_CLONE
+      - BUILD_QUEUEING
+      - BUILD
+      - DEPLOYMENT_QUEUEING
+      - DEPLOYMENT
+      - ROUTER_DEPLOYMENT
+      - MIRROR_IMAGE
+      - EXECUTING
+      description: "The name of the deployment step at the service level:\n- REGISTRY_CREATE_REPOSITORY: The step to create the repository in the registry.\n- GIT_CLONE: The step to clone the source code repository. \n- BUILD_QUEUEING: The queuing time preceding the actual building step.\n- BUILD: The step to build the source code.\n- DEPLOYMENT_QUEUEING: The queuing time preceding the actual deployment step.\n- DEPLOYMENT: The step to deploy the service. \n- ROUTER_DEPLOYMENT: The step to deploy the router. \n- MIRROR_IMAGE: The step to mirror the image to the private registry.\n- EXECUTING: The step to execute a job or terraform apply.\n"
+    StatusDetails:
+      type: object
+      required:
+      - action
+      - status
+      - sub_action
+      properties:
+        action:
+          $ref: '#/components/schemas/ServiceActionEnum'
+        status:
+          $ref: '#/components/schemas/ServiceActionStatusEnum'
+        sub_action:
+          $ref: '#/components/schemas/ServiceSubActionEnum'
+  parameters:
+    jobId:
+      name: jobId
+      in: path
+      description: Job ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+  responses:
+    '403':
+      description: Access forbidden
+    '404':
+      description: Resource not found
+    '400':
+      description: Bad request
+    '401':
+      description: Access token is missing or invalid
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'JWT tokens should be used with OIDC account (human to machine). JWT tokens used by the Qovery console to communicate with the API have a TTL. Curl Example '' curl https://console.qovery.com/organization -H "Authorization: Bearer $qovery_token" '''
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'Token API are generated by Qovery to manage machine to machine interaction and do not have a TTL. Curl Example '' curl https://console.qovery.com/organization -H "Authorization: Token $qovery_token" '''
+x-tagGroups:
+- name: Organization
+  tags:
+  - Organization Main Calls
+  - Organization Api Token
+  - Organization Account Git Repositories
+  - Organization Cluster Lock
+  - Organization Webhook
+  - Organization Custom Role
+  - Organization Event
+  - Organization Annotations Group
+  - Organization Labels Group
+  - Organization Enterprise Connection
+  - Projects
+  - Members
+  - Billing
+  - Clusters
+  - Cloud Provider
+  - Cloud Provider Credentials
+  - Github App
+  - Container Registries
+  - Helm Repositories
+- name: Project
+  tags:
+  - Project Main Calls
+  - Environments
+  - Project Deployment Rule
+  - Project Environment Variable
+  - Project Secret
+- name: Environment
+  tags:
+  - Environment Main Calls
+  - Applications
+  - Containers
+  - Databases
+  - Jobs
+  - Helms
+  - Terraforms
+  - Environment Actions
+  - Environment Logs
+  - Environment Deployment History
+  - Environment Deployment Rule
+  - Environment Variable
+  - Environment Secret
+  - Environment Export
+- name: Deployment Stage
+  tags:
+  - Deployment Stage Main Calls
+- name: Application
+  tags:
+  - Application Main Calls
+  - Application Actions
+  - Application Configuration
+  - Application Custom Domain
+  - Application Database
+  - Application Logs
+  - Application Deployment Restriction
+  - Application Deployment History
+  - Application Environment Variable
+  - Application Secret
+  - Application Annotations Group
+- name: Container
+  tags:
+  - Container Main Calls
+  - Container Actions
+  - Container Configuration
+  - Container Custom Domain
+  - Container Database
+  - Container Logs
+  - Container Deployment History
+  - Container Environment Variable
+  - Container Secret
+  - Container Annotations Group
+- name: Database
+  tags:
+  - Database Main Calls
+  - Database Actions
+  - Database Applications
+  - Database Deployment History
+  - Database Containers
+  - Database Application
+  - Database Container
+  - Backups
+  - Database Annotations Group
+- name: Job
+  tags:
+  - Job Main Calls
+  - Job Actions
+  - Job Configuration
+  - Job Custom Domain
+  - Job Deployment Restriction
+  - Job Deployment History
+  - Job Environment Variable
+  - Job Secret
+  - Job Annotations Group
+- name: Helm
+  tags:
+  - Helm Main Calls
+  - Helm Actions
+  - Helm Configuration
+  - Helm Custom Domain
+  - Helm Deployment Restriction
+  - Helm Deployment History
+- name: Terraform
+  tags:
+  - Terraform Main Calls
+  - Terraform Actions
+  - Terraform Configuration
+  - Terraform Deployment Restriction
+  - Terraform Deployment History
+- name: Account
+  tags:
+  - Account Info
+  - Git repositories
+  - Referral & Rewards
+- name: Git
+  tags:
+  - Git repositories
+- name: Variable
+  tags:
+  - Variable Main Calls
+- name: Lifecycle Template
+  tags:
+  - Lifecycle Template Main Calls
+- name: Admin
+  tags:
+  - User Sign Up
+- name: Alerting
+  tags:
+  - Alert Receivers
+  - Alert Rules

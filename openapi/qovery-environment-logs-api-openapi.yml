@@ -1,0 +1,375 @@
+openapi: 3.0.0
+info:
+  version: 1.0.4
+  title: Qovery Account Info Environment Logs API
+  description: '- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider.
+
+    - ℹ️ The API is stable and still in development.
+
+    '
+  contact:
+    name: Qovery Product Team
+    url: https://www.qovery.com
+    email: support+api+documentation@qovery.com
+  x-logo:
+    url: https://console.qovery.com/assets/logos/logo-white.svg
+    altText: Qovery
+servers:
+- url: https://api.qovery.com
+security:
+- bearerAuth: []
+- ApiKeyAuth: []
+tags:
+- name: Environment Logs
+paths:
+  /environment/{environmentId}/log:
+    get:
+      summary: List environment deployment logs
+      operationId: listEnvironmentLog
+      description: This returns the last 1000 environment deployment logs.
+      parameters:
+      - $ref: '#/components/parameters/environmentId'
+      tags:
+      - Environment Logs
+      responses:
+        '200':
+          description: List logs
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnvironmentLogResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /environment/{environmentId}/logs:
+    get:
+      summary: List environment deployment logs v2
+      operationId: listEnvironmentLogs
+      description: This returns the last 1000 environment deployment logs v2
+      parameters:
+      - $ref: '#/components/parameters/environmentId'
+      - in: query
+        name: version
+        schema:
+          type: string
+      tags:
+      - Environment Logs
+      responses:
+        '200':
+          description: List logs v2
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnvironmentLogsResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+components:
+  responses:
+    '404':
+      description: Resource not found
+    '403':
+      description: Access forbidden
+    '401':
+      description: Access token is missing or invalid
+  schemas:
+    EnvironmentLogResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/EnvironmentLog'
+    StatusKindEnum:
+      type: string
+      enum:
+      - CANCELED
+      - CANCELING
+      - DELETED
+      - DELETE_ERROR
+      - DELETE_IN_PROGRESS
+      - DEPLOYED
+      - DEPLOYMENT_ERROR
+      - DEPLOYMENT_IN_PROGRESS
+      - ERROR
+      - PAUSED
+      - PAUSE_ERROR
+      - PAUSE_IN_PROGRESS
+      - WAITING
+    EnvironmentLogTypeEnum:
+      type: string
+      enum:
+      - APPLICATION
+      - DATABASE
+      - ENVIRONMENT
+    EnvironmentLog:
+      type: object
+      required:
+      - id
+      - created_at
+      - service
+      - status
+      - message
+      properties:
+        id:
+          type: string
+          format: uuid
+        created_at:
+          type: string
+          format: date-time
+        scope:
+          type: object
+          properties:
+            type:
+              $ref: '#/components/schemas/EnvironmentLogTypeEnum'
+            name:
+              type: string
+            id:
+              type: string
+              format: uuid
+        state:
+          $ref: '#/components/schemas/StatusKindEnum'
+        message:
+          type: string
+          nullable: true
+          description: Log message
+        execution_id:
+          type: string
+          description: Only for errors. Helps Qovery team to investigate.
+        hint:
+          type: string
+          example: only for errors. it gives a possible action to the user -- Markdown can be injected
+    EnvironmentLogs:
+      type: object
+      required:
+      - type
+      - timestamp
+      - details
+      properties:
+        type:
+          type: string
+          format: string
+        timestamp:
+          type: string
+          format: date-time
+        details:
+          type: object
+          properties:
+            organization_id:
+              type: string
+              format: uuid
+            cluster_id:
+              type: string
+              format: uuid
+            execution_id:
+              type: string
+            transmitter:
+              type: object
+              properties:
+                id:
+                  type: string
+                  format: uuid
+                name:
+                  type: string
+                type:
+                  type: string
+            stage:
+              type: object
+              properties:
+                step:
+                  type: string
+                id:
+                  type: string
+                  format: uuid
+                  nullable: true
+                name:
+                  type: string
+                  nullable: true
+        error:
+          type: object
+          nullable: true
+          properties:
+            tag:
+              type: string
+            user_log_message:
+              type: string
+            link:
+              type: string
+            hint_message:
+              type: string
+            underlying_error:
+              type: object
+              properties:
+                message:
+                  type: string
+                full_details:
+                  type: string
+        message:
+          type: object
+          nullable: true
+          properties:
+            safe_message:
+              type: string
+            full_details:
+              type: string
+    EnvironmentLogsResponseList:
+      type: array
+      items:
+        $ref: '#/components/schemas/EnvironmentLogs'
+  parameters:
+    environmentId:
+      name: environmentId
+      in: path
+      description: Environment ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'JWT tokens should be used with OIDC account (human to machine). JWT tokens used by the Qovery console to communicate with the API have a TTL. Curl Example '' curl https://console.qovery.com/organization -H "Authorization: Bearer $qovery_token" '''
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'Token API are generated by Qovery to manage machine to machine interaction and do not have a TTL. Curl Example '' curl https://console.qovery.com/organization -H "Authorization: Token $qovery_token" '''
+x-tagGroups:
+- name: Organization
+  tags:
+  - Organization Main Calls
+  - Organization Api Token
+  - Organization Account Git Repositories
+  - Organization Cluster Lock
+  - Organization Webhook
+  - Organization Custom Role
+  - Organization Event
+  - Organization Annotations Group
+  - Organization Labels Group
+  - Organization Enterprise Connection
+  - Projects
+  - Members
+  - Billing
+  - Clusters
+  - Cloud Provider
+  - Cloud Provider Credentials
+  - Github App
+  - Container Registries
+  - Helm Repositories
+- name: Project
+  tags:
+  - Project Main Calls
+  - Environments
+  - Project Deployment Rule
+  - Project Environment Variable
+  - Project Secret
+- name: Environment
+  tags:
+  - Environment Main Calls
+  - Applications
+  - Containers
+  - Databases
+  - Jobs
+  - Helms
+  - Terraforms
+  - Environment Actions
+  - Environment Logs
+  - Environment Deployment History
+  - Environment Deployment Rule
+  - Environment Variable
+  - Environment Secret
+  - Environment Export
+- name: Deployment Stage
+  tags:
+  - Deployment Stage Main Calls
+- name: Application
+  tags:
+  - Application Main Calls
+  - Application Actions
+  - Application Configuration
+  - Application Custom Domain
+  - Application Database
+  - Application Logs
+  - Application Deployment Restriction
+  - Application Deployment History
+  - Application Environment Variable
+  - Application Secret
+  - Application Annotations Group
+- name: Container
+  tags:
+  - Container Main Calls
+  - Container Actions
+  - Container Configuration
+  - Container Custom Domain
+  - Container Database
+  - Container Logs
+  - Container Deployment History
+  - Container Environment Variable
+  - Container Secret
+  - Container Annotations Group
+- name: Database
+  tags:
+  - Database Main Calls
+  - Database Actions
+  - Database Applications
+  - Database Deployment History
+  - Database Containers
+  - Database Application
+  - Database Container
+  - Backups
+  - Database Annotations Group
+- name: Job
+  tags:
+  - Job Main Calls
+  - Job Actions
+  - Job Configuration
+  - Job Custom Domain
+  - Job Deployment Restriction
+  - Job Deployment History
+  - Job Environment Variable
+  - Job Secret
+  - Job Annotations Group
+- name: Helm
+  tags:
+  - Helm Main Calls
+  - Helm Actions
+  - Helm Configuration
+  - Helm Custom Domain
+  - Helm Deployment Restriction
+  - Helm Deployment History
+- name: Terraform
+  tags:
+  - Terraform Main Calls
+  - Terraform Actions
+  - Terraform Configuration
+  - Terraform Deployment Restriction
+  - Terraform Deployment History
+- name: Account
+  tags:
+  - Account Info
+  - Git repositories
+  - Referral & Rewards
+- name: Git
+  tags:
+  - Git repositories
+- name: Variable
+  tags:
+  - Variable Main Calls
+- name: Lifecycle Template
+  tags:
+  - Lifecycle Template Main Calls
+- name: Admin
+  tags:
+  - User Sign Up
+- name: Alerting
+  tags:
+  - Alert Receivers
+  - Alert Rules

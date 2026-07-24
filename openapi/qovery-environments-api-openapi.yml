@@ -1,0 +1,667 @@
+openapi: 3.0.0
+info:
+  version: 1.0.4
+  title: Qovery Account Info Environments API
+  description: '- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider.
+
+    - ℹ️ The API is stable and still in development.
+
+    '
+  contact:
+    name: Qovery Product Team
+    url: https://www.qovery.com
+    email: support+api+documentation@qovery.com
+  x-logo:
+    url: https://console.qovery.com/assets/logos/logo-white.svg
+    altText: Qovery
+servers:
+- url: https://api.qovery.com
+security:
+- bearerAuth: []
+- ApiKeyAuth: []
+tags:
+- name: Environments
+paths:
+  /project/{projectId}/environment:
+    get:
+      summary: List environments
+      operationId: listEnvironment
+      parameters:
+      - $ref: '#/components/parameters/projectId'
+      tags:
+      - Environments
+      responses:
+        '200':
+          description: List environments
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnvironmentResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    post:
+      summary: Create an environment
+      operationId: createEnvironment
+      parameters:
+      - $ref: '#/components/parameters/projectId'
+      tags:
+      - Environments
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateEnvironmentRequest'
+      responses:
+        '201':
+          description: Create environment
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Environment'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          description: Environment name within the project is already taken
+  /project/{projectId}/environment/status:
+    get:
+      summary: List environments statuses
+      description: Returns a list of environments with only their id and status.
+      operationId: getProjectEnvironmentsStatus
+      parameters:
+      - $ref: '#/components/parameters/projectId'
+      tags:
+      - Environments
+      responses:
+        '200':
+          description: Get status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnvironmentStatusList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /project/{projectId}/environment/stats:
+    get:
+      summary: List total number of services for each environment of the project
+      description: Returns a list of environment ids, and for each its total numberof services
+      operationId: getProjectEnvironmentServiceNumber
+      parameters:
+      - $ref: '#/components/parameters/projectId'
+      tags:
+      - Environments
+      responses:
+        '200':
+          description: Get number of services
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnvironmentStatsResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /project/{projectId}/environment/overview:
+    get:
+      summary: List environments overview
+      description: Returns a list of environments with their overview information including deployment status, service count, and cluster details.
+      operationId: getProjectEnvironmentsOverview
+      parameters:
+      - $ref: '#/components/parameters/projectId'
+      tags:
+      - Environments
+      responses:
+        '200':
+          description: List environments overview
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnvironmentOverviewResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+components:
+  schemas:
+    ReferenceObject:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+    ClusterOverviewResponse:
+      type: object
+      required:
+      - id
+      - name
+      - cloud_provider
+      - is_demo
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        cloud_provider:
+          $ref: '#/components/schemas/CloudVendorEnum'
+        is_demo:
+          type: boolean
+    Environment:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        required:
+        - name
+        - cloud_provider
+        - mode
+        - cluster_id
+        - project
+        - organization
+        properties:
+          name:
+            type: string
+            description: name is case insensitive
+          organization:
+            $ref: '#/components/schemas/ReferenceObject'
+          project:
+            $ref: '#/components/schemas/ReferenceObject'
+          last_updated_by:
+            type: string
+            format: uuid
+            description: uuid of the user that made the last update
+          cloud_provider:
+            type: object
+            properties:
+              provider:
+                type: string
+                example: aws
+              cluster:
+                type: string
+                example: us-east-2
+          mode:
+            $ref: '#/components/schemas/EnvironmentModeEnum'
+          cluster_id:
+            type: string
+            format: uuid
+          cluster_name:
+            type: string
+            format: string
+    EnvironmentResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Environment'
+    CloudVendorEnum:
+      type: string
+      enum:
+      - AWS
+      - SCW
+      - GCP
+      - DO
+      - AZURE
+      - OVH
+      - CIVO
+      - HETZNER
+      - ORACLE
+      - IBM
+      - ON_PREMISE
+    StageStepMetricNameEnum:
+      type: string
+      enum:
+      - TOTAL
+      - QUEUEING
+      - PROVISION_BUILDER
+      description: 'The name of the deployment step at the stage level:
+
+        - TOTAL: The total duration of the stage deployment.
+
+        - QUEUEING: The step preceding the actual stage deployment step.
+
+        - PROVISION_BUILDER: The step to provision builders before the actual build.
+
+        '
+    EnvironmentDeploymentStatusEnum:
+      title: EnvironmentDeploymentStatusEnum
+      x-stoplight:
+        id: sbw3iw6yteyba
+      enum:
+      - NEVER_DEPLOYED
+      - UP_TO_DATE
+      - OUT_OF_DATE
+    CreateEnvironmentModeEnum:
+      type: string
+      enum:
+      - DEVELOPMENT
+      - PRODUCTION
+      - STAGING
+      example: PRODUCTION
+    EnvironmentStatus:
+      type: object
+      required:
+      - id
+      - state
+      - last_deployment_state
+      properties:
+        id:
+          type: string
+          format: uuid
+        state:
+          $ref: '#/components/schemas/StateEnum'
+        last_deployment_date:
+          type: string
+          format: date-time
+          nullable: true
+        last_deployment_state:
+          $ref: '#/components/schemas/StateEnum'
+        last_deployment_id:
+          type: string
+          nullable: true
+        total_deployment_duration_in_seconds:
+          type: integer
+          nullable: true
+        origin:
+          $ref: '#/components/schemas/EnvironmentStatusEventOriginEnum'
+        triggered_by:
+          type: string
+          nullable: true
+        deployment_status:
+          $ref: '#/components/schemas/EnvironmentDeploymentStatusEnum'
+        deployment_request_id:
+          type: string
+          format: uuid
+          nullable: true
+        metrics:
+          type: array
+          nullable: true
+          items:
+            $ref: '#/components/schemas/StageStepMetrics'
+    ServicesOverviewResponse:
+      type: object
+      required:
+      - service_count
+      - managed_by
+      properties:
+        service_count:
+          type: integer
+          format: int32
+        managed_by:
+          type: string
+          enum:
+          - QOVERY
+          - ARGOCD
+          - MIXED
+    StageStepMetrics:
+      type: object
+      properties:
+        stage_id:
+          type: string
+          format: uuid
+        total_duration_sec:
+          description: The total duration in seconds of the stage deployment or null if the deployment is not completed.
+          type: integer
+          nullable: true
+        details:
+          description: A list of metrics for deployment steps of the stage.
+          type: array
+          items:
+            $ref: '#/components/schemas/StageStepMetric'
+    StepMetricStatusEnum:
+      type: string
+      enum:
+      - SUCCESS
+      - ERROR
+      - CANCEL
+      - SKIP
+      description: 'The status of completion for the step:
+
+        - SUCCESS: The step completed successfully.
+
+        - ERROR: The step completed with an error.
+
+        - CANCEL: The step was canceled.
+
+        - SKIP: The step was skipped because it was not necessary.
+
+        '
+    EnvironmentStatusEventOriginEnum:
+      type: string
+      nullable: true
+      description: Origin of the organization event
+      enum:
+      - API
+      - CLI
+      - CONSOLE
+      - GIT
+      - QOVERY_INTERNAL
+      - TERRAFORM_PROVIDER
+      example: API
+    EnvironmentOverviewResponse:
+      type: object
+      required:
+      - id
+      - created_at
+      - updated_at
+      - name
+      - mode
+      - services_overview
+      - cluster
+      properties:
+        id:
+          type: string
+          format: uuid
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        name:
+          type: string
+        mode:
+          $ref: '#/components/schemas/EnvironmentModeEnum'
+        cluster:
+          $ref: '#/components/schemas/ClusterOverviewResponse'
+        services_overview:
+          $ref: '#/components/schemas/ServicesOverviewResponse'
+        deployment_status:
+          nullable: true
+          allOf:
+          - $ref: '#/components/schemas/EnvironmentStatus'
+    StageStepMetric:
+      type: object
+      properties:
+        stage_id:
+          type: string
+          format: uuid
+        step_name:
+          $ref: '#/components/schemas/StageStepMetricNameEnum'
+        status:
+          $ref: '#/components/schemas/StepMetricStatusEnum'
+        duration_sec:
+          description: The duration of the step in seconds.
+          type: integer
+    EnvironmentModeEnum:
+      type: string
+      enum:
+      - DEVELOPMENT
+      - PREVIEW
+      - PRODUCTION
+      - STAGING
+      example: PRODUCTION
+    EnvironmentStatusList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/EnvironmentStatus'
+    CreateEnvironmentRequest:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          description: name is case insensitive
+        cluster:
+          type: string
+          format: uuid
+        mode:
+          $ref: '#/components/schemas/CreateEnvironmentModeEnum'
+    EnvironmentOverviewResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/EnvironmentOverviewResponse'
+    EnvironmentStatsResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/EnvironmentStats'
+    ServiceTotalNumber:
+      type: object
+      required:
+      - number
+      properties:
+        service_total_number:
+          type: number
+    StateEnum:
+      type: string
+      enum:
+      - BUILDING
+      - BUILD_ERROR
+      - CANCELED
+      - CANCELING
+      - DELETED
+      - DELETE_ERROR
+      - DELETE_QUEUED
+      - DELETING
+      - DEPLOYED
+      - DEPLOYING
+      - DEPLOYMENT_ERROR
+      - DEPLOYMENT_QUEUED
+      - EXECUTING
+      - QUEUED
+      - READY
+      - RECAP
+      - RESTARTED
+      - RESTARTING
+      - RESTART_ERROR
+      - RESTART_QUEUED
+      - STOPPED
+      - STOPPING
+      - STOP_ERROR
+      - STOP_QUEUED
+      - UNAVAILABLE
+      - WAITING_DELETING
+      - WAITING_RESTARTING
+      - WAITING_RUNNING
+      - WAITING_STOPPING
+    Base:
+      type: object
+      required:
+      - id
+      - created_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          readOnly: true
+          format: date-time
+        updated_at:
+          type: string
+          readOnly: true
+          format: date-time
+    EnvironmentStats:
+      allOf:
+      - $ref: '#/components/schemas/ReferenceObject'
+      - $ref: '#/components/schemas/ServiceTotalNumber'
+  parameters:
+    projectId:
+      name: projectId
+      in: path
+      description: Project ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+  responses:
+    '400':
+      description: Bad request
+    '403':
+      description: Access forbidden
+    '404':
+      description: Resource not found
+    '401':
+      description: Access token is missing or invalid
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'JWT tokens should be used with OIDC account (human to machine). JWT tokens used by the Qovery console to communicate with the API have a TTL. Curl Example '' curl https://console.qovery.com/organization -H "Authorization: Bearer $qovery_token" '''
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'Token API are generated by Qovery to manage machine to machine interaction and do not have a TTL. Curl Example '' curl https://console.qovery.com/organization -H "Authorization: Token $qovery_token" '''
+x-tagGroups:
+- name: Organization
+  tags:
+  - Organization Main Calls
+  - Organization Api Token
+  - Organization Account Git Repositories
+  - Organization Cluster Lock
+  - Organization Webhook
+  - Organization Custom Role
+  - Organization Event
+  - Organization Annotations Group
+  - Organization Labels Group
+  - Organization Enterprise Connection
+  - Projects
+  - Members
+  - Billing
+  - Clusters
+  - Cloud Provider
+  - Cloud Provider Credentials
+  - Github App
+  - Container Registries
+  - Helm Repositories
+- name: Project
+  tags:
+  - Project Main Calls
+  - Environments
+  - Project Deployment Rule
+  - Project Environment Variable
+  - Project Secret
+- name: Environment
+  tags:
+  - Environment Main Calls
+  - Applications
+  - Containers
+  - Databases
+  - Jobs
+  - Helms
+  - Terraforms
+  - Environment Actions
+  - Environment Logs
+  - Environment Deployment History
+  - Environment Deployment Rule
+  - Environment Variable
+  - Environment Secret
+  - Environment Export
+- name: Deployment Stage
+  tags:
+  - Deployment Stage Main Calls
+- name: Application
+  tags:
+  - Application Main Calls
+  - Application Actions
+  - Application Configuration
+  - Application Custom Domain
+  - Application Database
+  - Application Logs
+  - Application Deployment Restriction
+  - Application Deployment History
+  - Application Environment Variable
+  - Application Secret
+  - Application Annotations Group
+- name: Container
+  tags:
+  - Container Main Calls
+  - Container Actions
+  - Container Configuration
+  - Container Custom Domain
+  - Container Database
+  - Container Logs
+  - Container Deployment History
+  - Container Environment Variable
+  - Container Secret
+  - Container Annotations Group
+- name: Database
+  tags:
+  - Database Main Calls
+  - Database Actions
+  - Database Applications
+  - Database Deployment History
+  - Database Containers
+  - Database Application
+  - Database Container
+  - Backups
+  - Database Annotations Group
+- name: Job
+  tags:
+  - Job Main Calls
+  - Job Actions
+  - Job Configuration
+  - Job Custom Domain
+  - Job Deployment Restriction
+  - Job Deployment History
+  - Job Environment Variable
+  - Job Secret
+  - Job Annotations Group
+- name: Helm
+  tags:
+  - Helm Main Calls
+  - Helm Actions
+  - Helm Configuration
+  - Helm Custom Domain
+  - Helm Deployment Restriction
+  - Helm Deployment History
+- name: Terraform
+  tags:
+  - Terraform Main Calls
+  - Terraform Actions
+  - Terraform Configuration
+  - Terraform Deployment Restriction
+  - Terraform Deployment History
+- name: Account
+  tags:
+  - Account Info
+  - Git repositories
+  - Referral & Rewards
+- name: Git
+  tags:
+  - Git repositories
+- name: Variable
+  tags:
+  - Variable Main Calls
+- name: Lifecycle Template
+  tags:
+  - Lifecycle Template Main Calls
+- name: Admin
+  tags:
+  - User Sign Up
+- name: Alerting
+  tags:
+  - Alert Receivers
+  - Alert Rules

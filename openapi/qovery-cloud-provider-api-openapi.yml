@@ -1,0 +1,1296 @@
+openapi: 3.0.0
+info:
+  version: 1.0.4
+  title: Qovery Account Info Cloud Provider API
+  description: '- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider.
+
+    - ℹ️ The API is stable and still in development.
+
+    '
+  contact:
+    name: Qovery Product Team
+    url: https://www.qovery.com
+    email: support+api+documentation@qovery.com
+  x-logo:
+    url: https://console.qovery.com/assets/logos/logo-white.svg
+    altText: Qovery
+servers:
+- url: https://api.qovery.com
+security:
+- bearerAuth: []
+- ApiKeyAuth: []
+tags:
+- name: Cloud Provider
+paths:
+  /cloudProvider:
+    get:
+      summary: List Cloud providers available
+      operationId: listCloudProvider
+      tags:
+      - Cloud Provider
+      responses:
+        '200':
+          description: list cloud providers
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CloudProviderResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /aws/region:
+    get:
+      summary: List AWS regions
+      operationId: listAWSRegions
+      tags:
+      - Cloud Provider
+      responses:
+        '200':
+          description: list regions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClusterRegionResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /aws/clusterFeature:
+    get:
+      summary: List AWS features available
+      operationId: listAWSFeatures
+      tags:
+      - Cloud Provider
+      responses:
+        '200':
+          description: list features available for AWS cloud provider
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClusterFeatureResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /aws/instanceType:
+    get:
+      summary: List AWS available instance types
+      operationId: listAWSInstanceType
+      tags:
+      - Cloud Provider
+      responses:
+        '200':
+          description: list the instance types available for AWS cloud provider
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClusterInstanceTypeResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /aws/managedDatabase/type:
+    get:
+      summary: List AWS available managed database types
+      operationId: listAWSManagedDatabaseType
+      tags:
+      - Cloud Provider
+      responses:
+        '200':
+          description: list AWS available managed database types
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ManagedDatabaseTypeResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /aws/managedDatabase/instanceType/{region}/{databaseType}:
+    get:
+      summary: List AWS available managed database instance types
+      operationId: listAWSManagedDatabaseInstanceType
+      parameters:
+      - $ref: '#/components/parameters/region'
+      - $ref: '#/components/parameters/databaseType'
+      tags:
+      - Cloud Provider
+      responses:
+        '200':
+          description: list AWS available managed database instance types
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ManagedDatabaseInstanceTypeResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /azure/aks/instanceType/{region}:
+    get:
+      summary: List Azure AKS available instance types
+      operationId: listAzureAKSInstanceType
+      parameters:
+      - $ref: '#/components/parameters/region'
+      - schema:
+          type: boolean
+        in: query
+        name: only_meets_resource_reqs
+      - schema:
+          type: boolean
+        in: query
+        name: with_gpu
+        description: deprecated field, use `gpu` instead
+        deprecated: true
+      - schema:
+          type: string
+          enum:
+          - ONLY
+          - INCLUDE
+          - EXCLUDE
+          default: INCLUDE
+        in: query
+        name: gpu
+      tags:
+      - Cloud Provider
+      responses:
+        '200':
+          description: list the instance types available for Azure AKS by region
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClusterInstanceTypeResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /aws/eks/instanceType/{region}:
+    get:
+      summary: List AWS EKS available instance types
+      operationId: listAWSEKSInstanceType
+      parameters:
+      - $ref: '#/components/parameters/region'
+      - schema:
+          type: boolean
+        in: query
+        name: only_meets_resource_reqs
+      - schema:
+          type: boolean
+        in: query
+        name: with_gpu
+        description: deprecated field, use `gpu` instead
+        deprecated: true
+      - schema:
+          type: string
+          enum:
+          - INCLUDE
+          - EXCLUDE
+          - ONLY
+          default: INCLUDE
+        in: query
+        name: gpu
+        deprecated: true
+      tags:
+      - Cloud Provider
+      responses:
+        '200':
+          description: list the instance types available for AWS EKS by region
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClusterInstanceTypeResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /scaleway/region:
+    get:
+      summary: List Scaleway regions
+      operationId: listScalewayRegions
+      tags:
+      - Cloud Provider
+      responses:
+        '200':
+          description: list regions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClusterRegionResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /scaleway/clusterFeature:
+    get:
+      summary: List Scaleway features available
+      operationId: listScalewayFeatures
+      tags:
+      - Cloud Provider
+      responses:
+        '200':
+          description: list features available for Scaleway cloud provider
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClusterFeatureResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /scaleway/instanceType:
+    get:
+      summary: List Scaleway available instance types
+      operationId: listScalewayInstanceType
+      tags:
+      - Cloud Provider
+      responses:
+        '200':
+          description: list the instance types available for Scaleway cloud provider
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClusterInstanceTypeResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /scaleway/managedDatabase/type:
+    get:
+      summary: List Scaleway available managed database types
+      operationId: listSCWManagedDatabaseType
+      tags:
+      - Cloud Provider
+      responses:
+        '200':
+          description: list Scaleway available managed database types
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ManagedDatabaseTypeResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /scaleway/instanceType/{zone}:
+    get:
+      summary: List Scaleway Kapsule available instance types
+      operationId: listScalewayKapsuleInstanceType
+      parameters:
+      - name: zone
+        in: path
+        description: zone name
+        required: true
+        schema:
+          type: string
+          example: fr-par-1
+      tags:
+      - Cloud Provider
+      responses:
+        '200':
+          description: list the instance types available for Scaleway Kapsule by region
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClusterInstanceTypeResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /gcp/region:
+    get:
+      summary: List GCP regions
+      operationId: listGcpRegions
+      tags:
+      - Cloud Provider
+      responses:
+        '200':
+          description: list regions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClusterRegionResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /gcp/clusterFeature:
+    get:
+      summary: List GCP features available
+      operationId: listGcpFeatures
+      tags:
+      - Cloud Provider
+      responses:
+        '200':
+          description: list features available for GCP cloud provider
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClusterFeatureResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /gcp/instanceType/{region}:
+    get:
+      summary: List GCP GKE available instance types
+      operationId: listGcpGkeInstanceType
+      parameters:
+      - $ref: '#/components/parameters/region'
+      tags:
+      - Cloud Provider
+      responses:
+        '200':
+          description: list the instance types available for GCP GKE by region
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClusterInstanceTypeResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /azure/region:
+    get:
+      summary: List Azure regions
+      tags:
+      - Cloud Provider
+      operationId: listAzureRegions
+      x-stoplight:
+        id: pccuw0fgrkcyf
+      responses:
+        '200':
+          description: list regions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClusterRegionResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /azure/clusterFeature:
+    get:
+      summary: List Azure features available
+      tags:
+      - Cloud Provider
+      responses:
+        '200':
+          description: list features available for Azure cloud provider
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClusterFeatureResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      operationId: listAzureFeatures
+      x-stoplight:
+        id: gjin553b2f7mz
+components:
+  schemas:
+    ClusterFeatureKarpenterParameters:
+      title: ClusterFeatureKarpenterParameters
+      x-stoplight:
+        id: fzprvq41bcge1
+      type: object
+      required:
+      - spot_enabled
+      - disk_size_in_gib
+      - default_service_architecture
+      - qovery_node_pools
+      properties:
+        spot_enabled:
+          type: boolean
+          x-stoplight:
+            id: fuolcs5q8ncp8
+        disk_size_in_gib:
+          type: integer
+        disk_iops:
+          type: integer
+          minimum: 3000
+          maximum: 16000
+          example: 7800
+          description: Unit is operation/seconds. The disk IOPS to be used for the node configuration
+        disk_throughput:
+          type: integer
+          x-stoplight:
+            id: nwpjqw3bf7px0
+          minimum: 125
+          maximum: 1000
+          example: 255
+          description: Unit is in MB/s. The disk throughput to be used for the node configuration
+        default_service_architecture:
+          $ref: '#/components/schemas/CpuArchitectureEnum'
+        qovery_node_pools:
+          $ref: '#/components/schemas/KarpenterNodePool'
+    ManagedDatabaseTypeResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ManagedDatabaseTypeResponse'
+    CloudProvider:
+      type: object
+      properties:
+        short_name:
+          type: string
+        name:
+          type: string
+        logo_url:
+          type: string
+        regions:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClusterRegion'
+    ClusterFeatureAwsExistingVpcResponse:
+      type: object
+      required:
+      - type
+      - value
+      properties:
+        type:
+          $ref: '#/components/schemas/ClusterFeatureResponseTypeEnum'
+        value:
+          $ref: '#/components/schemas/ClusterFeatureAwsExistingVpc'
+    KarpenterNodePoolLimits:
+      title: KarpenterNodePoolLimits
+      type: object
+      required:
+      - enabled
+      - max_cpu_in_vcpu
+      - max_memory_in_gibibytes
+      - max_gpu
+      properties:
+        enabled:
+          type: boolean
+          default: false
+          nullable: false
+        max_cpu_in_vcpu:
+          type: integer
+          description: 'CPU limit that will be applied for the node pool (in vCPU unit: 1 vCPU = 1000 millicores)'
+        max_memory_in_gibibytes:
+          type: integer
+          description: 'Memory limit that will be applied for the node pool (in Gibibytes unit: 1Gi = 1024 mebibytes)'
+        max_gpu:
+          type: integer
+          x-stoplight:
+            id: fn3k34ck5abe4
+          default: 0
+          example: 10
+          minimum: 0
+          description: GPU limit that will be applied for the node pool
+    ClusterRegion:
+      type: object
+      required:
+      - name
+      - country_code
+      - country
+      - city
+      properties:
+        name:
+          type: string
+        country_code:
+          type: string
+        country:
+          type: string
+        city:
+          type: string
+        zones:
+          type: array
+          description: List of availability zones supported by this region
+          items:
+            type: string
+          example:
+          - '1'
+          - '2'
+          - '3'
+    ClusterFeatureBooleanResponse:
+      type: object
+      required:
+      - type
+      - value
+      properties:
+        type:
+          $ref: '#/components/schemas/ClusterFeatureResponseTypeEnum'
+        value:
+          type: boolean
+    KarpenterNodePool:
+      title: KarpenterNodePool
+      x-stoplight:
+        id: q8vks57rql8x1
+      type: object
+      required:
+      - requirements
+      properties:
+        requirements:
+          x-stoplight:
+            id: pkowctfxv7q77
+          type: array
+          items:
+            $ref: '#/components/schemas/KarpenterNodePoolRequirement'
+        stable_override:
+          $ref: '#/components/schemas/KarpenterStableNodePoolOverride'
+        default_override:
+          $ref: '#/components/schemas/KarpenterDefaultNodePoolOverride'
+        gpu_override:
+          $ref: '#/components/schemas/KarpenterGpuNodePoolOverride'
+        cronjob_override:
+          $ref: '#/components/schemas/KarpenterCronjobNodePoolOverride'
+    ClusterFeatureResponseTypeEnum:
+      type: string
+      enum:
+      - STRING
+      - BOOLEAN
+      - AWS_USER_PROVIDED_NETWORK
+      - GCP_USER_PROVIDED_NETWORK
+      - KARPENTER
+    ClusterFeatureAwsExistingVpc:
+      type: object
+      required:
+      - aws_vpc_eks_id
+      - eks_subnets_zone_a_ids
+      - eks_subnets_zone_b_ids
+      - eks_subnets_zone_c_ids
+      properties:
+        aws_vpc_eks_id:
+          type: string
+        eks_subnets_zone_a_ids:
+          type: array
+          items:
+            type: string
+        eks_subnets_zone_b_ids:
+          type: array
+          items:
+            type: string
+        eks_subnets_zone_c_ids:
+          type: array
+          items:
+            type: string
+        documentdb_subnets_zone_a_ids:
+          type: array
+          nullable: true
+          items:
+            type: string
+        documentdb_subnets_zone_b_ids:
+          type: array
+          nullable: true
+          items:
+            type: string
+        documentdb_subnets_zone_c_ids:
+          type: array
+          nullable: true
+          items:
+            type: string
+        elasticache_subnets_zone_a_ids:
+          type: array
+          nullable: true
+          items:
+            type: string
+        elasticache_subnets_zone_b_ids:
+          type: array
+          nullable: true
+          items:
+            type: string
+        elasticache_subnets_zone_c_ids:
+          type: array
+          nullable: true
+          items:
+            type: string
+        rds_subnets_zone_a_ids:
+          type: array
+          nullable: true
+          items:
+            type: string
+        rds_subnets_zone_b_ids:
+          type: array
+          nullable: true
+          items:
+            type: string
+        rds_subnets_zone_c_ids:
+          type: array
+          nullable: true
+          items:
+            type: string
+        eks_karpenter_fargate_subnets_zone_a_ids:
+          type: array
+          x-stoplight:
+            id: 8rttrya00wmkr
+          nullable: true
+          items:
+            x-stoplight:
+              id: rtxx96v011irr
+            type: string
+        eks_karpenter_fargate_subnets_zone_b_ids:
+          type: array
+          x-stoplight:
+            id: xnbtr8676culs
+          nullable: true
+          items:
+            x-stoplight:
+              id: 1w592qk4spodn
+            type: string
+        eks_karpenter_fargate_subnets_zone_c_ids:
+          type: array
+          x-stoplight:
+            id: st5domzqqkcoh
+          nullable: true
+          items:
+            x-stoplight:
+              id: xyjjh50ckrzee
+            type: string
+        eks_create_nodes_in_private_subnet:
+          type: boolean
+          default: true
+    ManagedDatabaseInstanceTypeResponse:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          example: db.t3.medium
+    ClusterFeatureKarpenterParametersResponse:
+      title: ClusterFeatureKarpenterParametersResponse
+      x-stoplight:
+        id: q33tdlz4ychh5
+      type: object
+      required:
+      - type
+      - value
+      properties:
+        type:
+          $ref: '#/components/schemas/ClusterFeatureResponseTypeEnum'
+        value:
+          $ref: '#/components/schemas/ClusterFeatureKarpenterParameters'
+    KarpenterNodePoolRequirementOperator:
+      title: KarpenterNodePoolRequirementOperator
+      x-stoplight:
+        id: wkzlvifywpa0t
+      enum:
+      - In
+    WeekdayEnum:
+      type: string
+      enum:
+      - MONDAY
+      - TUESDAY
+      - WEDNESDAY
+      - THURSDAY
+      - FRIDAY
+      - SATURDAY
+      - SUNDAY
+      example: MONDAY
+    ClusterInstanceGpuInfo:
+      title: ClusterInstanceGpuInfo
+      x-stoplight:
+        id: dfdp50z2mr1cs
+      type: object
+      properties:
+        count:
+          type: integer
+          x-stoplight:
+            id: hbl5jxfcth747
+          description: The number of GPUs included in the instance.
+        name:
+          type: string
+          x-stoplight:
+            id: pregmt5l22afi
+          description: The model name of the GPU.
+        manufacturer:
+          type: string
+          x-stoplight:
+            id: a0e1rvah0xfms
+          description: The manufacturer of the GPUs in the instance.
+        memory_in_mib:
+          type: string
+          x-stoplight:
+            id: 20yjj7h8sjtdu
+          description: The total GPU memory available.
+    CloudProviderResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/CloudProvider'
+    ClusterFeatureResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+          nullable: false
+        description:
+          type: string
+          nullable: true
+        cost_per_month_in_cents:
+          type: integer
+          example: 9900
+          deprecated: true
+          nullable: true
+        cost_per_month:
+          type: number
+          example: 99
+          deprecated: true
+          nullable: true
+        currency_code:
+          type: string
+          example: USD
+          deprecated: true
+          nullable: true
+        is_cloud_provider_paying_feature:
+          type: boolean
+          nullable: false
+          example: true
+        cloud_provider_feature_documentation:
+          type: string
+          example: https://cloud.provider.doc/feature
+          nullable: true
+        is_qovery_paying_feature:
+          type: boolean
+          nullable: false
+          example: true
+        qovery_feature_documentation:
+          type: string
+          example: https://qovery.doc/feature
+          nullable: true
+        value_type:
+          type: string
+          nullable: false
+          enum:
+          - BOOLEAN
+        value_object:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/ClusterFeatureStringResponse'
+          - $ref: '#/components/schemas/ClusterFeatureBooleanResponse'
+          - $ref: '#/components/schemas/ClusterFeatureAwsExistingVpcResponse'
+          - $ref: '#/components/schemas/ClusterFeatureGcpExistingVpcResponse'
+          - $ref: '#/components/schemas/ClusterFeatureKarpenterParametersResponse'
+          discriminator:
+            propertyName: type
+            mapping:
+              STRING: '#/components/schemas/ClusterFeatureStringResponse'
+              BOOLEAN: '#/components/schemas/ClusterFeatureBooleanResponse'
+              AWS_USER_PROVIDED_NETWORK: '#/components/schemas/ClusterFeatureAwsExistingVpcResponse'
+              GCP_USER_PROVIDED_NETWORK: '#/components/schemas/ClusterFeatureGcpExistingVpcResponse'
+              KARPENTER: '#/components/schemas/ClusterFeatureKarpenterParametersResponse'
+        is_value_updatable:
+          type: boolean
+          default: false
+        accepted_values:
+          type: array
+          items:
+            oneOf:
+            - type: string
+            - type: boolean
+    KarpenterCronjobNodePoolOverride:
+      title: KarpenterCronjobNodePoolOverride
+      type: object
+      properties:
+        consolidation:
+          $ref: '#/components/schemas/KarpenterNodePoolConsolidation'
+        limits:
+          $ref: '#/components/schemas/KarpenterNodePoolLimits'
+        consolidate_after:
+          type: string
+          description: 'Time to wait before consolidating empty or underutilized nodes (e.g., 1m, 10m, 1h). Maximum: 24h'
+          example: 30s
+          pattern: ^\d+(s|m|h)$
+    ClusterFeatureGcpExistingVpcResponse:
+      type: object
+      required:
+      - type
+      - value
+      properties:
+        type:
+          $ref: '#/components/schemas/ClusterFeatureResponseTypeEnum'
+        value:
+          $ref: '#/components/schemas/ClusterFeatureGcpExistingVpc'
+    ManagedDatabaseTypeResponse:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          example: MYSQL
+    KarpenterGpuNodePoolOverride:
+      title: KarpenterGpuNodePoolOverride
+      x-stoplight:
+        id: fi2s446xdrdu1
+      type: object
+      properties:
+        consolidation:
+          $ref: '#/components/schemas/KarpenterNodePoolConsolidation'
+        limits:
+          $ref: '#/components/schemas/KarpenterNodePoolLimits'
+        requirements:
+          type: array
+          x-stoplight:
+            id: 38pdri17ozql9
+          items:
+            $ref: '#/components/schemas/KarpenterNodePoolRequirement'
+        disk_size_in_gib:
+          type: integer
+          x-stoplight:
+            id: xq5ycmme7o025
+          minimum: 0
+          default: 100
+          example: 150
+        disk_iops:
+          type: integer
+          x-stoplight:
+            id: gpu1d1skiops
+          minimum: 3000
+          maximum: 16000
+          example: 7800
+          description: Unit is operation/seconds. The disk IOPS to be used for the GPU node pool configuration
+        disk_throughput:
+          type: integer
+          x-stoplight:
+            id: gpu1d1skthr
+          minimum: 125
+          maximum: 1000
+          example: 255
+          description: Unit is in MB/s. The disk throughput to be used for the GPU node pool configuration
+        spot_enabled:
+          type: boolean
+          x-stoplight:
+            id: rjzxs0e2rn0ij
+          default: false
+        consolidate_after:
+          type: string
+          description: 'Time to wait before consolidating empty or underutilized nodes (e.g., 1m, 10m, 1h). Maximum: 24h'
+          example: 30s
+          pattern: ^\d+(s|m|h)$
+    CpuArchitectureEnum:
+      title: CpuArchitectureEnum
+      x-stoplight:
+        id: jlrd3r03vjzoy
+      enum:
+      - AMD64
+      - ARM64
+    KarpenterStableNodePoolOverride:
+      title: KarpenterStableNodePoolOverride
+      type: object
+      properties:
+        consolidation:
+          $ref: '#/components/schemas/KarpenterNodePoolConsolidation'
+        limits:
+          $ref: '#/components/schemas/KarpenterNodePoolLimits'
+        consolidate_after:
+          type: string
+          description: 'Time to wait before consolidating empty or underutilized nodes (e.g., 1m, 10m, 1h). Maximum: 24h'
+          example: 30s
+          pattern: ^\d+(s|m|h)$
+    KarpenterDefaultNodePoolOverride:
+      title: KarpenterDefaultNodePoolOverride
+      type: object
+      properties:
+        limits:
+          $ref: '#/components/schemas/KarpenterNodePoolLimits'
+        consolidate_after:
+          type: string
+          description: 'Time to wait before consolidating empty or underutilized nodes (e.g., 1m, 10m, 1h). Maximum: 24h'
+          example: 1m
+          pattern: ^\d+(s|m|h)$
+    ClusterFeatureGcpExistingVpc:
+      type: object
+      required:
+      - vpc_name
+      properties:
+        vpc_name:
+          type: string
+        vpc_project_id:
+          type: string
+          nullable: true
+        subnetwork_name:
+          type: string
+          nullable: true
+        ip_range_services_name:
+          type: string
+          nullable: true
+        ip_range_pods_name:
+          type: string
+          nullable: true
+        additional_ip_range_pods_names:
+          type: array
+          items:
+            type: string
+    ManagedDatabaseInstanceTypeResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ManagedDatabaseInstanceTypeResponse'
+    ClusterInstanceTypeResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            type: object
+            required:
+            - type
+            - name
+            - cpu
+            - ram_in_gb
+            - bandwidth_in_gbps
+            - bandwidth_guarantee
+            properties:
+              type:
+                type: string
+                example: T3A_XLARGE
+              name:
+                type: string
+                example: t3a.xlarge
+              cpu:
+                type: integer
+                example: 2
+              ram_in_gb:
+                type: integer
+                example: 8
+              bandwidth_in_gbps:
+                type: string
+                example: '5.2'
+              bandwidth_guarantee:
+                type: string
+                example: UpTo
+              architecture:
+                type: string
+                example: ARM64
+              gpu_info:
+                $ref: '#/components/schemas/ClusterInstanceGpuInfo'
+              attributes:
+                $ref: '#/components/schemas/ClusterInstanceAttributes'
+    ClusterFeatureStringResponse:
+      type: object
+      required:
+      - type
+      - value
+      properties:
+        type:
+          $ref: '#/components/schemas/ClusterFeatureResponseTypeEnum'
+        value:
+          type: string
+    ClusterFeatureResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClusterFeatureResponse'
+    KarpenterNodePoolRequirement:
+      title: KarpenterNodePoolRequirement
+      x-stoplight:
+        id: 4ebed64emvn09
+      type: object
+      required:
+      - key
+      - operator
+      - values
+      properties:
+        key:
+          $ref: '#/components/schemas/KarpenterNodePoolRequirementKey'
+        operator:
+          $ref: '#/components/schemas/KarpenterNodePoolRequirementOperator'
+        values:
+          type: array
+          x-stoplight:
+            id: qf036o7tch5ed
+          items:
+            x-stoplight:
+              id: 02kz5mierypik
+            type: string
+    ClusterRegionResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClusterRegion'
+    KarpenterNodePoolRequirementKey:
+      title: KarpenterNodePoolRequirementKey
+      x-stoplight:
+        id: eancn656efy06
+      enum:
+      - InstanceFamily
+      - InstanceSize
+      - Arch
+      - SkuFamily
+      - SkuVersion
+    KarpenterNodePoolConsolidation:
+      title: KarpenterNodePoolConsolidation
+      type: object
+      required:
+      - enabled
+      - days
+      - start_time
+      - duration
+      properties:
+        enabled:
+          type: boolean
+          default: false
+          nullable: false
+        days:
+          type: array
+          nullable: false
+          items:
+            $ref: '#/components/schemas/WeekdayEnum'
+        start_time:
+          description: 'The start date of the consolidation.
+
+            The format should follow ISO-8601 convention: "PThh:mm"
+
+            '
+          type: string
+          example: PT22:30
+          nullable: false
+        duration:
+          description: 'The duration during the consolidation will be active.
+
+            The format should follow ISO-8601 convention: "PThhHmmM"
+
+            '
+          type: string
+          example: PT2H45M
+          nullable: false
+    ClusterInstanceAttributes:
+      title: ClusterInstanceAttributes
+      x-stoplight:
+        id: nxbpo7v2ecz72
+      type: object
+      properties:
+        instance_category:
+          type: string
+          x-stoplight:
+            id: epo9cqt13zoqp
+          description: The category of the instance.
+        instance_generation:
+          type: integer
+          x-stoplight:
+            id: 274hjvkvlycxp
+          description: The generation of the instance.
+        instance_family:
+          type: string
+          x-stoplight:
+            id: ixmy1d0nokjh5
+          description: The family or series of the instance.
+        instance_size:
+          type: string
+          x-stoplight:
+            id: dmnfjmvowgd0a
+          description: Specifies the size of the instance within its family.
+        meets_resource_reqs:
+          type: boolean
+          x-stoplight:
+            id: 8gytpdzm751we
+          description: The instance has sufficient resources to be chosen as a standalone instance in a cluster.
+  parameters:
+    region:
+      name: region
+      in: path
+      description: region name
+      required: true
+      schema:
+        type: string
+        example: us-east-2
+    databaseType:
+      name: databaseType
+      in: path
+      description: Database type
+      required: true
+      schema:
+        type: string
+        example: MYSQL
+  responses:
+    '401':
+      description: Access token is missing or invalid
+    '403':
+      description: Access forbidden
+    '404':
+      description: Resource not found
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'JWT tokens should be used with OIDC account (human to machine). JWT tokens used by the Qovery console to communicate with the API have a TTL. Curl Example '' curl https://console.qovery.com/organization -H "Authorization: Bearer $qovery_token" '''
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'Token API are generated by Qovery to manage machine to machine interaction and do not have a TTL. Curl Example '' curl https://console.qovery.com/organization -H "Authorization: Token $qovery_token" '''
+x-tagGroups:
+- name: Organization
+  tags:
+  - Organization Main Calls
+  - Organization Api Token
+  - Organization Account Git Repositories
+  - Organization Cluster Lock
+  - Organization Webhook
+  - Organization Custom Role
+  - Organization Event
+  - Organization Annotations Group
+  - Organization Labels Group
+  - Organization Enterprise Connection
+  - Projects
+  - Members
+  - Billing
+  - Clusters
+  - Cloud Provider
+  - Cloud Provider Credentials
+  - Github App
+  - Container Registries
+  - Helm Repositories
+- name: Project
+  tags:
+  - Project Main Calls
+  - Environments
+  - Project Deployment Rule
+  - Project Environment Variable
+  - Project Secret
+- name: Environment
+  tags:
+  - Environment Main Calls
+  - Applications
+  - Containers
+  - Databases
+  - Jobs
+  - Helms
+  - Terraforms
+  - Environment Actions
+  - Environment Logs
+  - Environment Deployment History
+  - Environment Deployment Rule
+  - Environment Variable
+  - Environment Secret
+  - Environment Export
+- name: Deployment Stage
+  tags:
+  - Deployment Stage Main Calls
+- name: Application
+  tags:
+  - Application Main Calls
+  - Application Actions
+  - Application Configuration
+  - Application Custom Domain
+  - Application Database
+  - Application Logs
+  - Application Deployment Restriction
+  - Application Deployment History
+  - Application Environment Variable
+  - Application Secret
+  - Application Annotations Group
+- name: Container
+  tags:
+  - Container Main Calls
+  - Container Actions
+  - Container Configuration
+  - Container Custom Domain
+  - Container Database
+  - Container Logs
+  - Container Deployment History
+  - Container Environment Variable
+  - Container Secret
+  - Container Annotations Group
+- name: Database
+  tags:
+  - Database Main Calls
+  - Database Actions
+  - Database Applications
+  - Database Deployment History
+  - Database Containers
+  - Database Application
+  - Database Container
+  - Backups
+  - Database Annotations Group
+- name: Job
+  tags:
+  - Job Main Calls
+  - Job Actions
+  - Job Configuration
+  - Job Custom Domain
+  - Job Deployment Restriction
+  - Job Deployment History
+  - Job Environment Variable
+  - Job Secret
+  - Job Annotations Group
+- name: Helm
+  tags:
+  - Helm Main Calls
+  - Helm Actions
+  - Helm Configuration
+  - Helm Custom Domain
+  - Helm Deployment Restriction
+  - Helm Deployment History
+- name: Terraform
+  tags:
+  - Terraform Main Calls
+  - Terraform Actions
+  - Terraform Configuration
+  - Terraform Deployment Restriction
+  - Terraform Deployment History
+- name: Account
+  tags:
+  - Account Info
+  - Git repositories
+  - Referral & Rewards
+- name: Git
+  tags:
+  - Git repositories
+- name: Variable
+  tags:
+  - Variable Main Calls
+- name: Lifecycle Template
+  tags:
+  - Lifecycle Template Main Calls
+- name: Admin
+  tags:
+  - User Sign Up
+- name: Alerting
+  tags:
+  - Alert Receivers
+  - Alert Rules

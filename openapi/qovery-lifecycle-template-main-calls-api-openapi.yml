@@ -1,0 +1,424 @@
+openapi: 3.0.0
+info:
+  version: 1.0.4
+  title: Qovery Account Info Lifecycle Template Main Calls API
+  description: '- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider.
+
+    - ℹ️ The API is stable and still in development.
+
+    '
+  contact:
+    name: Qovery Product Team
+    url: https://www.qovery.com
+    email: support+api+documentation@qovery.com
+  x-logo:
+    url: https://console.qovery.com/assets/logos/logo-white.svg
+    altText: Qovery
+servers:
+- url: https://api.qovery.com
+security:
+- bearerAuth: []
+- ApiKeyAuth: []
+tags:
+- name: Lifecycle Template Main Calls
+paths:
+  /environment/{environmentId}/lifecycleTemplate:
+    parameters:
+    - schema:
+        type: string
+      name: environmentId
+      in: path
+      required: true
+    get:
+      summary: List available lifecycle template for this environment
+      tags:
+      - Lifecycle Template Main Calls
+      operationId: listEnvironmentLifecycleTemplates
+      x-stoplight:
+        id: 597v5i445zf0v
+      responses:
+        '200':
+          description: List available lifecyle templates for this environment
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LifecycleTemplateListResponse'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /environment/{environmentId}/lifecycleTemplate/{lifecycleTemplateId}:
+    parameters:
+    - schema:
+        type: string
+      name: environmentId
+      in: path
+      required: true
+    - schema:
+        type: string
+      name: lifecycleTemplateId
+      in: path
+      required: true
+    get:
+      summary: Get specific lifecycle template
+      tags:
+      - Lifecycle Template Main Calls
+      operationId: getEnvironmentLifecycleTemplate
+      x-stoplight:
+        id: yatyf4hs2kwc0
+      responses:
+        '200':
+          description: Lifecycle template
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LifecycleTemplateResponse'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+components:
+  schemas:
+    CloudProviderEnum:
+      type: string
+      enum:
+      - AWS
+      - SCW
+      - GCP
+      - ON_PREMISE
+      - AZURE
+    LifecycleTemplateResponse:
+      title: LifecycleTemplateResponse
+      x-stoplight:
+        id: bvzo0blwz03tn
+      type: object
+      x-internal: false
+      required:
+      - id
+      - name
+      - description
+      - sourceUrl
+      - cloud_provider
+      - events
+      - max_duration_in_sec
+      - resources
+      - variables
+      - dockerfile
+      properties:
+        id:
+          type: string
+          x-stoplight:
+            id: glttp2ir2fk7e
+          format: uuid
+        name:
+          type: string
+          x-stoplight:
+            id: xrjua7zbq9eut
+        description:
+          type: string
+          x-stoplight:
+            id: humhra0a53b09
+        sourceUrl:
+          type: string
+          x-stoplight:
+            id: 6wwoi4u4iggbr
+          format: uri
+          description: location of the template
+        cloud_provider:
+          $ref: '#/components/schemas/CloudProviderEnum'
+        events:
+          type: array
+          x-stoplight:
+            id: 5dzxa31dbj27j
+          description: lis of pre-defined command for each event
+          items:
+            x-stoplight:
+              id: c2tzn0jhhq3o9
+            type: object
+            required:
+            - name
+            - command
+            properties:
+              name:
+                type: string
+                x-stoplight:
+                  id: gjv4fce8vssmm
+              entrypoint:
+                type: string
+                x-stoplight:
+                  id: 0i1rd5p3sk6f5
+              command:
+                type: array
+                x-stoplight:
+                  id: gpsvjqfwkwwft
+                items:
+                  x-stoplight:
+                    id: pcxa5np84g1ze
+                  type: string
+        max_duration_in_sec:
+          type: integer
+          x-stoplight:
+            id: 6uoktngysqxii
+          description: 'Job max allowed duration in seconds.
+
+            After this allowed time, the job is going to be killed.'
+        resources:
+          type: object
+          x-stoplight:
+            id: q6p0dfgqw56m2
+          required:
+          - cpu_milli
+          - ram_mib
+          properties:
+            cpu_milli:
+              type: integer
+              x-stoplight:
+                id: jayn5f1p1jxh2
+            ram_mib:
+              type: integer
+              x-stoplight:
+                id: 65ta45mnalu3c
+        variables:
+          type: array
+          x-stoplight:
+            id: 6a91s0nhrkccw
+          description: Variables to inject at the creation of this lifecycle job
+          items:
+            x-stoplight:
+              id: 0px0di1tv9tu8
+            type: object
+            required:
+            - name
+            - description
+            - default
+            - is_secret
+            properties:
+              name:
+                type: string
+                x-stoplight:
+                  id: 9k7i4ohmj7uz3
+              description:
+                type: string
+                x-stoplight:
+                  id: nz4h3xndjh07g
+                description: Short description to explain the purpose of the variable
+              default:
+                type: string
+                x-stoplight:
+                  id: p9jb40lqlaj4a
+                description: Default value for the variable
+              is_secret:
+                type: boolean
+                x-stoplight:
+                  id: v6y3uhp3xivq5
+                description: If the variable should be injected as a secret
+              file:
+                type: object
+                x-stoplight:
+                  id: 71mpuvnx5g4gm
+                description: If present, the variable should be a file instead of a raw value
+                required:
+                - path
+                properties:
+                  path:
+                    type: string
+                    x-stoplight:
+                      id: d7xqu15fk6iat
+                  enable_interpolation:
+                    type: boolean
+                    x-stoplight:
+                      id: mbvppc2tt4l2t
+                    default: false
+                    description: if we should interpolate variable inside the file
+        dockerfile:
+          type: string
+          x-stoplight:
+            id: 0xkypu9qkowv3
+          description: Dockerfile of the template
+    LifecycleTemplateListResponse:
+      title: LifecycleTemplateListResponse
+      x-stoplight:
+        id: xors8ncf4ky35
+      type: object
+      required:
+      - results
+      properties:
+        results:
+          type: array
+          x-stoplight:
+            id: 7641tagxo4zpi
+          items:
+            x-stoplight:
+              id: uozhvuyd6pdmu
+            type: object
+            required:
+            - id
+            - name
+            - description
+            properties:
+              id:
+                type: string
+                x-stoplight:
+                  id: qwkicuwqfvcw4
+                format: uuid
+              name:
+                type: string
+                x-stoplight:
+                  id: eec0zks0ju8mm
+              description:
+                type: string
+                x-stoplight:
+                  id: yg0unyqcvyzcn
+  responses:
+    '403':
+      description: Access forbidden
+    '404':
+      description: Resource not found
+    '401':
+      description: Access token is missing or invalid
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'JWT tokens should be used with OIDC account (human to machine). JWT tokens used by the Qovery console to communicate with the API have a TTL. Curl Example '' curl https://console.qovery.com/organization -H "Authorization: Bearer $qovery_token" '''
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'Token API are generated by Qovery to manage machine to machine interaction and do not have a TTL. Curl Example '' curl https://console.qovery.com/organization -H "Authorization: Token $qovery_token" '''
+x-tagGroups:
+- name: Organization
+  tags:
+  - Organization Main Calls
+  - Organization Api Token
+  - Organization Account Git Repositories
+  - Organization Cluster Lock
+  - Organization Webhook
+  - Organization Custom Role
+  - Organization Event
+  - Organization Annotations Group
+  - Organization Labels Group
+  - Organization Enterprise Connection
+  - Projects
+  - Members
+  - Billing
+  - Clusters
+  - Cloud Provider
+  - Cloud Provider Credentials
+  - Github App
+  - Container Registries
+  - Helm Repositories
+- name: Project
+  tags:
+  - Project Main Calls
+  - Environments
+  - Project Deployment Rule
+  - Project Environment Variable
+  - Project Secret
+- name: Environment
+  tags:
+  - Environment Main Calls
+  - Applications
+  - Containers
+  - Databases
+  - Jobs
+  - Helms
+  - Terraforms
+  - Environment Actions
+  - Environment Logs
+  - Environment Deployment History
+  - Environment Deployment Rule
+  - Environment Variable
+  - Environment Secret
+  - Environment Export
+- name: Deployment Stage
+  tags:
+  - Deployment Stage Main Calls
+- name: Application
+  tags:
+  - Application Main Calls
+  - Application Actions
+  - Application Configuration
+  - Application Custom Domain
+  - Application Database
+  - Application Logs
+  - Application Deployment Restriction
+  - Application Deployment History
+  - Application Environment Variable
+  - Application Secret
+  - Application Annotations Group
+- name: Container
+  tags:
+  - Container Main Calls
+  - Container Actions
+  - Container Configuration
+  - Container Custom Domain
+  - Container Database
+  - Container Logs
+  - Container Deployment History
+  - Container Environment Variable
+  - Container Secret
+  - Container Annotations Group
+- name: Database
+  tags:
+  - Database Main Calls
+  - Database Actions
+  - Database Applications
+  - Database Deployment History
+  - Database Containers
+  - Database Application
+  - Database Container
+  - Backups
+  - Database Annotations Group
+- name: Job
+  tags:
+  - Job Main Calls
+  - Job Actions
+  - Job Configuration
+  - Job Custom Domain
+  - Job Deployment Restriction
+  - Job Deployment History
+  - Job Environment Variable
+  - Job Secret
+  - Job Annotations Group
+- name: Helm
+  tags:
+  - Helm Main Calls
+  - Helm Actions
+  - Helm Configuration
+  - Helm Custom Domain
+  - Helm Deployment Restriction
+  - Helm Deployment History
+- name: Terraform
+  tags:
+  - Terraform Main Calls
+  - Terraform Actions
+  - Terraform Configuration
+  - Terraform Deployment Restriction
+  - Terraform Deployment History
+- name: Account
+  tags:
+  - Account Info
+  - Git repositories
+  - Referral & Rewards
+- name: Git
+  tags:
+  - Git repositories
+- name: Variable
+  tags:
+  - Variable Main Calls
+- name: Lifecycle Template
+  tags:
+  - Lifecycle Template Main Calls
+- name: Admin
+  tags:
+  - User Sign Up
+- name: Alerting
+  tags:
+  - Alert Receivers
+  - Alert Rules

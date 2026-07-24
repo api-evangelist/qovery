@@ -1,0 +1,451 @@
+openapi: 3.0.0
+info:
+  version: 1.0.4
+  title: Qovery Account Info Project Deployment Rule API
+  description: '- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider.
+
+    - ℹ️ The API is stable and still in development.
+
+    '
+  contact:
+    name: Qovery Product Team
+    url: https://www.qovery.com
+    email: support+api+documentation@qovery.com
+  x-logo:
+    url: https://console.qovery.com/assets/logos/logo-white.svg
+    altText: Qovery
+servers:
+- url: https://api.qovery.com
+security:
+- bearerAuth: []
+- ApiKeyAuth: []
+tags:
+- name: Project Deployment Rule
+paths:
+  /project/{projectId}/deploymentRule:
+    get:
+      summary: List project deployment rules
+      description: List project deployment rules
+      operationId: listProjectDeploymentRules
+      parameters:
+      - $ref: '#/components/parameters/projectId'
+      tags:
+      - Project Deployment Rule
+      responses:
+        '200':
+          description: Get project deployment rules
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectDeploymentRuleResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    post:
+      summary: Create a deployment rule
+      description: Create a deployment rule
+      operationId: createDeploymentRule
+      parameters:
+      - $ref: '#/components/parameters/projectId'
+      tags:
+      - Project Deployment Rule
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectDeploymentRuleRequest'
+      responses:
+        '201':
+          description: Create deployment rule
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectDeploymentRule'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /project/{projectId}/deploymentRule/{deploymentRuleId}:
+    get:
+      summary: Get a project deployment rule
+      description: Get a project deployment rule
+      operationId: getProjectDeploymentRule
+      parameters:
+      - $ref: '#/components/parameters/projectId'
+      - $ref: '#/components/parameters/deploymentRuleId'
+      tags:
+      - Project Deployment Rule
+      responses:
+        '200':
+          description: Get project deployment rule
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectDeploymentRule'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    put:
+      summary: Edit a project deployment rule
+      description: Edit a project deployment rule
+      operationId: editProjectDeployemtnRule
+      parameters:
+      - $ref: '#/components/parameters/projectId'
+      - $ref: '#/components/parameters/deploymentRuleId'
+      tags:
+      - Project Deployment Rule
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectDeploymentRuleRequest'
+      responses:
+        '200':
+          description: Edit a project deployment rule
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectDeploymentRule'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    delete:
+      summary: Delete a project deployment rule
+      description: Delete a project deployment rule
+      operationId: deleteProjectDeploymentRule
+      parameters:
+      - $ref: '#/components/parameters/projectId'
+      - $ref: '#/components/parameters/deploymentRuleId'
+      tags:
+      - Project Deployment Rule
+      responses:
+        '204':
+          $ref: '#/components/responses/204-deletion'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /project/{projectId}/deploymentRule/order:
+    put:
+      summary: Update deployment rules priority order
+      description: Update deployment rules priority order
+      operationId: updateDeploymentRulesPriorityOrder
+      parameters:
+      - $ref: '#/components/parameters/projectId'
+      tags:
+      - Project Deployment Rule
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectDeploymentRulesPriorityOrderRequest'
+      responses:
+        '200':
+          description: Update deployment rules priority order
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+components:
+  schemas:
+    EnvironmentModeEnum:
+      type: string
+      enum:
+      - DEVELOPMENT
+      - PREVIEW
+      - PRODUCTION
+      - STAGING
+      example: PRODUCTION
+    WeekdayEnum:
+      type: string
+      enum:
+      - MONDAY
+      - TUESDAY
+      - WEDNESDAY
+      - THURSDAY
+      - FRIDAY
+      - SATURDAY
+      - SUNDAY
+      example: MONDAY
+    ProjectDeploymentRule:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - $ref: '#/components/schemas/ProjectDeploymentRuleRequest'
+      - type: object
+        properties:
+          priority_index:
+            type: integer
+            description: used to select the first deployment rule to match new created environments
+            nullable: false
+    ProjectDeploymentRulesPriorityOrderRequest:
+      type: object
+      properties:
+        project_deployment_rule_ids_in_order:
+          type: array
+          items:
+            type: string
+            format: uuid
+            description: project deployment rule id
+    ProjectDeploymentRuleResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProjectDeploymentRule'
+    ProjectDeploymentRuleRequest:
+      type: object
+      required:
+      - name
+      - mode
+      - cluster_id
+      - timezone
+      - start_time
+      - stop_time
+      - weekdays
+      - wildcard
+      properties:
+        name:
+          type: string
+          description: name is case insensitive
+          example: project-rule
+        description:
+          type: string
+          nullable: true
+          example: description project rule
+        mode:
+          $ref: '#/components/schemas/EnvironmentModeEnum'
+        cluster_id:
+          type: string
+          format: uuid
+        auto_stop:
+          type: boolean
+          default: false
+        timezone:
+          type: string
+          example: UTC
+        start_time:
+          type: string
+          format: date-time
+          example: '1970-01-01T08:00:00.000Z'
+        stop_time:
+          type: string
+          format: date-time
+          example: '1970-01-01T19:00:00.000Z'
+        weekdays:
+          type: array
+          items:
+            $ref: '#/components/schemas/WeekdayEnum'
+        wildcard:
+          type: string
+          default: ''
+          description: wildcard pattern composed of '?' and/or '*' used to target new created environments
+    Base:
+      type: object
+      required:
+      - id
+      - created_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          readOnly: true
+          format: date-time
+        updated_at:
+          type: string
+          readOnly: true
+          format: date-time
+  responses:
+    204-deletion:
+      description: The resource was deleted successfully
+    '403':
+      description: Access forbidden
+    '404':
+      description: Resource not found
+    '400':
+      description: Bad request
+    '401':
+      description: Access token is missing or invalid
+  parameters:
+    deploymentRuleId:
+      name: deploymentRuleId
+      in: path
+      description: Deployment Rule ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+    projectId:
+      name: projectId
+      in: path
+      description: Project ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'JWT tokens should be used with OIDC account (human to machine). JWT tokens used by the Qovery console to communicate with the API have a TTL. Curl Example '' curl https://console.qovery.com/organization -H "Authorization: Bearer $qovery_token" '''
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'Token API are generated by Qovery to manage machine to machine interaction and do not have a TTL. Curl Example '' curl https://console.qovery.com/organization -H "Authorization: Token $qovery_token" '''
+x-tagGroups:
+- name: Organization
+  tags:
+  - Organization Main Calls
+  - Organization Api Token
+  - Organization Account Git Repositories
+  - Organization Cluster Lock
+  - Organization Webhook
+  - Organization Custom Role
+  - Organization Event
+  - Organization Annotations Group
+  - Organization Labels Group
+  - Organization Enterprise Connection
+  - Projects
+  - Members
+  - Billing
+  - Clusters
+  - Cloud Provider
+  - Cloud Provider Credentials
+  - Github App
+  - Container Registries
+  - Helm Repositories
+- name: Project
+  tags:
+  - Project Main Calls
+  - Environments
+  - Project Deployment Rule
+  - Project Environment Variable
+  - Project Secret
+- name: Environment
+  tags:
+  - Environment Main Calls
+  - Applications
+  - Containers
+  - Databases
+  - Jobs
+  - Helms
+  - Terraforms
+  - Environment Actions
+  - Environment Logs
+  - Environment Deployment History
+  - Environment Deployment Rule
+  - Environment Variable
+  - Environment Secret
+  - Environment Export
+- name: Deployment Stage
+  tags:
+  - Deployment Stage Main Calls
+- name: Application
+  tags:
+  - Application Main Calls
+  - Application Actions
+  - Application Configuration
+  - Application Custom Domain
+  - Application Database
+  - Application Logs
+  - Application Deployment Restriction
+  - Application Deployment History
+  - Application Environment Variable
+  - Application Secret
+  - Application Annotations Group
+- name: Container
+  tags:
+  - Container Main Calls
+  - Container Actions
+  - Container Configuration
+  - Container Custom Domain
+  - Container Database
+  - Container Logs
+  - Container Deployment History
+  - Container Environment Variable
+  - Container Secret
+  - Container Annotations Group
+- name: Database
+  tags:
+  - Database Main Calls
+  - Database Actions
+  - Database Applications
+  - Database Deployment History
+  - Database Containers
+  - Database Application
+  - Database Container
+  - Backups
+  - Database Annotations Group
+- name: Job
+  tags:
+  - Job Main Calls
+  - Job Actions
+  - Job Configuration
+  - Job Custom Domain
+  - Job Deployment Restriction
+  - Job Deployment History
+  - Job Environment Variable
+  - Job Secret
+  - Job Annotations Group
+- name: Helm
+  tags:
+  - Helm Main Calls
+  - Helm Actions
+  - Helm Configuration
+  - Helm Custom Domain
+  - Helm Deployment Restriction
+  - Helm Deployment History
+- name: Terraform
+  tags:
+  - Terraform Main Calls
+  - Terraform Actions
+  - Terraform Configuration
+  - Terraform Deployment Restriction
+  - Terraform Deployment History
+- name: Account
+  tags:
+  - Account Info
+  - Git repositories
+  - Referral & Rewards
+- name: Git
+  tags:
+  - Git repositories
+- name: Variable
+  tags:
+  - Variable Main Calls
+- name: Lifecycle Template
+  tags:
+  - Lifecycle Template Main Calls
+- name: Admin
+  tags:
+  - User Sign Up
+- name: Alerting
+  tags:
+  - Alert Receivers
+  - Alert Rules

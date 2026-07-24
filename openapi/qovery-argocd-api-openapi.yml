@@ -1,0 +1,694 @@
+openapi: 3.0.0
+info:
+  version: 1.0.4
+  title: Qovery Account Info ArgoCD API
+  description: '- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider.
+
+    - ℹ️ The API is stable and still in development.
+
+    '
+  contact:
+    name: Qovery Product Team
+    url: https://www.qovery.com
+    email: support+api+documentation@qovery.com
+  x-logo:
+    url: https://console.qovery.com/assets/logos/logo-white.svg
+    altText: Qovery
+servers:
+- url: https://api.qovery.com
+security:
+- bearerAuth: []
+- ApiKeyAuth: []
+tags:
+- name: ArgoCD
+paths:
+  /cluster/{clusterId}/argoCdConfig:
+    post:
+      summary: Save ArgoCD credentials for a cluster
+      description: Save or update the ArgoCD URL and authentication token for a cluster. Requires ADMIN role.
+      operationId: saveArgoCdCredentials
+      parameters:
+      - $ref: '#/components/parameters/clusterId'
+      tags:
+      - ArgoCD
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ArgoCdCredentialsRequest'
+      responses:
+        '200':
+          description: ArgoCD credentials saved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArgoCdCredentialsResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    get:
+      summary: Get ArgoCD credentials for a cluster
+      description: Retrieve the stored ArgoCD configuration for a cluster. The token is always returned as REDACTED. Requires VIEWER role.
+      operationId: getArgoCdCredentials
+      parameters:
+      - $ref: '#/components/parameters/clusterId'
+      tags:
+      - ArgoCD
+      responses:
+        '200':
+          description: ArgoCD credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArgoCdCredentialsResponse'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    delete:
+      summary: Delete ArgoCD credentials for a cluster
+      description: Remove the stored ArgoCD configuration for a cluster. Requires ADMIN role.
+      operationId: deleteArgoCdCredentials
+      parameters:
+      - $ref: '#/components/parameters/clusterId'
+      tags:
+      - ArgoCD
+      responses:
+        '204':
+          description: ArgoCD credentials deleted
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /cluster/{clusterId}/argoCdConfig/check:
+    post:
+      summary: Check ArgoCD connection
+      description: 'Test an ArgoCD URL and token before saving. The cluster agent attempts to connect to ArgoCD and returns the connection result.
+
+        Always returns HTTP 200 — check the `status` field for the connection outcome. Requires ADMIN role.
+
+        '
+      operationId: checkArgoCdConnection
+      parameters:
+      - $ref: '#/components/parameters/clusterId'
+      tags:
+      - ArgoCD
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ArgoCdCredentialsRequest'
+      responses:
+        '200':
+          description: Connection check result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArgoCdConnectionCheckResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /organization/{organizationId}/argoCdDestinationClusterMapping:
+    post:
+      summary: Save an ArgoCD destination cluster mapping
+      description: 'Map an ArgoCD destination cluster URL to a Qovery cluster for a given agent cluster.
+
+        If a mapping for the same (agentClusterId, argocdClusterUrl) already exists, it is updated.
+
+        Requires ADMIN role on the agent cluster.
+
+        '
+      operationId: saveArgoCdDestinationClusterMapping
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      tags:
+      - ArgoCD
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ArgoCdDestinationClusterMappingRequest'
+      responses:
+        '200':
+          description: Mapping saved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArgoCdDestinationClusterMappingResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    get:
+      summary: List ArgoCD instance mappings for an organization
+      description: 'Returns one entry per ArgoCD agent cluster that has credentials configured.
+
+        Each entry lists linked clusters and unlinked clusters. Requires VIEWER role.
+
+        '
+      operationId: listArgoCdDestinationClusterMappings
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      tags:
+      - ArgoCD
+      responses:
+        '200':
+          description: ArgoCD instance mapping list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArgoCdInstanceMappingResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /argocdApp/{argocdAppId}:
+    get:
+      summary: Get ArgoCD app by ID
+      operationId: getArgoCdApp
+      parameters:
+      - $ref: '#/components/parameters/argocdAppId'
+      tags:
+      - ArgoCD
+      responses:
+        '200':
+          description: Get ArgoCD app by ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArgocdAppResponse'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+components:
+  schemas:
+    ArgoCdConnectionCheckResponse:
+      type: object
+      required:
+      - status
+      properties:
+        status:
+          $ref: '#/components/schemas/ArgoCdConnectionStatusEnum'
+        app_count:
+          type: integer
+          description: Number of ArgoCD applications visible with the provided token. Present only when status is "connected".
+          example: 42
+        reason:
+          type: string
+          description: Failure reason. Present only when status is "error".
+          enum:
+          - authentication_failed
+          - unreachable
+          - insufficient_permissions
+          example: authentication_failed
+    CloudVendorEnum:
+      type: string
+      enum:
+      - AWS
+      - SCW
+      - GCP
+      - DO
+      - AZURE
+      - OVH
+      - CIVO
+      - HETZNER
+      - ORACLE
+      - IBM
+      - ON_PREMISE
+    ArgoCdCredentialsRequest:
+      type: object
+      required:
+      - argocd_url
+      - argocd_token
+      properties:
+        argocd_url:
+          type: string
+          description: The URL of the ArgoCD instance (e.g. https://argocd.example.com)
+          example: https://argocd.example.com
+        argocd_token:
+          type: string
+          description: ArgoCD API authentication token
+    KubernetesEnum:
+      type: string
+      enum:
+      - MANAGED
+      - SELF_MANAGED
+      - PARTIALLY_MANAGED
+      default: MANAGED
+    ArgocdAppResponse:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        required:
+        - name
+        - service_type
+        - namespace
+        - environment_id
+        - cluster_id
+        properties:
+          name:
+            type: string
+            description: name is case insensitive
+          service_type:
+            $ref: '#/components/schemas/ServiceTypeEnum'
+          namespace:
+            type: string
+          environment_id:
+            type: string
+            format: uuid
+          cluster_id:
+            type: string
+            format: uuid
+          last_synced_at:
+            type: string
+            format: date-time
+            nullable: true
+          manifest_revision:
+            type: string
+            nullable: true
+          source_repo_url:
+            type: string
+            nullable: true
+          source_target_revision:
+            type: string
+            nullable: true
+      description: An ArgoCD service
+    ServiceTypeEnum:
+      type: string
+      x-stoplight:
+        id: d66063cd29913
+      description: type of the service (application, database, job, ...)
+      enum:
+      - APPLICATION
+      - DATABASE
+      - CONTAINER
+      - JOB
+      - HELM
+      - TERRAFORM
+      - ARGOCD_APP
+    ArgoCdDestinationClusterMappingRequest:
+      type: object
+      required:
+      - agent_cluster_id
+      - argocd_cluster_url
+      - cluster_id
+      properties:
+        agent_cluster_id:
+          type: string
+          format: uuid
+          description: ID of the Qovery cluster where the ArgoCD instance is running
+        argocd_cluster_url:
+          type: string
+          description: ArgoCD destination cluster URL as reported by ArgoCD
+          example: https://kubernetes.default.svc
+        cluster_id:
+          type: string
+          format: uuid
+          description: ID of the Qovery cluster to map this ArgoCD destination to
+    ArgoCdCredentialsResponse:
+      type: object
+      required:
+      - id
+      - cluster_id
+      - argocd_url
+      - argocd_token
+      - created_at
+      - updated_at
+      properties:
+        id:
+          type: string
+          format: uuid
+        cluster_id:
+          type: string
+          format: uuid
+        argocd_url:
+          type: string
+          example: https://argocd.example.com
+        argocd_token:
+          type: string
+          description: Always returned as REDACTED
+          example: REDACTED
+        last_checked_at:
+          type: string
+          format: date-time
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    ArgoCdLinkedClusterDetails:
+      type: object
+      required:
+      - argocd_cluster_url
+      - argocd_cluster_name
+      - qovery_cluster_id
+      - qovery_cluster_name
+      - qovery_cluster_cloud_provider
+      - qovery_cluster_type
+      - applications_count
+      properties:
+        argocd_cluster_url:
+          type: string
+          description: ArgoCD destination cluster URL
+          example: https://kubernetes.default.svc
+        argocd_cluster_name:
+          type: string
+          description: ArgoCD cluster name (currently same as URL; will use ArgoCD alias in future)
+          example: https://kubernetes.default.svc
+        qovery_cluster_id:
+          type: string
+          format: uuid
+          description: ID of the Qovery cluster this destination is mapped to
+        qovery_cluster_name:
+          type: string
+          description: Display name of the mapped Qovery cluster
+          example: My EKS Cluster
+        qovery_cluster_cloud_provider:
+          $ref: '#/components/schemas/CloudVendorEnum'
+        qovery_cluster_type:
+          $ref: '#/components/schemas/KubernetesEnum'
+        applications_count:
+          type: integer
+          description: Number of ArgoCD applications targeting this destination
+          example: 4
+    ArgoCdDestinationClusterMappingResponse:
+      type: object
+      required:
+      - agent_cluster_id
+      - argocd_cluster_url
+      - cluster_id
+      properties:
+        agent_cluster_id:
+          type: string
+          format: uuid
+        argocd_cluster_url:
+          type: string
+          example: https://kubernetes.default.svc
+        cluster_id:
+          type: string
+          format: uuid
+          nullable: true
+    ArgoCdInstanceMappingResponseList:
+      type: object
+      required:
+      - results
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ArgoCdInstanceMappingResponse'
+    ArgoCdInstanceMappingResponse:
+      type: object
+      required:
+      - agent_cluster_id
+      - agent_cluster_name
+      - agent_cluster_cloud_provider
+      - credentials_id
+      - argocd_url
+      - status
+      - last_checked_at
+      - linked_clusters
+      - unlinked_clusters
+      properties:
+        agent_cluster_id:
+          type: string
+          format: uuid
+          description: ID of the Qovery cluster where the ArgoCD instance is running
+        agent_cluster_name:
+          type: string
+          description: Display name of the Qovery cluster where the ArgoCD instance is running
+          example: My Agent Cluster
+        agent_cluster_cloud_provider:
+          $ref: '#/components/schemas/CloudVendorEnum'
+        credentials_id:
+          type: string
+          format: uuid
+          description: ID of the stored ArgoCD credentials for this instance
+        argocd_url:
+          type: string
+          description: URL of the ArgoCD instance
+          example: https://argocd.example.com
+        status:
+          $ref: '#/components/schemas/ArgoCdConnectionStatusEnum'
+        last_checked_at:
+          type: string
+          format: date-time
+          description: Timestamp of the last configuration update (will use last connectivity check in future)
+        linked_clusters:
+          type: array
+          description: ArgoCD clusters detected and mapped to a Qovery cluster
+          items:
+            $ref: '#/components/schemas/ArgoCdLinkedClusterDetails'
+        unlinked_clusters:
+          type: array
+          description: ArgoCD clusters detected but mapping is missing
+          items:
+            $ref: '#/components/schemas/ArgoCdUnlinkedClusterDetails'
+    ArgoCdUnlinkedClusterDetails:
+      type: object
+      required:
+      - argocd_cluster_url
+      - argocd_cluster_name
+      - applications_count
+      properties:
+        argocd_cluster_url:
+          type: string
+          description: ArgoCD destination cluster URL for this stale mapping
+          example: https://old-cluster.example.com
+        argocd_cluster_name:
+          type: string
+          description: ArgoCD cluster name (currently same as URL; will use ArgoCD alias in future)
+          example: https://old-cluster.example.com
+        applications_count:
+          type: integer
+          description: Number of ArgoCD applications targeting this destination
+          example: 0
+    ArgoCdConnectionStatusEnum:
+      type: string
+      description: Connection status of an ArgoCD instance
+      enum:
+      - connected
+      - error
+      example: connected
+    Base:
+      type: object
+      required:
+      - id
+      - created_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          readOnly: true
+          format: date-time
+        updated_at:
+          type: string
+          readOnly: true
+          format: date-time
+  responses:
+    '400':
+      description: Bad request
+    '401':
+      description: Access token is missing or invalid
+    '403':
+      description: Access forbidden
+    '404':
+      description: Resource not found
+  parameters:
+    clusterId:
+      name: clusterId
+      in: path
+      description: Cluster ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+    organizationId:
+      name: organizationId
+      in: path
+      description: Organization ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+    argocdAppId:
+      name: argocdAppId
+      in: path
+      description: ArgoCD App ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'JWT tokens should be used with OIDC account (human to machine). JWT tokens used by the Qovery console to communicate with the API have a TTL. Curl Example '' curl https://console.qovery.com/organization -H "Authorization: Bearer $qovery_token" '''
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'Token API are generated by Qovery to manage machine to machine interaction and do not have a TTL. Curl Example '' curl https://console.qovery.com/organization -H "Authorization: Token $qovery_token" '''
+x-tagGroups:
+- name: Organization
+  tags:
+  - Organization Main Calls
+  - Organization Api Token
+  - Organization Account Git Repositories
+  - Organization Cluster Lock
+  - Organization Webhook
+  - Organization Custom Role
+  - Organization Event
+  - Organization Annotations Group
+  - Organization Labels Group
+  - Organization Enterprise Connection
+  - Projects
+  - Members
+  - Billing
+  - Clusters
+  - Cloud Provider
+  - Cloud Provider Credentials
+  - Github App
+  - Container Registries
+  - Helm Repositories
+- name: Project
+  tags:
+  - Project Main Calls
+  - Environments
+  - Project Deployment Rule
+  - Project Environment Variable
+  - Project Secret
+- name: Environment
+  tags:
+  - Environment Main Calls
+  - Applications
+  - Containers
+  - Databases
+  - Jobs
+  - Helms
+  - Terraforms
+  - Environment Actions
+  - Environment Logs
+  - Environment Deployment History
+  - Environment Deployment Rule
+  - Environment Variable
+  - Environment Secret
+  - Environment Export
+- name: Deployment Stage
+  tags:
+  - Deployment Stage Main Calls
+- name: Application
+  tags:
+  - Application Main Calls
+  - Application Actions
+  - Application Configuration
+  - Application Custom Domain
+  - Application Database
+  - Application Logs
+  - Application Deployment Restriction
+  - Application Deployment History
+  - Application Environment Variable
+  - Application Secret
+  - Application Annotations Group
+- name: Container
+  tags:
+  - Container Main Calls
+  - Container Actions
+  - Container Configuration
+  - Container Custom Domain
+  - Container Database
+  - Container Logs
+  - Container Deployment History
+  - Container Environment Variable
+  - Container Secret
+  - Container Annotations Group
+- name: Database
+  tags:
+  - Database Main Calls
+  - Database Actions
+  - Database Applications
+  - Database Deployment History
+  - Database Containers
+  - Database Application
+  - Database Container
+  - Backups
+  - Database Annotations Group
+- name: Job
+  tags:
+  - Job Main Calls
+  - Job Actions
+  - Job Configuration
+  - Job Custom Domain
+  - Job Deployment Restriction
+  - Job Deployment History
+  - Job Environment Variable
+  - Job Secret
+  - Job Annotations Group
+- name: Helm
+  tags:
+  - Helm Main Calls
+  - Helm Actions
+  - Helm Configuration
+  - Helm Custom Domain
+  - Helm Deployment Restriction
+  - Helm Deployment History
+- name: Terraform
+  tags:
+  - Terraform Main Calls
+  - Terraform Actions
+  - Terraform Configuration
+  - Terraform Deployment Restriction
+  - Terraform Deployment History
+- name: Account
+  tags:
+  - Account Info
+  - Git repositories
+  - Referral & Rewards
+- name: Git
+  tags:
+  - Git repositories
+- name: Variable
+  tags:
+  - Variable Main Calls
+- name: Lifecycle Template
+  tags:
+  - Lifecycle Template Main Calls
+- name: Admin
+  tags:
+  - User Sign Up
+- name: Alerting
+  tags:
+  - Alert Receivers
+  - Alert Rules

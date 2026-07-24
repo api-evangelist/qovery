@@ -1,0 +1,594 @@
+openapi: 3.0.0
+info:
+  version: 1.0.4
+  title: Qovery Account Info Environment API
+  description: '- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider.
+
+    - ℹ️ The API is stable and still in development.
+
+    '
+  contact:
+    name: Qovery Product Team
+    url: https://www.qovery.com
+    email: support+api+documentation@qovery.com
+  x-logo:
+    url: https://console.qovery.com/assets/logos/logo-white.svg
+    altText: Qovery
+servers:
+- url: https://api.qovery.com
+security:
+- bearerAuth: []
+- ApiKeyAuth: []
+tags:
+- name: Environment
+paths:
+  /environment/{environmentId}/checkDockerfile:
+    post:
+      summary: Check dockerfile configuration is correct
+      operationId: checkDockerfile
+      parameters:
+      - $ref: '#/components/parameters/environmentId'
+      tags:
+      - Environment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DockerfileCheckRequest'
+      responses:
+        '200':
+          description: Information about the dockerfile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DockerfileCheckResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /environment/{environmentId}/checkHelmRepository:
+    post:
+      summary: Check helm repository configuration is correct
+      operationId: checkHelmRepository
+      parameters:
+      - $ref: '#/components/parameters/environmentId'
+      tags:
+      - Environment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HelmCheckRequest'
+      responses:
+        '200':
+          description: Information about the helm repository
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HelmCheckResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /environment/{environmentId}/checkContainerImage:
+    post:
+      summary: Check container image configuration is correct
+      operationId: checkContainerImage
+      parameters:
+      - $ref: '#/components/parameters/environmentId'
+      tags:
+      - Environment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContainerImageCheckRequest'
+      responses:
+        '200':
+          description: Information about the image
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContainerImageCheckResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /environment/{environmentId}/checkGitFile:
+    post:
+      summary: Check git file configuration is correct
+      operationId: checkGitFile
+      parameters:
+      - $ref: '#/components/parameters/environmentId'
+      tags:
+      - Environment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GitFileCheckRequest'
+      responses:
+        '200':
+          description: Information about the image
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GitFileCheckResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /environment/deploymentStatus:
+    parameters: []
+    get:
+      summary: Get Deployment Status By DeploymentRequestId
+      tags:
+      - Environment
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnvDeploymentStatus'
+      operationId: getDeploymentStatusByDeploymentRequestId
+      x-stoplight:
+        id: dtvjdlz9teqld
+      parameters:
+      - schema:
+          type: string
+          format: uuid
+        in: query
+        name: deploymentRequestId
+        required: true
+  /environment/{environmentId}/link:
+    get:
+      summary: List environment services links
+      operationId: listEnvironmentServicesLinks
+      parameters:
+      - $ref: '#/components/parameters/environmentId'
+      tags:
+      - Environment
+      responses:
+        '200':
+          description: List environment services links
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LinkResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      x-stoplight:
+        id: 94az7c0v1enav
+      description: List services links of an environment
+components:
+  schemas:
+    GitFileCheckResponse:
+      type: object
+    ContainerImageCheckResponse:
+      type: object
+    EnvDeploymentStatus:
+      title: EnvDeploymentStatus
+      x-stoplight:
+        id: 3t1ibpp18xhmy
+      type: object
+      properties:
+        deployment_request_id:
+          type: string
+          x-stoplight:
+            id: moe7npwga4pwm
+          format: uuid
+        environment_id:
+          type: string
+          x-stoplight:
+            id: t6sa9u90dayva
+          format: uuid
+        status:
+          $ref: '#/components/schemas/StateEnum'
+    ContainerImageCheckRequest:
+      type: object
+      required:
+      - registry_d
+      - image_name
+      - tag
+      properties:
+        registry_id:
+          type: string
+          format: uuid
+        image_name:
+          type: string
+        tag:
+          type: string
+    Link:
+      type: object
+      required:
+      - service_id
+      - service_type
+      - url
+      - internal_port
+      - external_port
+      - is_qovery_domain
+      - is_default
+      properties:
+        service_id:
+          type: string
+          format: uuid
+          description: ID of the associated service
+        service_type:
+          $ref: '#/components/schemas/ServiceTypeEnum'
+        url:
+          type: string
+          description: URL to access the service
+        internal_port:
+          type: integer
+          description: The port from which the service is reachable from within the cluster
+        external_port:
+          type: integer
+          description: 'The port from which the service is reachable from externally (i.e: 443 for HTTPS)'
+        is_qovery_domain:
+          type: boolean
+          description: True if the domain is managed by Qovery, false if it belongs to the user
+        is_default:
+          type: boolean
+          description: 'Indicate if the link is using the root of the domain and not one derivated from port
+
+            i.e:
+
+            p8080.zxxxx.jvm.worl      => is_default = false, is_qovery = true
+
+            zxxxx.jvm.world           => is_default = true, is_qovery = true
+
+            p8080-my-super-domain.com => is_default = false, is_qovery = false
+
+            my-super-domain.com       => is_default = true, is_qovery = false
+
+            '
+    GitProviderEnum:
+      type: string
+      enum:
+      - BITBUCKET
+      - GITHUB
+      - GITLAB
+    DockerfileCheckResponse:
+      type: object
+      required:
+      - git_repository
+      - dockerfile_path
+      properties:
+        dockerfile_path:
+          type: string
+        arg:
+          description: All ARG variable declared in the Dockerfile
+          type: array
+          items:
+            type: string
+        repositories:
+          description: All image repositories we found declared in the Dockerfile
+          type: array
+          items:
+            type: string
+    ServiceTypeEnum:
+      type: string
+      x-stoplight:
+        id: d66063cd29913
+      description: type of the service (application, database, job, ...)
+      enum:
+      - APPLICATION
+      - DATABASE
+      - CONTAINER
+      - JOB
+      - HELM
+      - TERRAFORM
+      - ARGOCD_APP
+    LinkResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Link'
+    HelmGitRepositoryRequest:
+      type: object
+      required:
+      - provider
+      - owner
+      - name
+      - url
+      properties:
+        url:
+          type: string
+          description: application git repository URL
+          example: https://github.com/Qovery/simple-node-app
+        branch:
+          type: string
+          description: 'Name of the branch to use. This is optional
+
+            If not specified, then the branch used is the `main` or `master` one
+
+            '
+          example: feat/text_xxx
+        root_path:
+          type: string
+          default: /
+          description: indicates the root path of the application.
+        git_token_id:
+          type: string
+          format: uuid
+          description: The git token id on Qovery side
+          nullable: true
+      title: ''
+    HelmCheckResponse:
+      type: object
+    ApplicationGitRepositoryRequest:
+      type: object
+      required:
+      - url
+      - owner
+      - name
+      - provider
+      properties:
+        url:
+          type: string
+          description: application git repository URL
+          example: https://github.com/Qovery/simple-node-app
+        branch:
+          type: string
+          description: 'Name of the branch to use. This is optional
+
+            If not specified, then the branch used is the `main` or `master` one
+
+            '
+          example: feat/text_xxx
+        root_path:
+          type: string
+          default: /
+          description: indicates the root path of the application.
+        git_token_id:
+          type: string
+          format: uuid
+          description: The git token id on Qovery side
+          nullable: true
+        provider:
+          $ref: '#/components/schemas/GitProviderEnum'
+    StateEnum:
+      type: string
+      enum:
+      - BUILDING
+      - BUILD_ERROR
+      - CANCELED
+      - CANCELING
+      - DELETED
+      - DELETE_ERROR
+      - DELETE_QUEUED
+      - DELETING
+      - DEPLOYED
+      - DEPLOYING
+      - DEPLOYMENT_ERROR
+      - DEPLOYMENT_QUEUED
+      - EXECUTING
+      - QUEUED
+      - READY
+      - RECAP
+      - RESTARTED
+      - RESTARTING
+      - RESTART_ERROR
+      - RESTART_QUEUED
+      - STOPPED
+      - STOPPING
+      - STOP_ERROR
+      - STOP_QUEUED
+      - UNAVAILABLE
+      - WAITING_DELETING
+      - WAITING_RESTARTING
+      - WAITING_RUNNING
+      - WAITING_STOPPING
+    DockerfileCheckRequest:
+      type: object
+      required:
+      - git_repository
+      - dockerfile_path
+      properties:
+        git_repository:
+          $ref: '#/components/schemas/ApplicationGitRepositoryRequest'
+        dockerfile_path:
+          type: string
+          description: path of the dockerfile with root_path as base path
+    HelmCheckRequest:
+      type: object
+      required:
+      - git_repository
+      properties:
+        git_repository:
+          $ref: '#/components/schemas/HelmGitRepositoryRequest'
+    GitFileCheckRequest:
+      type: object
+      required:
+      - git_repository
+      - files
+      properties:
+        git_repository:
+          $ref: '#/components/schemas/HelmGitRepositoryRequest'
+        files:
+          type: array
+          items:
+            type: string
+  parameters:
+    environmentId:
+      name: environmentId
+      in: path
+      description: Environment ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+  responses:
+    '400':
+      description: Bad request
+    '403':
+      description: Access forbidden
+    '404':
+      description: Resource not found
+    '401':
+      description: Access token is missing or invalid
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'JWT tokens should be used with OIDC account (human to machine). JWT tokens used by the Qovery console to communicate with the API have a TTL. Curl Example '' curl https://console.qovery.com/organization -H "Authorization: Bearer $qovery_token" '''
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'Token API are generated by Qovery to manage machine to machine interaction and do not have a TTL. Curl Example '' curl https://console.qovery.com/organization -H "Authorization: Token $qovery_token" '''
+x-tagGroups:
+- name: Organization
+  tags:
+  - Organization Main Calls
+  - Organization Api Token
+  - Organization Account Git Repositories
+  - Organization Cluster Lock
+  - Organization Webhook
+  - Organization Custom Role
+  - Organization Event
+  - Organization Annotations Group
+  - Organization Labels Group
+  - Organization Enterprise Connection
+  - Projects
+  - Members
+  - Billing
+  - Clusters
+  - Cloud Provider
+  - Cloud Provider Credentials
+  - Github App
+  - Container Registries
+  - Helm Repositories
+- name: Project
+  tags:
+  - Project Main Calls
+  - Environments
+  - Project Deployment Rule
+  - Project Environment Variable
+  - Project Secret
+- name: Environment
+  tags:
+  - Environment Main Calls
+  - Applications
+  - Containers
+  - Databases
+  - Jobs
+  - Helms
+  - Terraforms
+  - Environment Actions
+  - Environment Logs
+  - Environment Deployment History
+  - Environment Deployment Rule
+  - Environment Variable
+  - Environment Secret
+  - Environment Export
+- name: Deployment Stage
+  tags:
+  - Deployment Stage Main Calls
+- name: Application
+  tags:
+  - Application Main Calls
+  - Application Actions
+  - Application Configuration
+  - Application Custom Domain
+  - Application Database
+  - Application Logs
+  - Application Deployment Restriction
+  - Application Deployment History
+  - Application Environment Variable
+  - Application Secret
+  - Application Annotations Group
+- name: Container
+  tags:
+  - Container Main Calls
+  - Container Actions
+  - Container Configuration
+  - Container Custom Domain
+  - Container Database
+  - Container Logs
+  - Container Deployment History
+  - Container Environment Variable
+  - Container Secret
+  - Container Annotations Group
+- name: Database
+  tags:
+  - Database Main Calls
+  - Database Actions
+  - Database Applications
+  - Database Deployment History
+  - Database Containers
+  - Database Application
+  - Database Container
+  - Backups
+  - Database Annotations Group
+- name: Job
+  tags:
+  - Job Main Calls
+  - Job Actions
+  - Job Configuration
+  - Job Custom Domain
+  - Job Deployment Restriction
+  - Job Deployment History
+  - Job Environment Variable
+  - Job Secret
+  - Job Annotations Group
+- name: Helm
+  tags:
+  - Helm Main Calls
+  - Helm Actions
+  - Helm Configuration
+  - Helm Custom Domain
+  - Helm Deployment Restriction
+  - Helm Deployment History
+- name: Terraform
+  tags:
+  - Terraform Main Calls
+  - Terraform Actions
+  - Terraform Configuration
+  - Terraform Deployment Restriction
+  - Terraform Deployment History
+- name: Account
+  tags:
+  - Account Info
+  - Git repositories
+  - Referral & Rewards
+- name: Git
+  tags:
+  - Git repositories
+- name: Variable
+  tags:
+  - Variable Main Calls
+- name: Lifecycle Template
+  tags:
+  - Lifecycle Template Main Calls
+- name: Admin
+  tags:
+  - User Sign Up
+- name: Alerting
+  tags:
+  - Alert Receivers
+  - Alert Rules

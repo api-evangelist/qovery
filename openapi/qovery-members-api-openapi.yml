@@ -1,0 +1,548 @@
+openapi: 3.0.0
+info:
+  version: 1.0.4
+  title: Qovery Account Info Members API
+  description: '- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider.
+
+    - ℹ️ The API is stable and still in development.
+
+    '
+  contact:
+    name: Qovery Product Team
+    url: https://www.qovery.com
+    email: support+api+documentation@qovery.com
+  x-logo:
+    url: https://console.qovery.com/assets/logos/logo-white.svg
+    altText: Qovery
+servers:
+- url: https://api.qovery.com
+security:
+- bearerAuth: []
+- ApiKeyAuth: []
+tags:
+- name: Members
+paths:
+  /organization/{organizationId}/member:
+    get:
+      summary: Get organization members
+      operationId: getOrganizationMembers
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      tags:
+      - Members
+      responses:
+        '200':
+          description: Get members
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MemberResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    put:
+      summary: Edit an organization member role
+      description: Edit an organization member role
+      operationId: editOrganizationMemberRole
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      tags:
+      - Members
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MemberRoleUpdateRequest'
+      responses:
+        '200':
+          description: Edit an organization member role
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    delete:
+      summary: Remove a member
+      operationId: deleteMember
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - user_id
+              properties:
+                user_id:
+                  type: string
+                  format: uuid
+      tags:
+      - Members
+      responses:
+        '204':
+          $ref: '#/components/responses/204-deletion'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /organization/{organizationId}/inviteMember:
+    get:
+      summary: Get invited members
+      operationId: getOrganizationInvitedMembers
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      tags:
+      - Members
+      responses:
+        '200':
+          description: Get invited members
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InviteMemberResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    post:
+      summary: Invite someone in the organization
+      operationId: postInviteMember
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      tags:
+      - Members
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InviteMemberRequest'
+      responses:
+        '201':
+          description: User invited
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InviteMember'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          description: User already invited
+  /organization/{organizationId}/inviteMember/{inviteId}:
+    get:
+      summary: Get member invitation
+      operationId: getMemberInvitation
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/inviteId'
+      tags:
+      - Members
+      responses:
+        '200':
+          description: Get member invitation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InviteMember'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    post:
+      summary: Accept Invite in the organization
+      operationId: postAcceptInviteMember
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/inviteId'
+      tags:
+      - Members
+      responses:
+        '201':
+          description: User invited
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InviteMember'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          description: User already invited
+    delete:
+      summary: Remove an invited member
+      operationId: deleteInviteMember
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/inviteId'
+      tags:
+      - Members
+      responses:
+        '204':
+          $ref: '#/components/responses/204-deletion'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /organization/{organizationId}/transferOwnership:
+    post:
+      summary: Transfer organization ownership to another user
+      operationId: postOrganizationTransferOwnership
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      tags:
+      - Members
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransferOwnershipRequest'
+      responses:
+        '204':
+          $ref: '#/components/responses/204'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+components:
+  schemas:
+    InviteMemberResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/InviteMember'
+    MemberRoleUpdateRequest:
+      type: object
+      required:
+      - user_id
+      - role_id
+      properties:
+        user_id:
+          type: string
+          description: specify the git provider user id
+        role_id:
+          type: string
+          format: uuid
+    InviteStatusEnum:
+      type: string
+      enum:
+      - EXPIRED
+      - PENDING
+    InviteMemberRequest:
+      type: object
+      required:
+      - email
+      properties:
+        email:
+          type: string
+        role:
+          $ref: '#/components/schemas/InviteMemberRoleEnum'
+        role_id:
+          type: string
+          format: uuid
+          description: the target role to attribute to the new member
+    TransferOwnershipRequest:
+      type: object
+      required:
+      - user_id
+      properties:
+        user_id:
+          type: string
+          format: uuid
+    InviteMemberRoleEnum:
+      type: string
+      description: deprecated
+      enum:
+      - ADMIN
+      - DEVELOPER
+      - OWNER
+      - VIEWER
+    Member:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        required:
+        - email
+        properties:
+          name:
+            type: string
+          nickname:
+            type: string
+          email:
+            type: string
+            format: email
+          profile_picture_url:
+            type: string
+            format: uri
+          last_activity_at:
+            type: string
+            format: date-time
+            description: last time the user was connected
+          role:
+            $ref: '#/components/schemas/InviteMemberRoleEnum'
+          role_name:
+            type: string
+            description: the role linked to the user
+          role_id:
+            type: string
+            format: uuid
+    MemberResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Member'
+    Base:
+      type: object
+      required:
+      - id
+      - created_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          readOnly: true
+          format: date-time
+        updated_at:
+          type: string
+          readOnly: true
+          format: date-time
+    InviteMember:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        required:
+        - email
+        - role
+        - invitation_link
+        - invitation_status
+        - inviter
+        properties:
+          email:
+            type: string
+            format: email
+          role:
+            $ref: '#/components/schemas/InviteMemberRoleEnum'
+          invitation_link:
+            type: string
+            format: uri
+          invitation_status:
+            $ref: '#/components/schemas/InviteStatusEnum'
+          organization_name:
+            type: string
+          inviter:
+            type: string
+          logo_url:
+            type: string
+            format: uri
+          role_id:
+            type: string
+            format: uuid
+          role_name:
+            type: string
+  responses:
+    204-deletion:
+      description: The resource was deleted successfully
+    '403':
+      description: Access forbidden
+    '204':
+      description: no content
+    '404':
+      description: Resource not found
+    '400':
+      description: Bad request
+    '401':
+      description: Access token is missing or invalid
+  parameters:
+    inviteId:
+      name: inviteId
+      in: path
+      description: Invite ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+    organizationId:
+      name: organizationId
+      in: path
+      description: Organization ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'JWT tokens should be used with OIDC account (human to machine). JWT tokens used by the Qovery console to communicate with the API have a TTL. Curl Example '' curl https://console.qovery.com/organization -H "Authorization: Bearer $qovery_token" '''
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'Token API are generated by Qovery to manage machine to machine interaction and do not have a TTL. Curl Example '' curl https://console.qovery.com/organization -H "Authorization: Token $qovery_token" '''
+x-tagGroups:
+- name: Organization
+  tags:
+  - Organization Main Calls
+  - Organization Api Token
+  - Organization Account Git Repositories
+  - Organization Cluster Lock
+  - Organization Webhook
+  - Organization Custom Role
+  - Organization Event
+  - Organization Annotations Group
+  - Organization Labels Group
+  - Organization Enterprise Connection
+  - Projects
+  - Members
+  - Billing
+  - Clusters
+  - Cloud Provider
+  - Cloud Provider Credentials
+  - Github App
+  - Container Registries
+  - Helm Repositories
+- name: Project
+  tags:
+  - Project Main Calls
+  - Environments
+  - Project Deployment Rule
+  - Project Environment Variable
+  - Project Secret
+- name: Environment
+  tags:
+  - Environment Main Calls
+  - Applications
+  - Containers
+  - Databases
+  - Jobs
+  - Helms
+  - Terraforms
+  - Environment Actions
+  - Environment Logs
+  - Environment Deployment History
+  - Environment Deployment Rule
+  - Environment Variable
+  - Environment Secret
+  - Environment Export
+- name: Deployment Stage
+  tags:
+  - Deployment Stage Main Calls
+- name: Application
+  tags:
+  - Application Main Calls
+  - Application Actions
+  - Application Configuration
+  - Application Custom Domain
+  - Application Database
+  - Application Logs
+  - Application Deployment Restriction
+  - Application Deployment History
+  - Application Environment Variable
+  - Application Secret
+  - Application Annotations Group
+- name: Container
+  tags:
+  - Container Main Calls
+  - Container Actions
+  - Container Configuration
+  - Container Custom Domain
+  - Container Database
+  - Container Logs
+  - Container Deployment History
+  - Container Environment Variable
+  - Container Secret
+  - Container Annotations Group
+- name: Database
+  tags:
+  - Database Main Calls
+  - Database Actions
+  - Database Applications
+  - Database Deployment History
+  - Database Containers
+  - Database Application
+  - Database Container
+  - Backups
+  - Database Annotations Group
+- name: Job
+  tags:
+  - Job Main Calls
+  - Job Actions
+  - Job Configuration
+  - Job Custom Domain
+  - Job Deployment Restriction
+  - Job Deployment History
+  - Job Environment Variable
+  - Job Secret
+  - Job Annotations Group
+- name: Helm
+  tags:
+  - Helm Main Calls
+  - Helm Actions
+  - Helm Configuration
+  - Helm Custom Domain
+  - Helm Deployment Restriction
+  - Helm Deployment History
+- name: Terraform
+  tags:
+  - Terraform Main Calls
+  - Terraform Actions
+  - Terraform Configuration
+  - Terraform Deployment Restriction
+  - Terraform Deployment History
+- name: Account
+  tags:
+  - Account Info
+  - Git repositories
+  - Referral & Rewards
+- name: Git
+  tags:
+  - Git repositories
+- name: Variable
+  tags:
+  - Variable Main Calls
+- name: Lifecycle Template
+  tags:
+  - Lifecycle Template Main Calls
+- name: Admin
+  tags:
+  - User Sign Up
+- name: Alerting
+  tags:
+  - Alert Receivers
+  - Alert Rules

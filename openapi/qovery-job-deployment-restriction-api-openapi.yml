@@ -1,0 +1,350 @@
+openapi: 3.0.0
+info:
+  version: 1.0.4
+  title: Qovery Account Info Job Deployment Restriction API
+  description: '- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider.
+
+    - ℹ️ The API is stable and still in development.
+
+    '
+  contact:
+    name: Qovery Product Team
+    url: https://www.qovery.com
+    email: support+api+documentation@qovery.com
+  x-logo:
+    url: https://console.qovery.com/assets/logos/logo-white.svg
+    altText: Qovery
+servers:
+- url: https://api.qovery.com
+security:
+- bearerAuth: []
+- ApiKeyAuth: []
+tags:
+- name: Job Deployment Restriction
+paths:
+  /job/{jobId}/deploymentRestriction:
+    get:
+      summary: Get job deployment restrictions
+      description: Get job deployment restrictions
+      operationId: getJobDeploymentRestrictions
+      parameters:
+      - $ref: '#/components/parameters/jobId'
+      tags:
+      - Job Deployment Restriction
+      responses:
+        '200':
+          description: Get job deployment restrictions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobDeploymentRestrictionResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    post:
+      summary: Create a job deployment restriction
+      description: Create a job deployment restriction
+      operationId: createJobDeploymentRestriction
+      parameters:
+      - $ref: '#/components/parameters/jobId'
+      tags:
+      - Job Deployment Restriction
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JobDeploymentRestrictionRequest'
+      responses:
+        '201':
+          description: Added an environment variable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobDeploymentRestrictionResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '409':
+          description: A Job deployment restriction with same properties already exists for this job
+  /job/{jobId}/deploymentRestriction/{deploymentRestrictionId}:
+    put:
+      summary: Edit a job deployment restriction
+      description: Edit a job deployment restriction
+      operationId: editJobDeploymentRestriction
+      parameters:
+      - $ref: '#/components/parameters/jobId'
+      - $ref: '#/components/parameters/deploymentRestrictionId'
+      tags:
+      - Job Deployment Restriction
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JobDeploymentRestrictionRequest'
+      responses:
+        '200':
+          description: Edit a job deployment restriction
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobDeploymentRestrictionResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    delete:
+      summary: Delete a job deployment restriction
+      description: Delete a job deployment restriction
+      operationId: deleteJobDeploymentRestriction
+      parameters:
+      - $ref: '#/components/parameters/jobId'
+      - $ref: '#/components/parameters/deploymentRestrictionId'
+      tags:
+      - Job Deployment Restriction
+      responses:
+        '204':
+          $ref: '#/components/responses/204-deletion'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+components:
+  schemas:
+    JobDeploymentRestrictionResponse:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - $ref: '#/components/schemas/JobDeploymentRestrictionRequest'
+    JobDeploymentRestrictionResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/JobDeploymentRestrictionResponse'
+    JobDeploymentRestrictionRequest:
+      type: object
+      required:
+      - mode
+      - type
+      - value
+      properties:
+        mode:
+          $ref: '#/components/schemas/DeploymentRestrictionModeEnum'
+        type:
+          $ref: '#/components/schemas/DeploymentRestrictionTypeEnum'
+        value:
+          type: string
+          description: For `PATH` restrictions, the value must not start with `/`
+          example: job1/src/
+    DeploymentRestrictionModeEnum:
+      type: string
+      description: Match mode will rebuild app only if specified items are updated. Exclude mode will not rebuild app if specified items are updated.
+      enum:
+      - EXCLUDE
+      - MATCH
+      example: MATCH
+    Base:
+      type: object
+      required:
+      - id
+      - created_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          readOnly: true
+          format: date-time
+        updated_at:
+          type: string
+          readOnly: true
+          format: date-time
+    DeploymentRestrictionTypeEnum:
+      type: string
+      enum:
+      - PATH
+      example: PATH
+  responses:
+    204-deletion:
+      description: The resource was deleted successfully
+    '403':
+      description: Access forbidden
+    '404':
+      description: Resource not found
+    '400':
+      description: Bad request
+    '401':
+      description: Access token is missing or invalid
+  parameters:
+    jobId:
+      name: jobId
+      in: path
+      description: Job ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+    deploymentRestrictionId:
+      name: deploymentRestrictionId
+      in: path
+      description: Deployment Restriction ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'JWT tokens should be used with OIDC account (human to machine). JWT tokens used by the Qovery console to communicate with the API have a TTL. Curl Example '' curl https://console.qovery.com/organization -H "Authorization: Bearer $qovery_token" '''
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'Token API are generated by Qovery to manage machine to machine interaction and do not have a TTL. Curl Example '' curl https://console.qovery.com/organization -H "Authorization: Token $qovery_token" '''
+x-tagGroups:
+- name: Organization
+  tags:
+  - Organization Main Calls
+  - Organization Api Token
+  - Organization Account Git Repositories
+  - Organization Cluster Lock
+  - Organization Webhook
+  - Organization Custom Role
+  - Organization Event
+  - Organization Annotations Group
+  - Organization Labels Group
+  - Organization Enterprise Connection
+  - Projects
+  - Members
+  - Billing
+  - Clusters
+  - Cloud Provider
+  - Cloud Provider Credentials
+  - Github App
+  - Container Registries
+  - Helm Repositories
+- name: Project
+  tags:
+  - Project Main Calls
+  - Environments
+  - Project Deployment Rule
+  - Project Environment Variable
+  - Project Secret
+- name: Environment
+  tags:
+  - Environment Main Calls
+  - Applications
+  - Containers
+  - Databases
+  - Jobs
+  - Helms
+  - Terraforms
+  - Environment Actions
+  - Environment Logs
+  - Environment Deployment History
+  - Environment Deployment Rule
+  - Environment Variable
+  - Environment Secret
+  - Environment Export
+- name: Deployment Stage
+  tags:
+  - Deployment Stage Main Calls
+- name: Application
+  tags:
+  - Application Main Calls
+  - Application Actions
+  - Application Configuration
+  - Application Custom Domain
+  - Application Database
+  - Application Logs
+  - Application Deployment Restriction
+  - Application Deployment History
+  - Application Environment Variable
+  - Application Secret
+  - Application Annotations Group
+- name: Container
+  tags:
+  - Container Main Calls
+  - Container Actions
+  - Container Configuration
+  - Container Custom Domain
+  - Container Database
+  - Container Logs
+  - Container Deployment History
+  - Container Environment Variable
+  - Container Secret
+  - Container Annotations Group
+- name: Database
+  tags:
+  - Database Main Calls
+  - Database Actions
+  - Database Applications
+  - Database Deployment History
+  - Database Containers
+  - Database Application
+  - Database Container
+  - Backups
+  - Database Annotations Group
+- name: Job
+  tags:
+  - Job Main Calls
+  - Job Actions
+  - Job Configuration
+  - Job Custom Domain
+  - Job Deployment Restriction
+  - Job Deployment History
+  - Job Environment Variable
+  - Job Secret
+  - Job Annotations Group
+- name: Helm
+  tags:
+  - Helm Main Calls
+  - Helm Actions
+  - Helm Configuration
+  - Helm Custom Domain
+  - Helm Deployment Restriction
+  - Helm Deployment History
+- name: Terraform
+  tags:
+  - Terraform Main Calls
+  - Terraform Actions
+  - Terraform Configuration
+  - Terraform Deployment Restriction
+  - Terraform Deployment History
+- name: Account
+  tags:
+  - Account Info
+  - Git repositories
+  - Referral & Rewards
+- name: Git
+  tags:
+  - Git repositories
+- name: Variable
+  tags:
+  - Variable Main Calls
+- name: Lifecycle Template
+  tags:
+  - Lifecycle Template Main Calls
+- name: Admin
+  tags:
+  - User Sign Up
+- name: Alerting
+  tags:
+  - Alert Receivers
+  - Alert Rules

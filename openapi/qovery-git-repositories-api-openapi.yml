@@ -1,0 +1,462 @@
+openapi: 3.0.0
+info:
+  version: 1.0.4
+  title: Qovery Account Info Git repositories API
+  description: '- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider.
+
+    - ℹ️ The API is stable and still in development.
+
+    '
+  contact:
+    name: Qovery Product Team
+    url: https://www.qovery.com
+    email: support+api+documentation@qovery.com
+  x-logo:
+    url: https://console.qovery.com/assets/logos/logo-white.svg
+    altText: Qovery
+servers:
+- url: https://api.qovery.com
+security:
+- bearerAuth: []
+- ApiKeyAuth: []
+tags:
+- name: Git repositories
+paths:
+  /organization/{organizationId}/listDirectoriesFromGitRepository:
+    post:
+      summary: List directories from a git repository
+      description: 'List immediate subdirectories at a specified path in a git repository.
+
+        This endpoint is used when creating Terraform services to help users browse
+
+        and select the appropriate root path.
+
+        '
+      operationId: listDirectoriesFromGitRepository
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      tags:
+      - Git repositories
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApplicationGitRepositoryRequest'
+      responses:
+        '200':
+          description: List of directories at the specified path
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      type: string
+                    example:
+                    - infra
+                    - terraform
+                    - .github
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /account/gitAuthProvider:
+    get:
+      deprecated: true
+      summary: Get git provider accounts
+      operationId: getGitProviderAccount
+      tags:
+      - Git repositories
+      responses:
+        '200':
+          description: Get account
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GitAuthProviderResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+  /account/github/repository:
+    get:
+      deprecated: true
+      summary: Get github repositories of the connected user
+      operationId: getGithubRepositories
+      tags:
+      - Git repositories
+      responses:
+        '200':
+          description: Get github repositories
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GitRepositoryResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+  /account/github/repository/branch:
+    get:
+      deprecated: true
+      summary: Get github branches of the specified repository
+      operationId: getGithubRepositoryBranches
+      tags:
+      - Git repositories
+      parameters:
+      - in: query
+        name: name
+        schema:
+          type: string
+        description: The name of the repository where to retrieve the branches
+      responses:
+        '200':
+          description: Get github repository branches
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GitRepositoryBranchResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+  /account/gitlab/repository:
+    get:
+      deprecated: true
+      summary: Get gitlab repositories of the connected user
+      operationId: getGitlabRepositories
+      tags:
+      - Git repositories
+      responses:
+        '200':
+          description: Get gitlab repositories
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GitRepositoryResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+  /account/gitlab/repository/branch:
+    get:
+      deprecated: true
+      summary: Get gitlab branches of the specified repository
+      operationId: getGitlabRepositoryBranches
+      tags:
+      - Git repositories
+      parameters:
+      - in: query
+        name: name
+        schema:
+          type: string
+        description: The name of the repository to retrieve the branches
+      responses:
+        '200':
+          description: Get gitlab repository branches
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GitRepositoryBranchResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+  /account/bitbucket/repository:
+    get:
+      deprecated: true
+      summary: Get bitbucket repositories of the connected user
+      operationId: getBitbucketRepositories
+      tags:
+      - Git repositories
+      responses:
+        '200':
+          description: Get bitbucket repositories
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GitRepositoryResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+  /account/bitbucket/repository/branch:
+    get:
+      deprecated: true
+      summary: Get bitbucket branches of the specified repository
+      operationId: getBitbucketRepositoryBranches
+      tags:
+      - Git repositories
+      parameters:
+      - in: query
+        name: name
+        schema:
+          type: string
+        description: The name of the repository where to retrieve the branches
+      responses:
+        '200':
+          description: Get bitbucket repository branches
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GitRepositoryBranchResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+components:
+  schemas:
+    GitRepository:
+      type: object
+      required:
+      - name
+      - url
+      - id
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+          example: simple-node-app
+        url:
+          type: string
+          example: https://github.com/Qovery/simple-node-app
+        default_branch:
+          type: string
+          example: master
+        is_private:
+          type: boolean
+    GitRepositoryBranch:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          example: main
+    GitAuthProviderResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/GitAuthProvider'
+    GitRepositoryResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/GitRepository'
+    GitProviderEnum:
+      type: string
+      enum:
+      - BITBUCKET
+      - GITHUB
+      - GITLAB
+    GitAuthProvider:
+      type: object
+      required:
+      - name
+      - owner
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+          example: GITHUB
+        owner:
+          type: string
+          example: John Doe
+        use_bot:
+          type: boolean
+    ApplicationGitRepositoryRequest:
+      type: object
+      required:
+      - url
+      - owner
+      - name
+      - provider
+      properties:
+        url:
+          type: string
+          description: application git repository URL
+          example: https://github.com/Qovery/simple-node-app
+        branch:
+          type: string
+          description: 'Name of the branch to use. This is optional
+
+            If not specified, then the branch used is the `main` or `master` one
+
+            '
+          example: feat/text_xxx
+        root_path:
+          type: string
+          default: /
+          description: indicates the root path of the application.
+        git_token_id:
+          type: string
+          format: uuid
+          description: The git token id on Qovery side
+          nullable: true
+        provider:
+          $ref: '#/components/schemas/GitProviderEnum'
+    GitRepositoryBranchResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/GitRepositoryBranch'
+  responses:
+    '404':
+      description: Resource not found
+    '403':
+      description: Access forbidden
+    '400':
+      description: Bad request
+    '401':
+      description: Access token is missing or invalid
+  parameters:
+    organizationId:
+      name: organizationId
+      in: path
+      description: Organization ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'JWT tokens should be used with OIDC account (human to machine). JWT tokens used by the Qovery console to communicate with the API have a TTL. Curl Example '' curl https://console.qovery.com/organization -H "Authorization: Bearer $qovery_token" '''
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'Token API are generated by Qovery to manage machine to machine interaction and do not have a TTL. Curl Example '' curl https://console.qovery.com/organization -H "Authorization: Token $qovery_token" '''
+x-tagGroups:
+- name: Organization
+  tags:
+  - Organization Main Calls
+  - Organization Api Token
+  - Organization Account Git Repositories
+  - Organization Cluster Lock
+  - Organization Webhook
+  - Organization Custom Role
+  - Organization Event
+  - Organization Annotations Group
+  - Organization Labels Group
+  - Organization Enterprise Connection
+  - Projects
+  - Members
+  - Billing
+  - Clusters
+  - Cloud Provider
+  - Cloud Provider Credentials
+  - Github App
+  - Container Registries
+  - Helm Repositories
+- name: Project
+  tags:
+  - Project Main Calls
+  - Environments
+  - Project Deployment Rule
+  - Project Environment Variable
+  - Project Secret
+- name: Environment
+  tags:
+  - Environment Main Calls
+  - Applications
+  - Containers
+  - Databases
+  - Jobs
+  - Helms
+  - Terraforms
+  - Environment Actions
+  - Environment Logs
+  - Environment Deployment History
+  - Environment Deployment Rule
+  - Environment Variable
+  - Environment Secret
+  - Environment Export
+- name: Deployment Stage
+  tags:
+  - Deployment Stage Main Calls
+- name: Application
+  tags:
+  - Application Main Calls
+  - Application Actions
+  - Application Configuration
+  - Application Custom Domain
+  - Application Database
+  - Application Logs
+  - Application Deployment Restriction
+  - Application Deployment History
+  - Application Environment Variable
+  - Application Secret
+  - Application Annotations Group
+- name: Container
+  tags:
+  - Container Main Calls
+  - Container Actions
+  - Container Configuration
+  - Container Custom Domain
+  - Container Database
+  - Container Logs
+  - Container Deployment History
+  - Container Environment Variable
+  - Container Secret
+  - Container Annotations Group
+- name: Database
+  tags:
+  - Database Main Calls
+  - Database Actions
+  - Database Applications
+  - Database Deployment History
+  - Database Containers
+  - Database Application
+  - Database Container
+  - Backups
+  - Database Annotations Group
+- name: Job
+  tags:
+  - Job Main Calls
+  - Job Actions
+  - Job Configuration
+  - Job Custom Domain
+  - Job Deployment Restriction
+  - Job Deployment History
+  - Job Environment Variable
+  - Job Secret
+  - Job Annotations Group
+- name: Helm
+  tags:
+  - Helm Main Calls
+  - Helm Actions
+  - Helm Configuration
+  - Helm Custom Domain
+  - Helm Deployment Restriction
+  - Helm Deployment History
+- name: Terraform
+  tags:
+  - Terraform Main Calls
+  - Terraform Actions
+  - Terraform Configuration
+  - Terraform Deployment Restriction
+  - Terraform Deployment History
+- name: Account
+  tags:
+  - Account Info
+  - Git repositories
+  - Referral & Rewards
+- name: Git
+  tags:
+  - Git repositories
+- name: Variable
+  tags:
+  - Variable Main Calls
+- name: Lifecycle Template
+  tags:
+  - Lifecycle Template Main Calls
+- name: Admin
+  tags:
+  - User Sign Up
+- name: Alerting
+  tags:
+  - Alert Receivers
+  - Alert Rules

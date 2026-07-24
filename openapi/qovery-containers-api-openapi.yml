@@ -1,0 +1,1643 @@
+openapi: 3.0.0
+info:
+  version: 1.0.4
+  title: Qovery Account Info Containers API
+  description: '- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider.
+
+    - ℹ️ The API is stable and still in development.
+
+    '
+  contact:
+    name: Qovery Product Team
+    url: https://www.qovery.com
+    email: support+api+documentation@qovery.com
+  x-logo:
+    url: https://console.qovery.com/assets/logos/logo-white.svg
+    altText: Qovery
+servers:
+- url: https://api.qovery.com
+security:
+- bearerAuth: []
+- ApiKeyAuth: []
+tags:
+- name: Containers
+paths:
+  /organization/{organizationId}/containerRegistry/{containerRegistryId}/container/status:
+    get:
+      summary: List all container registry container statuses
+      description: Returns a list of containers with only their id and status.
+      operationId: getContainerRegistryContainerStatus
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/containerRegistryId'
+      tags:
+      - Containers
+      responses:
+        '200':
+          description: Get status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReferenceObjectStatusResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /environment/{environmentId}/container:
+    get:
+      summary: List containers
+      operationId: listContainer
+      parameters:
+      - $ref: '#/components/parameters/environmentId'
+      tags:
+      - Containers
+      responses:
+        '200':
+          description: List containers
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContainerResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    post:
+      summary: Create a container
+      operationId: createContainer
+      parameters:
+      - $ref: '#/components/parameters/environmentId'
+      tags:
+      - Containers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContainerRequest'
+      responses:
+        '201':
+          description: Create container
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContainerResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          description: Container name within the environment is already taken
+  /environment/{environmentId}/container/status:
+    get:
+      summary: List all environment container statuses
+      description: Returns a list of containers with only their id and status.
+      operationId: getEnvironmentContainerStatus
+      parameters:
+      - $ref: '#/components/parameters/environmentId'
+      tags:
+      - Containers
+      responses:
+        '200':
+          description: Get status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReferenceObjectStatusResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /organization/{organizationId}/container/deploy:
+    post:
+      summary: Auto deploy containers
+      description: 'Triggers a new container deploy in each environment matching the following conditions
+
+        - environment should have the auto-deploy enabled
+
+        - the container should have the same image name and a different tag
+
+        '
+      operationId: autoDeployContainerEnvironments
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      tags:
+      - Containers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizationContainerAutoDeployRequest'
+      responses:
+        '202':
+          description: Deployed containers
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          description: Operation is in progress
+  /organization/{organizationId}/container/preview:
+    post:
+      summary: Preview container environments
+      description: 'Triggers a new container preview for each environment matching the following conditions
+
+        - preview environment feature should be enabled for the container
+
+        - the container should have the same image name and a different tag
+
+        '
+      operationId: previewContainerEnvironments
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      tags:
+      - Containers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizationContainerPreviewRequest'
+      responses:
+        '202':
+          description: Preview environments processing
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          description: Operation is in progress
+  /defaultContainerAdvancedSettings:
+    get:
+      summary: List default container advanced settings
+      description: Default values for each setting are available in [our documentation](https://hub.qovery.com/docs/using-qovery/configuration/advanced-settings/)
+      operationId: getDefaultContainerAdvancedSettings
+      tags:
+      - Containers
+      responses:
+        '200':
+          description: Default container advanced settings
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContainerAdvancedSettings'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+  /container/{containerId}/clone:
+    post:
+      summary: Clone container
+      description: This will create a new container with the same configuration on the targeted environment Id.
+      operationId: cloneContainer
+      parameters:
+      - $ref: '#/components/parameters/containerId'
+      tags:
+      - Containers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CloneServiceRequest'
+      responses:
+        '202':
+          description: Container clone has been requested
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContainerResponse'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          description: Operation is in progress
+components:
+  schemas:
+    ReferenceObject:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+    ContainerResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContainerResponse'
+    ServicePortResponseList:
+      type: array
+      items:
+        $ref: '#/components/schemas/ServicePort'
+    ServiceLabelRequest:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          type: string
+          format: uuid
+    ServiceStorage:
+      type: object
+      properties:
+        storage:
+          type: array
+          items:
+            type: object
+            required:
+            - id
+            - type
+            - size
+            - mount_point
+            properties:
+              id:
+                type: string
+                format: uuid
+              type:
+                $ref: '#/components/schemas/StorageTypeEnum'
+              size:
+                type: integer
+                description: unit is GB
+                example: 16
+              mount_point:
+                type: string
+                example: /mnt/images
+    ContainerRegistryProviderDetailsResponse:
+      type: object
+      required:
+      - id
+      - name
+      - url
+      - kind
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        url:
+          type: string
+          description: URL of the container registry
+        kind:
+          $ref: '#/components/schemas/ContainerRegistryKindEnum'
+    OrganizationAnnotationsGroupScopeEnum:
+      type: string
+      description: Annotations Group Scope
+      enum:
+      - DEPLOYMENTS
+      - STATEFUL_SETS
+      - SERVICES
+      - INGRESS
+      - GATEWAY_API_ROUTES
+      - HPA
+      - PODS
+      - SECRETS
+      - JOBS
+      - CRON_JOBS
+    ServiceAnnotationsRequestList:
+      type: array
+      items:
+        $ref: '#/components/schemas/ServiceAnnotationRequest'
+    KedaAutoscalingResponse:
+      title: KedaAutoscalingResponse
+      x-stoplight:
+        id: dgcb902szizvv
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        x-stoplight:
+          id: zjlwqohiiyuwf
+        required:
+        - service_id
+        - mode
+        - polling_interval_seconds
+        - cooldown_period_seconds
+        - scalers
+        properties:
+          service_id:
+            type: string
+            x-stoplight:
+              id: j9bxhtiyyl0iv
+            format: uuid
+          mode:
+            $ref: '#/components/schemas/AutoscalingMode'
+          polling_interval_seconds:
+            type: integer
+            x-stoplight:
+              id: uone6zr48amok
+            format: int32
+          cooldown_period_seconds:
+            type: integer
+            x-stoplight:
+              id: j2dapmjjjiafj
+            format: int32
+          scalers:
+            type: array
+            x-stoplight:
+              id: oyhxgvwg36ixz
+            minItems: 1
+            items:
+              $ref: '#/components/schemas/KedaScalerResponse'
+      description: ''
+    KedaScalerRole:
+      title: KedaScalerRole
+      x-stoplight:
+        id: 1sl0mlxoqzr8w
+      type: string
+      enum:
+      - PRIMARY
+      - SAFETY
+    ContainerResponse:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - $ref: '#/components/schemas/ServiceStorage'
+      - $ref: '#/components/schemas/ContainerSource'
+      - type: object
+        required:
+        - environment
+        - maximum_cpu
+        - maximum_memory
+        - maximum_gpu
+        - name
+        - cpu
+        - memory
+        - gpu
+        - min_running_instances
+        - max_running_instances
+        - healthchecks
+        - auto_preview
+        - icon_uri
+        - service_type
+        properties:
+          environment:
+            $ref: '#/components/schemas/ReferenceObject'
+          maximum_cpu:
+            type: integer
+            description: Maximum cpu that can be allocated to the container based on organization cluster configuration. unit is millicores (m). 1000m = 1 cpu
+            example: 16000
+          maximum_memory:
+            type: integer
+            description: Maximum memory that can be allocated to the container based on organization cluster configuration. unit is MB. 1024 MB = 1GB
+            example: 16384
+          maximum_gpu:
+            type: integer
+            description: Maximum memory that can be allocated to the container based on organization cluster configuration. unit is MB. 1024 MB = 1GB
+            x-stoplight:
+              id: zdw9ry7s5s0e8
+            minimum: 0
+            default: 0
+            example: 2
+          name:
+            type: string
+            description: name is case insensitive
+          description:
+            type: string
+            description: give a description to this container
+          arguments:
+            type: array
+            items:
+              type: string
+          entrypoint:
+            type: string
+            description: optional entrypoint when launching container
+          cpu:
+            type: integer
+            description: unit is millicores (m). 1000m = 1 cpu
+            example: 1250
+          memory:
+            type: integer
+            description: unit is MB. 1024 MB = 1GB
+            example: 1024
+          gpu:
+            type: integer
+            x-stoplight:
+              id: qthonnmak3re3
+            default: 0
+            minimum: 0
+            example: 1
+          min_running_instances:
+            type: integer
+            minimum: 0
+            description: 'Minimum number of instances running. This resource auto-scale based on the CPU and Memory consumption.
+
+              Note: 0 means that there is no container running.
+
+              '
+            default: 1
+          max_running_instances:
+            type: integer
+            description: 'Maximum number of instances running. This resource auto-scale based on the CPU and Memory consumption.
+
+              Note: -1 means that there is no limit.
+
+              '
+            default: 1
+          healthchecks:
+            $ref: '#/components/schemas/Healthcheck'
+          auto_preview:
+            type: boolean
+            description: "Indicates if the 'environment preview option' is enabled for this container.  \nIf enabled, a preview environment will be automatically cloned when `/preview` endpoint is called.  \nIf not specified, it takes the value of the `auto_preview` property from the associated environment.\n"
+          ports:
+            $ref: '#/components/schemas/ServicePortResponseList'
+          auto_deploy:
+            type: boolean
+            description: "Specify if the container will be automatically updated after receiving a new image tag. \nThe new image tag shall be communicated via the \"Auto Deploy container\" endpoint https://api-doc.qovery.com/#tag/Containers/operation/autoDeployContainerEnvironments\n"
+          annotations_groups:
+            $ref: '#/components/schemas/OrganizationAnnotationsGroupResponseList'
+          labels_groups:
+            $ref: '#/components/schemas/OrganizationLabelsGroupResponseList'
+          icon_uri:
+            type: string
+            format: uri
+            description: Icon URI representing the container.
+            x-stoplight:
+              id: o2bdci7ak3bmz
+          service_type:
+            $ref: '#/components/schemas/ServiceTypeEnum'
+          autoscaling:
+            $ref: '#/components/schemas/AutoscalingPolicyResponse'
+    OrganizationLabelsGroupResponse:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        required:
+        - name
+        - labels
+        properties:
+          name:
+            type: string
+          labels:
+            type: array
+            items:
+              $ref: '#/components/schemas/Label'
+      title: ''
+    StorageTypeEnum:
+      type: string
+      enum:
+      - FAST_SSD
+    Healthcheck:
+      type: object
+      nullable: false
+      properties:
+        readiness_probe:
+          $ref: '#/components/schemas/Probe'
+        liveness_probe:
+          $ref: '#/components/schemas/Probe'
+    CloneServiceRequest:
+      type: object
+      required:
+      - name
+      - environment_id
+      properties:
+        name:
+          type: string
+        environment_id:
+          type: string
+          format: uuid
+    ServiceAnnotationRequest:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          type: string
+          format: uuid
+    ContainerSource:
+      type: object
+      required:
+      - image_name
+      - tag
+      - registry
+      properties:
+        image_name:
+          type: string
+          description: 'The image name pattern differs according to chosen container registry provider:
+
+            * `ECR`: `repository`
+
+            * `SCALEWAY_CR`: `namespace/image`
+
+            * `DOCKER_HUB`: `image` or `repository/image`
+
+            * `PUBLIC_ECR`: `registry_alias/repository`
+
+            '
+        tag:
+          type: string
+          description: tag of the image container
+        registry_id:
+          type: string
+          description: tag of the image container
+        registry:
+          $ref: '#/components/schemas/ContainerRegistryProviderDetailsResponse'
+    ServiceTypeEnum:
+      type: string
+      x-stoplight:
+        id: d66063cd29913
+      description: type of the service (application, database, job, ...)
+      enum:
+      - APPLICATION
+      - DATABASE
+      - CONTAINER
+      - JOB
+      - HELM
+      - TERRAFORM
+      - ARGOCD_APP
+    KedaAutoscalingRequest:
+      title: KedaAutoscalingRequest
+      x-stoplight:
+        id: 4vq8n2a7z3pen
+      type: object
+      required:
+      - mode
+      - scalers
+      properties:
+        mode:
+          $ref: '#/components/schemas/AutoscalingMode'
+        polling_interval_seconds:
+          type: integer
+          x-stoplight:
+            id: wy5blh9au1d85
+          format: int32
+        cooldown_period_seconds:
+          type: integer
+          x-stoplight:
+            id: zy5rt4bh9fyph
+          format: int32
+        scalers:
+          type: array
+          x-stoplight:
+            id: 6oh134v1tqb28
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/KedaScalerRequest'
+    OrganizationAnnotationsGroupResponse:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        required:
+        - name
+        - annotations
+        - scopes
+        properties:
+          name:
+            type: string
+          annotations:
+            type: array
+            items:
+              $ref: '#/components/schemas/Annotation'
+          scopes:
+            type: array
+            items:
+              $ref: '#/components/schemas/OrganizationAnnotationsGroupScopeEnum'
+    ReferenceObjectStatusResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReferenceObjectStatus'
+    StepMetricStatusEnum:
+      type: string
+      enum:
+      - SUCCESS
+      - ERROR
+      - CANCEL
+      - SKIP
+      description: 'The status of completion for the step:
+
+        - SUCCESS: The step completed successfully.
+
+        - ERROR: The step completed with an error.
+
+        - CANCEL: The step was canceled.
+
+        - SKIP: The step was skipped because it was not necessary.
+
+        '
+    Label:
+      type: object
+      required:
+      - key
+      - value
+      - propagate_to_cloud_provider
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+        propagate_to_cloud_provider:
+          type: boolean
+    Probe:
+      type: object
+      nullable: true
+      properties:
+        type:
+          type: object
+          properties:
+            tcp:
+              type: object
+              nullable: true
+              properties:
+                port:
+                  type: integer
+                host:
+                  type: string
+                  default: null
+                  nullable: true
+            http:
+              type: object
+              nullable: true
+              properties:
+                path:
+                  type: string
+                  default: /
+                scheme:
+                  type: string
+                  default: HTTP
+                port:
+                  type: integer
+            exec:
+              type: object
+              nullable: true
+              description: Execute a command inside the container. The probe succeeds if the command exits with status code 0.
+              properties:
+                command:
+                  type: array
+                  description: 'Command to execute inside the container, specified as an array of strings. The first element is the executable, followed by its arguments. Example: ["sh", "-c", "test -f /tmp/healthy"]'
+                  example:
+                  - sh
+                  - -c
+                  - test -f /tmp/healthy
+                  items:
+                    type: string
+                  minItems: 1
+            grpc:
+              type: object
+              nullable: true
+              properties:
+                service:
+                  type: string
+                  nullable: true
+                  default: null
+                port:
+                  type: integer
+        initial_delay_seconds:
+          type: integer
+          default: 30
+        period_seconds:
+          type: integer
+          default: 10
+        timeout_seconds:
+          type: integer
+          default: 5
+        success_threshold:
+          type: integer
+          default: 1
+        failure_threshold:
+          type: integer
+          default: 9
+    ServiceSubActionEnum:
+      type: string
+      default: NONE
+      enum:
+      - NONE
+      - TERRAFORM_PLAN_ONLY
+      - TERRAFORM_PLAN_AND_APPLY
+      - TERRAFORM_DESTROY
+      - TERRAFORM_FORCE_UNLOCK_STATE
+      - TERRAFORM_MIGRATE_STATE
+    KedaScalerRequest:
+      title: KedaScalerRequest
+      x-stoplight:
+        id: hfn4tfrtivkcs
+      type: object
+      required:
+      - scaler_type
+      - role
+      properties:
+        scaler_type:
+          type: string
+          x-stoplight:
+            id: 3ba9iisjwqgsp
+        enabled:
+          type: boolean
+          x-stoplight:
+            id: 9m67trg9m0ioz
+        role:
+          $ref: '#/components/schemas/KedaScalerRole'
+        config_json:
+          type: object
+          x-stoplight:
+            id: si5ekni2hc6w9
+        config_yaml:
+          type: string
+          x-stoplight:
+            id: 8c7vktd7svl30
+        trigger_authentication:
+          $ref: '#/components/schemas/KedaTriggerAuthenticationRequest'
+    PortProtocolEnum:
+      type: string
+      default: HTTP
+      enum:
+      - HTTP
+      - GRPC
+      - TCP
+      - UDP
+    KedaTriggerAuthenticationRequest:
+      title: KedaTriggerAuthenticationRequest
+      x-stoplight:
+        id: wp51tmturog3b
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          x-stoplight:
+            id: ka4ltf1usuola
+        config_yaml:
+          type: string
+          x-stoplight:
+            id: 65znz6jclbew5
+          description: Optional raw KEDA TriggerAuthentication YAML configuration.
+    ServiceLabelsRequestList:
+      type: array
+      items:
+        $ref: '#/components/schemas/ServiceLabelRequest'
+    KedaTriggerAuthenticationResponse:
+      title: KedaTriggerAuthenticationResponse
+      x-stoplight:
+        id: 7mm4a4sk9jhz3
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        x-stoplight:
+          id: ssejnexbsra11
+        required:
+        - organization_id
+        - name
+        properties:
+          organization_id:
+            type: string
+            x-stoplight:
+              id: akxa3zctvjj5h
+          name:
+            type: string
+            x-stoplight:
+              id: gpvwed95xygk1
+          config_yaml:
+            type: string
+            x-stoplight:
+              id: r5lmrzakyk9o6
+            description: ' Optional raw KEDA TriggerAuthentication YAML configuration.'
+    OrganizationLabelsGroupResponseList:
+      type: array
+      items:
+        $ref: '#/components/schemas/OrganizationLabelsGroupResponse'
+      title: ''
+    ServiceStepMetric:
+      type: object
+      properties:
+        step_name:
+          $ref: '#/components/schemas/ServiceStepMetricNameEnum'
+        status:
+          $ref: '#/components/schemas/StepMetricStatusEnum'
+        duration_sec:
+          description: The duration of the step in seconds.
+          type: integer
+    OrganizationContainerAutoDeployRequest:
+      type: object
+      properties:
+        image_name:
+          type: string
+          description: the container image name to deploy
+        tag:
+          type: string
+          description: the new tag to deploy
+    ContainerRegistryKindEnum:
+      type: string
+      enum:
+      - ECR
+      - SCALEWAY_CR
+      - DOCKER_HUB
+      - GITHUB_CR
+      - GITHUB_ENTERPRISE_CR
+      - GITLAB_CR
+      - PUBLIC_ECR
+      - DOCR
+      - GENERIC_CR
+      - GCP_ARTIFACT_REGISTRY
+      - AZURE_CR
+      description: The type of your container registry
+    OrganizationContainerPreviewRequest:
+      type: object
+      properties:
+        image_name:
+          type: string
+          description: the container image name to trigger preview environment
+        tag:
+          type: string
+          description: the tag to be used in the preview environment
+    Annotation:
+      type: object
+      required:
+      - key
+      - value
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+    AutoscalingPolicyResponse:
+      title: AutoscalingPolicyResponse
+      x-stoplight:
+        id: mjawsx6obi237
+      oneOf:
+      - $ref: '#/components/schemas/KedaAutoscalingResponse'
+      discriminator:
+        propertyName: mode
+        mapping:
+          KEDA: '#/components/schemas/KedaAutoscalingResponse'
+    ServiceDeploymentStatusEnum:
+      type: string
+      enum:
+      - NEVER_DEPLOYED
+      - OUT_OF_DATE
+      - UP_TO_DATE
+    KedaScalerResponse:
+      title: KedaScalerResponse
+      x-stoplight:
+        id: gaaqg32ivl48h
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        x-stoplight:
+          id: 74tt3hgf95nfe
+        required:
+        - scaler_type
+        - enabled
+        - role
+        properties:
+          scaler_type:
+            type: string
+            x-stoplight:
+              id: 1ckp76ziimkg4
+          enabled:
+            type: boolean
+            x-stoplight:
+              id: 0dnjwnlkuj3kp
+          role:
+            $ref: '#/components/schemas/KedaScalerRole'
+          config_json:
+            type: object
+            nullable: true
+          config_yaml:
+            type: string
+            nullable: true
+          trigger_authentication:
+            $ref: '#/components/schemas/KedaTriggerAuthenticationResponse'
+    ServiceStepMetricNameEnum:
+      type: string
+      enum:
+      - REGISTRY_CREATE_REPOSITORY
+      - GIT_CLONE
+      - BUILD_QUEUEING
+      - BUILD
+      - DEPLOYMENT_QUEUEING
+      - DEPLOYMENT
+      - ROUTER_DEPLOYMENT
+      - MIRROR_IMAGE
+      - EXECUTING
+      description: "The name of the deployment step at the service level:\n- REGISTRY_CREATE_REPOSITORY: The step to create the repository in the registry.\n- GIT_CLONE: The step to clone the source code repository. \n- BUILD_QUEUEING: The queuing time preceding the actual building step.\n- BUILD: The step to build the source code.\n- DEPLOYMENT_QUEUEING: The queuing time preceding the actual deployment step.\n- DEPLOYMENT: The step to deploy the service. \n- ROUTER_DEPLOYMENT: The step to deploy the router. \n- MIRROR_IMAGE: The step to mirror the image to the private registry.\n- EXECUTING: The step to execute a job or terraform apply.\n"
+    ServiceStepMetrics:
+      type: object
+      required:
+      - total_duration_sec
+      - total_computing_duration_sec
+      - details
+      properties:
+        total_duration_sec:
+          description: The total duration in seconds of the service deployment or null if the deployment is not completed.
+          type: integer
+          nullable: true
+        total_computing_duration_sec:
+          description: The total duration in seconds of the service deployment without queuing steps.
+          type: integer
+        details:
+          description: A list of metrics for deployment steps of the service.
+          type: array
+          items:
+            $ref: '#/components/schemas/ServiceStepMetric'
+    ServiceActionEnum:
+      type: string
+      enum:
+      - DEPLOY
+      - DELETE
+      - RESTART
+      - STOP
+      - UNKNOWN
+    ContainerRequest:
+      allOf:
+      - $ref: '#/components/schemas/ServiceStorageRequest'
+      - $ref: '#/components/schemas/ServicePortRequest'
+      - type: object
+        required:
+        - name
+        - registry_id
+        - image_name
+        - tag
+        - healthchecks
+        properties:
+          name:
+            type: string
+            description: name is case insensitive
+          description:
+            type: string
+            description: give a description to this container
+          registry_id:
+            type: string
+            description: id of the linked registry
+          image_name:
+            type: string
+            description: "The image name pattern differs according to chosen container registry provider:  \n* `ECR`: `repository`\n* `SCALEWAY_CR`: `namespace/image`\n* `DOCKER_HUB`: `image` or `repository/image`\n* `PUBLIC_ECR`: `registry_alias/repository`\n"
+          tag:
+            type: string
+            description: tag of the image container
+          arguments:
+            type: array
+            items:
+              type: string
+          entrypoint:
+            type: string
+            description: optional entrypoint when launching container
+          cpu:
+            type: integer
+            description: unit is millicores (m). 1000m = 1 cpu
+            default: 500
+            example: 1250
+          memory:
+            type: integer
+            description: unit is MB. 1024 MB = 1GB
+            default: 512
+            example: 1024
+          gpu:
+            type: integer
+            x-stoplight:
+              id: j1i1u2mlnlgfm
+            minimum: 0
+            default: 0
+            example: 1
+          min_running_instances:
+            type: integer
+            minimum: 0
+            description: 'Minimum number of instances running. This resource auto-scale based on the CPU and Memory consumption.
+
+              Note: 0 means that there is no container running.
+
+              '
+            default: 1
+          max_running_instances:
+            type: integer
+            description: 'Maximum number of instances running. This resource auto-scale based on the CPU and Memory consumption.
+
+              Note: -1 means that there is no limit.
+
+              '
+            default: 1
+          healthchecks:
+            $ref: '#/components/schemas/Healthcheck'
+          auto_preview:
+            type: boolean
+            description: "Indicates if the 'environment preview option' is enabled for this container.  \nIf enabled, a preview environment will be automatically cloned when `/preview` endpoint is called.  \nIf not specified, it takes the value of the `auto_preview` property from the associated environment.\n"
+          auto_deploy:
+            type: boolean
+            description: "Specify if the container will be automatically updated after receiving a new image tag. \nThe new image tag shall be communicated via the \"Auto Deploy container\" endpoint https://api-doc.qovery.com/#tag/Containers/operation/autoDeployContainerEnvironments\n"
+            nullable: true
+          annotations_groups:
+            $ref: '#/components/schemas/ServiceAnnotationsRequestList'
+          labels_groups:
+            $ref: '#/components/schemas/ServiceLabelsRequestList'
+          icon_uri:
+            type: string
+            format: uri
+            description: Icon URI representing the container.
+            x-stoplight:
+              id: jiypvl6nd63dm
+          autoscaling:
+            $ref: '#/components/schemas/AutoscalingPolicyRequest'
+    ReferenceObjectStatus:
+      allOf:
+      - $ref: '#/components/schemas/ReferenceObject'
+      - $ref: '#/components/schemas/Status'
+    AutoscalingPolicyRequest:
+      title: AutoscalingPolicyRequest
+      x-stoplight:
+        id: ylgyx3ozik2hf
+      oneOf:
+      - $ref: '#/components/schemas/KedaAutoscalingRequest'
+      discriminator:
+        propertyName: mode
+        mapping:
+          KEDA: '#/components/schemas/KedaAutoscalingRequest'
+    AutoscalingMode:
+      title: AutoscalingMode
+      x-stoplight:
+        id: vmgo27882mrl3
+      type: string
+      enum:
+      - KEDA
+    ServicePortRequest:
+      type: object
+      properties:
+        ports:
+          type: array
+          items:
+            type: object
+            required:
+            - internal_port
+            - publicly_accessible
+            properties:
+              id:
+                type: string
+                format: uuid
+              name:
+                type: string
+              internal_port:
+                type: integer
+                example: 8080
+                description: The listening port of your service.
+              external_port:
+                type: integer
+                example: 8080
+                description: The exposed port for your service. This is optional. If not set a default port will be used.
+              publicly_accessible:
+                type: boolean
+                description: Expose the port to the world
+              is_default:
+                type: boolean
+                description: is the default port to use for domain
+              protocol:
+                $ref: '#/components/schemas/PortProtocolEnum'
+              public_path:
+                type: string
+                description: "Indicate the path or regex that must match for traffic to be accepted on your service\ni.e: /api/ will only accept http calls that start with /api/ \nOnly valid for publicly_accessible HTTP or GRPC ports."
+              public_path_rewrite:
+                type: string
+                description: "Indicate the new path that will be used to reach your service after replacement\ni.e: public_path -> /(.*)  public_path_rewrite -> /api/$1 will append /api/ on all externaly requested url when reaching the service \nexternal/use url -> example.com/foobar  -> url seen by the service -> example.com/api/foobar\nOnly valid for publicly_accessible HTTP or GRPC ports."
+    StateEnum:
+      type: string
+      enum:
+      - BUILDING
+      - BUILD_ERROR
+      - CANCELED
+      - CANCELING
+      - DELETED
+      - DELETE_ERROR
+      - DELETE_QUEUED
+      - DELETING
+      - DEPLOYED
+      - DEPLOYING
+      - DEPLOYMENT_ERROR
+      - DEPLOYMENT_QUEUED
+      - EXECUTING
+      - QUEUED
+      - READY
+      - RECAP
+      - RESTARTED
+      - RESTARTING
+      - RESTART_ERROR
+      - RESTART_QUEUED
+      - STOPPED
+      - STOPPING
+      - STOP_ERROR
+      - STOP_QUEUED
+      - UNAVAILABLE
+      - WAITING_DELETING
+      - WAITING_RESTARTING
+      - WAITING_RUNNING
+      - WAITING_STOPPING
+    ServiceStorageRequest:
+      type: object
+      properties:
+        storage:
+          type: array
+          items:
+            type: object
+            required:
+            - type
+            - size
+            - mount_point
+            properties:
+              id:
+                type: string
+                format: uuid
+              type:
+                $ref: '#/components/schemas/StorageTypeEnum'
+              size:
+                type: integer
+                description: 'unit is GB
+
+                  Minimum size is 4 GB
+
+                  '
+                example: 16
+              mount_point:
+                type: string
+                example: /mnt/images
+    ServicePort:
+      type: object
+      required:
+      - id
+      - internal_port
+      - publicly_accessible
+      - protocol
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        internal_port:
+          type: integer
+          example: 8080
+          description: The listening port of your service.
+        external_port:
+          type: integer
+          example: 8080
+          description: The exposed port for your service. This is optional. If not set a default port will be used.
+        publicly_accessible:
+          type: boolean
+          description: Expose the port to the world
+        is_default:
+          type: boolean
+          description: is the default port to use for domain
+        protocol:
+          $ref: '#/components/schemas/PortProtocolEnum'
+        public_path:
+          type: string
+          description: "Indicate the path or regex that must match for traffic to be accepted on your service\ni.e: /api/ will only accept http calls that start with /api/ \nOnly valid for publicly_accessible HTTP or GRPC ports."
+        public_path_rewrite:
+          type: string
+          description: "Indicate the new path that will be used to reach your service after replacement\ni.e: public_path -> /(.*)  public_path_rewrite -> /api/$1 will append /api/ on all externaly requested url when reaching the service \nexternal/use url -> example.com/foobar  -> url seen by the service -> example.com/api/foobar\nOnly valid for publicly_accessible HTTP or GRPC ports."
+    OrganizationAnnotationsGroupResponseList:
+      type: array
+      items:
+        $ref: '#/components/schemas/OrganizationAnnotationsGroupResponse'
+    Status:
+      type: object
+      required:
+      - id
+      - state
+      - service_deployment_status
+      - status_details
+      - is_part_last_deployment
+      - deployment_requests_count
+      - deployment_request_id
+      properties:
+        id:
+          type: string
+          format: uuid
+        state:
+          $ref: '#/components/schemas/StateEnum'
+        service_deployment_status:
+          $ref: '#/components/schemas/ServiceDeploymentStatusEnum'
+        last_deployment_date:
+          type: string
+          format: date-time
+        is_part_last_deployment:
+          type: boolean
+        steps:
+          $ref: '#/components/schemas/ServiceStepMetrics'
+        execution_id:
+          type: string
+          x-stoplight:
+            id: 3o9tz4272s2ct
+        status_details:
+          $ref: '#/components/schemas/StatusDetails'
+        deployment_request_id:
+          type: string
+          x-stoplight:
+            id: bepixrb7tyzme
+          format: uuid
+          nullable: true
+        deployment_requests_count:
+          type: integer
+          x-stoplight:
+            id: crku532vt3v4p
+    ServiceActionStatusEnum:
+      type: string
+      enum:
+      - QUEUED
+      - ONGOING
+      - SUCCESS
+      - ERROR
+      - EXECUTING
+      - CANCELED
+      - CANCELING
+      - NEVER
+    Base:
+      type: object
+      required:
+      - id
+      - created_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          readOnly: true
+          format: date-time
+        updated_at:
+          type: string
+          readOnly: true
+          format: date-time
+    ContainerAdvancedSettings:
+      type: object
+      properties:
+        deployment.custom_domain_check_enabled:
+          type: boolean
+          description: disable custom domain check when deploying an application
+        deployment.termination_grace_period_seconds:
+          type: integer
+          description: define how long in seconds an application is supposed to be stopped gracefully
+        deployment.affinity.node.required:
+          type: object
+          description: Set pod placement on specific Kubernetes nodes labels
+          additionalProperties:
+            type: string
+        deployment.antiaffinity.pod:
+          type: string
+          enum:
+          - Preferred
+          - Requirred
+          description: 'Define how you want pods affinity to behave:
+
+            * `Preferred` allows, but does not require, pods of a given service are not co-located (or co-hosted) on a single node
+
+            * `Requirred` ensures that the pods of a given service are not co-located (or co-hosted) on a single node (safer in term of availability but can be expensive depending on the number of replicas)
+
+            '
+        deployment.topology_spread.zone:
+          type: string
+          enum:
+          - Disabled
+          - ScheduleAnyway
+          - DoNotSchedule
+          description: 'Define how you want pods to be spread across availability zones:
+
+            * `Disabled` no topology spread constraints are applied
+
+            * `ScheduleAnyway` pods are spread across zones on a best-effort basis (soft constraint)
+
+            * `DoNotSchedule` pods must be evenly spread across zones with a maxSkew of 1 (hard constraint)
+
+            '
+        deployment.update_strategy.type:
+          type: string
+          enum:
+          - RollingUpdate
+          - Recreate
+          description: '* `RollingUpdate` gracefully rollout new versions, and automatically rollback if the new version fails to start
+
+            * `Recreate` stop all current versions and create new ones once all old ones have been shutdown
+
+            '
+        deployment.update_strategy.rolling_update.max_unavailable_percent:
+          type: integer
+          description: Define the percentage of a maximum number of pods that can be unavailable during the update process
+        deployment.update_strategy.rolling_update.max_surge_percent:
+          type: integer
+          description: Define the percentage of the maximum number of pods that can be created over the desired number of pods
+        network.ingress.proxy_body_size_mb:
+          type: integer
+        network.ingress.force_ssl_redirect:
+          type: boolean
+          x-stoplight:
+            id: xrdjy3znm8mpg
+          description: When using SSL offloading outside of cluster, you can enforce a redirect to HTTPS even when there is no TLS certificate available
+        network.ingress.enable_cors:
+          type: boolean
+        network.ingress.cors_allow_origin:
+          type: string
+        network.ingress.cors_allow_methods:
+          type: string
+        network.ingress.cors_allow_headers:
+          type: string
+        network.ingress.proxy_buffer_size_kb:
+          type: integer
+          description: header buffer size used while reading response header from upstream
+        network.ingress.keepalive_time_seconds:
+          type: integer
+          description: Limits the maximum time (in seconds) during which requests can be processed through one keepalive connection
+        network.ingress.keepalive_timeout_seconds:
+          type: integer
+          description: Sets a timeout (in seconds) during which an idle keepalive connection to an upstream server will stay open.
+        network.ingress.send_timeout_seconds:
+          type: integer
+          description: Sets a timeout (in seconds) for transmitting a response to the client
+        network.ingress.proxy_connect_timeout_seconds:
+          type: integer
+          description: Sets a timeout (in seconds) for establishing a connection to a proxied server
+        network.ingress.proxy_send_timeout_seconds:
+          type: integer
+          description: Sets a timeout (in seconds) for transmitting a request to the proxied server
+        network.ingress.proxy_read_timeout_seconds:
+          type: integer
+          description: Sets a timeout (in seconds) for reading a response from the proxied server
+        network.ingress.proxy_buffering:
+          type: string
+          description: Allows to enable or disable nginx `proxy-buffering`
+        network.ingress.proxy_request_buffering:
+          type: string
+          description: Allows to enable or disable nginx `proxy-request-buffering`
+        network.ingress.grpc_send_timeout_seconds:
+          type: integer
+          description: Sets a timeout (in seconds) for transmitting a request to the grpc server
+        network.ingress.grpc_read_timeout_seconds:
+          type: integer
+          description: Sets a timeout (in seconds) for transmitting a request to the grpc server
+        network.ingress.whitelist_source_range:
+          type: string
+          description: "list of source ranges to allow access to ingress proxy. \nThis property can be used to whitelist source IP ranges for ingress proxy.\nThe value is a comma separated list of CIDRs, e.g. 10.0.0.0/24,172.10.0.1\nTo allow all source ranges, set 0.0.0.0/0.\n"
+        network.ingress.denylist_source_range:
+          type: string
+          description: "list of source ranges to deny access to ingress proxy. \nThis property can be used to blacklist source IP ranges for ingress proxy.\nThe value is a comma separated list of CIDRs, e.g. 10.0.0.0/24,172.10.0.1\n"
+        network.ingress.extra_headers:
+          type: string
+          description: Allows to define response headers
+          example: '{"X-Frame-Options":"DENY ","X-Content-Type-Options":"nosniff"}'
+        network.gateway_api.http_request_timeout_seconds:
+          type: integer
+          nullable: true
+          minimum: 0
+          description: Sets a timeout (in seconds) for requests proxied through the Gateway API route.
+        network.gateway_api.http_connection_idle_timeout_seconds:
+          type: integer
+          nullable: true
+          minimum: 0
+          description: Sets the idle timeout (in seconds) for HTTP connections proxied through the Gateway API route.
+        network.ingress.basic_auth_env_var:
+          type: string
+          description: 'Set the name of an environment variable to use as a basic authentication (`login:crypted_password`) from `htpasswd` command. You can add multiples comma separated values.
+
+            '
+        network.ingress.enable_sticky_session:
+          type: boolean
+          description: 'Enable the load balancer to bind a user''s session to a specific target.
+
+            This ensures that all requests from the user during the session are sent to the same target
+
+            '
+        security.service_account_name:
+          type: string
+          description: 'Allows you to set an existing Kubernetes service account name
+
+            '
+        hpa.cpu.average_utilization_percent:
+          type: integer
+          description: Percentage value of cpu usage at which point pods should scale up.
+        hpa.memory.average_utilization_percent:
+          type: integer
+          nullable: true
+          description: Percentage value of memory usage at which point pods should scale up.
+        security.automount_service_account_token:
+          type: boolean
+          description: 'Automount Kubernetes service account token to have access to Kubernetes API from pods
+
+            '
+        security.read_only_root_filesystem:
+          type: boolean
+          description: 'Mounts the container''s root filesystem as read-only
+
+            '
+    StatusDetails:
+      type: object
+      required:
+      - action
+      - status
+      - sub_action
+      properties:
+        action:
+          $ref: '#/components/schemas/ServiceActionEnum'
+        status:
+          $ref: '#/components/schemas/ServiceActionStatusEnum'
+        sub_action:
+          $ref: '#/components/schemas/ServiceSubActionEnum'
+  parameters:
+    containerRegistryId:
+      name: containerRegistryId
+      in: path
+      description: Container Registry ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+    environmentId:
+      name: environmentId
+      in: path
+      description: Environment ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+    containerId:
+      name: containerId
+      in: path
+      description: Container ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+    organizationId:
+      name: organizationId
+      in: path
+      description: Organization ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+  responses:
+    '400':
+      description: Bad request
+    '403':
+      description: Access forbidden
+    '404':
+      description: Resource not found
+    '401':
+      description: Access token is missing or invalid
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'JWT tokens should be used with OIDC account (human to machine). JWT tokens used by the Qovery console to communicate with the API have a TTL. Curl Example '' curl https://console.qovery.com/organization -H "Authorization: Bearer $qovery_token" '''
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'Token API are generated by Qovery to manage machine to machine interaction and do not have a TTL. Curl Example '' curl https://console.qovery.com/organization -H "Authorization: Token $qovery_token" '''
+x-tagGroups:
+- name: Organization
+  tags:
+  - Organization Main Calls
+  - Organization Api Token
+  - Organization Account Git Repositories
+  - Organization Cluster Lock
+  - Organization Webhook
+  - Organization Custom Role
+  - Organization Event
+  - Organization Annotations Group
+  - Organization Labels Group
+  - Organization Enterprise Connection
+  - Projects
+  - Members
+  - Billing
+  - Clusters
+  - Cloud Provider
+  - Cloud Provider Credentials
+  - Github App
+  - Container Registries
+  - Helm Repositories
+- name: Project
+  tags:
+  - Project Main Calls
+  - Environments
+  - Project Deployment Rule
+  - Project Environment Variable
+  - Project Secret
+- name: Environment
+  tags:
+  - Environment Main Calls
+  - Applications
+  - Containers
+  - Databases
+  - Jobs
+  - Helms
+  - Terraforms
+  - Environment Actions
+  - Environment Logs
+  - Environment Deployment History
+  - Environment Deployment Rule
+  - Environment Variable
+  - Environment Secret
+  - Environment Export
+- name: Deployment Stage
+  tags:
+  - Deployment Stage Main Calls
+- name: Application
+  tags:
+  - Application Main Calls
+  - Application Actions
+  - Application Configuration
+  - Application Custom Domain
+  - Application Database
+  - Application Logs
+  - Application Deployment Restriction
+  - Application Deployment History
+  - Application Environment Variable
+  - Application Secret
+  - Application Annotations Group
+- name: Container
+  tags:
+  - Container Main Calls
+  - Container Actions
+  - Container Configuration
+  - Container Custom Domain
+  - Container Database
+  - Container Logs
+  - Container Deployment History
+  - Container Environment Variable
+  - Container Secret
+  - Container Annotations Group
+- name: Database
+  tags:
+  - Database Main Calls
+  - Database Actions
+  - Database Applications
+  - Database Deployment History
+  - Database Containers
+  - Database Application
+  - Database Container
+  - Backups
+  - Database Annotations Group
+- name: Job
+  tags:
+  - Job Main Calls
+  - Job Actions
+  - Job Configuration
+  - Job Custom Domain
+  - Job Deployment Restriction
+  - Job Deployment History
+  - Job Environment Variable
+  - Job Secret
+  - Job Annotations Group
+- name: Helm
+  tags:
+  - Helm Main Calls
+  - Helm Actions
+  - Helm Configuration
+  - Helm Custom Domain
+  - Helm Deployment Restriction
+  - Helm Deployment History
+- name: Terraform
+  tags:
+  - Terraform Main Calls
+  - Terraform Actions
+  - Terraform Configuration
+  - Terraform Deployment Restriction
+  - Terraform Deployment History
+- name: Account
+  tags:
+  - Account Info
+  - Git repositories
+  - Referral & Rewards
+- name: Git
+  tags:
+  - Git repositories
+- name: Variable
+  tags:
+  - Variable Main Calls
+- name: Lifecycle Template
+  tags:
+  - Lifecycle Template Main Calls
+- name: Admin
+  tags:
+  - User Sign Up
+- name: Alerting
+  tags:
+  - Alert Receivers
+  - Alert Rules

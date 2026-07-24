@@ -1,0 +1,3116 @@
+openapi: 3.0.0
+info:
+  version: 1.0.4
+  title: Qovery Account Info Clusters API
+  description: '- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider.
+
+    - ℹ️ The API is stable and still in development.
+
+    '
+  contact:
+    name: Qovery Product Team
+    url: https://www.qovery.com
+    email: support+api+documentation@qovery.com
+  x-logo:
+    url: https://console.qovery.com/assets/logos/logo-white.svg
+    altText: Qovery
+servers:
+- url: https://api.qovery.com
+security:
+- bearerAuth: []
+- ApiKeyAuth: []
+tags:
+- name: Clusters
+paths:
+  /organization/{organizationId}/cluster:
+    get:
+      summary: List organization clusters
+      operationId: listOrganizationCluster
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      tags:
+      - Clusters
+      responses:
+        '200':
+          description: List clusters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClusterResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    post:
+      summary: Create a cluster
+      operationId: createCluster
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      tags:
+      - Clusters
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClusterRequest'
+      responses:
+        '201':
+          description: Create cluster
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cluster'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /organization/{organizationId}/cluster/status:
+    get:
+      summary: List all clusters statuses
+      description: Returns a list of clusters with only their id and status.
+      operationId: getOrganizationClusterStatus
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      tags:
+      - Clusters
+      responses:
+        '200':
+          description: Get statuses
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClusterStatusResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /organization/{organizationId}/cluster/{clusterId}:
+    delete:
+      summary: Delete a cluster
+      operationId: deleteCluster
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/clusterId'
+      - in: query
+        name: deleteMode
+        schema:
+          $ref: '#/components/schemas/ClusterDeleteMode'
+      tags:
+      - Clusters
+      responses:
+        '204':
+          $ref: '#/components/responses/204-deletion'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    put:
+      summary: Edit a cluster
+      operationId: editCluster
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/clusterId'
+      tags:
+      - Clusters
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClusterRequest'
+      responses:
+        '200':
+          description: Edited the cluster
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cluster'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /organization/{organizationId}/cluster/{clusterId}/status:
+    get:
+      summary: Get cluster status
+      operationId: getClusterStatus
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/clusterId'
+      tags:
+      - Clusters
+      responses:
+        '200':
+          description: Get status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClusterStatus'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /organization/{organizationId}/cluster/{clusterId}/installationHelmValues:
+    get:
+      summary: Get cluster helm values for self managed installation
+      operationId: getInstallationHelmValues
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/clusterId'
+      tags:
+      - Clusters
+      responses:
+        '200':
+          description: Helm values
+          content:
+            application/x-yaml:
+              schema:
+                type: string
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /organization/{organizationId}/cluster/{clusterId}/kubeconfig:
+    get:
+      summary: Get cluster kubeconfig
+      operationId: getClusterKubeconfig
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/clusterId'
+      - schema:
+          type: boolean
+        in: query
+        name: with_token_from_cli
+        description: If true, the user auth part will have an exec command with qovery cli
+      tags:
+      - Clusters
+      responses:
+        '200':
+          description: Get kubeconfig of the cluster
+          content:
+            application/x-yaml:
+              schema:
+                type: string
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    put:
+      summary: Edit cluster kubeconfig
+      operationId: editClusterKubeconfig
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/clusterId'
+      tags:
+      - Clusters
+      requestBody:
+        content:
+          application/x-yaml:
+            schema:
+              type: string
+      responses:
+        '204':
+          description: edit kubeconfig of the cluster
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /organization/{organizationId}/cluster/{clusterId}/advancedSettings:
+    get:
+      summary: Get advanced settings
+      description: 'Get the list and values of the advanced settings of the cluster.
+
+        Default values for each setting are available in [our documentation](https://hub.qovery.com/docs/using-qovery/configuration/cluster-advanced-settings/)
+
+        '
+      operationId: getClusterAdvancedSettings
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/clusterId'
+      tags:
+      - Clusters
+      responses:
+        '200':
+          description: Advanced settings list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClusterAdvancedSettings'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    put:
+      summary: Edit advanced settings
+      description: Edit advanced settings by returning table of advanced settings.
+      operationId: editClusterAdvancedSettings
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/clusterId'
+      tags:
+      - Clusters
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClusterAdvancedSettings'
+      responses:
+        '201':
+          description: Updated advanced settings
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClusterAdvancedSettings'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /organization/{organizationId}/cluster/{clusterId}/routingTable:
+    get:
+      summary: Get routing table
+      description: Retrieve network routing table where each line corresponds to a route between a destination and a target.
+      operationId: getRoutingTable
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/clusterId'
+      tags:
+      - Clusters
+      responses:
+        '200':
+          description: Routing table
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClusterRoutingTable'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    put:
+      summary: Edit routing table
+      description: Edit routing table by returning updated table.
+      operationId: editRoutingTable
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/clusterId'
+      tags:
+      - Clusters
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClusterRoutingTableRequest'
+      responses:
+        '201':
+          description: Updated routing table
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClusterRoutingTable'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /organization/{organizationId}/cluster/{clusterId}/logs:
+    get:
+      summary: List Cluster Logs
+      description: List Cluster Logs
+      operationId: listClusterLogs
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/clusterId'
+      tags:
+      - Clusters
+      responses:
+        '200':
+          description: list cluster logs
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClusterLogsResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /organization/{organizationId}/cluster/{clusterId}/cloudProviderInfo:
+    get:
+      summary: Get cluster cloud provider info and credentials
+      operationId: getOrganizationCloudProviderInfo
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/clusterId'
+      tags:
+      - Clusters
+      responses:
+        '200':
+          description: get cloud provider info and credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClusterCloudProviderInfo'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    post:
+      summary: Specify cluster cloud provider info and credentials
+      operationId: specifyClusterCloudProviderInfo
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/clusterId'
+      tags:
+      - Clusters
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClusterCloudProviderInfoRequest'
+      responses:
+        '201':
+          description: Create cluster
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClusterCloudProviderInfo'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /organization/{organizationId}/cluster/{clusterId}/isReady:
+    get:
+      summary: Know if a cluster is ready to be deployed or not
+      operationId: getClusterReadinessStatus
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/clusterId'
+      tags:
+      - Clusters
+      responses:
+        '200':
+          description: Get Cluster Readiness Status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClusterReadinessStatus'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /organization/{organizationId}/cluster/{clusterId}/deploy:
+    post:
+      summary: Deploy a cluster
+      description: allows to deploy a cluster
+      operationId: deployCluster
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/clusterId'
+      - schema:
+          type: boolean
+        in: query
+        name: dry_run
+        description: 'default: false. Decide if the deployment of the cluster should be done in dry_run mode. Avoiding any changes'
+      tags:
+      - Clusters
+      responses:
+        '201':
+          description: Deploy cluster
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClusterStatus'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /organization/{organizationId}/cluster/{clusterId}/eks-anywhere/commits:
+    get:
+      summary: List EKS Anywhere commits
+      description: Returns list of the last commits made on the repository linked to the EKS Anywhere cluster, filtered by the targeted YAML file when supported by provider.
+      operationId: listEksAnywhereCommits
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/clusterId'
+      tags:
+      - Clusters
+      responses:
+        '200':
+          description: List EKS Anywhere commits
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommitResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /organization/{organizationId}/cluster/{clusterId}/eks-anywhere/commit:
+    put:
+      summary: Update selected EKS Anywhere commit
+      description: Persist selected commit for an EKS Anywhere cluster.
+      operationId: updateEksAnywhereCommit
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/clusterId'
+      tags:
+      - Clusters
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EksAnywhereCommitRequest'
+      responses:
+        '200':
+          description: Updated EKS Anywhere commit
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EksAnywhereCommitResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /organization/{organizationId}/cluster/{clusterId}/eks-anywhere/jwt:
+    get:
+      summary: Get latest EKS Anywhere cluster JWT
+      description: Returns the latest valid JWT currently used for engine deployments for the specified EKS Anywhere cluster.
+      operationId: getEksAnywhereClusterJwt
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/clusterId'
+      tags:
+      - Clusters
+      responses:
+        '200':
+          description: Latest EKS Anywhere cluster JWT
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EksAnywhereClusterJwtResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /cluster/{clusterId}/upgrade:
+    post:
+      summary: Upgrade a cluster
+      description: allows to upgrade a cluster to next available kubernetes version
+      operationId: upgradeCluster
+      parameters:
+      - $ref: '#/components/parameters/clusterId'
+      tags:
+      - Clusters
+      responses:
+        '201':
+          description: Upgrade cluster
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClusterStatus'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /organization/{organizationId}/cluster/{clusterId}/karpenterPrivateSubnetIds:
+    put:
+      summary: Update karpenter private fargate subnet ids
+      description: Update karpenter private fargate subnet ids
+      operationId: updateKarpenterPrivateFargateSubnetIds
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/clusterId'
+      tags:
+      - Clusters
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClusterKarpenterPrivateSubnetIdsPutRequest'
+      responses:
+        '200':
+          description: Updated
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /organization/{organizationId}/cluster/{clusterId}/stop:
+    post:
+      summary: Stop cluster
+      description: Cluster stop has been requester.
+      operationId: StopCluster
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/clusterId'
+      tags:
+      - Clusters
+      responses:
+        '202':
+          description: Update cluster
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClusterStatus'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          description: Cluster is already stopped or an operation is in progress
+  /defaultClusterAdvancedSettings:
+    get:
+      summary: List default cluster advanced settings
+      description: Default values for each setting are available in [our documentation](https://hub.qovery.com/docs/using-qovery/configuration/cluster-advanced-settings/)
+      operationId: getDefaultClusterAdvancedSettings
+      tags:
+      - Clusters
+      responses:
+        '200':
+          description: Default cluster advanced settings
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClusterAdvancedSettings'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+  /cluster/{clusterId}/environments:
+    parameters:
+    - schema:
+        type: string
+      name: clusterId
+      in: path
+      required: true
+    get:
+      summary: List environments services by cluster id
+      operationId: get-environments-by-cluster-id
+      tags:
+      - Clusters
+      responses:
+        '200':
+          description: List environments services by cluster id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClusterEnvironmentResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /cluster/{clusterId}/lock:
+    parameters:
+    - schema:
+        type: string
+      name: clusterId
+      in: path
+      required: true
+    post:
+      summary: Lock Cluster
+      tags:
+      - Clusters
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClusterLock'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      operationId: lockCluster
+      x-stoplight:
+        id: kttp2yd6qq7m7
+      description: Lock a Cluster
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClusterLockRequest'
+    delete:
+      summary: Unlock Cluster
+      tags:
+      - Clusters
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: "Unauthorized responses:\n        '204':\n          $ref: '#/components/responses/204-deletion'\n        '401':\n          $ref: '#/components/responses/401'\n        '403':\n          $ref: '#/components/responses/403'\n        '404':\n          $ref: '#/components/responses/404'"
+        '403':
+          description: Forbidden
+        '404':
+          description: ''
+      operationId: unlock-cluster
+      x-stoplight:
+        id: vkn00s3mt1vew
+      description: Unlock a cluster
+  /cluster/{clusterId}/events:
+    get:
+      summary: List Cluster Kubernetes Events
+      description: List Cluster Kubernetes Events
+      operationId: get-cluster-kubernetes-events
+      tags:
+      - Clusters
+      parameters:
+      - $ref: '#/components/parameters/clusterId'
+      - in: query
+        name: from_date_time
+        description: "The start date time to fetch events from, following ISO-8601 format.  \nThe `+` character must be escaped (`%2B`)\n"
+        required: true
+        example: '2025-03-03T09:00:00+00:00'
+        schema:
+          type: string
+          nullable: false
+      - in: query
+        name: to_date_time
+        description: "The end date time to fetch events from, following ISO-8601 format.  \nThe `+` character must be escaped (`%2B`)\n"
+        required: true
+        example: '2025-03-03T03:00:00+00:00'
+        schema:
+          type: string
+          nullable: false
+      - schema:
+          type: string
+        in: query
+        name: node_name
+        description: The name of the node to fetch event from
+      - schema:
+          type: string
+        in: query
+        name: pod_name
+        description: The name of the pod to fetch event from
+      - schema:
+          type: string
+        in: query
+        name: reporting_component
+        description: The name of the reporting component used to filter events.
+      responses:
+        '200':
+          description: List Cluster Kubernetes Events
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        created_at:
+                          type: string
+                          format: date-time
+                          description: The created date following ISO-8601 format
+                        kind:
+                          type: string
+                          description: The source kubernetes object related to the Event
+                        namespace:
+                          type: string
+                          description: The namespace of the kubernetes object related to the Event (optional)
+                        name:
+                          type: string
+                          description: The name of the Event
+                        reason:
+                          type: string
+                          description: The action that triggered the Event
+                        message:
+                          type: string
+                          description: A description of the Event
+                        type:
+                          type: string
+                          description: As of today it can be either Warning or Normal (can evolve in the next releases)
+                        reporting_component:
+                          type: string
+                          x-stoplight:
+                            id: j80d7nbe0d7t5
+                        count:
+                          type: integer
+                          x-stoplight:
+                            id: dg0q4lb53n9bu
+                        first_occurrence:
+                          type: string
+                          x-stoplight:
+                            id: 2gfzxsksepqu1
+                          format: date-time
+                        last_occurrence:
+                          type: string
+                          x-stoplight:
+                            id: 5pap12d1475w9
+                          format: date-time
+  /cluster/{clusterId}/metrics:
+    get:
+      summary: Fetch cluster metrics
+      description: Fetch cluster metrics.
+      operationId: get-cluster-metrics
+      tags:
+      - Clusters
+      parameters:
+      - $ref: '#/components/parameters/clusterId'
+      - in: query
+        name: endpoint
+        schema:
+          type: string
+          nullable: false
+        required: true
+      - in: query
+        name: query
+        required: true
+        schema:
+          type: string
+          nullable: false
+      - schema:
+          type: string
+        in: query
+        name: start
+      - schema:
+          type: string
+        in: query
+        name: end
+      - schema:
+          type: string
+        in: query
+        name: step
+      - schema:
+          type: string
+        in: query
+        name: time
+      - schema:
+          type: string
+        in: query
+        name: timeout
+      - schema:
+          type: string
+        in: query
+        name: dedup
+      - schema:
+          type: string
+        in: query
+        name: partial_response
+      - schema:
+          type: string
+        in: query
+        name: max_source_resolution
+      - schema:
+          type: string
+        in: query
+        name: engine
+      - schema:
+          type: string
+        in: query
+        name: analyze
+      - schema:
+          type: string
+        in: query
+        name: board_short_name
+      - schema:
+          type: string
+        in: query
+        name: metric_short_name
+      - schema:
+          type: string
+        in: query
+        name: trace_id
+      - schema:
+          type: string
+        in: query
+        name: range
+      responses:
+        '200':
+          description: Cluster Metrics
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClusterMetricsResponse'
+  /cluster/{clusterId}/logs:
+    parameters:
+    - schema:
+        type: string
+      name: clusterId
+      in: path
+      required: true
+    get:
+      summary: Fetch cluster logs
+      responses:
+        '200':
+          description: Cluster Logs
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClusterLogsResponse'
+      operationId: get-cluster-logs
+      tags:
+      - Clusters
+      x-stoplight:
+        id: eodcl3enjp2ax
+      description: Fetch cluster logs
+      parameters:
+      - schema:
+          type: string
+        in: query
+        name: endpoint
+        required: true
+      - schema:
+          type: string
+        in: query
+        name: query
+        required: true
+      - schema:
+          type: string
+        in: query
+        name: start
+      - schema:
+          type: string
+        in: query
+        name: end
+      - schema:
+          type: string
+        in: query
+        name: limit
+      - schema:
+          type: string
+        in: query
+        name: since
+      - schema:
+          type: string
+        in: query
+        name: step
+      - schema:
+          type: string
+        in: query
+        name: interval
+      - schema:
+          type: string
+        in: query
+        name: direction
+      - schema:
+          type: string
+        in: query
+        name: time
+components:
+  schemas:
+    ReferenceObject:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+    KarpenterNodePoolLimits:
+      title: KarpenterNodePoolLimits
+      type: object
+      required:
+      - enabled
+      - max_cpu_in_vcpu
+      - max_memory_in_gibibytes
+      - max_gpu
+      properties:
+        enabled:
+          type: boolean
+          default: false
+          nullable: false
+        max_cpu_in_vcpu:
+          type: integer
+          description: 'CPU limit that will be applied for the node pool (in vCPU unit: 1 vCPU = 1000 millicores)'
+        max_memory_in_gibibytes:
+          type: integer
+          description: 'Memory limit that will be applied for the node pool (in Gibibytes unit: 1Gi = 1024 mebibytes)'
+        max_gpu:
+          type: integer
+          x-stoplight:
+            id: fn3k34ck5abe4
+          default: 0
+          example: 10
+          minimum: 0
+          description: GPU limit that will be applied for the node pool
+    ClusterRoutingTable:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            type: object
+            required:
+            - destination
+            - target
+            - description
+            properties:
+              destination:
+                type: string
+              target:
+                type: string
+              description:
+                type: string
+    GitProviderEnum:
+      type: string
+      enum:
+      - BITBUCKET
+      - GITHUB
+      - GITLAB
+    ClusterLock:
+      title: ClusterLock
+      x-stoplight:
+        id: cfl44h3tyj8p9
+      type: object
+      required:
+      - reason
+      - cluster_id
+      - locked_at
+      - owner_name
+      properties:
+        reason:
+          type: string
+          x-stoplight:
+            id: 24t21mhr6yvb8
+        ttl_in_days:
+          type: integer
+          x-stoplight:
+            id: hkgmap89j628o
+        cluster_id:
+          type: string
+          x-stoplight:
+            id: uvcmzekexkogh
+          format: uuid
+        locked_at:
+          type: string
+          format: date-time
+          x-stoplight:
+            id: aqpw2xs6xlw6b
+        owner_name:
+          type: string
+          x-stoplight:
+            id: 92n5bq5he0utp
+    ClusterLogs:
+      type: object
+      properties:
+        type:
+          type: string
+          description: log level
+          example: info
+        timestamp:
+          type: string
+          description: log date creation
+          format: date-time
+          example: '2022-06-22T14:20:17.733084815Z'
+        step:
+          description: log step
+          example: Create
+          type: string
+          enum:
+          - LoadConfiguration
+          - Create
+          - Created
+          - CreateError
+          - Pause
+          - Paused
+          - PauseError
+          - Delete
+          - Deleted
+          - DeleteError
+          - RetrieveClusterConfig
+          - RetrieveClusterResources
+          - ValidateSystemRequirements
+          - UnderMigration
+          - Unknown
+        message:
+          type: object
+          properties:
+            safe_message:
+              type: string
+              description: log global message
+              example: Preparing to delete EKS cluster.
+        error:
+          type: object
+          description: Present only for `error` log
+          properties:
+            tag:
+              type: string
+              description: log error tag
+              example: CANNOT_UNINSTALL_HELM_CHART
+            user_log_message:
+              type: string
+              description: log details about the error
+              example: Wasn't able to delete all objects type Cert-Manager
+            link:
+              type: string
+              description: link to our documentation
+            hint_message:
+              type: string
+              description: hint the user can follow
+            event_details:
+              type: object
+              properties:
+                provider_kind:
+                  type: string
+                  description: cloud provider used
+                  example: aws
+                region:
+                  type: string
+                  example: eu-west-3
+                transmitter:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      example: kubernetes
+                    id:
+                      type: string
+                      example: za6ecdf3f
+                    name:
+                      type: string
+                      example: cluster-name
+            underlying_error:
+              type: object
+              properties:
+                message:
+                  type: string
+                  description: technical details about the error
+        details:
+          type: object
+          description: Present only for `info`, `warning` and `debug` logs
+          properties:
+            provider_kind:
+              type: string
+              description: cloud provider used
+              example: aws
+            region:
+              type: string
+              example: eu-west-3
+            transmitter:
+              type: object
+              properties:
+                type:
+                  type: string
+                  example: kubernetes
+                id:
+                  type: string
+                  example: za6ecdf3f
+                name:
+                  type: string
+                  example: cluster-name
+    RegistryMirroringModeEnum:
+      type: string
+      default: Service
+      enum:
+      - Cluster
+      - Service
+      description: 'Mirroring mode when deploying a service from a container registry
+
+        - Cluster: This is not available on Scaleway. Images within the mirroring registry are organized by "Qovery cluster", meaning that the application deployed on the same cluster are all mirrored on the same repository.
+
+        - Service: Images within the mirroring registry are organized by "Qovery service", each service has its own repository
+
+        '
+    Cluster:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        required:
+        - organization
+        - name
+        - region
+        - cloud_provider
+        properties:
+          organization:
+            $ref: '#/components/schemas/ReferenceObject'
+          name:
+            type: string
+            description: name is case-insensitive
+          description:
+            type: string
+          region:
+            type: string
+          cloud_provider:
+            $ref: '#/components/schemas/CloudVendorEnum'
+          min_running_nodes:
+            type: integer
+            default: 1
+          max_running_nodes:
+            type: integer
+            default: 1
+          disk_size:
+            type: integer
+            example: 50
+            default: 20
+            description: Unit is in GB. The disk size to be used for the node configuration
+          disk_iops:
+            type: integer
+            example: 7800
+            minimum: 3000
+            maximum: 16000
+            description: Unit is operation/seconds. The disk IOPS to be used for the node configuration
+          disk_throughput:
+            type: integer
+            example: 255
+            minimum: 125
+            maximum: 1000
+            description: Unit is in MB/s. The disk thoughput to be used for the node configuration
+          instance_type:
+            type: string
+            example: T3A_LARGE
+            description: the instance type to be used for this cluster. The list of values can be retrieved via the endpoint /{CloudProvider}/instanceType
+          kubernetes:
+            $ref: '#/components/schemas/KubernetesEnum'
+          cpu:
+            type: integer
+            example: 10000
+            description: unit is millicores (m). 1000m = 1 cpu
+          memory:
+            type: integer
+            example: 4096
+            description: unit is MB. 1024 MB = 1GB
+          estimated_cloud_provider_cost:
+            type: integer
+            description: This is an estimation of the cost this cluster will represent on your cloud proider bill, based on your current configuration
+          status:
+            $ref: '#/components/schemas/ClusterStateEnum'
+          has_access:
+            type: boolean
+          version:
+            type: string
+          is_default:
+            type: boolean
+          is_demo:
+            type: boolean
+            description: specific flag to indicate that this cluster is a demo one
+          production:
+            type: boolean
+            description: specific flag to indicate that this cluster is a production one
+          ssh_keys:
+            description: Indicate your public ssh_key to remotely connect to your EC2 instance.
+            type: array
+            items:
+              type: string
+          features:
+            type: array
+            items:
+              $ref: '#/components/schemas/ClusterFeatureResponse'
+          deployment_status:
+            $ref: '#/components/schemas/ClusterDeploymentStatusEnum'
+          metrics_parameters:
+            $ref: '#/components/schemas/MetricsParameters'
+          infrastructure_outputs:
+            $ref: '#/components/schemas/InfrastructureOutputs'
+          infrastructure_charts_parameters:
+            $ref: '#/components/schemas/ClusterInfrastructureChartsParameters'
+          keda:
+            $ref: '#/components/schemas/ClusterKeda'
+          labels_groups:
+            $ref: '#/components/schemas/ClusterLabelsGroupList'
+          secret_manager_accesses:
+            $ref: '#/components/schemas/SecretManagerAccessResponseList'
+    ClusterReadinessStatus:
+      type: object
+      properties:
+        is_ready:
+          type: boolean
+    AwsRoleArnAuthDto:
+      type: object
+      required:
+      - mode
+      - role_arn
+      properties:
+        mode:
+          type: string
+          enum:
+          - AWS_ROLE_ARN
+        role_arn:
+          type: string
+    InternalNetworkMonitoring:
+      title: InternalNetworkMonitoring
+      x-stoplight:
+        id: d9zr14swvmont
+      type: object
+      required:
+      - enabled
+      properties:
+        enabled:
+          type: boolean
+          x-stoplight:
+            id: 8fvsh62tnjurc
+    ClusterInfrastructureEksAnywhereBackupS3Parameters:
+      type: object
+      required:
+      - bucket
+      - region
+      - role_arn
+      properties:
+        bucket:
+          type: string
+          description: S3 bucket name used to store EKS Anywhere backup artifacts.
+        region:
+          type: string
+          description: AWS region where the backup bucket is hosted.
+        role_arn:
+          type: string
+          description: IAM role ARN assumed to upload backup artifacts.
+        key_prefix:
+          type: string
+          description: Optional S3 key prefix used for backup object keys.
+    ClusterEnvironmentServiceResponse:
+      type: object
+      required:
+      - id
+      - name
+      - type
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        type:
+          $ref: '#/components/schemas/LinkedServiceTypeEnum'
+    LinkedServiceTypeEnum:
+      type: string
+      description: type of the service (application, database, job, gateway...)
+      enum:
+      - APPLICATION
+      - CONTAINER
+      - DATABASE
+      - JOB
+      - HELM
+      - TERRAFORM
+    ClusterLockRequest:
+      title: ClusterLockRequest
+      x-stoplight:
+        id: d0zigj2okjq2u
+      type: object
+      required:
+      - reason
+      properties:
+        reason:
+          type: string
+          x-stoplight:
+            id: r7sy48ofln6xf
+        ttl_in_days:
+          type: integer
+          x-stoplight:
+            id: m7spawrlr0mii
+    KarpenterCronjobNodePoolOverride:
+      title: KarpenterCronjobNodePoolOverride
+      type: object
+      properties:
+        consolidation:
+          $ref: '#/components/schemas/KarpenterNodePoolConsolidation'
+        limits:
+          $ref: '#/components/schemas/KarpenterNodePoolLimits'
+        consolidate_after:
+          type: string
+          description: 'Time to wait before consolidating empty or underutilized nodes (e.g., 1m, 10m, 1h). Maximum: 24h'
+          example: 30s
+          pattern: ^\d+(s|m|h)$
+    KarpenterGpuNodePoolOverride:
+      title: KarpenterGpuNodePoolOverride
+      x-stoplight:
+        id: fi2s446xdrdu1
+      type: object
+      properties:
+        consolidation:
+          $ref: '#/components/schemas/KarpenterNodePoolConsolidation'
+        limits:
+          $ref: '#/components/schemas/KarpenterNodePoolLimits'
+        requirements:
+          type: array
+          x-stoplight:
+            id: 38pdri17ozql9
+          items:
+            $ref: '#/components/schemas/KarpenterNodePoolRequirement'
+        disk_size_in_gib:
+          type: integer
+          x-stoplight:
+            id: xq5ycmme7o025
+          minimum: 0
+          default: 100
+          example: 150
+        disk_iops:
+          type: integer
+          x-stoplight:
+            id: gpu1d1skiops
+          minimum: 3000
+          maximum: 16000
+          example: 7800
+          description: Unit is operation/seconds. The disk IOPS to be used for the GPU node pool configuration
+        disk_throughput:
+          type: integer
+          x-stoplight:
+            id: gpu1d1skthr
+          minimum: 125
+          maximum: 1000
+          example: 255
+          description: Unit is in MB/s. The disk throughput to be used for the GPU node pool configuration
+        spot_enabled:
+          type: boolean
+          x-stoplight:
+            id: rjzxs0e2rn0ij
+          default: false
+        consolidate_after:
+          type: string
+          description: 'Time to wait before consolidating empty or underutilized nodes (e.g., 1m, 10m, 1h). Maximum: 24h'
+          example: 30s
+          pattern: ^\d+(s|m|h)$
+    GcpJsonCredentialsAuthDto:
+      type: object
+      required:
+      - mode
+      properties:
+        mode:
+          type: string
+          enum:
+          - GCP_JSON_CREDENTIALS
+        json_credentials:
+          type: string
+          nullable: true
+    AlertingConfig:
+      title: AlertingConfig
+      x-stoplight:
+        id: 079kamufdt1pm
+      type: object
+      required:
+      - enabled
+      properties:
+        enabled:
+          type: boolean
+          x-stoplight:
+            id: spv3usiee6mc9
+        default_rule_labels:
+          type: object
+          additionalProperties:
+            type: string
+          nullable: true
+          description: Key-value pairs of default labels to be applied to alert rules
+          x-stoplight:
+            id: tsp767d421sed
+        spec_config_secret:
+          type: string
+          x-stoplight:
+            id: vhloqa7s6ta17
+        spec_external_url:
+          type: string
+          x-stoplight:
+            id: 53c0p049mktbg
+        config_name:
+          type: string
+          x-stoplight:
+            id: 6ueyhx8jelz3f
+    ClusterFeatureGcpExistingVpc:
+      type: object
+      required:
+      - vpc_name
+      properties:
+        vpc_name:
+          type: string
+        vpc_project_id:
+          type: string
+          nullable: true
+        subnetwork_name:
+          type: string
+          nullable: true
+        ip_range_services_name:
+          type: string
+          nullable: true
+        ip_range_pods_name:
+          type: string
+          nullable: true
+        additional_ip_range_pods_names:
+          type: array
+          items:
+            type: string
+    SecretManagerEndpointConfigurationDto:
+      oneOf:
+      - $ref: '#/components/schemas/AwsSecretManagerEndpointDto'
+      - $ref: '#/components/schemas/AwsParameterStoreEndpointDto'
+      - $ref: '#/components/schemas/GcpSecretManagerEndpointDto'
+      discriminator:
+        propertyName: mode
+        mapping:
+          AWS_SECRET_MANAGER: '#/components/schemas/AwsSecretManagerEndpointDto'
+          AWS_PARAMETER_STORE: '#/components/schemas/AwsParameterStoreEndpointDto'
+          GCP_SECRET_MANAGER: '#/components/schemas/GcpSecretManagerEndpointDto'
+    SecretManagerAccessRequest:
+      type: object
+      required:
+      - name
+      - endpoint
+      - authentication
+      properties:
+        id:
+          type: string
+          format: uuid
+          nullable: true
+        name:
+          type: string
+        endpoint:
+          $ref: '#/components/schemas/SecretManagerEndpointConfigurationDto'
+        authentication:
+          $ref: '#/components/schemas/SecretManagerAuthenticationDto'
+    InfrastructureOutputs:
+      type: object
+      required:
+      - kind
+      discriminator:
+        propertyName: kind
+        mapping:
+          AKS: '#/components/schemas/AksInfrastructureOutputs'
+          EKS: '#/components/schemas/EksInfrastructureOutputs'
+          GKE: '#/components/schemas/GkeInfrastructureOutputs'
+          SCW_KAPSULE: '#/components/schemas/KapsuleInfrastructureOutputs'
+      oneOf:
+      - $ref: '#/components/schemas/AksInfrastructureOutputs'
+      - $ref: '#/components/schemas/EksInfrastructureOutputs'
+      - $ref: '#/components/schemas/GkeInfrastructureOutputs'
+      - $ref: '#/components/schemas/KapsuleInfrastructureOutputs'
+    ClusterInfrastructureChartsParameters:
+      type: object
+      properties:
+        nginx_parameters:
+          $ref: '#/components/schemas/ClusterInfrastructureNginxChartParameters'
+        cert_manager_parameters:
+          $ref: '#/components/schemas/ClusterInfrastructureCertManagerChartParameters'
+        metal_lb_parameters:
+          $ref: '#/components/schemas/ClusterInfrastructureMetalLbChartParameters'
+        eks_anywhere_parameters:
+          $ref: '#/components/schemas/ClusterInfrastructureEksAnywhereParameters'
+    ClusterStatus:
+      type: object
+      properties:
+        cluster_id:
+          type: string
+          format: uuid
+        status:
+          $ref: '#/components/schemas/ClusterStateEnum'
+        is_deployed:
+          type: boolean
+        next_k8s_available_version:
+          type: string
+          nullable: true
+          example: '1.28'
+        last_execution_id:
+          type: string
+          example: f73e3833-922a-48a5-9dbd-6163f43f9143-1656410242
+        cluster_lock:
+          $ref: '#/components/schemas/ClusterLock'
+        last_deployment_date:
+          type: string
+          format: date-time
+          example: '2022-06-22T14:20:17.733084815Z'
+    ClusterEnvironmentResponse:
+      type: object
+      required:
+      - environment_id
+      - environment_name
+      - project_id
+      - project_name
+      - services
+      properties:
+        environment_id:
+          type: string
+          format: uuid
+        environment_name:
+          type: string
+        project_id:
+          type: string
+          format: uuid
+        project_name:
+          type: string
+        services:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClusterEnvironmentServiceResponse'
+    Base:
+      type: object
+      required:
+      - id
+      - created_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          readOnly: true
+          format: date-time
+        updated_at:
+          type: string
+          readOnly: true
+          format: date-time
+    ClusterEnvironmentResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClusterEnvironmentResponse'
+    KarpenterNodePool:
+      title: KarpenterNodePool
+      x-stoplight:
+        id: q8vks57rql8x1
+      type: object
+      required:
+      - requirements
+      properties:
+        requirements:
+          x-stoplight:
+            id: pkowctfxv7q77
+          type: array
+          items:
+            $ref: '#/components/schemas/KarpenterNodePoolRequirement'
+        stable_override:
+          $ref: '#/components/schemas/KarpenterStableNodePoolOverride'
+        default_override:
+          $ref: '#/components/schemas/KarpenterDefaultNodePoolOverride'
+        gpu_override:
+          $ref: '#/components/schemas/KarpenterGpuNodePoolOverride'
+        cronjob_override:
+          $ref: '#/components/schemas/KarpenterCronjobNodePoolOverride'
+    EksAnywhereClusterJwtResponse:
+      type: object
+      required:
+      - jwt
+      properties:
+        jwt:
+          type: string
+    ClusterRoutingTableRequest:
+      type: object
+      required:
+      - routes
+      properties:
+        routes:
+          type: array
+          items:
+            type: object
+            required:
+            - destination
+            - target
+            - description
+            properties:
+              destination:
+                type: string
+              target:
+                type: string
+              description:
+                type: string
+    ClusterFeatureAwsExistingVpc:
+      type: object
+      required:
+      - aws_vpc_eks_id
+      - eks_subnets_zone_a_ids
+      - eks_subnets_zone_b_ids
+      - eks_subnets_zone_c_ids
+      properties:
+        aws_vpc_eks_id:
+          type: string
+        eks_subnets_zone_a_ids:
+          type: array
+          items:
+            type: string
+        eks_subnets_zone_b_ids:
+          type: array
+          items:
+            type: string
+        eks_subnets_zone_c_ids:
+          type: array
+          items:
+            type: string
+        documentdb_subnets_zone_a_ids:
+          type: array
+          nullable: true
+          items:
+            type: string
+        documentdb_subnets_zone_b_ids:
+          type: array
+          nullable: true
+          items:
+            type: string
+        documentdb_subnets_zone_c_ids:
+          type: array
+          nullable: true
+          items:
+            type: string
+        elasticache_subnets_zone_a_ids:
+          type: array
+          nullable: true
+          items:
+            type: string
+        elasticache_subnets_zone_b_ids:
+          type: array
+          nullable: true
+          items:
+            type: string
+        elasticache_subnets_zone_c_ids:
+          type: array
+          nullable: true
+          items:
+            type: string
+        rds_subnets_zone_a_ids:
+          type: array
+          nullable: true
+          items:
+            type: string
+        rds_subnets_zone_b_ids:
+          type: array
+          nullable: true
+          items:
+            type: string
+        rds_subnets_zone_c_ids:
+          type: array
+          nullable: true
+          items:
+            type: string
+        eks_karpenter_fargate_subnets_zone_a_ids:
+          type: array
+          x-stoplight:
+            id: 8rttrya00wmkr
+          nullable: true
+          items:
+            x-stoplight:
+              id: rtxx96v011irr
+            type: string
+        eks_karpenter_fargate_subnets_zone_b_ids:
+          type: array
+          x-stoplight:
+            id: xnbtr8676culs
+          nullable: true
+          items:
+            x-stoplight:
+              id: 1w592qk4spodn
+            type: string
+        eks_karpenter_fargate_subnets_zone_c_ids:
+          type: array
+          x-stoplight:
+            id: st5domzqqkcoh
+          nullable: true
+          items:
+            x-stoplight:
+              id: xyjjh50ckrzee
+            type: string
+        eks_create_nodes_in_private_subnet:
+          type: boolean
+          default: true
+    ClusterRequest:
+      type: object
+      required:
+      - name
+      - region
+      - cloud_provider
+      properties:
+        name:
+          type: string
+          description: name is case-insensitive
+        description:
+          type: string
+        region:
+          type: string
+        cloud_provider:
+          $ref: '#/components/schemas/CloudVendorEnum'
+        cloud_provider_credentials:
+          $ref: '#/components/schemas/ClusterCloudProviderInfoRequest'
+        min_running_nodes:
+          type: integer
+          default: 1
+        max_running_nodes:
+          type: integer
+          default: 1
+        disk_size:
+          type: integer
+          example: 50
+          default: 40
+          description: Unit is in GB. The disk size to be used for the node configuration
+        disk_iops:
+          type: integer
+          example: 7800
+          minimum: 3000
+          maximum: 16000
+          description: Unit is operation/seconds. The disk IOPS to be used for the node configuration
+        disk_throughput:
+          type: integer
+          example: 255
+          minimum: 125
+          maximum: 1000
+          description: Unit is in MB/s. The disk thoughput to be used for the node configuration
+        instance_type:
+          type: string
+          example: T3A_LARGE
+          description: the instance type to be used for this cluster. The list of values can be retrieved via the endpoint /{CloudProvider}/instanceType
+        kubernetes:
+          $ref: '#/components/schemas/KubernetesEnum'
+        production:
+          type: boolean
+          description: specific flag to indicate that this cluster is a production one
+        ssh_keys:
+          description: Indicate your public ssh_key to remotely connect to your EC2 instance.
+          type: array
+          items:
+            type: string
+        features:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+                nullable: false
+              value:
+                nullable: true
+                oneOf:
+                - type: string
+                - type: boolean
+                - $ref: '#/components/schemas/ClusterFeatureAwsExistingVpc'
+                - $ref: '#/components/schemas/ClusterFeatureGcpExistingVpc'
+                - $ref: '#/components/schemas/ClusterFeatureKarpenterParameters'
+        metrics_parameters:
+          $ref: '#/components/schemas/MetricsParameters'
+        infrastructure_charts_parameters:
+          $ref: '#/components/schemas/ClusterInfrastructureChartsParameters'
+        keda:
+          $ref: '#/components/schemas/ClusterKeda'
+        labels_groups:
+          $ref: '#/components/schemas/ClusterLabelsGroupList'
+        secret_manager_accesses:
+          $ref: '#/components/schemas/SecretManagerAccessRequestList'
+    ClusterFeatureKarpenterParametersResponse:
+      title: ClusterFeatureKarpenterParametersResponse
+      x-stoplight:
+        id: q33tdlz4ychh5
+      type: object
+      required:
+      - type
+      - value
+      properties:
+        type:
+          $ref: '#/components/schemas/ClusterFeatureResponseTypeEnum'
+        value:
+          $ref: '#/components/schemas/ClusterFeatureKarpenterParameters'
+    MetricsConfigurationManagedByQovery:
+      title: MetricsConfigurationManagedByQovery
+      x-stoplight:
+        id: d6oy3aiodk659
+      type: object
+      properties:
+        kind:
+          x-stoplight:
+            id: i8z3rzufjt5uk
+          enum:
+          - MANAGED_BY_QOVERY
+        resource_profile:
+          $ref: '#/components/schemas/ObservabilityResourceProfile'
+        cloud_watch_export_config:
+          $ref: '#/components/schemas/CloudWatchExportConfig'
+        high_availability:
+          type: boolean
+          x-stoplight:
+            id: zs2zhdd1p5e6q
+        internal_network_monitoring:
+          $ref: '#/components/schemas/InternalNetworkMonitoring'
+        alerting:
+          $ref: '#/components/schemas/AlertingConfig'
+    ClusterKarpenterPrivateSubnetIdsPutRequest:
+      type: object
+      properties:
+        eks_karpenter_fargate_subnets_zone_a_ids:
+          type: array
+          items:
+            type: string
+        eks_karpenter_fargate_subnets_zone_b_ids:
+          type: array
+          items:
+            type: string
+        eks_karpenter_fargate_subnets_zone_c_ids:
+          type: array
+          items:
+            type: string
+    ClusterDeploymentStatusEnum:
+      type: string
+      enum:
+      - NEVER_DEPLOYED
+      - OUT_OF_DATE
+      - UP_TO_DATE
+    KarpenterDefaultNodePoolOverride:
+      title: KarpenterDefaultNodePoolOverride
+      type: object
+      properties:
+        limits:
+          $ref: '#/components/schemas/KarpenterNodePoolLimits'
+        consolidate_after:
+          type: string
+          description: 'Time to wait before consolidating empty or underutilized nodes (e.g., 1m, 10m, 1h). Maximum: 24h'
+          example: 1m
+          pattern: ^\d+(s|m|h)$
+    ClusterEksAnywhereGitRepository:
+      type: object
+      required:
+      - url
+      - git_token_id
+      properties:
+        url:
+          type: string
+          format: uri
+          description: EKS Anywhere git repository URL
+          example: https://github.com/Qovery/eks-anywhere-config.git
+        branch:
+          type: string
+          description: 'Name of the branch to use. This is optional.
+
+            If not specified, the default branch of the repository is used.
+
+            '
+          example: main
+        commit_id:
+          type: string
+          description: 'Optional git commit SHA to pin EKS Anywhere configuration on a specific revision.
+
+            If omitted, the latest commit from the selected branch is used.
+
+            '
+          example: 4e3128725f47140002fa47d65d83195a51f5140f
+        git_token_id:
+          type: string
+          format: uuid
+          description: Qovery git token id used to access the repository
+        provider:
+          $ref: '#/components/schemas/GitProviderEnum'
+    ClusterStateEnum:
+      type: string
+      enum:
+      - BUILDING
+      - BUILD_ERROR
+      - CANCELED
+      - CANCELING
+      - DELETED
+      - DELETE_ERROR
+      - DELETE_QUEUED
+      - DELETING
+      - DEPLOYED
+      - DEPLOYING
+      - DEPLOYMENT_ERROR
+      - DEPLOYMENT_QUEUED
+      - DRY_RUN
+      - QUEUED
+      - READY
+      - STOPPED
+      - STOPPING
+      - STOP_ERROR
+      - STOP_QUEUED
+      - RESTART_QUEUED
+      - RESTARTING
+      - RESTARTED
+      - RESTART_ERROR
+      - INVALID_CREDENTIALS
+    KarpenterNodePoolRequirement:
+      title: KarpenterNodePoolRequirement
+      x-stoplight:
+        id: 4ebed64emvn09
+      type: object
+      required:
+      - key
+      - operator
+      - values
+      properties:
+        key:
+          $ref: '#/components/schemas/KarpenterNodePoolRequirementKey'
+        operator:
+          $ref: '#/components/schemas/KarpenterNodePoolRequirementOperator'
+        values:
+          type: array
+          x-stoplight:
+            id: qf036o7tch5ed
+          items:
+            x-stoplight:
+              id: 02kz5mierypik
+            type: string
+    GcpSecretManagerEndpointDto:
+      type: object
+      required:
+      - mode
+      - region
+      - projectId
+      properties:
+        mode:
+          type: string
+          enum:
+          - GCP_SECRET_MANAGER
+        region:
+          type: string
+        projectId:
+          type: string
+    SecretManagerAccessResponseList:
+      title: SecretManagerAccessResponseList
+      type: array
+      items:
+        $ref: '#/components/schemas/SecretManagerAccessResponse'
+    Commit:
+      type: object
+      nullable: true
+      required:
+      - git_commit_id
+      - created_at
+      - author_name
+      - message
+      - tag
+      properties:
+        created_at:
+          type: string
+          format: date-time
+        git_commit_id:
+          type: string
+        tag:
+          type: string
+          example: v2.1.1
+        message:
+          type: string
+        author_name:
+          type: string
+        author_avatar_url:
+          type: string
+        commit_page_url:
+          type: string
+    ClusterInfrastructureEksAnywhereParameters:
+      type: object
+      required:
+      - git_repository
+      - yaml_file_path
+      properties:
+        git_repository:
+          $ref: '#/components/schemas/ClusterEksAnywhereGitRepository'
+        yaml_file_path:
+          type: string
+          description: Path to the EKS Anywhere cluster YAML file in the git repository
+          example: /clusters/cluster-a.yaml
+        cluster_backup:
+          $ref: '#/components/schemas/ClusterInfrastructureEksAnywhereBackupParameters'
+    SecretManagerAuthenticationDto:
+      oneOf:
+      - $ref: '#/components/schemas/AutomaticallyConfiguredAuthDto'
+      - $ref: '#/components/schemas/AwsRoleArnAuthDto'
+      - $ref: '#/components/schemas/AwsStaticCredentialsAuthDto'
+      - $ref: '#/components/schemas/GcpJsonCredentialsAuthDto'
+      discriminator:
+        propertyName: mode
+        mapping:
+          AUTOMATICALLY_CONFIGURED: '#/components/schemas/AutomaticallyConfiguredAuthDto'
+          AWS_ROLE_ARN: '#/components/schemas/AwsRoleArnAuthDto'
+          AWS_STATIC_CREDENTIALS: '#/components/schemas/AwsStaticCredentialsAuthDto'
+          GCP_JSON_CREDENTIALS: '#/components/schemas/GcpJsonCredentialsAuthDto'
+    ClusterLogsResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClusterLogs'
+    KarpenterNodePoolConsolidation:
+      title: KarpenterNodePoolConsolidation
+      type: object
+      required:
+      - enabled
+      - days
+      - start_time
+      - duration
+      properties:
+        enabled:
+          type: boolean
+          default: false
+          nullable: false
+        days:
+          type: array
+          nullable: false
+          items:
+            $ref: '#/components/schemas/WeekdayEnum'
+        start_time:
+          description: 'The start date of the consolidation.
+
+            The format should follow ISO-8601 convention: "PThh:mm"
+
+            '
+          type: string
+          example: PT22:30
+          nullable: false
+        duration:
+          description: 'The duration during the consolidation will be active.
+
+            The format should follow ISO-8601 convention: "PThhHmmM"
+
+            '
+          type: string
+          example: PT2H45M
+          nullable: false
+    ClusterFeatureKarpenterParameters:
+      title: ClusterFeatureKarpenterParameters
+      x-stoplight:
+        id: fzprvq41bcge1
+      type: object
+      required:
+      - spot_enabled
+      - disk_size_in_gib
+      - default_service_architecture
+      - qovery_node_pools
+      properties:
+        spot_enabled:
+          type: boolean
+          x-stoplight:
+            id: fuolcs5q8ncp8
+        disk_size_in_gib:
+          type: integer
+        disk_iops:
+          type: integer
+          minimum: 3000
+          maximum: 16000
+          example: 7800
+          description: Unit is operation/seconds. The disk IOPS to be used for the node configuration
+        disk_throughput:
+          type: integer
+          x-stoplight:
+            id: nwpjqw3bf7px0
+          minimum: 125
+          maximum: 1000
+          example: 255
+          description: Unit is in MB/s. The disk throughput to be used for the node configuration
+        default_service_architecture:
+          $ref: '#/components/schemas/CpuArchitectureEnum'
+        qovery_node_pools:
+          $ref: '#/components/schemas/KarpenterNodePool'
+    AutomaticallyConfiguredAuthDto:
+      type: object
+      required:
+      - mode
+      properties:
+        mode:
+          type: string
+          enum:
+          - AUTOMATICALLY_CONFIGURED
+    EksInfrastructureOutputs:
+      type: object
+      required:
+      - kind
+      - cluster_name
+      - cluster_arn
+      - cluster_oidc_issuer
+      - vpc_id
+      properties:
+        kind:
+          enum:
+          - EKS
+        cluster_name:
+          type: string
+        cluster_arn:
+          type: string
+        cluster_oidc_issuer:
+          type: string
+        vpc_id:
+          type: string
+    EksAnywhereCommitResponse:
+      type: object
+      required:
+      - commit_id
+      properties:
+        commit_id:
+          type: string
+    CloudWatchExportConfig:
+      title: CloudWatchExportConfig
+      x-stoplight:
+        id: 69hi4weirghk5
+      type: object
+      required:
+      - enabled
+      properties:
+        enabled:
+          description: To enable the cloudwatch exporter.
+          type: boolean
+          x-stoplight:
+            id: zxwl3n47xffu4
+    ClusterFeatureResponseTypeEnum:
+      type: string
+      enum:
+      - STRING
+      - BOOLEAN
+      - AWS_USER_PROVIDED_NETWORK
+      - GCP_USER_PROVIDED_NETWORK
+      - KARPENTER
+    ClusterDeleteMode:
+      type: string
+      description: "Indicates the mode to apply on cluster deletion  \n**\"hard delete\"** means that we delete directly from our database, this is different from a **\"trigger delete\"** that cleans the resource\n- `DEFAULT`: this is the normal way, trigger delete the cluster only if no environment linked to this cluster remains\n- `DELETE_CLUSTER_AND_QOVERY_CONFIG`: hard delete environments linked to this cluster then trigger delete the cluster\n- `DELETE_QOVERY_CONFIG`: ⚠️ ⚠️ ⚠️ hard delete environments linked to this cluster then hard delete the cluster - whole cluster ressources **are not deleted** on our side and must be deleted on your side\n"
+      enum:
+      - DEFAULT
+      - DELETE_CLUSTER_AND_QOVERY_CONFIG
+      - DELETE_QOVERY_CONFIG
+      example: DEFAULT
+      default: DEFAULT
+    CloudVendorEnum:
+      type: string
+      enum:
+      - AWS
+      - SCW
+      - GCP
+      - DO
+      - AZURE
+      - OVH
+      - CIVO
+      - HETZNER
+      - ORACLE
+      - IBM
+      - ON_PREMISE
+    ClusterLabelsGroup:
+      title: ClusterLabelsGroup
+      x-stoplight:
+        id: mmho7lnvhxeqm
+      type: object
+      properties:
+        id:
+          type: string
+          x-stoplight:
+            id: 3b5pacfwyt1p2
+          format: uuid
+    ClusterCloudProviderInfoRequest:
+      type: object
+      properties:
+        cloud_provider:
+          $ref: '#/components/schemas/CloudProviderEnum'
+        credentials:
+          type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+            name:
+              type: string
+        region:
+          type: string
+    ClusterFeatureResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+          nullable: false
+        description:
+          type: string
+          nullable: true
+        cost_per_month_in_cents:
+          type: integer
+          example: 9900
+          deprecated: true
+          nullable: true
+        cost_per_month:
+          type: number
+          example: 99
+          deprecated: true
+          nullable: true
+        currency_code:
+          type: string
+          example: USD
+          deprecated: true
+          nullable: true
+        is_cloud_provider_paying_feature:
+          type: boolean
+          nullable: false
+          example: true
+        cloud_provider_feature_documentation:
+          type: string
+          example: https://cloud.provider.doc/feature
+          nullable: true
+        is_qovery_paying_feature:
+          type: boolean
+          nullable: false
+          example: true
+        qovery_feature_documentation:
+          type: string
+          example: https://qovery.doc/feature
+          nullable: true
+        value_type:
+          type: string
+          nullable: false
+          enum:
+          - BOOLEAN
+        value_object:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/ClusterFeatureStringResponse'
+          - $ref: '#/components/schemas/ClusterFeatureBooleanResponse'
+          - $ref: '#/components/schemas/ClusterFeatureAwsExistingVpcResponse'
+          - $ref: '#/components/schemas/ClusterFeatureGcpExistingVpcResponse'
+          - $ref: '#/components/schemas/ClusterFeatureKarpenterParametersResponse'
+          discriminator:
+            propertyName: type
+            mapping:
+              STRING: '#/components/schemas/ClusterFeatureStringResponse'
+              BOOLEAN: '#/components/schemas/ClusterFeatureBooleanResponse'
+              AWS_USER_PROVIDED_NETWORK: '#/components/schemas/ClusterFeatureAwsExistingVpcResponse'
+              GCP_USER_PROVIDED_NETWORK: '#/components/schemas/ClusterFeatureGcpExistingVpcResponse'
+              KARPENTER: '#/components/schemas/ClusterFeatureKarpenterParametersResponse'
+        is_value_updatable:
+          type: boolean
+          default: false
+        accepted_values:
+          type: array
+          items:
+            oneOf:
+            - type: string
+            - type: boolean
+    KapsuleInfrastructureOutputs:
+      type: object
+      required:
+      - kind
+      - cluster_name
+      properties:
+        kind:
+          enum:
+          - SCW_KAPSULE
+        cluster_name:
+          type: string
+    CloudProviderEnum:
+      type: string
+      enum:
+      - AWS
+      - SCW
+      - GCP
+      - ON_PREMISE
+      - AZURE
+    KarpenterStableNodePoolOverride:
+      title: KarpenterStableNodePoolOverride
+      type: object
+      properties:
+        consolidation:
+          $ref: '#/components/schemas/KarpenterNodePoolConsolidation'
+        limits:
+          $ref: '#/components/schemas/KarpenterNodePoolLimits'
+        consolidate_after:
+          type: string
+          description: 'Time to wait before consolidating empty or underutilized nodes (e.g., 1m, 10m, 1h). Maximum: 24h'
+          example: 30s
+          pattern: ^\d+(s|m|h)$
+    ClusterInfrastructureEksAnywhereBackupParameters:
+      type: object
+      required:
+      - s3
+      properties:
+        enabled:
+          type: boolean
+          default: true
+          description: Enable or disable EKS Anywhere cluster backup.
+        timeout_seconds:
+          type: integer
+          format: int64
+          default: 300
+          description: Timeout in seconds for backup operations.
+        certs_secret_name:
+          type: string
+          description: Optional Kubernetes secret name holding etcd certificates.
+        s3:
+          $ref: '#/components/schemas/ClusterInfrastructureEksAnywhereBackupS3Parameters'
+    ClusterInfrastructureMetalLbChartParameters:
+      title: InfrastructureMetalLbChartParameters
+      x-stoplight:
+        id: evxswes22ykhd
+      type: object
+      properties:
+        ip_address_pools:
+          type: array
+          x-stoplight:
+            id: sfxtfy7n1uddw
+          items:
+            x-stoplight:
+              id: lstjwwfo9ys6i
+            type: string
+    AwsStaticCredentialsAuthDto:
+      type: object
+      required:
+      - mode
+      - region
+      - access_key
+      properties:
+        mode:
+          type: string
+          enum:
+          - AWS_STATIC_CREDENTIALS
+        region:
+          type: string
+        access_key:
+          type: string
+        secret_key:
+          type: string
+          nullable: true
+    ClusterFeatureStringResponse:
+      type: object
+      required:
+      - type
+      - value
+      properties:
+        type:
+          $ref: '#/components/schemas/ClusterFeatureResponseTypeEnum'
+        value:
+          type: string
+    ClusterLogsResponse:
+      title: ClusterLogsResponse
+      x-stoplight:
+        id: 93ntufnd3epke
+      type: object
+      properties:
+        response:
+          type: string
+          x-stoplight:
+            id: 7vk339giarxht
+    KarpenterNodePoolRequirementKey:
+      title: KarpenterNodePoolRequirementKey
+      x-stoplight:
+        id: eancn656efy06
+      enum:
+      - InstanceFamily
+      - InstanceSize
+      - Arch
+      - SkuFamily
+      - SkuVersion
+    CommitResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Commit'
+    ClusterKeda:
+      title: ClusterKeda
+      x-stoplight:
+        id: apznbrc98va7j
+      type: object
+      required:
+      - enabled
+      properties:
+        enabled:
+          type: boolean
+          x-stoplight:
+            id: 46c6f1rqdvu55
+    SecretManagerAccessRequestList:
+      title: SecretManagerAccessRequestList
+      type: array
+      items:
+        $ref: '#/components/schemas/SecretManagerAccessRequest'
+    ClusterResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Cluster'
+    ClusterFeatureAwsExistingVpcResponse:
+      type: object
+      required:
+      - type
+      - value
+      properties:
+        type:
+          $ref: '#/components/schemas/ClusterFeatureResponseTypeEnum'
+        value:
+          $ref: '#/components/schemas/ClusterFeatureAwsExistingVpc'
+    ClusterFeatureBooleanResponse:
+      type: object
+      required:
+      - type
+      - value
+      properties:
+        type:
+          $ref: '#/components/schemas/ClusterFeatureResponseTypeEnum'
+        value:
+          type: boolean
+    ClusterLabelsGroupList:
+      title: ClusterLabelsGroupList
+      x-stoplight:
+        id: imn8c9l4fab56
+      type: array
+      items:
+        $ref: '#/components/schemas/ClusterLabelsGroup'
+    ClusterStatusResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClusterStatus'
+    EksAnywhereCommitRequest:
+      type: object
+      required:
+      - commit_id
+      properties:
+        commit_id:
+          type: string
+    KarpenterNodePoolRequirementOperator:
+      title: KarpenterNodePoolRequirementOperator
+      x-stoplight:
+        id: wkzlvifywpa0t
+      enum:
+      - In
+    WeekdayEnum:
+      type: string
+      enum:
+      - MONDAY
+      - TUESDAY
+      - WEDNESDAY
+      - THURSDAY
+      - FRIDAY
+      - SATURDAY
+      - SUNDAY
+      example: MONDAY
+    KubernetesEnum:
+      type: string
+      enum:
+      - MANAGED
+      - SELF_MANAGED
+      - PARTIALLY_MANAGED
+      default: MANAGED
+    AwsParameterStoreEndpointDto:
+      type: object
+      required:
+      - mode
+      - region
+      properties:
+        mode:
+          type: string
+          enum:
+          - AWS_PARAMETER_STORE
+        region:
+          type: string
+    GkeInfrastructureOutputs:
+      type: object
+      required:
+      - kind
+      - cluster_name
+      - cluster_self_link
+      properties:
+        kind:
+          enum:
+          - GKE
+        cluster_name:
+          type: string
+        cluster_self_link:
+          type: string
+    MetricsParameters:
+      title: MetricsParameters
+      x-stoplight:
+        id: 25tfm065x6c64
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          x-stoplight:
+            id: 0y1427jsrtwmg
+        configuration:
+          x-stoplight:
+            id: 1e9r2at0nxziv
+          oneOf:
+          - $ref: '#/components/schemas/MetricsConfigurationManagedByQovery'
+          discriminator:
+            propertyName: kind
+            mapping:
+              MANAGED_BY_QOVERY: '#/components/schemas/MetricsConfigurationManagedByQovery'
+    ObservabilityResourceProfile:
+      title: ObservabilityResourceProfile
+      x-stoplight:
+        id: 3a3rea0t85miz
+      enum:
+      - LOW
+      - NORMAL
+      - HIGH
+    ClusterMetricsResponse:
+      title: ClusterMetricsResponse
+      x-stoplight:
+        id: 7z04ha035fh6s
+      type: object
+      properties:
+        metrics:
+          type: string
+          x-stoplight:
+            id: nyp9g89joz1wv
+    ClusterCloudProviderInfo:
+      type: object
+      properties:
+        cloud_provider:
+          $ref: '#/components/schemas/CloudProviderEnum'
+        credentials:
+          type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+            name:
+              type: string
+        region:
+          type: string
+    ClusterFeatureGcpExistingVpcResponse:
+      type: object
+      required:
+      - type
+      - value
+      properties:
+        type:
+          $ref: '#/components/schemas/ClusterFeatureResponseTypeEnum'
+        value:
+          $ref: '#/components/schemas/ClusterFeatureGcpExistingVpc'
+    CpuArchitectureEnum:
+      title: CpuArchitectureEnum
+      x-stoplight:
+        id: jlrd3r03vjzoy
+      enum:
+      - AMD64
+      - ARM64
+    AwsSecretManagerEndpointDto:
+      type: object
+      required:
+      - mode
+      - region
+      properties:
+        mode:
+          type: string
+          enum:
+          - AWS_SECRET_MANAGER
+        region:
+          type: string
+    AksInfrastructureOutputs:
+      type: object
+      required:
+      - kind
+      - cluster_name
+      - cluster_oidc_issuer
+      properties:
+        kind:
+          enum:
+          - AKS
+        cluster_name:
+          type: string
+        cluster_oidc_issuer:
+          type: string
+    ClusterInfrastructureCertManagerChartParameters:
+      title: InfrastructureCertManagerChartParameters
+      x-stoplight:
+        id: xsidu7mikkhq3
+      type: object
+      properties:
+        kubernetes_namespace:
+          type: string
+          x-stoplight:
+            id: y5txd86avhe6j
+    ClusterInfrastructureNginxChartParameters:
+      title: ClusterInfrastructureNginxChartParameters
+      x-stoplight:
+        id: c9r0h8ey6ugzr
+      type: object
+      properties:
+        replica_count:
+          type: integer
+          x-stoplight:
+            id: zdwoxwir7ygnw
+          minimum: 0
+        default_ssl_certificate:
+          type: string
+          x-stoplight:
+            id: z1l1xmwud3yjq
+        publish_status_address:
+          type: string
+          x-stoplight:
+            id: da9klqdcxew6n
+        annotation_metal_lb_load_balancer_ips:
+          type: string
+          x-stoplight:
+            id: 4ji26purdr956
+        annotation_external_dns_kubernetes_target:
+          type: string
+          x-stoplight:
+            id: ytwsmm8mzre3g
+    ClusterAdvancedSettings:
+      type: object
+      properties:
+        aws.cloudwatch.eks_logs_retention_days:
+          type: integer
+          description: Set the number of retention days for EKS Cloudwatch logs
+        aws.vpc.enable_s3_flow_logs:
+          type: boolean
+          description: Enable flow logs for on the VPC and store them in an S3 bucket
+        aws.vpc.flow_logs_retention_days:
+          type: integer
+          description: Set the number of retention days for flow logs. Disable with value "0"
+        aws.vpc.enable_nat_gateway_secondary_eip:
+          type: boolean
+          description: Enable a secondary Elastic IP per NAT Gateway, increasing the number of outbound public IPs. Useful for services with IP-based rate limits.
+        loki.log_retention_in_week:
+          type: integer
+          description: For how long in week loki is going to keep logs of your applications
+        loki.deployment_mode:
+          type: string
+          description: Loki deployment topology. "single_binary" runs Loki as one pod; "simple_scalable" splits it into separate write, read, and backend components for larger clusters.
+          enum:
+          - single_binary
+          - simple_scalable
+        loki.single_binary.cpu_request_m:
+          type: integer
+          description: CPU request (in milli-CPU) for the Loki pod when running in single_binary mode.
+        loki.single_binary.cpu_limit_m:
+          type: integer
+          description: CPU limit (in milli-CPU) for the Loki pod when running in single_binary mode.
+        loki.single_binary.memory_request_mib:
+          type: integer
+          description: Memory request (in MiB) for the Loki pod when running in single_binary mode.
+        loki.single_binary.memory_limit_mib:
+          type: integer
+          description: Memory limit (in MiB) for the Loki pod when running in single_binary mode.
+        loki.write.cpu_request_m:
+          type: integer
+          description: CPU request (in milli-CPU) for the Loki write component when running in simple_scalable mode.
+        loki.write.cpu_limit_m:
+          type: integer
+          description: CPU limit (in milli-CPU) for the Loki write component when running in simple_scalable mode.
+        loki.write.memory_request_mib:
+          type: integer
+          description: Memory request (in MiB) for the Loki write component when running in simple_scalable mode.
+        loki.write.memory_limit_mib:
+          type: integer
+          description: Memory limit (in MiB) for the Loki write component when running in simple_scalable mode.
+        loki.read.cpu_request_m:
+          type: integer
+          description: CPU request (in milli-CPU) for the Loki read component when running in simple_scalable mode.
+        loki.read.cpu_limit_m:
+          type: integer
+          description: CPU limit (in milli-CPU) for the Loki read component when running in simple_scalable mode.
+        loki.read.memory_request_mib:
+          type: integer
+          description: Memory request (in MiB) for the Loki read component when running in simple_scalable mode.
+        loki.read.memory_limit_mib:
+          type: integer
+          description: Memory limit (in MiB) for the Loki read component when running in simple_scalable mode.
+        loki.backend.cpu_request_m:
+          type: integer
+          description: CPU request (in milli-CPU) for the Loki backend component when running in simple_scalable mode.
+        loki.backend.cpu_limit_m:
+          type: integer
+          description: CPU limit (in milli-CPU) for the Loki backend component when running in simple_scalable mode.
+        loki.backend.memory_request_mib:
+          type: integer
+          description: Memory request (in MiB) for the Loki backend component when running in simple_scalable mode.
+        loki.backend.memory_limit_mib:
+          type: integer
+          description: Memory limit (in MiB) for the Loki backend component when running in simple_scalable mode.
+        registry.image_retention_time:
+          type: integer
+          description: Configure the number of seconds before cleaning images in the registry
+        cloud_provider.container_registry.tags:
+          type: object
+          description: Add additional tags on the cluster dedicated registry
+          additionalProperties:
+            type: string
+        aws.eks.enable_alb_controller:
+          type: boolean
+          x-stoplight:
+            id: m2nc6klof8mvh
+          default: true
+          description: 'Enable the AWS ALB controller to manage the load balancer for the cluster.
+
+            Note: Changing this feature will create a 10 min max downtime on your application''s public access (time to delete, replace and propagate DNS of the new load balancer) and will requiere to update all services with TCP/UDP open ports.'
+        aws.eks.enable_efs_addon:
+          type: boolean
+          description: Enable the AWS EFS CSI driver EKS add-on to provision EFS-backed persistent volumes on the cluster.
+          default: false
+        aws.eks.efs.throughput_mode:
+          type: string
+          description: EFS throughput mode. "elastic" scales automatically (pay-per-use), "bursting" uses burst credits based on file system size, "provisioned" requires a fixed throughput value.
+          default: elastic
+          enum:
+          - bursting
+          - elastic
+          - provisioned
+        aws.eks.efs.performance_mode:
+          type: string
+          description: EFS performance mode. "generalPurpose" offers lowest latency (recommended). "maxIO" provides higher aggregate throughput for highly parallelized workloads. Cannot be changed after creation.
+          default: generalPurpose
+          enum:
+          - generalPurpose
+          - maxIO
+        aws.eks.efs.transition_to_ia:
+          type: string
+          description: Lifecycle policy to transition files to Infrequent Access (IA) storage after the specified period. IA storage costs less but has a per-read charge. Empty string disables the policy.
+          default: AFTER_30_DAYS
+          enum:
+          - AFTER_1_DAY
+          - AFTER_7_DAYS
+          - AFTER_14_DAYS
+          - AFTER_30_DAYS
+          - AFTER_60_DAYS
+          - AFTER_90_DAYS
+          - ''
+        load_balancer.size:
+          type: string
+          description: Select the size of the main load_balancer (only effective for Scaleway)
+        database.postgresql.deny_any_access:
+          type: boolean
+          description: Deny public access to any PostgreSQL database
+          x-stoplight:
+            id: zltwd7w7mxld8
+        database.postgresql.allowed_cidrs:
+          type: array
+          description: List of CIDRs allowed to access the PostgreSQL database
+          items:
+            type: string
+        database.mysql.deny_any_access:
+          type: boolean
+          description: Deny public access to any MySql database
+          x-stoplight:
+            id: kst5exbae6ory
+        database.mysql.allowed_cidrs:
+          type: array
+          description: List of CIDRs allowed to access the MySql database
+          items:
+            type: string
+        database.mongodb.deny_any_access:
+          type: boolean
+          description: Deny public access to any MongoDB/DocumentDB database
+          x-stoplight:
+            id: nc66h7gqz809g
+        database.mongodb.allowed_cidrs:
+          type: array
+          description: List of CIDRs allowed to access the MongoDB/DocumentDB database
+          items:
+            type: string
+        database.redis.deny_any_access:
+          type: boolean
+          description: Deny public access to any Redis database
+          x-stoplight:
+            id: djo0khm8r7gdy
+        database.redis.allowed_cidrs:
+          type: array
+          description: List of CIDRs allowed to access the Redis database
+          items:
+            type: string
+        aws.iam.admin_group:
+          type: string
+          description: AWS IAM group name with cluster access
+        aws.eks.ec2.metadata_imds:
+          type: string
+          enum:
+          - optional
+          - required
+          description: "Specify the [IMDS](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html) version you want to use:\n  * `required`: IMDS V2 only\n  * `optional`: IMDS V1 + V2\n"
+        aws.eks.ec2.ami:
+          type: string
+          default: AmazonLinux2023
+          description: "Select the AMI to use for EKS worker nodes (Karpenter only):\n  * `AmazonLinux2`: Amazon Linux 2\n  * `AmazonLinux2023`: Amazon Linux 2023 (default)\n  * `Bottlerocket`: Bottlerocket OS\n  * `ami-xxx` or `my-custom-ami-*`: A custom AMI ID or name pattern (assumes AL2023-based)\n  * `al2:ami-xxx`: A custom AMI based on Amazon Linux 2\n  * `al2023:ami-xxx`: A custom AMI based on Amazon Linux 2023\n  * `bottlerocket:ami-xxx`: A custom AMI based on Bottlerocket\n"
+        pleco.resources_ttl:
+          type: integer
+          deprecated: true
+        registry.mirroring_mode:
+          $ref: '#/components/schemas/RegistryMirroringModeEnum'
+        nginx.vcpu.request_in_milli_cpu:
+          type: integer
+          description: vcpu request in millicores
+        nginx.vcpu.limit_in_milli_cpu:
+          type: integer
+          description: vcpu limit in millicores
+        nginx.memory.request_in_mib:
+          type: integer
+          description: memory request in MiB
+        nginx.memory.limit_in_mib:
+          type: integer
+          description: memory limit in MiB
+        envoy.gateway_api.http_request_timeout_seconds:
+          type: integer
+          nullable: true
+          minimum: 0
+          description: Sets the default request timeout (in seconds) applied to Gateway API routes when the service does not override it.
+        envoy.gateway_api.http_connection_idle_timeout_seconds:
+          type: integer
+          nullable: true
+          minimum: 0
+          description: Sets the default idle connection timeout (in seconds) applied to Gateway API routes when the service does not override it.
+        nginx.hpa.cpu_utilization_percentage_threshold:
+          type: integer
+          description: hpa cpu threshold in percentage
+        nginx.hpa.min_number_instances:
+          type: integer
+          description: hpa minimum number of instances
+        nginx.hpa.max_number_instances:
+          type: integer
+          description: hpa maximum number of instances
+        storageclass.fast_ssd:
+          type: string
+          description: storage class name to use to provision pvc
+        qovery.static_ip_mode:
+          type: boolean
+          x-stoplight:
+            id: i7u9vjd0o89g8
+          description: 'To limit public access from the internet to your Kubernetes cluster endpoint.
+
+            You can define whitelisted CIDR in k8s.api.allowed_public_access_cidrs.'
+        k8s.api.allowed_public_access_cidrs:
+          type: array
+          x-stoplight:
+            id: w7d7zyd1de9n6
+          description: "Set custom sources to public access endpoint.\nUse CIDR notation to specify an IP address range \n(for example, ['203.0.113.5/32','203.0.100/32'])"
+          items:
+            x-stoplight:
+              id: v8r1f6alk5abp
+            type: string
+    SecretManagerAccessResponse:
+      type: object
+      required:
+      - id
+      - name
+      - created_at
+      - updated_at
+      - endpoint
+      - authentication
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        endpoint:
+          $ref: '#/components/schemas/SecretManagerEndpointConfigurationDto'
+        authentication:
+          $ref: '#/components/schemas/SecretManagerAuthenticationDto'
+  responses:
+    '400':
+      description: Bad request
+    '404':
+      description: Resource not found
+    '403':
+      description: Access forbidden
+    204-deletion:
+      description: The resource was deleted successfully
+    '401':
+      description: Access token is missing or invalid
+  parameters:
+    organizationId:
+      name: organizationId
+      in: path
+      description: Organization ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+    clusterId:
+      name: clusterId
+      in: path
+      description: Cluster ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'JWT tokens should be used with OIDC account (human to machine). JWT tokens used by the Qovery console to communicate with the API have a TTL. Curl Example '' curl https://console.qovery.com/organization -H "Authorization: Bearer $qovery_token" '''
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'Token API are generated by Qovery to manage machine to machine interaction and do not have a TTL. Curl Example '' curl https://console.qovery.com/organization -H "Authorization: Token $qovery_token" '''
+x-tagGroups:
+- name: Organization
+  tags:
+  - Organization Main Calls
+  - Organization Api Token
+  - Organization Account Git Repositories
+  - Organization Cluster Lock
+  - Organization Webhook
+  - Organization Custom Role
+  - Organization Event
+  - Organization Annotations Group
+  - Organization Labels Group
+  - Organization Enterprise Connection
+  - Projects
+  - Members
+  - Billing
+  - Clusters
+  - Cloud Provider
+  - Cloud Provider Credentials
+  - Github App
+  - Container Registries
+  - Helm Repositories
+- name: Project
+  tags:
+  - Project Main Calls
+  - Environments
+  - Project Deployment Rule
+  - Project Environment Variable
+  - Project Secret
+- name: Environment
+  tags:
+  - Environment Main Calls
+  - Applications
+  - Containers
+  - Databases
+  - Jobs
+  - Helms
+  - Terraforms
+  - Environment Actions
+  - Environment Logs
+  - Environment Deployment History
+  - Environment Deployment Rule
+  - Environment Variable
+  - Environment Secret
+  - Environment Export
+- name: Deployment Stage
+  tags:
+  - Deployment Stage Main Calls
+- name: Application
+  tags:
+  - Application Main Calls
+  - Application Actions
+  - Application Configuration
+  - Application Custom Domain
+  - Application Database
+  - Application Logs
+  - Application Deployment Restriction
+  - Application Deployment History
+  - Application Environment Variable
+  - Application Secret
+  - Application Annotations Group
+- name: Container
+  tags:
+  - Container Main Calls
+  - Container Actions
+  - Container Configuration
+  - Container Custom Domain
+  - Container Database
+  - Container Logs
+  - Container Deployment History
+  - Container Environment Variable
+  - Container Secret
+  - Container Annotations Group
+- name: Database
+  tags:
+  - Database Main Calls
+  - Database Actions
+  - Database Applications
+  - Database Deployment History
+  - Database Containers
+  - Database Application
+  - Database Container
+  - Backups
+  - Database Annotations Group
+- name: Job
+  tags:
+  - Job Main Calls
+  - Job Actions
+  - Job Configuration
+  - Job Custom Domain
+  - Job Deployment Restriction
+  - Job Deployment History
+  - Job Environment Variable
+  - Job Secret
+  - Job Annotations Group
+- name: Helm
+  tags:
+  - Helm Main Calls
+  - Helm Actions
+  - Helm Configuration
+  - Helm Custom Domain
+  - Helm Deployment Restriction
+  - Helm Deployment History
+- name: Terraform
+  tags:
+  - Terraform Main Calls
+  - Terraform Actions
+  - Terraform Configuration
+  - Terraform Deployment Restriction
+  - Terraform Deployment History
+- name: Account
+  tags:
+  - Account Info
+  - Git repositories
+  - Referral & Rewards
+- name: Git
+  tags:
+  - Git repositories
+- name: Variable
+  tags:
+  - Variable Main Calls
+- name: Lifecycle Template
+  tags:
+  - Lifecycle Template Main Calls
+- name: Admin
+  tags:
+  - User Sign Up
+- name: Alerting
+  tags:
+  - Alert Receivers
+  - Alert Rules

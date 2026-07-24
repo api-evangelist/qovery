@@ -1,0 +1,699 @@
+openapi: 3.0.0
+info:
+  version: 1.0.4
+  title: Qovery Account Info Job Environment Variable API
+  description: '- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider.
+
+    - ℹ️ The API is stable and still in development.
+
+    '
+  contact:
+    name: Qovery Product Team
+    url: https://www.qovery.com
+    email: support+api+documentation@qovery.com
+  x-logo:
+    url: https://console.qovery.com/assets/logos/logo-white.svg
+    altText: Qovery
+servers:
+- url: https://api.qovery.com
+security:
+- bearerAuth: []
+- ApiKeyAuth: []
+tags:
+- name: Job Environment Variable
+paths:
+  /job/{jobId}/environmentVariable:
+    get:
+      summary: List environment variables
+      operationId: listJobEnvironmentVariable
+      parameters:
+      - $ref: '#/components/parameters/jobId'
+      tags:
+      - Job Environment Variable
+      responses:
+        '200':
+          description: List environment variables
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnvironmentVariableResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    post:
+      summary: Add an environment variable to the job
+      description: '- Add an environment variable to the job.
+
+        '
+      operationId: createJobEnvironmentVariable
+      parameters:
+      - $ref: '#/components/parameters/jobId'
+      tags:
+      - Job Environment Variable
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnvironmentVariableRequest'
+      responses:
+        '201':
+          description: Added an environment variable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnvironmentVariable'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /job/{jobId}/environmentVariable/import:
+    post:
+      summary: Import variables
+      description: Import environment variables in a defined scope, with a defined visibility.
+      operationId: importJobEnvironmentVariable
+      parameters:
+      - $ref: '#/components/parameters/jobId'
+      tags:
+      - Job Environment Variable
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VariableImportRequest'
+      responses:
+        '201':
+          description: Import environment variables
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VariableImport'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /job/{jobId}/environmentVariable/{environmentVariableId}:
+    delete:
+      summary: Delete an environment variable from a job
+      description: '- To delete an environment variable from an job you must have the project user permission
+
+        - You can''t delete a BUILT_IN variable
+
+        - If you delete a variable having override or alias, the associated override/alias will be deleted as well
+
+        '
+      operationId: deleteJobEnvironmentVariable
+      parameters:
+      - $ref: '#/components/parameters/jobId'
+      - $ref: '#/components/parameters/environmentVariableId'
+      tags:
+      - Job Environment Variable
+      responses:
+        '204':
+          $ref: '#/components/responses/204-deletion'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    put:
+      summary: Edit an environment variable belonging to the job
+      description: '- You can''t edit a BUILT_IN variable
+
+        - For an override, you can''t edit the key
+
+        - For an alias, you can''t edit the value
+
+        - An override can only have a scope lower to the variable it is overriding (hierarchy is BUILT_IN > PROJECT > ENVIRONMENT > CONTAINER)
+
+        '
+      operationId: editJobEnvironmentVariable
+      parameters:
+      - $ref: '#/components/parameters/jobId'
+      - $ref: '#/components/parameters/environmentVariableId'
+      tags:
+      - Job Environment Variable
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnvironmentVariableEditRequest'
+      responses:
+        '200':
+          description: Edited the environment variable value
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnvironmentVariable'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /job/{jobId}/environmentVariable/{environmentVariableId}/override:
+    post:
+      summary: Create an environment variable override at the job level
+      description: '- Allows you to override at job level an environment variable that has a higher scope.
+
+        - You only have to specify a value in the request body
+
+        - The system will create a new environment variable at job level with the same key as the one corresponding to the variable id in the path
+
+        - The response body will contain the newly created variable
+
+        - Information regarding the overridden_variable will be exposed in the "overridden_variable" field of the newly created variable
+
+        '
+      operationId: createJobEnvironmentVariableOverride
+      parameters:
+      - $ref: '#/components/parameters/jobId'
+      - $ref: '#/components/parameters/environmentVariableId'
+      tags:
+      - Job Environment Variable
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Value'
+      responses:
+        '201':
+          description: Create variable override
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnvironmentVariable'
+        '400':
+          description: Can't create an override on a higher scope. Overrides can only be created from one scope to a lower scope. Scope hierarchy is BUILT_IN > PROJECT > ENVIRONMENT > CONTAINER
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /job/{jobId}/environmentVariable/{environmentVariableId}/alias:
+    post:
+      summary: Create an environment variable alias at the job level
+      description: '- Allows you to add an alias at job level on an existing environment variable having higher scope, in order to customize its key.
+
+        - You only have to specify a key in the request body
+
+        - The system will create a new environment variable at job level with the same value as the one corresponding to the variable id in the path
+
+        - The response body will contain the newly created variable
+
+        - Information regarding the aliased_variable will be exposed in the "aliased_variable" field of the newly created variable
+
+        - You can''t create an alias on an alias
+
+        '
+      operationId: createJobEnvironmentVariableAlias
+      parameters:
+      - $ref: '#/components/parameters/jobId'
+      - $ref: '#/components/parameters/environmentVariableId'
+      tags:
+      - Job Environment Variable
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Key'
+      responses:
+        '201':
+          description: Create variable alias
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnvironmentVariable'
+        '400':
+          description: Can't create an alias on a higher scope. Aliases can only be created from one scope to a lower scope. Scope hierarchy is BUILT_IN > PROJECT > ENVIRONMENT > CONTAINER
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+components:
+  schemas:
+    EnvironmentVariableAlias:
+      type: object
+      required:
+      - id
+      - key
+      - value
+      - mount_path
+      - scope
+      - variable_type
+      properties:
+        id:
+          type: string
+          format: uuid
+        key:
+          type: string
+          example: QOVERY_DATABASE_PSQL_NAME
+        value:
+          type: string
+        mount_path:
+          type: string
+        scope:
+          $ref: '#/components/schemas/APIVariableScopeEnum'
+        variable_type:
+          $ref: '#/components/schemas/APIVariableTypeEnum'
+    EnvironmentVariable:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - $ref: '#/components/schemas/EnvironmentVariableRequest'
+      - type: object
+        required:
+        - scope
+        - variable_type
+        properties:
+          overridden_variable:
+            $ref: '#/components/schemas/EnvironmentVariableOverride'
+          aliased_variable:
+            $ref: '#/components/schemas/EnvironmentVariableAlias'
+          scope:
+            $ref: '#/components/schemas/APIVariableScopeEnum'
+          variable_type:
+            $ref: '#/components/schemas/APIVariableTypeEnum'
+          service_id:
+            type: string
+            format: uuid
+          service_name:
+            type: string
+          service_type:
+            $ref: '#/components/schemas/LinkedServiceTypeEnum'
+          owned_by:
+            type: string
+            description: 'Entity that created/own the variable (i.e: Qovery, Doppler)'
+    EnvironmentVariableRequest:
+      type: object
+      required:
+      - key
+      properties:
+        key:
+          type: string
+          description: key is case sensitive.
+        value:
+          type: string
+          description: value of the env variable.
+        mount_path:
+          type: string
+          default: null
+          description: should be set for file only. variable mount path makes variable a file (where file should be mounted).
+          nullable: true
+        description:
+          type: string
+          x-stoplight:
+            id: 1k835w52vgl4m
+          maxLength: 255
+          description: optional variable description (255 characters maximum)
+          nullable: true
+        enable_interpolation_in_file:
+          type: boolean
+          x-stoplight:
+            id: yzgx9eytturo9
+          nullable: true
+    APIVariableTypeEnum:
+      type: string
+      description: 'type of the environment variable (VALUE, FILE, ALIAS, OVERRIDE or BUIT_IN)
+
+        '
+      enum:
+      - VALUE
+      - ALIAS
+      - OVERRIDE
+      - BUILT_IN
+      - FILE
+    VariableImport:
+      type: object
+      required:
+      - total_variables_to_import
+      - successful_imported_variables
+      properties:
+        total_variables_to_import:
+          type: number
+        successful_imported_variables:
+          type: array
+          items:
+            type: object
+            required:
+            - name
+            - scope
+            - is_secret
+            properties:
+              name:
+                type: string
+              value:
+                type: string
+                description: Optional if the variable is secret
+              scope:
+                $ref: '#/components/schemas/APIVariableScopeEnum'
+              is_secret:
+                type: boolean
+    Value:
+      type: object
+      title: EnvironmentVariableOverrideRequest
+      properties:
+        value:
+          type: string
+        description:
+          type: string
+          x-stoplight:
+            id: ygzxe4xek3thk
+          maxLength: 255
+          description: optional variable description (255 characters maximum)
+          nullable: true
+        enable_interpolation_in_file:
+          type: boolean
+          x-stoplight:
+            id: ercieri1t6gqn
+          nullable: true
+    LinkedServiceTypeEnum:
+      type: string
+      description: type of the service (application, database, job, gateway...)
+      enum:
+      - APPLICATION
+      - CONTAINER
+      - DATABASE
+      - JOB
+      - HELM
+      - TERRAFORM
+    EnvironmentVariableOverride:
+      type: object
+      required:
+      - id
+      - key
+      - value
+      - mount_path
+      - scope
+      - variable_type
+      properties:
+        id:
+          type: string
+          format: uuid
+        key:
+          type: string
+        value:
+          type: string
+        mount_path:
+          type: string
+        scope:
+          $ref: '#/components/schemas/APIVariableScopeEnum'
+        variable_type:
+          $ref: '#/components/schemas/APIVariableTypeEnum'
+    EnvironmentVariableResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/EnvironmentVariable'
+    EnvironmentVariableEditRequest:
+      type: object
+      required:
+      - key
+      properties:
+        key:
+          type: string
+          description: key is case sensitive
+        value:
+          type: string
+          description: value of the env variable.
+        mount_path:
+          type: string
+          x-stoplight:
+            id: dj004tdqp6pe7
+          nullable: true
+        description:
+          type: string
+          x-stoplight:
+            id: rf6wxepnkcoyv
+          maxLength: 255
+          description: optional variable description (255 characters maximum)
+          nullable: true
+        enable_interpolation_in_file:
+          type: boolean
+          x-stoplight:
+            id: bw41elfsxminc
+          nullable: true
+    APIVariableScopeEnum:
+      type: string
+      enum:
+      - APPLICATION
+      - BUILT_IN
+      - ENVIRONMENT
+      - PROJECT
+      - CONTAINER
+      - JOB
+      - HELM
+      - TERRAFORM
+    Key:
+      type: object
+      title: EnvironmentVariableAliasRequest
+      required:
+      - key
+      properties:
+        key:
+          type: string
+        description:
+          type: string
+          x-stoplight:
+            id: qe7qh1tjtkwrm
+          maxLength: 255
+          description: optional variable description (255 characters maximum)
+          nullable: true
+        enable_interpolation_in_file:
+          type: boolean
+          x-stoplight:
+            id: alajw1h9vgr9e
+          nullable: true
+    VariableImportRequest:
+      type: object
+      required:
+      - vars
+      - overwrite
+      properties:
+        overwrite:
+          type: boolean
+          default: false
+        vars:
+          type: array
+          items:
+            type: object
+            required:
+            - name
+            - value
+            - scope
+            - is_secret
+            properties:
+              name:
+                type: string
+              value:
+                type: string
+              scope:
+                $ref: '#/components/schemas/APIVariableScopeEnum'
+              is_secret:
+                type: boolean
+    Base:
+      type: object
+      required:
+      - id
+      - created_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          readOnly: true
+          format: date-time
+        updated_at:
+          type: string
+          readOnly: true
+          format: date-time
+  parameters:
+    jobId:
+      name: jobId
+      in: path
+      description: Job ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+    environmentVariableId:
+      name: environmentVariableId
+      in: path
+      description: Environment Variable ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+  responses:
+    '400':
+      description: Bad request
+    204-deletion:
+      description: The resource was deleted successfully
+    '403':
+      description: Access forbidden
+    '404':
+      description: Resource not found
+    '401':
+      description: Access token is missing or invalid
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'JWT tokens should be used with OIDC account (human to machine). JWT tokens used by the Qovery console to communicate with the API have a TTL. Curl Example '' curl https://console.qovery.com/organization -H "Authorization: Bearer $qovery_token" '''
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'Token API are generated by Qovery to manage machine to machine interaction and do not have a TTL. Curl Example '' curl https://console.qovery.com/organization -H "Authorization: Token $qovery_token" '''
+x-tagGroups:
+- name: Organization
+  tags:
+  - Organization Main Calls
+  - Organization Api Token
+  - Organization Account Git Repositories
+  - Organization Cluster Lock
+  - Organization Webhook
+  - Organization Custom Role
+  - Organization Event
+  - Organization Annotations Group
+  - Organization Labels Group
+  - Organization Enterprise Connection
+  - Projects
+  - Members
+  - Billing
+  - Clusters
+  - Cloud Provider
+  - Cloud Provider Credentials
+  - Github App
+  - Container Registries
+  - Helm Repositories
+- name: Project
+  tags:
+  - Project Main Calls
+  - Environments
+  - Project Deployment Rule
+  - Project Environment Variable
+  - Project Secret
+- name: Environment
+  tags:
+  - Environment Main Calls
+  - Applications
+  - Containers
+  - Databases
+  - Jobs
+  - Helms
+  - Terraforms
+  - Environment Actions
+  - Environment Logs
+  - Environment Deployment History
+  - Environment Deployment Rule
+  - Environment Variable
+  - Environment Secret
+  - Environment Export
+- name: Deployment Stage
+  tags:
+  - Deployment Stage Main Calls
+- name: Application
+  tags:
+  - Application Main Calls
+  - Application Actions
+  - Application Configuration
+  - Application Custom Domain
+  - Application Database
+  - Application Logs
+  - Application Deployment Restriction
+  - Application Deployment History
+  - Application Environment Variable
+  - Application Secret
+  - Application Annotations Group
+- name: Container
+  tags:
+  - Container Main Calls
+  - Container Actions
+  - Container Configuration
+  - Container Custom Domain
+  - Container Database
+  - Container Logs
+  - Container Deployment History
+  - Container Environment Variable
+  - Container Secret
+  - Container Annotations Group
+- name: Database
+  tags:
+  - Database Main Calls
+  - Database Actions
+  - Database Applications
+  - Database Deployment History
+  - Database Containers
+  - Database Application
+  - Database Container
+  - Backups
+  - Database Annotations Group
+- name: Job
+  tags:
+  - Job Main Calls
+  - Job Actions
+  - Job Configuration
+  - Job Custom Domain
+  - Job Deployment Restriction
+  - Job Deployment History
+  - Job Environment Variable
+  - Job Secret
+  - Job Annotations Group
+- name: Helm
+  tags:
+  - Helm Main Calls
+  - Helm Actions
+  - Helm Configuration
+  - Helm Custom Domain
+  - Helm Deployment Restriction
+  - Helm Deployment History
+- name: Terraform
+  tags:
+  - Terraform Main Calls
+  - Terraform Actions
+  - Terraform Configuration
+  - Terraform Deployment Restriction
+  - Terraform Deployment History
+- name: Account
+  tags:
+  - Account Info
+  - Git repositories
+  - Referral & Rewards
+- name: Git
+  tags:
+  - Git repositories
+- name: Variable
+  tags:
+  - Variable Main Calls
+- name: Lifecycle Template
+  tags:
+  - Lifecycle Template Main Calls
+- name: Admin
+  tags:
+  - User Sign Up
+- name: Alerting
+  tags:
+  - Alert Receivers
+  - Alert Rules

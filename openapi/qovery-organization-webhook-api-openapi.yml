@@ -1,0 +1,567 @@
+openapi: 3.0.0
+info:
+  version: 1.0.4
+  title: Qovery Account Info Organization Webhook API
+  description: '- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider.
+
+    - ℹ️ The API is stable and still in development.
+
+    '
+  contact:
+    name: Qovery Product Team
+    url: https://www.qovery.com
+    email: support+api+documentation@qovery.com
+  x-logo:
+    url: https://console.qovery.com/assets/logos/logo-white.svg
+    altText: Qovery
+servers:
+- url: https://api.qovery.com
+security:
+- bearerAuth: []
+- ApiKeyAuth: []
+tags:
+- name: Organization Webhook
+paths:
+  /organization/{organizationId}/webhook:
+    get:
+      summary: List organization webhooks
+      description: List organization webhooks
+      operationId: listOrganizationWebHooks
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      tags:
+      - Organization Webhook
+      responses:
+        '200':
+          description: List organization webhooks
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationWebhookResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    post:
+      summary: Create an organization webhook
+      description: Create an organization webhook.
+      operationId: createOrganizationWebhook
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      tags:
+      - Organization Webhook
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizationWebhookCreateRequest'
+      responses:
+        '201':
+          description: Organization webhook created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationWebhookCreateResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      x-stoplight:
+        id: ihun7iwf9rffw
+  /organization/{organizationId}/webhook/{webhookId}/event:
+    get:
+      summary: List events of a webhook
+      description: List events of a webhooks
+      operationId: listWebhookEvent
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/webhookId'
+      tags:
+      - Organization Webhook
+      responses:
+        '200':
+          description: List of event for the webhook
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebhookEventResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /organization/{organizationId}/webhook/{webhookId}:
+    get:
+      summary: Get an Organization webhook
+      description: Get an Organization webhook
+      operationId: getOrganizationWebhook
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/webhookId'
+      tags:
+      - Organization Webhook
+      responses:
+        '200':
+          description: Get organization webhook
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationWebhookResponse'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    put:
+      summary: Edit an organization webhook
+      description: Edit an organization webhook
+      operationId: editOrganizationWebhook
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/webhookId'
+      tags:
+      - Organization Webhook
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizationWebhookCreateRequest'
+      responses:
+        '200':
+          description: Edit an organization webhook
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationWebhookCreateResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    delete:
+      summary: Delete organization webhook
+      description: Delete organization webhook
+      operationId: deleteOrganizationWebhook
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/webhookId'
+      tags:
+      - Organization Webhook
+      responses:
+        '204':
+          $ref: '#/components/responses/204'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+components:
+  schemas:
+    EnvironmentModeEnum:
+      type: string
+      enum:
+      - DEVELOPMENT
+      - PREVIEW
+      - PRODUCTION
+      - STAGING
+      example: PRODUCTION
+    OrganizationWebhookCreateResponse:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        properties:
+          kind:
+            $ref: '#/components/schemas/OrganizationWebhookKindEnum'
+          target_url:
+            type: string
+            description: 'Set the public HTTP or HTTPS endpoint that will receive the specified events.
+
+              The target URL must starts with `http://` or `https://`
+
+              '
+          target_secret_set:
+            type: boolean
+          description:
+            type: string
+          enabled:
+            type: boolean
+            description: Turn on or off your endpoint.
+          events:
+            type: array
+            items:
+              $ref: '#/components/schemas/OrganizationWebhookEventEnum'
+          project_names_filter:
+            type: array
+            description: "Specify the project names you want to filter to. \nThis webhook will be triggered only if the event is coming from the specified Project IDs.\nNotes: 1. Wildcard is accepted E.g. `product*`. 2. Name is case insensitive.\n"
+            items:
+              type: string
+          environment_types_filter:
+            type: array
+            description: 'Specify the environment modes you want to filter to.
+
+              This webhook will be triggered only if the event is coming from an environment with the specified mode.
+
+              '
+            items:
+              $ref: '#/components/schemas/EnvironmentModeEnum'
+    OrganizationWebhookResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrganizationWebhookResponse'
+    OrganizationWebhookCreateRequest:
+      type: object
+      required:
+      - kind
+      - target_url
+      - events
+      properties:
+        kind:
+          $ref: '#/components/schemas/OrganizationWebhookKindEnum'
+        target_url:
+          type: string
+          description: 'Set the public HTTP or HTTPS endpoint that will receive the specified events.
+
+            The target URL must starts with `http://` or `https://`
+
+            '
+        target_secret:
+          type: string
+          description: 'Make sure you receive a payload to sign the Qovery request with your secret.
+
+            Qovery will add a HTTP header `Qovery-Signature: <Your Secret>` to every webhook requests sent to your target URL.
+
+            '
+        description:
+          type: string
+        enabled:
+          type: boolean
+          description: Turn on or off your endpoint.
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrganizationWebhookEventEnum'
+        project_names_filter:
+          type: array
+          description: "Specify the project names you want to filter to. \nThis webhook will be triggered only if the event is coming from the specified Project IDs.\nNotes: 1. Wildcard is accepted E.g. `product*`. 2. Name is case insensitive.\n"
+          items:
+            type: string
+        environment_types_filter:
+          type: array
+          description: 'Specify the environment modes you want to filter to.
+
+            This webhook will be triggered only if the event is coming from an environment with the specified mode.
+
+            '
+          items:
+            $ref: '#/components/schemas/EnvironmentModeEnum'
+    OrganizationWebhookKindEnum:
+      type: string
+      description: Define the type of the webhook. `SLACK` is a special webhook type to push notifications directly to slack. The `target_url` must be a Slack compatible endpoint.
+      enum:
+      - STANDARD
+      - SLACK
+      example: STANDARD
+    OrganizationWebhookEventEnum:
+      type: string
+      description: 'Events to subscribe to and send to the `target_url`.
+
+        - `DEPLOYMENT_STARTED` send an event when a deployment is started and going to be executed
+
+        - `DEPLOYMENT_CANCELLED` send an event when a deployment is cancelled
+
+        - `DEPLOYMENT_FAILURE` send an event when a deployment failed
+
+        - `DEPLOYMENT_SUCCESSFUL` send an event when a deployment is successful
+
+        '
+      enum:
+      - DEPLOYMENT_STARTED
+      - DEPLOYMENT_CANCELLED
+      - DEPLOYMENT_FAILURE
+      - DEPLOYMENT_SUCCESSFUL
+    OrganizationWebhookResponse:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        properties:
+          kind:
+            $ref: '#/components/schemas/OrganizationWebhookKindEnum'
+          target_url:
+            type: string
+            description: 'Set the public HTTP or HTTPS endpoint that will receive the specified events.
+
+              The target URL must starts with `http://` or `https://`
+
+              '
+          target_secret_set:
+            type: boolean
+          description:
+            type: string
+          enabled:
+            type: boolean
+            description: Turn on or off your endpoint.
+          events:
+            type: array
+            items:
+              $ref: '#/components/schemas/OrganizationWebhookEventEnum'
+          project_names_filter:
+            type: array
+            description: "Specify the project names you want to filter to. \nThis webhook will be triggered only if the event is coming from the specified Project IDs.\nNotes: 1. Wildcard is accepted E.g. `product*`. 2. Name is case insensitive.\n"
+            items:
+              type: string
+          environment_types_filter:
+            type: array
+            description: 'Specify the environment modes you want to filter to.
+
+              This webhook will be triggered only if the event is coming from an environment with the specified mode.
+
+              '
+            items:
+              $ref: '#/components/schemas/EnvironmentModeEnum'
+    WebhookEventResponse:
+      type: object
+      required:
+      - id
+      - created_at
+      - kind
+      - matched_event
+      - target_url_used
+      - request
+      - target_response_status_code
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when the webhook event was created
+        kind:
+          $ref: '#/components/schemas/OrganizationWebhookKindEnum'
+        matched_event:
+          $ref: '#/components/schemas/OrganizationWebhookEventEnum'
+        target_url_used:
+          type: string
+          format: uri
+          description: The webhook target URL that was invoked
+        request:
+          type: object
+          additionalProperties: true
+          description: The request payload sent to the webhook
+        target_response_status_code:
+          type: integer
+          format: int32
+          description: HTTP status code returned by the webhook target
+        target_response_body:
+          type: string
+          nullable: true
+          description: Response body from the webhook target
+    WebhookEventResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/WebhookEventResponse'
+    Base:
+      type: object
+      required:
+      - id
+      - created_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          readOnly: true
+          format: date-time
+        updated_at:
+          type: string
+          readOnly: true
+          format: date-time
+  responses:
+    '400':
+      description: Bad request
+    '403':
+      description: Access forbidden
+    '204':
+      description: no content
+    '404':
+      description: Resource not found
+    '401':
+      description: Access token is missing or invalid
+  parameters:
+    webhookId:
+      name: webhookId
+      in: path
+      description: Webhook ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+    organizationId:
+      name: organizationId
+      in: path
+      description: Organization ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'JWT tokens should be used with OIDC account (human to machine). JWT tokens used by the Qovery console to communicate with the API have a TTL. Curl Example '' curl https://console.qovery.com/organization -H "Authorization: Bearer $qovery_token" '''
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'Token API are generated by Qovery to manage machine to machine interaction and do not have a TTL. Curl Example '' curl https://console.qovery.com/organization -H "Authorization: Token $qovery_token" '''
+x-tagGroups:
+- name: Organization
+  tags:
+  - Organization Main Calls
+  - Organization Api Token
+  - Organization Account Git Repositories
+  - Organization Cluster Lock
+  - Organization Webhook
+  - Organization Custom Role
+  - Organization Event
+  - Organization Annotations Group
+  - Organization Labels Group
+  - Organization Enterprise Connection
+  - Projects
+  - Members
+  - Billing
+  - Clusters
+  - Cloud Provider
+  - Cloud Provider Credentials
+  - Github App
+  - Container Registries
+  - Helm Repositories
+- name: Project
+  tags:
+  - Project Main Calls
+  - Environments
+  - Project Deployment Rule
+  - Project Environment Variable
+  - Project Secret
+- name: Environment
+  tags:
+  - Environment Main Calls
+  - Applications
+  - Containers
+  - Databases
+  - Jobs
+  - Helms
+  - Terraforms
+  - Environment Actions
+  - Environment Logs
+  - Environment Deployment History
+  - Environment Deployment Rule
+  - Environment Variable
+  - Environment Secret
+  - Environment Export
+- name: Deployment Stage
+  tags:
+  - Deployment Stage Main Calls
+- name: Application
+  tags:
+  - Application Main Calls
+  - Application Actions
+  - Application Configuration
+  - Application Custom Domain
+  - Application Database
+  - Application Logs
+  - Application Deployment Restriction
+  - Application Deployment History
+  - Application Environment Variable
+  - Application Secret
+  - Application Annotations Group
+- name: Container
+  tags:
+  - Container Main Calls
+  - Container Actions
+  - Container Configuration
+  - Container Custom Domain
+  - Container Database
+  - Container Logs
+  - Container Deployment History
+  - Container Environment Variable
+  - Container Secret
+  - Container Annotations Group
+- name: Database
+  tags:
+  - Database Main Calls
+  - Database Actions
+  - Database Applications
+  - Database Deployment History
+  - Database Containers
+  - Database Application
+  - Database Container
+  - Backups
+  - Database Annotations Group
+- name: Job
+  tags:
+  - Job Main Calls
+  - Job Actions
+  - Job Configuration
+  - Job Custom Domain
+  - Job Deployment Restriction
+  - Job Deployment History
+  - Job Environment Variable
+  - Job Secret
+  - Job Annotations Group
+- name: Helm
+  tags:
+  - Helm Main Calls
+  - Helm Actions
+  - Helm Configuration
+  - Helm Custom Domain
+  - Helm Deployment Restriction
+  - Helm Deployment History
+- name: Terraform
+  tags:
+  - Terraform Main Calls
+  - Terraform Actions
+  - Terraform Configuration
+  - Terraform Deployment Restriction
+  - Terraform Deployment History
+- name: Account
+  tags:
+  - Account Info
+  - Git repositories
+  - Referral & Rewards
+- name: Git
+  tags:
+  - Git repositories
+- name: Variable
+  tags:
+  - Variable Main Calls
+- name: Lifecycle Template
+  tags:
+  - Lifecycle Template Main Calls
+- name: Admin
+  tags:
+  - User Sign Up
+- name: Alerting
+  tags:
+  - Alert Receivers
+  - Alert Rules

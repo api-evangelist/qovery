@@ -1,0 +1,503 @@
+openapi: 3.0.0
+info:
+  version: 1.0.4
+  title: Qovery Account Info Organization Annotations Group API
+  description: '- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider.
+
+    - ℹ️ The API is stable and still in development.
+
+    '
+  contact:
+    name: Qovery Product Team
+    url: https://www.qovery.com
+    email: support+api+documentation@qovery.com
+  x-logo:
+    url: https://console.qovery.com/assets/logos/logo-white.svg
+    altText: Qovery
+servers:
+- url: https://api.qovery.com
+security:
+- bearerAuth: []
+- ApiKeyAuth: []
+tags:
+- name: Organization Annotations Group
+paths:
+  /organization/{organizationId}/annotationsGroups:
+    get:
+      summary: List organization annotations group
+      description: List organization annotations group
+      operationId: listOrganizationAnnotationsGroup
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      tags:
+      - Organization Annotations Group
+      responses:
+        '200':
+          description: List organization annotations groups
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    $ref: '#/components/schemas/OrganizationAnnotationsGroupEnrichedResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    post:
+      summary: Create an organization annotations group
+      description: Create an organization annotations group
+      operationId: createOrganizationAnnotationsGroup
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      tags:
+      - Organization Annotations Group
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizationAnnotationsGroupCreateRequest'
+      responses:
+        '201':
+          description: Organization annotations group created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationAnnotationsGroupResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+  /organization/{organizationId}/annotationsGroups/{annotationsGroupId}:
+    get:
+      summary: Get organization annotations group
+      description: Get organization annotations group
+      operationId: getOrganizationAnnotationsGroup
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/annotationsGroupId'
+      tags:
+      - Organization Annotations Group
+      responses:
+        '200':
+          description: List organization annotations groups
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationAnnotationsGroupResponse'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    put:
+      summary: Edit organization annotations group
+      description: Edit organization annotations group
+      operationId: editOrganizationAnnotationsGroup
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/annotationsGroupId'
+      tags:
+      - Organization Annotations Group
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizationAnnotationsGroupCreateRequest'
+      responses:
+        '200':
+          description: Edit organization annotations groups
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationAnnotationsGroupResponse'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    delete:
+      summary: Delete organization annotations group
+      description: Delete organization annotations group
+      operationId: deleteOrganizationAnnotationsGroup
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/annotationsGroupId'
+      tags:
+      - Organization Annotations Group
+      responses:
+        '204':
+          $ref: '#/components/responses/204'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /organization/{organizationId}/annotationsGroups/{annotationsGroupId}/associatedItems:
+    get:
+      summary: Get organization annotations group associated items
+      description: Get organization annotations group associated items
+      operationId: getOrganizationAnnotationsGroupAssociatedItems
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/annotationsGroupId'
+      tags:
+      - Organization Annotations Group
+      responses:
+        '200':
+          description: Get organization annotations group token associated items
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationAnnotationsGroupAssociatedItemsResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+components:
+  parameters:
+    annotationsGroupId:
+      name: annotationsGroupId
+      in: path
+      description: Organization annotations group ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+    organizationId:
+      name: organizationId
+      in: path
+      description: Organization ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+  schemas:
+    OrganizationAnnotationsGroupEnrichedResponse:
+      title: OrganizationAnnotationsGroupEnrichedResponse
+      x-stoplight:
+        id: edjpmiyq8n5nt
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        x-stoplight:
+          id: 2auhw8xgz67rj
+        required:
+        - name
+        - annotations
+        - scopes
+        properties:
+          name:
+            type: string
+            x-stoplight:
+              id: pjys12dlmqw9c
+          annotations:
+            type: array
+            x-stoplight:
+              id: 4yn29zdqeb0og
+            items:
+              $ref: '#/components/schemas/Annotation'
+          scopes:
+            x-stoplight:
+              id: h8qu8e8yp5dh3
+            type: array
+            items:
+              $ref: '#/components/schemas/OrganizationAnnotationsGroupScopeEnum'
+          associated_items_count:
+            type: integer
+            x-stoplight:
+              id: q71gum8nqmj8p
+    Annotation:
+      type: object
+      required:
+      - key
+      - value
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+    AnnotationsGroupAssociatedItemType:
+      type: string
+      description: Annotations Group Associated Item Type
+      enum:
+      - APPLICATION
+      - DATABASE
+      - CONTAINER
+      - LIFECYCLE
+      - ENVIRONMENT
+      - CLUSTER
+      - CRON
+    OrganizationAnnotationsGroupResponse:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        required:
+        - name
+        - annotations
+        - scopes
+        properties:
+          name:
+            type: string
+          annotations:
+            type: array
+            items:
+              $ref: '#/components/schemas/Annotation'
+          scopes:
+            type: array
+            items:
+              $ref: '#/components/schemas/OrganizationAnnotationsGroupScopeEnum'
+    OrganizationAnnotationsGroupScopeEnum:
+      type: string
+      description: Annotations Group Scope
+      enum:
+      - DEPLOYMENTS
+      - STATEFUL_SETS
+      - SERVICES
+      - INGRESS
+      - GATEWAY_API_ROUTES
+      - HPA
+      - PODS
+      - SECRETS
+      - JOBS
+      - CRON_JOBS
+    OrganizationAnnotationsGroupAssociatedItemsResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            type: object
+            required:
+            - item_id
+            - item_name
+            - item_type
+            properties:
+              cluster_id:
+                type: string
+                format: uuid
+              cluster_name:
+                type: string
+              project_id:
+                type: string
+                format: uuid
+              project_name:
+                type: string
+              environment_id:
+                type: string
+                format: uuid
+              environment_name:
+                type: string
+              item_id:
+                type: string
+                format: uuid
+              item_name:
+                type: string
+              item_type:
+                $ref: '#/components/schemas/AnnotationsGroupAssociatedItemType'
+    Base:
+      type: object
+      required:
+      - id
+      - created_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          readOnly: true
+          format: date-time
+        updated_at:
+          type: string
+          readOnly: true
+          format: date-time
+    OrganizationAnnotationsGroupEnrichedResponseList:
+      title: OrganizationAnnotationsGroupEnrichedResponseList
+      x-stoplight:
+        id: 2tbiuqncqaqaw
+      type: array
+      items:
+        $ref: '#/components/schemas/OrganizationAnnotationsGroupEnrichedResponse'
+    OrganizationAnnotationsGroupCreateRequest:
+      type: object
+      required:
+      - name
+      - annotations
+      - scopes
+      properties:
+        name:
+          type: string
+          description: name of the annotations group
+        annotations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Annotation'
+        scopes:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrganizationAnnotationsGroupScopeEnum'
+  responses:
+    '403':
+      description: Access forbidden
+    '204':
+      description: no content
+    '404':
+      description: Resource not found
+    '400':
+      description: Bad request
+    '401':
+      description: Access token is missing or invalid
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'JWT tokens should be used with OIDC account (human to machine). JWT tokens used by the Qovery console to communicate with the API have a TTL. Curl Example '' curl https://console.qovery.com/organization -H "Authorization: Bearer $qovery_token" '''
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'Token API are generated by Qovery to manage machine to machine interaction and do not have a TTL. Curl Example '' curl https://console.qovery.com/organization -H "Authorization: Token $qovery_token" '''
+x-tagGroups:
+- name: Organization
+  tags:
+  - Organization Main Calls
+  - Organization Api Token
+  - Organization Account Git Repositories
+  - Organization Cluster Lock
+  - Organization Webhook
+  - Organization Custom Role
+  - Organization Event
+  - Organization Annotations Group
+  - Organization Labels Group
+  - Organization Enterprise Connection
+  - Projects
+  - Members
+  - Billing
+  - Clusters
+  - Cloud Provider
+  - Cloud Provider Credentials
+  - Github App
+  - Container Registries
+  - Helm Repositories
+- name: Project
+  tags:
+  - Project Main Calls
+  - Environments
+  - Project Deployment Rule
+  - Project Environment Variable
+  - Project Secret
+- name: Environment
+  tags:
+  - Environment Main Calls
+  - Applications
+  - Containers
+  - Databases
+  - Jobs
+  - Helms
+  - Terraforms
+  - Environment Actions
+  - Environment Logs
+  - Environment Deployment History
+  - Environment Deployment Rule
+  - Environment Variable
+  - Environment Secret
+  - Environment Export
+- name: Deployment Stage
+  tags:
+  - Deployment Stage Main Calls
+- name: Application
+  tags:
+  - Application Main Calls
+  - Application Actions
+  - Application Configuration
+  - Application Custom Domain
+  - Application Database
+  - Application Logs
+  - Application Deployment Restriction
+  - Application Deployment History
+  - Application Environment Variable
+  - Application Secret
+  - Application Annotations Group
+- name: Container
+  tags:
+  - Container Main Calls
+  - Container Actions
+  - Container Configuration
+  - Container Custom Domain
+  - Container Database
+  - Container Logs
+  - Container Deployment History
+  - Container Environment Variable
+  - Container Secret
+  - Container Annotations Group
+- name: Database
+  tags:
+  - Database Main Calls
+  - Database Actions
+  - Database Applications
+  - Database Deployment History
+  - Database Containers
+  - Database Application
+  - Database Container
+  - Backups
+  - Database Annotations Group
+- name: Job
+  tags:
+  - Job Main Calls
+  - Job Actions
+  - Job Configuration
+  - Job Custom Domain
+  - Job Deployment Restriction
+  - Job Deployment History
+  - Job Environment Variable
+  - Job Secret
+  - Job Annotations Group
+- name: Helm
+  tags:
+  - Helm Main Calls
+  - Helm Actions
+  - Helm Configuration
+  - Helm Custom Domain
+  - Helm Deployment Restriction
+  - Helm Deployment History
+- name: Terraform
+  tags:
+  - Terraform Main Calls
+  - Terraform Actions
+  - Terraform Configuration
+  - Terraform Deployment Restriction
+  - Terraform Deployment History
+- name: Account
+  tags:
+  - Account Info
+  - Git repositories
+  - Referral & Rewards
+- name: Git
+  tags:
+  - Git repositories
+- name: Variable
+  tags:
+  - Variable Main Calls
+- name: Lifecycle Template
+  tags:
+  - Lifecycle Template Main Calls
+- name: Admin
+  tags:
+  - User Sign Up
+- name: Alerting
+  tags:
+  - Alert Receivers
+  - Alert Rules

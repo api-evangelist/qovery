@@ -1,0 +1,873 @@
+openapi: 3.0.0
+info:
+  version: 1.0.4
+  title: Qovery Account Info Terraforms API
+  description: '- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider.
+
+    - ℹ️ The API is stable and still in development.
+
+    '
+  contact:
+    name: Qovery Product Team
+    url: https://www.qovery.com
+    email: support+api+documentation@qovery.com
+  x-logo:
+    url: https://console.qovery.com/assets/logos/logo-white.svg
+    altText: Qovery
+servers:
+- url: https://api.qovery.com
+security:
+- bearerAuth: []
+- ApiKeyAuth: []
+tags:
+- name: Terraforms
+paths:
+  /environment/{environmentId}/terraform:
+    parameters:
+    - schema:
+        type: string
+        format: uuid
+      name: environmentId
+      in: path
+      required: true
+    get:
+      summary: List terraforms
+      operationId: listTerraforms
+      x-stoplight:
+        id: 2azyhtuthfuft
+      tags:
+      - Terraforms
+      responses:
+        '200':
+          description: List terraforms
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TerraformResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    post:
+      summary: Create a terraform
+      tags:
+      - Terraforms
+      operationId: createTerraform
+      x-stoplight:
+        id: qgpat08kc3wir
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TerraformRequest'
+      responses:
+        '201':
+          description: Create terraform
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TerraformResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          description: Terraform name within the environment is already taken
+  /defaultTerraformAdvancedSettings:
+    get:
+      summary: List default terraform advanced settings
+      tags:
+      - Terraforms
+      responses:
+        '200':
+          description: Default terraform advanced settings
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TerraformAdvancedSettings'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      operationId: getDefaultTerraformAdvancedSettings
+      x-stoplight:
+        id: 5qcyy764ewhk3
+  /terraform/{terraformId}/clone:
+    post:
+      summary: Clone terraform
+      description: This will create a new terraform with the same configuration on the targeted environment Id.
+      operationId: cloneTerraform
+      parameters:
+      - $ref: '#/components/parameters/terraformId'
+      tags:
+      - Terraforms
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CloneServiceRequest'
+      responses:
+        '202':
+          description: Terraform clone has been requested
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TerraformResponse'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          description: Operation is in progress
+components:
+  schemas:
+    TerraformProviderVersion:
+      title: TerraformProviderVersion
+      x-stoplight:
+        id: 1a1hkhvei2wjq
+      type: object
+      required:
+      - explicit_version
+      properties:
+        read_from_terraform_block:
+          type: boolean
+          x-stoplight:
+            id: p2dnmuifo0fki
+        explicit_version:
+          type: string
+          x-stoplight:
+            id: 611hxcvuy68lv
+    TerraformResponseList:
+      title: TerraformResponseList
+      x-stoplight:
+        id: ipapoxduvpkk7
+      type: object
+      properties:
+        results:
+          type: array
+          x-stoplight:
+            id: mkzx2zfzysbnp
+          items:
+            $ref: '#/components/schemas/TerraformResponse'
+    ReferenceObject:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+    TerraformGitRepositoryRequest:
+      title: TerraformGitRepositoryRequest
+      x-stoplight:
+        id: ot316adf8cqn0
+      type: object
+      required:
+      - url
+      properties:
+        url:
+          type: string
+          x-stoplight:
+            id: yjnlaiu6umfgc
+        branch:
+          type: string
+          x-stoplight:
+            id: 7txz9hngsrt2a
+        root_path:
+          type: string
+          x-stoplight:
+            id: 2sdr8f1ia9yr1
+        git_token_id:
+          type: string
+          x-stoplight:
+            id: ddhd4pztgc43y
+    DockerfileFragmentFile:
+      title: DockerfileFragmentFile
+      type: object
+      description: Reference a Dockerfile fragment file from your Git repository.
+      required:
+      - type
+      - path
+      properties:
+        type:
+          type: string
+          enum:
+          - file
+          description: Fragment type discriminator
+        path:
+          type: string
+          description: Absolute path to the fragment file.
+          example: /infra/terraform/custom-build.dockerfile
+    GitProviderEnum:
+      type: string
+      enum:
+      - BITBUCKET
+      - GITHUB
+      - GITLAB
+    TerraformResponse:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        required:
+        - name
+        - timeout_sec
+        - auto_deploy
+        - icon_uri
+        - service_type
+        - terraform_variables_source
+        - engine
+        - backend
+        - provider_version
+        - job_resources
+        - environment
+        - use_cluster_credentials
+        - action_extra_arguments
+        properties:
+          name:
+            type: string
+            description: name is case insensitive
+          description:
+            type: string
+          timeout_sec:
+            type: integer
+            minimum: 0
+            default: 600
+          auto_deploy:
+            type: boolean
+          auto_deploy_config:
+            $ref: '#/components/schemas/TerraformAutoDeployConfig'
+          terraform_files_source:
+            nullable: false
+            x-stoplight:
+              id: abfhjb6q74upq
+            oneOf:
+            - $ref: '#/components/schemas/TerraformFilesSource'
+          icon_uri:
+            type: string
+            format: uri
+            description: Icon URI representing the terraform service.
+            x-stoplight:
+              id: i2pvbugqsldhe
+          service_type:
+            $ref: '#/components/schemas/ServiceTypeEnum'
+          terraform_variables_source:
+            $ref: '#/components/schemas/TerraformVariablesSourceResponse'
+          engine:
+            $ref: '#/components/schemas/TerraformEngineEnum'
+          backend:
+            $ref: '#/components/schemas/TerraformBackend'
+          provider_version:
+            $ref: '#/components/schemas/TerraformProviderVersion'
+          job_resources:
+            $ref: '#/components/schemas/TerraformJobResourcesResponse'
+          environment:
+            $ref: '#/components/schemas/ReferenceObject'
+          use_cluster_credentials:
+            type: boolean
+            x-stoplight:
+              id: ixjejij08tgfo
+          action_extra_arguments:
+            type: object
+            x-stoplight:
+              id: rnkzwlf29dgb5
+            description: 'The key represent the action command name i.e: "plan"
+
+              The value represent the extra arguments to pass to this command
+
+
+              i.e: {"apply", ["-lock=false"]} is going to prepend `-lock=false` to terraform apply commands'
+            additionalProperties:
+              x-stoplight:
+                id: 57b09dqz1jwra
+              type: array
+              items:
+                x-stoplight:
+                  id: 2mkmankga2thw
+                type: string
+          dockerfile_fragment:
+            nullable: true
+            description: 'Custom Dockerfile fragment to inject during build.
+
+              When null, no custom fragment is injected.
+
+              '
+            oneOf:
+            - $ref: '#/components/schemas/DockerfileFragmentFile'
+            - $ref: '#/components/schemas/DockerfileFragmentInline'
+            discriminator:
+              propertyName: type
+              mapping:
+                file: '#/components/schemas/DockerfileFragmentFile'
+                inline: '#/components/schemas/DockerfileFragmentInline'
+      description: A Terraform service
+    TerraformEngineEnum:
+      enum:
+      - TERRAFORM
+      - OPEN_TOFU
+    TerraformAutoDeployConfig:
+      title: TerraformAutoDeployConfig
+      type: object
+      required:
+      - auto_deploy
+      - terraform_action
+      properties:
+        auto_deploy:
+          type: boolean
+        terraform_action:
+          type: string
+          description: "Action to force a specific Terraform behavior on autodeploy.\n`DEFAULT`: The action is resolved based on the deployment type:\n  - Start/Restart -> PLAN_AND_APPLY\n  - Delete -> DESTROY\n  - Pause -> PLAN_ONLY\n"
+          enum:
+          - DEFAULT
+          - PLAN
+          - NOOP
+    TerraformRequest:
+      title: TerraformRequest
+      x-stoplight:
+        id: 7ujl5rx7sd38b
+      type: object
+      required:
+      - name
+      - description
+      - auto_deploy_config
+      - terraform_files_source
+      - terraform_variables_source
+      - backend
+      - engine
+      - provider_version
+      - job_resources
+      properties:
+        name:
+          type: string
+          x-stoplight:
+            id: 6mlmgpyzwe46t
+        description:
+          type: string
+          x-stoplight:
+            id: ltvpnbhjz1oho
+        auto_deploy_config:
+          $ref: '#/components/schemas/TerraformAutoDeployConfig'
+        terraform_files_source:
+          oneOf:
+          - type: object
+            properties:
+              git_repository:
+                $ref: '#/components/schemas/TerraformGitRepositoryRequest'
+        terraform_variables_source:
+          $ref: '#/components/schemas/TerraformVariablesSourceRequest'
+        backend:
+          $ref: '#/components/schemas/TerraformBackend'
+        engine:
+          $ref: '#/components/schemas/TerraformEngineEnum'
+        provider_version:
+          $ref: '#/components/schemas/TerraformProviderVersion'
+        timeout_sec:
+          type: integer
+          x-stoplight:
+            id: 3e5ngsw45atsd
+        icon_uri:
+          type: string
+          x-stoplight:
+            id: nem7zoh97kyzc
+          format: uri
+        job_resources:
+          $ref: '#/components/schemas/TerraformRequestJobResources'
+        use_cluster_credentials:
+          type: boolean
+          x-stoplight:
+            id: w9ncq63nukwe0
+        action_extra_arguments:
+          type: object
+          x-stoplight:
+            id: guh2uio7aztct
+          description: 'The key represent the action command name i.e: "plan"
+
+            The value represent the extra arguments to pass to this command
+
+
+            i.e: {"apply", ["-lock=false"]} is going to prepend `-lock=false` to terraform apply commands'
+          additionalProperties:
+            x-stoplight:
+              id: 99o28tw5chbb1
+            type: array
+            items:
+              x-stoplight:
+                id: c6p960bh9qcu4
+              type: string
+        dockerfile_fragment:
+          nullable: true
+          description: 'Custom Dockerfile fragment to inject during build. Optional field.
+
+            When null, no custom fragment is injected.
+
+            '
+          oneOf:
+          - $ref: '#/components/schemas/DockerfileFragmentFile'
+          - $ref: '#/components/schemas/DockerfileFragmentInline'
+          discriminator:
+            propertyName: type
+            mapping:
+              file: '#/components/schemas/DockerfileFragmentFile'
+              inline: '#/components/schemas/DockerfileFragmentInline'
+    ApplicationGitRepository:
+      type: object
+      required:
+      - provider
+      - owner
+      - name
+      - url
+      properties:
+        has_access:
+          type: boolean
+        provider:
+          $ref: '#/components/schemas/GitProviderEnum'
+        owner:
+          type: string
+          example: John Doe
+        url:
+          type: string
+          format: uri
+        name:
+          type: string
+          description: repository name
+          example: simple-node-app
+        branch:
+          type: string
+        root_path:
+          type: string
+        deployed_commit_id:
+          type: string
+          description: Git commit ID corresponding to the deployed version of the app
+        deployed_commit_date:
+          type: string
+          readOnly: true
+          format: date-time
+          description: Git commit date corresponding to the deployed version of the app
+        deployed_commit_contributor:
+          type: string
+          description: Git commit user corresponding to the deployed version of the app
+        deployed_commit_tag:
+          type: string
+          example: v1.0.1
+        git_token_id:
+          type: string
+          nullable: true
+        git_token_name:
+          type: string
+          nullable: true
+      title: ''
+    CloneServiceRequest:
+      type: object
+      required:
+      - name
+      - environment_id
+      properties:
+        name:
+          type: string
+        environment_id:
+          type: string
+          format: uuid
+    TerraformVariablesSourceResponse:
+      title: TerraformVariablesSourceResponse
+      x-stoplight:
+        id: 2lr1mv2b3y7xy
+      type: object
+      required:
+      - tf_var_file_paths
+      - tf_vars
+      properties:
+        tf_var_file_paths:
+          type: array
+          x-stoplight:
+            id: ua5d71it2yiu5
+          items:
+            x-stoplight:
+              id: qsy17gz9fl3n3
+            type: string
+        tf_vars:
+          type: array
+          items:
+            $ref: '#/components/schemas/TerraformVarKeyValue'
+    TerraformVarKeyValue:
+      title: TerraformVarKeyValue
+      type: object
+      description: A Terraform input variable
+      properties:
+        key:
+          type: string
+          x-stoplight:
+            id: enwctu8s88umi
+        value:
+          type: string
+          x-stoplight:
+            id: ix1y6viqpaxk6
+        secret:
+          type: boolean
+          x-stoplight:
+            id: df80p2az3whjg
+    TerraformJobResourcesResponse:
+      title: TerraformJobResourcesResponse
+      x-stoplight:
+        id: xhswkmfwyerrv
+      type: object
+      required:
+      - cpu_milli
+      - ram_mib
+      - gpu
+      - storage_gib
+      properties:
+        cpu_milli:
+          type: integer
+          x-stoplight:
+            id: bg054290feb9c
+        ram_mib:
+          type: integer
+          x-stoplight:
+            id: f6dur44ah2bwe
+        gpu:
+          type: integer
+          x-stoplight:
+            id: y8lomc204l40z
+          default: 0
+          minimum: 0
+          example: 1
+        storage_gib:
+          type: integer
+          x-stoplight:
+            id: dsf78pwnvmqi8
+    DockerfileFragmentInline:
+      title: DockerfileFragmentInline
+      type: object
+      description: Define Dockerfile commands directly in the configuration.
+      required:
+      - type
+      - content
+      properties:
+        type:
+          type: string
+          enum:
+          - inline
+          description: Fragment type discriminator
+        content:
+          type: string
+          description: Dockerfile commands to inject (max 8KB).
+          example: RUN apt-get update && apt-get install -y aws-cli jq curl && rm -rf /var/lib/apt/lists/*
+    ServiceTypeEnum:
+      type: string
+      x-stoplight:
+        id: d66063cd29913
+      description: type of the service (application, database, job, ...)
+      enum:
+      - APPLICATION
+      - DATABASE
+      - CONTAINER
+      - JOB
+      - HELM
+      - TERRAFORM
+      - ARGOCD_APP
+    TerraformAdvancedSettings:
+      title: TerraformAdvancedSettings
+      x-stoplight:
+        id: vykzi46lkt2y1
+      type: object
+      properties:
+        build.timeout_max_sec:
+          type: integer
+          description: define the max timeout for the build
+        build.cpu_max_in_milli:
+          type: integer
+          description: define the max cpu resources (in milli)
+        build.ram_max_in_gib:
+          type: integer
+          description: define the max ram resources (in gib)
+        build.ephemeral_storage_in_gib:
+          type: integer
+        deployment.termination_grace_period_seconds:
+          type: integer
+          description: define how long in seconds an application is supposed to be stopped gracefully
+        deployment.affinity.node.required:
+          type: object
+          additionalProperties:
+            type: string
+          description: Set pod placement on specific Kubernetes nodes labels
+        security.service_account_name:
+          type: string
+          description: 'Allows you to set an existing Kubernetes service account name
+
+            '
+        security.read_only_root_filesystem:
+          type: boolean
+          description: 'Mounts the container''s root filesystem as read-only
+
+            '
+    TerraformBackendKubernetes:
+      type: object
+      description: Kubernetes-specific backend configuration
+    TerraformVariablesSourceRequest:
+      title: TerraformVariablesSourceRequest
+      x-stoplight:
+        id: w9dp75z2a944z
+      type: object
+      required:
+      - tf_var_file_paths
+      - tf_vars
+      properties:
+        tf_var_file_paths:
+          type: array
+          x-stoplight:
+            id: kk82s9qjluugt
+          items:
+            x-stoplight:
+              id: 7ns22ue58d2zb
+            type: string
+        tf_vars:
+          type: array
+          items:
+            $ref: '#/components/schemas/TerraformVarKeyValue'
+    TerraformBackend:
+      oneOf:
+      - type: object
+        required:
+        - kubernetes
+        properties:
+          kubernetes:
+            $ref: '#/components/schemas/TerraformBackendKubernetes'
+      - type: object
+        required:
+        - user_provided
+        properties:
+          user_provided:
+            $ref: '#/components/schemas/TerraformBackendUserProvided'
+      description: Configuration for Terraform backend - exactly one backend type must be specified
+    TerraformBackendUserProvided:
+      type: object
+      description: User-provided backend configuration
+    TerraformRequestJobResources:
+      title: TerraformRequestJobResources
+      x-stoplight:
+        id: ucc7l63gajzu8
+      type: object
+      required:
+      - cpu_milli
+      - ram_mib
+      - gpu
+      - storage_gib
+      properties:
+        cpu_milli:
+          type: integer
+          x-stoplight:
+            id: alsilze9jc23e
+        ram_mib:
+          type: integer
+          x-stoplight:
+            id: a5y9bv1avatm3
+        gpu:
+          type: integer
+          x-stoplight:
+            id: rql3vn2yhkwec
+          minimum: 0
+          default: 0
+          example: 1
+        storage_gib:
+          type: integer
+          x-stoplight:
+            id: 627awhyjj26ny
+    TerraformFilesSource:
+      title: TerraformFilesSource
+      x-stoplight:
+        id: ynhtfa5yo20ee
+      type: object
+      properties:
+        git:
+          x-stoplight:
+            id: iavjewfs0d12k
+          type: object
+          properties:
+            git_repository:
+              $ref: '#/components/schemas/ApplicationGitRepository'
+    Base:
+      type: object
+      required:
+      - id
+      - created_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          readOnly: true
+          format: date-time
+        updated_at:
+          type: string
+          readOnly: true
+          format: date-time
+  responses:
+    '400':
+      description: Bad request
+    '403':
+      description: Access forbidden
+    '404':
+      description: Resource not found
+    '401':
+      description: Access token is missing or invalid
+  parameters:
+    terraformId:
+      name: terraformId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+      description: Terraform ID
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'JWT tokens should be used with OIDC account (human to machine). JWT tokens used by the Qovery console to communicate with the API have a TTL. Curl Example '' curl https://console.qovery.com/organization -H "Authorization: Bearer $qovery_token" '''
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'Token API are generated by Qovery to manage machine to machine interaction and do not have a TTL. Curl Example '' curl https://console.qovery.com/organization -H "Authorization: Token $qovery_token" '''
+x-tagGroups:
+- name: Organization
+  tags:
+  - Organization Main Calls
+  - Organization Api Token
+  - Organization Account Git Repositories
+  - Organization Cluster Lock
+  - Organization Webhook
+  - Organization Custom Role
+  - Organization Event
+  - Organization Annotations Group
+  - Organization Labels Group
+  - Organization Enterprise Connection
+  - Projects
+  - Members
+  - Billing
+  - Clusters
+  - Cloud Provider
+  - Cloud Provider Credentials
+  - Github App
+  - Container Registries
+  - Helm Repositories
+- name: Project
+  tags:
+  - Project Main Calls
+  - Environments
+  - Project Deployment Rule
+  - Project Environment Variable
+  - Project Secret
+- name: Environment
+  tags:
+  - Environment Main Calls
+  - Applications
+  - Containers
+  - Databases
+  - Jobs
+  - Helms
+  - Terraforms
+  - Environment Actions
+  - Environment Logs
+  - Environment Deployment History
+  - Environment Deployment Rule
+  - Environment Variable
+  - Environment Secret
+  - Environment Export
+- name: Deployment Stage
+  tags:
+  - Deployment Stage Main Calls
+- name: Application
+  tags:
+  - Application Main Calls
+  - Application Actions
+  - Application Configuration
+  - Application Custom Domain
+  - Application Database
+  - Application Logs
+  - Application Deployment Restriction
+  - Application Deployment History
+  - Application Environment Variable
+  - Application Secret
+  - Application Annotations Group
+- name: Container
+  tags:
+  - Container Main Calls
+  - Container Actions
+  - Container Configuration
+  - Container Custom Domain
+  - Container Database
+  - Container Logs
+  - Container Deployment History
+  - Container Environment Variable
+  - Container Secret
+  - Container Annotations Group
+- name: Database
+  tags:
+  - Database Main Calls
+  - Database Actions
+  - Database Applications
+  - Database Deployment History
+  - Database Containers
+  - Database Application
+  - Database Container
+  - Backups
+  - Database Annotations Group
+- name: Job
+  tags:
+  - Job Main Calls
+  - Job Actions
+  - Job Configuration
+  - Job Custom Domain
+  - Job Deployment Restriction
+  - Job Deployment History
+  - Job Environment Variable
+  - Job Secret
+  - Job Annotations Group
+- name: Helm
+  tags:
+  - Helm Main Calls
+  - Helm Actions
+  - Helm Configuration
+  - Helm Custom Domain
+  - Helm Deployment Restriction
+  - Helm Deployment History
+- name: Terraform
+  tags:
+  - Terraform Main Calls
+  - Terraform Actions
+  - Terraform Configuration
+  - Terraform Deployment Restriction
+  - Terraform Deployment History
+- name: Account
+  tags:
+  - Account Info
+  - Git repositories
+  - Referral & Rewards
+- name: Git
+  tags:
+  - Git repositories
+- name: Variable
+  tags:
+  - Variable Main Calls
+- name: Lifecycle Template
+  tags:
+  - Lifecycle Template Main Calls
+- name: Admin
+  tags:
+  - User Sign Up
+- name: Alerting
+  tags:
+  - Alert Receivers
+  - Alert Rules

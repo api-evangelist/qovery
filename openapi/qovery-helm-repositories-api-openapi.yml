@@ -1,0 +1,562 @@
+openapi: 3.0.0
+info:
+  version: 1.0.4
+  title: Qovery Account Info Helm Repositories API
+  description: '- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider.
+
+    - ℹ️ The API is stable and still in development.
+
+    '
+  contact:
+    name: Qovery Product Team
+    url: https://www.qovery.com
+    email: support+api+documentation@qovery.com
+  x-logo:
+    url: https://console.qovery.com/assets/logos/logo-white.svg
+    altText: Qovery
+servers:
+- url: https://api.qovery.com
+security:
+- bearerAuth: []
+- ApiKeyAuth: []
+tags:
+- name: Helm Repositories
+paths:
+  /availableHelmRepository:
+    get:
+      summary: List supported helm repository
+      description: List supported helm repository by Qovery and get the mandatory authentification configuration.
+      operationId: listAvailableHelmRepository
+      tags:
+      - Helm Repositories
+      responses:
+        '200':
+          description: supported helm repositories
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AvailableHelmRepositoryResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /organization/{organizationId}/helmRepository:
+    get:
+      summary: List organization helm repositories
+      operationId: listHelmRepository
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      tags:
+      - Helm Repositories
+      responses:
+        '200':
+          description: List helm repositories
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HelmRepositoryResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    post:
+      summary: Create a helm repository
+      operationId: createHelmRepository
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      tags:
+      - Helm Repositories
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HelmRepositoryRequest'
+      responses:
+        '201':
+          description: Create a helm repository
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HelmRepositoryResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /organization/{organizationId}/helmRepository/{helmRepositoryId}:
+    get:
+      summary: Get a helm repository
+      operationId: getHelmRepository
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/helmRepositoryId'
+      tags:
+      - Helm Repositories
+      responses:
+        '200':
+          description: The helm repository
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HelmRepositoryResponse'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    delete:
+      summary: Delete a helm repository
+      operationId: deleteHelmRepository
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/helmRepositoryId'
+      tags:
+      - Helm Repositories
+      responses:
+        '204':
+          $ref: '#/components/responses/204-deletion'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    put:
+      summary: Edit a helm repository
+      operationId: editHelmRepository
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/helmRepositoryId'
+      tags:
+      - Helm Repositories
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HelmRepositoryRequest'
+      responses:
+        '200':
+          description: Edited the helm repository
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HelmRepositoryResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /organization/{organizationId}/helmRepository/{helmRepositoryId}/charts:
+    get:
+      summary: List helm charts contained inside the repository
+      operationId: getHelmCharts
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/helmRepositoryId'
+      - $ref: '#/components/parameters/chartName'
+      tags:
+      - Helm Repositories
+      responses:
+        '200':
+          description: The helm repository versions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HelmVersionResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+components:
+  schemas:
+    AvailableHelmRepositoryResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/AvailableHelmRepositoryResponse'
+    HelmVersionResponse:
+      type: object
+      properties:
+        chart_name:
+          type: string
+        versions:
+          type: array
+          items:
+            type: string
+    HelmRepositoryResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/HelmRepositoryResponse'
+    HelmVersionResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/HelmVersionResponse'
+    HelmRepositoryRequest:
+      type: object
+      required:
+      - name
+      - kind
+      - skip_tls_verification
+      - config
+      properties:
+        name:
+          type: string
+        kind:
+          $ref: '#/components/schemas/HelmRepositoryKindEnum'
+        description:
+          type: string
+        url:
+          type: string
+          format: uri
+          description: 'URL of the helm chart repository:
+
+            * For `OCI`: it must start by oci://
+
+            * For `HTTPS`: it must be start by https://
+
+            '
+        skip_tls_verification:
+          type: boolean
+          description: Bypass tls certificate verification when connecting to repository
+        config:
+          type: object
+          properties:
+            username:
+              type: string
+              description: Required if the repository is private
+            password:
+              type: string
+              description: Required if the repository is private
+            access_key_id:
+              type: string
+              description: Required if kind is `ECR` or `PUBLIC_ECR`
+            secret_access_key:
+              type: string
+              description: Required if kind is `ECR` or `PUBLIC_ECR`
+            region:
+              type: string
+              description: Required if kind is `ECR` or `SCALEWAY_CR`
+            scaleway_access_key:
+              type: string
+              description: Required if kind is `SCALEWAY_CR`
+            scaleway_secret_key:
+              type: string
+              description: Required if kind is `SCALEWAY_CR`
+            scaleway_project_id:
+              type: string
+              x-stoplight:
+                id: 9dw16j7cex4i6
+              description: Required if kind is `SCALEWAY_CR`
+            azure_tenant_id:
+              type: string
+              x-stoplight:
+                id: dxxkwv9xyo1zq
+              description: Required if kind is `AZURE_CR`.
+            azure_subscription_id:
+              type: string
+              x-stoplight:
+                id: rboo4bgsvgfco
+              description: Required if kind is `AZURE_CR`.
+            role_arn:
+              type: string
+              description: For ECR, you can either set a static access_key or use a role arn that we are going to assume
+    HelmRepositoryResponse:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        required:
+        - name
+        properties:
+          name:
+            type: string
+          kind:
+            $ref: '#/components/schemas/HelmRepositoryKindEnum'
+          description:
+            type: string
+          url:
+            type: string
+            description: URL of the helm repository
+          skip_tls_verification:
+            type: boolean
+            description: Bypass tls certificate verification when connecting to repository
+          associated_services_count:
+            type: integer
+            x-stoplight:
+              id: 287g4iunwmf2d
+            description: The number of services using this helm repository
+          config:
+            type: object
+            x-stoplight:
+              id: 224az7um9x51z
+            properties:
+              username:
+                type: string
+                x-stoplight:
+                  id: 6xxbs3971acz5
+              region:
+                type: string
+                x-stoplight:
+                  id: pvi5oq9omlae8
+              access_key_id:
+                type: string
+                x-stoplight:
+                  id: 9tdfunoniwzed
+              role_arn:
+                type: string
+              scaleway_access_key:
+                type: string
+                x-stoplight:
+                  id: pyfdpz1vk4qq1
+              scaleway_project_id:
+                type: string
+                x-stoplight:
+                  id: kbrcr9377ly0q
+              azure_tenant_id:
+                type: string
+                x-stoplight:
+                  id: yd92ly1zmep1u
+              azure_subscription_id:
+                type: string
+                x-stoplight:
+                  id: rs3gk07qe1oy1
+    AvailableHelmRepositoryResponse:
+      type: object
+      required:
+      - kind
+      - required_config
+      - is_mandatory
+      properties:
+        kind:
+          $ref: '#/components/schemas/HelmRepositoryKindEnum'
+        required_config:
+          type: object
+          additionalProperties: true
+        is_mandatory:
+          type: boolean
+    Base:
+      type: object
+      required:
+      - id
+      - created_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          readOnly: true
+          format: date-time
+        updated_at:
+          type: string
+          readOnly: true
+          format: date-time
+    HelmRepositoryKindEnum:
+      type: string
+      enum:
+      - HTTPS
+      - OCI_ECR
+      - OCI_SCALEWAY_CR
+      - OCI_DOCKER_HUB
+      - OCI_PUBLIC_ECR
+      - OCI_GENERIC_CR
+      - OCI_GITHUB_CR
+      - OCI_GITLAB_CR
+      description: The type of your helm repository
+  responses:
+    '404':
+      description: Resource not found
+    204-deletion:
+      description: The resource was deleted successfully
+    '403':
+      description: Access forbidden
+    '400':
+      description: Bad request
+    '401':
+      description: Access token is missing or invalid
+  parameters:
+    chartName:
+      name: chartName
+      in: query
+      description: Helm chart name to filter the result on
+      schema:
+        type: string
+    helmRepositoryId:
+      name: helmRepositoryId
+      in: path
+      description: Helm chart repository ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+    organizationId:
+      name: organizationId
+      in: path
+      description: Organization ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'JWT tokens should be used with OIDC account (human to machine). JWT tokens used by the Qovery console to communicate with the API have a TTL. Curl Example '' curl https://console.qovery.com/organization -H "Authorization: Bearer $qovery_token" '''
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'Token API are generated by Qovery to manage machine to machine interaction and do not have a TTL. Curl Example '' curl https://console.qovery.com/organization -H "Authorization: Token $qovery_token" '''
+x-tagGroups:
+- name: Organization
+  tags:
+  - Organization Main Calls
+  - Organization Api Token
+  - Organization Account Git Repositories
+  - Organization Cluster Lock
+  - Organization Webhook
+  - Organization Custom Role
+  - Organization Event
+  - Organization Annotations Group
+  - Organization Labels Group
+  - Organization Enterprise Connection
+  - Projects
+  - Members
+  - Billing
+  - Clusters
+  - Cloud Provider
+  - Cloud Provider Credentials
+  - Github App
+  - Container Registries
+  - Helm Repositories
+- name: Project
+  tags:
+  - Project Main Calls
+  - Environments
+  - Project Deployment Rule
+  - Project Environment Variable
+  - Project Secret
+- name: Environment
+  tags:
+  - Environment Main Calls
+  - Applications
+  - Containers
+  - Databases
+  - Jobs
+  - Helms
+  - Terraforms
+  - Environment Actions
+  - Environment Logs
+  - Environment Deployment History
+  - Environment Deployment Rule
+  - Environment Variable
+  - Environment Secret
+  - Environment Export
+- name: Deployment Stage
+  tags:
+  - Deployment Stage Main Calls
+- name: Application
+  tags:
+  - Application Main Calls
+  - Application Actions
+  - Application Configuration
+  - Application Custom Domain
+  - Application Database
+  - Application Logs
+  - Application Deployment Restriction
+  - Application Deployment History
+  - Application Environment Variable
+  - Application Secret
+  - Application Annotations Group
+- name: Container
+  tags:
+  - Container Main Calls
+  - Container Actions
+  - Container Configuration
+  - Container Custom Domain
+  - Container Database
+  - Container Logs
+  - Container Deployment History
+  - Container Environment Variable
+  - Container Secret
+  - Container Annotations Group
+- name: Database
+  tags:
+  - Database Main Calls
+  - Database Actions
+  - Database Applications
+  - Database Deployment History
+  - Database Containers
+  - Database Application
+  - Database Container
+  - Backups
+  - Database Annotations Group
+- name: Job
+  tags:
+  - Job Main Calls
+  - Job Actions
+  - Job Configuration
+  - Job Custom Domain
+  - Job Deployment Restriction
+  - Job Deployment History
+  - Job Environment Variable
+  - Job Secret
+  - Job Annotations Group
+- name: Helm
+  tags:
+  - Helm Main Calls
+  - Helm Actions
+  - Helm Configuration
+  - Helm Custom Domain
+  - Helm Deployment Restriction
+  - Helm Deployment History
+- name: Terraform
+  tags:
+  - Terraform Main Calls
+  - Terraform Actions
+  - Terraform Configuration
+  - Terraform Deployment Restriction
+  - Terraform Deployment History
+- name: Account
+  tags:
+  - Account Info
+  - Git repositories
+  - Referral & Rewards
+- name: Git
+  tags:
+  - Git repositories
+- name: Variable
+  tags:
+  - Variable Main Calls
+- name: Lifecycle Template
+  tags:
+  - Lifecycle Template Main Calls
+- name: Admin
+  tags:
+  - User Sign Up
+- name: Alerting
+  tags:
+  - Alert Receivers
+  - Alert Rules

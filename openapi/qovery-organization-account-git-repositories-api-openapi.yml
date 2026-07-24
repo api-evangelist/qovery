@@ -1,0 +1,415 @@
+openapi: 3.0.0
+info:
+  version: 1.0.4
+  title: Qovery Account Info Organization Account Git Repositories API
+  description: '- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider.
+
+    - ℹ️ The API is stable and still in development.
+
+    '
+  contact:
+    name: Qovery Product Team
+    url: https://www.qovery.com
+    email: support+api+documentation@qovery.com
+  x-logo:
+    url: https://console.qovery.com/assets/logos/logo-white.svg
+    altText: Qovery
+servers:
+- url: https://api.qovery.com
+security:
+- bearerAuth: []
+- ApiKeyAuth: []
+tags:
+- name: Organization Account Git Repositories
+paths:
+  /organization/{organizationId}/account/gitAuthProvider:
+    get:
+      summary: Get git provider accounts
+      operationId: getOrganizationGitProviderAccount
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      tags:
+      - Organization Account Git Repositories
+      responses:
+        '200':
+          description: Get account
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GitAuthProviderResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+  /organization/{organizationId}/account/github/repository:
+    get:
+      summary: Get github repositories of the connected user
+      operationId: getOrganizationGithubRepositories
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - in: query
+        name: gitTokenId
+        schema:
+          type: string
+          format: uuid
+        description: The git token id that must be used for the application
+      tags:
+      - Organization Account Git Repositories
+      responses:
+        '200':
+          description: Get github repositories
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GitRepositoryResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+  /organization/{organizationId}/account/github/repository/branch:
+    get:
+      summary: Get github branches of the specified repository
+      operationId: getOrganizationGithubRepositoryBranches
+      tags:
+      - Organization Account Git Repositories
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - in: query
+        name: name
+        schema:
+          type: string
+        description: The name of the repository where to retrieve the branches
+      - in: query
+        name: gitTokenId
+        schema:
+          type: string
+          format: uuid
+        description: The git token id that must be used for the application
+      responses:
+        '200':
+          description: Get github repository branches
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GitRepositoryBranchResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+  /organization/{organizationId}/account/gitlab/repository:
+    get:
+      summary: Get gitlab repositories of the connected user
+      operationId: getOrganizationGitlabRepositories
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - in: query
+        name: gitTokenId
+        schema:
+          type: string
+          format: uuid
+        description: The git token id that must be used for the application
+      tags:
+      - Organization Account Git Repositories
+      responses:
+        '200':
+          description: Get gitlab repositories
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GitRepositoryResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+  /organization/{organizationId}/account/gitlab/repository/branch:
+    get:
+      summary: Get gitlab branches of the specified repository
+      operationId: getOrganizationGitlabRepositoryBranches
+      tags:
+      - Organization Account Git Repositories
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - in: query
+        name: name
+        schema:
+          type: string
+        description: The name of the repository to retrieve the branches
+      - in: query
+        name: gitTokenId
+        schema:
+          type: string
+          format: uuid
+        description: The git token id that must be used for the application
+      responses:
+        '200':
+          description: Get gitlab repository branches
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GitRepositoryBranchResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+  /organization/{organizationId}/account/bitbucket/repository:
+    get:
+      summary: Get bitbucket repositories of the connected user
+      operationId: getOrganizationBitbucketRepositories
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - in: query
+        name: gitTokenId
+        schema:
+          type: string
+          format: uuid
+        description: The git token id that must be used for the application
+      tags:
+      - Organization Account Git Repositories
+      responses:
+        '200':
+          description: Get bitbucket repositories
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GitRepositoryResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+  /organization/{organizationId}/account/bitbucket/repository/branch:
+    get:
+      summary: Get bitbucket branches of the specified repository
+      operationId: getOrganizationBitbucketRepositoryBranches
+      tags:
+      - Organization Account Git Repositories
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - in: query
+        name: name
+        schema:
+          type: string
+        description: The name of the repository where to retrieve the branches
+      - in: query
+        name: gitTokenId
+        schema:
+          type: string
+          format: uuid
+        description: The git token id that must be used for the application
+      responses:
+        '200':
+          description: Get bitbucket repository branches
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GitRepositoryBranchResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+components:
+  schemas:
+    GitRepository:
+      type: object
+      required:
+      - name
+      - url
+      - id
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+          example: simple-node-app
+        url:
+          type: string
+          example: https://github.com/Qovery/simple-node-app
+        default_branch:
+          type: string
+          example: master
+        is_private:
+          type: boolean
+    GitRepositoryBranch:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          example: main
+    GitAuthProviderResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/GitAuthProvider'
+    GitRepositoryResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/GitRepository'
+    GitAuthProvider:
+      type: object
+      required:
+      - name
+      - owner
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+          example: GITHUB
+        owner:
+          type: string
+          example: John Doe
+        use_bot:
+          type: boolean
+    GitRepositoryBranchResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/GitRepositoryBranch'
+  parameters:
+    organizationId:
+      name: organizationId
+      in: path
+      description: Organization ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+  responses:
+    '401':
+      description: Access token is missing or invalid
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'JWT tokens should be used with OIDC account (human to machine). JWT tokens used by the Qovery console to communicate with the API have a TTL. Curl Example '' curl https://console.qovery.com/organization -H "Authorization: Bearer $qovery_token" '''
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'Token API are generated by Qovery to manage machine to machine interaction and do not have a TTL. Curl Example '' curl https://console.qovery.com/organization -H "Authorization: Token $qovery_token" '''
+x-tagGroups:
+- name: Organization
+  tags:
+  - Organization Main Calls
+  - Organization Api Token
+  - Organization Account Git Repositories
+  - Organization Cluster Lock
+  - Organization Webhook
+  - Organization Custom Role
+  - Organization Event
+  - Organization Annotations Group
+  - Organization Labels Group
+  - Organization Enterprise Connection
+  - Projects
+  - Members
+  - Billing
+  - Clusters
+  - Cloud Provider
+  - Cloud Provider Credentials
+  - Github App
+  - Container Registries
+  - Helm Repositories
+- name: Project
+  tags:
+  - Project Main Calls
+  - Environments
+  - Project Deployment Rule
+  - Project Environment Variable
+  - Project Secret
+- name: Environment
+  tags:
+  - Environment Main Calls
+  - Applications
+  - Containers
+  - Databases
+  - Jobs
+  - Helms
+  - Terraforms
+  - Environment Actions
+  - Environment Logs
+  - Environment Deployment History
+  - Environment Deployment Rule
+  - Environment Variable
+  - Environment Secret
+  - Environment Export
+- name: Deployment Stage
+  tags:
+  - Deployment Stage Main Calls
+- name: Application
+  tags:
+  - Application Main Calls
+  - Application Actions
+  - Application Configuration
+  - Application Custom Domain
+  - Application Database
+  - Application Logs
+  - Application Deployment Restriction
+  - Application Deployment History
+  - Application Environment Variable
+  - Application Secret
+  - Application Annotations Group
+- name: Container
+  tags:
+  - Container Main Calls
+  - Container Actions
+  - Container Configuration
+  - Container Custom Domain
+  - Container Database
+  - Container Logs
+  - Container Deployment History
+  - Container Environment Variable
+  - Container Secret
+  - Container Annotations Group
+- name: Database
+  tags:
+  - Database Main Calls
+  - Database Actions
+  - Database Applications
+  - Database Deployment History
+  - Database Containers
+  - Database Application
+  - Database Container
+  - Backups
+  - Database Annotations Group
+- name: Job
+  tags:
+  - Job Main Calls
+  - Job Actions
+  - Job Configuration
+  - Job Custom Domain
+  - Job Deployment Restriction
+  - Job Deployment History
+  - Job Environment Variable
+  - Job Secret
+  - Job Annotations Group
+- name: Helm
+  tags:
+  - Helm Main Calls
+  - Helm Actions
+  - Helm Configuration
+  - Helm Custom Domain
+  - Helm Deployment Restriction
+  - Helm Deployment History
+- name: Terraform
+  tags:
+  - Terraform Main Calls
+  - Terraform Actions
+  - Terraform Configuration
+  - Terraform Deployment Restriction
+  - Terraform Deployment History
+- name: Account
+  tags:
+  - Account Info
+  - Git repositories
+  - Referral & Rewards
+- name: Git
+  tags:
+  - Git repositories
+- name: Variable
+  tags:
+  - Variable Main Calls
+- name: Lifecycle Template
+  tags:
+  - Lifecycle Template Main Calls
+- name: Admin
+  tags:
+  - User Sign Up
+- name: Alerting
+  tags:
+  - Alert Receivers
+  - Alert Rules

@@ -1,0 +1,1588 @@
+openapi: 3.0.0
+info:
+  version: 1.0.4
+  title: Qovery Account Info Organization Main Calls API
+  description: '- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider.
+
+    - ℹ️ The API is stable and still in development.
+
+    '
+  contact:
+    name: Qovery Product Team
+    url: https://www.qovery.com
+    email: support+api+documentation@qovery.com
+  x-logo:
+    url: https://console.qovery.com/assets/logos/logo-white.svg
+    altText: Qovery
+servers:
+- url: https://api.qovery.com
+security:
+- bearerAuth: []
+- ApiKeyAuth: []
+tags:
+- name: Organization Main Calls
+paths:
+  /organization:
+    get:
+      summary: List user organizations
+      operationId: listOrganization
+      tags:
+      - Organization Main Calls
+      responses:
+        '200':
+          description: List organizations
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    post:
+      summary: Create an organization
+      operationId: createOrganization
+      tags:
+      - Organization Main Calls
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizationRequest'
+      responses:
+        '201':
+          description: Create organization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organization'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          description: Organization name is already taken
+  /organization/{organizationId}:
+    get:
+      summary: Get organization by ID
+      operationId: getOrganization
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      tags:
+      - Organization Main Calls
+      responses:
+        '200':
+          description: Get organization by ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organization'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    put:
+      summary: Edit an organization
+      description: To edit an organization you must have the admin permission.
+      operationId: editOrganization
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      tags:
+      - Organization Main Calls
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizationEditRequest'
+      responses:
+        '200':
+          description: Edit an organization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organization'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          description: Organization name is already taken
+    delete:
+      summary: Delete an organization
+      description: To delete an organization you must have the admin permission
+      operationId: deleteOrganization
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      tags:
+      - Organization Main Calls
+      responses:
+        '204':
+          $ref: '#/components/responses/204-deletion'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /organization/{organizationId}/availableRole:
+    get:
+      summary: List organization available roles
+      description: List organization available roles
+      operationId: listOrganizationAvailableRoles
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      tags:
+      - Organization Main Calls
+      responses:
+        '200':
+          description: List organization available roles
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationAvailableRoleList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /organization/{organizationId}/gitToken:
+    get:
+      summary: List organization git tokens
+      description: List organization git tokens
+      operationId: listOrganizationGitTokens
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      tags:
+      - Organization Main Calls
+      responses:
+        '200':
+          description: List organization git tokens
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GitTokenResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    post:
+      summary: Create a git token
+      description: Create a new git token to be used as a git provider by a service
+      operationId: createGitToken
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      tags:
+      - Organization Main Calls
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GitTokenRequest'
+      responses:
+        '201':
+          description: Git token created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GitTokenResponse'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /organization/{organizationId}/gitToken/{gitTokenId}:
+    get:
+      summary: Get organization git token
+      description: Get organization git token
+      operationId: getOrganizationGitToken
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/gitTokenId'
+      tags:
+      - Organization Main Calls
+      responses:
+        '200':
+          description: Get organization git token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GitTokenResponse'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    put:
+      summary: Edit a git token
+      operationId: editGitToken
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/gitTokenId'
+      tags:
+      - Organization Main Calls
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GitTokenRequest'
+      responses:
+        '200':
+          description: Git token edited
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GitTokenResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    delete:
+      summary: Delete a git token
+      operationId: deleteGitToken
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/gitTokenId'
+      tags:
+      - Organization Main Calls
+      responses:
+        '204':
+          $ref: '#/components/responses/204-deletion'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /organization/{organizationId}/gitToken/{gitTokenId}/associatedServices:
+    get:
+      summary: Get organization git token associated services
+      description: Get organization git tokens associated services
+      operationId: getGitTokenAssociatedServices
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      - $ref: '#/components/parameters/gitTokenId'
+      tags:
+      - Organization Main Calls
+      responses:
+        '200':
+          description: Get organization git token associated services
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GitTokenAssociatedServicesResponseList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /organization/{organizationId}/containerRegistry/{containerRegistryId}/associatedServices:
+    parameters:
+    - schema:
+        type: string
+      name: organizationId
+      in: path
+      required: true
+    - schema:
+        type: string
+      name: containerRegistryId
+      in: path
+      required: true
+    get:
+      summary: Get organization container registry associated services
+      tags:
+      - Organization Main Calls
+      responses:
+        '200':
+          description: Get organization container registry associated services
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContainerRegistryAssociatedServicesResponseList'
+        '401':
+          description: Access token is missing or invalid
+        '403':
+          description: Access forbidden
+        '404':
+          description: Resource not found
+      operationId: getContainerRegistryAssociatedServices
+      x-stoplight:
+        id: dgh8t73nqaetm
+      description: Get organization container registry associated services
+  /organization/{organizationId}/helmRepository/{helmRepositoryId}/associatedServices:
+    parameters:
+    - schema:
+        type: string
+      name: organizationId
+      in: path
+      required: true
+    - schema:
+        type: string
+      name: helmRepositoryId
+      in: path
+      required: true
+    get:
+      summary: Get organization helm repository associated services
+      tags:
+      - Organization Main Calls
+      responses:
+        '200':
+          description: Get organization helm repository associated services
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HelmRepositoryAssociatedServicesResponseList'
+        '401':
+          description: ' Access token is missing or invalid'
+        '403':
+          description: AccessForbidden
+        '404':
+          description: ResourceNot Found
+      operationId: getHelmRepositoryAssociatedServices
+      x-stoplight:
+        id: 5jvrv87m4tk5s
+      description: Get organization helm repository associated services
+  /organization/{organizationId}/services:
+    parameters:
+    - schema:
+        type: string
+      name: organizationId
+      in: path
+      required: true
+    get:
+      summary: List Services By OrganizationId
+      tags:
+      - Organization Main Calls
+      responses:
+        '200':
+          description: Service List
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    x-stoplight:
+                      id: gjtgeehwg4lb9
+                    items:
+                      $ref: '#/components/schemas/ServiceLightResponse'
+      operationId: listServicesByOrganizationId
+      x-stoplight:
+        id: qvqb4d0bpjy0v
+      parameters:
+      - schema:
+          type: string
+          nullable: true
+        in: query
+        name: project_id
+      - schema:
+          type: string
+          nullable: true
+        in: query
+        name: environment_id
+      - schema:
+          type: string
+        in: query
+        name: cluster_id
+  /organization/{organizationId}/environments:
+    parameters:
+    - schema:
+        type: string
+      name: organizationId
+      in: path
+      required: true
+    get:
+      summary: List Environments By OrganizationId
+      tags:
+      - Organization Main Calls
+      responses:
+        '200':
+          description: Environment List
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/OrganizationEnvironmentResponse'
+      operationId: listEnvironmentsByOrganizationId
+  /organization/{organizationId}/parseTerraformVariablesFromGitRepo:
+    post:
+      summary: Parse Terraform variables from Git repository
+      operationId: parseTerraformVariablesFromGitRepo
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      tags:
+      - Organization Main Calls
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TerraformVariableParsingRequest'
+      responses:
+        '200':
+          description: List of Terraform variable definitions
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/TerraformVariableDefinition'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /organization/{organizationId}/listTfVarsFilesFromGitRepo:
+    post:
+      summary: List Terraform tfvars files from Git repository
+      operationId: listTfVarsFilesFromGitRepo
+      parameters:
+      - $ref: '#/components/parameters/organizationId'
+      tags:
+      - Organization Main Calls
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TfVarsListRequest'
+      responses:
+        '200':
+          description: List of Terraform tfvars files with their variables
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/TfVarsFileResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /organization/{organizationId}/credentials:
+    parameters:
+    - schema:
+        type: string
+      name: organizationId
+      in: path
+      required: true
+    get:
+      summary: List credentials of an organization and their associated clusters
+      tags:
+      - Organization Main Calls
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationCrendentialsResponseList'
+        '400':
+          description: Bad Request
+      operationId: listOrganizationCredentials
+      x-stoplight:
+        id: 2jm9tyqfhw4xf
+      description: List credentials of an organization and their associated clusters
+components:
+  schemas:
+    ReferenceObject:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+    OrganizationCrendentialsResponseList:
+      title: OrganizationCrendentialsResponseList
+      x-stoplight:
+        id: 0tv1xnjgh98nm
+      type: object
+      properties:
+        results:
+          type: array
+          x-stoplight:
+            id: dyld95hlync5e
+          items:
+            x-stoplight:
+              id: qjal2umjmvumz
+            type: object
+            properties:
+              credential:
+                $ref: '#/components/schemas/ClusterCredentials'
+              clusters:
+                type: array
+                x-stoplight:
+                  id: 7o7dzkbyt78bu
+                items:
+                  $ref: '#/components/schemas/CredentialCluster'
+    GitTokenResponse:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        required:
+        - name
+        - type
+        - associated_services_count
+        - git_api_url
+        properties:
+          name:
+            type: string
+          description:
+            type: string
+          type:
+            $ref: '#/components/schemas/GitProviderEnum'
+          expired_at:
+            type: string
+            format: date
+          workspace:
+            type: string
+            description: Mandatory only for BITBUCKET git provider
+          associated_services_count:
+            type: number
+            description: The number of services using this git token
+          git_api_url:
+            type: string
+            x-stoplight:
+              id: 27n37ox3lysq4
+            format: uri
+    GenericClusterCredentials:
+      title: GenericClusterCredentials
+      x-stoplight:
+        id: gtibx4nzrvxm9
+      type: object
+      required:
+      - id
+      - name
+      - object_type
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        object_type:
+          enum:
+          - OTHER
+    ContainerRegistryAssociatedServiceType:
+      title: ContainerRegistryAssociatedServiceType
+      x-stoplight:
+        id: dif8pj1ys444y
+      enum:
+      - CONTAINER
+      - LIFECYCLE
+      - CRON
+    GcpStaticClusterCredentials:
+      title: GcpStaticClusterCredentials
+      x-stoplight:
+        id: qtvaepejqookw
+      type: object
+      required:
+      - id
+      - name
+      - object_type
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        object_type:
+          enum:
+          - GCP
+    AzureStaticClusterCredentials:
+      title: AzureStaticClusterCredentials
+      x-stoplight:
+        id: wo7v4e4c0jlfu
+      type: object
+      required:
+      - id
+      - name
+      - azure_subscription_id
+      - azure_tenant_id
+      - object_type
+      - azure_application_id
+      - azure_application_object_id
+      properties:
+        id:
+          type: string
+          x-stoplight:
+            id: 7qy00mrnhmclv
+          format: uuid
+        name:
+          type: string
+          x-stoplight:
+            id: f5c1wc467emz3
+        azure_subscription_id:
+          type: string
+          x-stoplight:
+            id: x0s5zbj6l1yx0
+        azure_tenant_id:
+          type: string
+          x-stoplight:
+            id: ygjwz6uqfexsc
+        object_type:
+          x-stoplight:
+            id: 8oodrxjznyahm
+          enum:
+          - AZURE
+        azure_application_id:
+          type: string
+          x-stoplight:
+            id: wc0e8cqceyopu
+        azure_application_object_id:
+          type: string
+          x-stoplight:
+            id: q20e71qkfsk1k
+    GitProviderEnum:
+      type: string
+      enum:
+      - BITBUCKET
+      - GITHUB
+      - GITLAB
+    OrganizationEditRequest:
+      type: object
+      required:
+      - name
+      - plan
+      properties:
+        name:
+          type: string
+          description: name is case insensitive
+        description:
+          type: string
+        website_url:
+          type: string
+          nullable: true
+        repository:
+          type: string
+          nullable: true
+        logo_url:
+          type: string
+          nullable: true
+        icon_url:
+          type: string
+          nullable: true
+        admin_emails:
+          type: array
+          nullable: true
+          items:
+            type: string
+    CredentialCluster:
+      title: CredentialCluster
+      x-stoplight:
+        id: oyhk9uf5vcqlk
+      type: object
+      properties:
+        id:
+          type: string
+          x-stoplight:
+            id: ksymb5hxvrlq9
+          format: uuid
+        name:
+          type: string
+          x-stoplight:
+            id: skztj7io7an31
+        cloud_provider:
+          $ref: '#/components/schemas/CloudProviderEnum'
+    ClusterCredentials:
+      oneOf:
+      - $ref: '#/components/schemas/AwsStaticClusterCredentials'
+      - $ref: '#/components/schemas/ScalewayClusterCredentials'
+      - $ref: '#/components/schemas/GenericClusterCredentials'
+      - $ref: '#/components/schemas/AwsRoleClusterCredentials'
+      - $ref: '#/components/schemas/EksAnywhereVsphereClusterCredentials'
+      - $ref: '#/components/schemas/AzureStaticClusterCredentials'
+      - $ref: '#/components/schemas/GcpStaticClusterCredentials'
+      discriminator:
+        propertyName: object_type
+        mapping:
+          AWS: '#/components/schemas/AwsStaticClusterCredentials'
+          AWS_ROLE: '#/components/schemas/AwsRoleClusterCredentials'
+          EKS_ANYWHERE_VSPHERE: '#/components/schemas/EksAnywhereVsphereClusterCredentials'
+          SCW: '#/components/schemas/ScalewayClusterCredentials'
+          OTHER: '#/components/schemas/GenericClusterCredentials'
+          AZURE: '#/components/schemas/AzureStaticClusterCredentials'
+          GCP: '#/components/schemas/GcpStaticClusterCredentials'
+    OrganizationResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Organization'
+    GitTokenRequest:
+      type: object
+      required:
+      - name
+      - type
+      - token
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        type:
+          $ref: '#/components/schemas/GitProviderEnum'
+        token:
+          type: string
+          description: The token from your git provider side
+        workspace:
+          type: string
+          description: Mandatory only for BITBUCKET git provider, to allow us to fetch repositories at creation/edition of a service
+        git_api_url:
+          type: string
+          x-stoplight:
+            id: 8g38vvoghxzdf
+          format: uri
+          description: 'custom git api url for the given git provider/type.
+
+            I.e: Self-hosted version of Gitlab'
+    OrganizationRequest:
+      type: object
+      required:
+      - name
+      - plan
+      properties:
+        name:
+          type: string
+          description: name is case insensitive
+        description:
+          type: string
+          nullable: true
+        plan:
+          $ref: '#/components/schemas/PlanEnum'
+        website_url:
+          type: string
+          nullable: true
+        repository:
+          type: string
+          nullable: true
+        logo_url:
+          type: string
+          nullable: true
+        icon_url:
+          type: string
+          nullable: true
+        admin_emails:
+          type: array
+          nullable: true
+          items:
+            type: string
+    HelmRepositoryAssociatedServiceType:
+      title: HelmRepositoryAssociatedServiceType
+      x-stoplight:
+        id: 7afohg0qwqoht
+      enum:
+      - HELM
+    GitTokenAssociatedServicesResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/GitTokenAssociatedServiceResponse'
+    AwsStaticClusterCredentials:
+      x-stoplight:
+        id: s0aosg7la96hp
+      title: AwsStaticClusterCredentials
+      type: object
+      required:
+      - id
+      - name
+      - access_key_id
+      - object_type
+      properties:
+        id:
+          type: string
+          x-stoplight:
+            id: en79y0yc76xhp
+          format: uuid
+        name:
+          type: string
+          x-stoplight:
+            id: mx0mwek4ubieo
+        access_key_id:
+          type: string
+          x-stoplight:
+            id: 6g20j0ggu8nqc
+        object_type:
+          x-stoplight:
+            id: ravczabg8e2sp
+          enum:
+          - AWS
+    EksAnywhereVsphereClusterCredentials:
+      title: EksAnywhereVsphereClusterCredentials
+      type: object
+      required:
+      - id
+      - name
+      - vsphere_user
+      - object_type
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        vsphere_user:
+          type: string
+        access_key_id:
+          type: string
+          nullable: true
+        role_arn:
+          type: string
+          nullable: true
+        object_type:
+          enum:
+          - EKS_ANYWHERE_VSPHERE
+    TerraformVariableParsingRequest:
+      type: object
+      required:
+      - git_repository
+      properties:
+        git_repository:
+          $ref: '#/components/schemas/ApplicationGitRepositoryRequest'
+    TerraformVariableDefinition:
+      title: TerraformVariableDefinition
+      type: object
+      description: Represents a Terraform variable definition extracted from a Terraform file.
+      required:
+      - key
+      - sensitive
+      - source
+      properties:
+        key:
+          type: string
+          description: The name of the variable
+        sensitive:
+          type: boolean
+          description: Whether the variable is marked as sensitive
+        nullable:
+          type: boolean
+          default: true
+          description: Whether the variable accepts null values. If false, the variable is required.
+        default:
+          type: string
+          nullable: true
+          description: The default value of the variable, or null if no default is provided
+        source:
+          type: string
+          description: The path inside your git repository where the variable is defined
+        description:
+          type: string
+          nullable: true
+          description: The description of the variable, or null if no description is provided
+    ServiceTypeEnum:
+      type: string
+      x-stoplight:
+        id: d66063cd29913
+      description: type of the service (application, database, job, ...)
+      enum:
+      - APPLICATION
+      - DATABASE
+      - CONTAINER
+      - JOB
+      - HELM
+      - TERRAFORM
+      - ARGOCD_APP
+    GitTokenAssociatedServiceType:
+      type: string
+      enum:
+      - APPLICATION
+      - CRON
+      - LIFECYCLE
+      - HELM
+      - TERRAFORM
+    HelmRepositoryAssociatedServicesResponseList:
+      title: HelmRepositoryAssociatedServicesResponseList
+      x-stoplight:
+        id: lyrvkahz5uw6s
+      type: object
+      properties:
+        results:
+          type: array
+          x-stoplight:
+            id: 00sn35cw5lnb4
+          items:
+            $ref: '#/components/schemas/HelmRepositoryAssociatedServicesResponse'
+    ContainerRegistryAssociatedServicesResponse:
+      title: ContainerRegistryAssociatedServicesResponse
+      x-stoplight:
+        id: uxbkfqdj9zyi6
+      type: object
+      required:
+      - project_id
+      - project_name
+      - environment_id
+      - environment_name
+      - service_id
+      - service_name
+      - service_type
+      properties:
+        project_id:
+          type: string
+          x-stoplight:
+            id: 9jdx3t62nttjz
+          format: uuid
+        project_name:
+          type: string
+          x-stoplight:
+            id: cjlfx1ucomdv9
+        environment_id:
+          type: string
+          x-stoplight:
+            id: gk5r4dcoliuac
+          format: uuid
+        environment_name:
+          type: string
+          x-stoplight:
+            id: kxry5d624susz
+        service_id:
+          type: string
+          x-stoplight:
+            id: kmouxjf3vbtjo
+          format: uuid
+        service_name:
+          type: string
+          x-stoplight:
+            id: ga0yqhtmi4nl6
+        service_type:
+          $ref: '#/components/schemas/ContainerRegistryAssociatedServiceType'
+    EnvironmentModeEnum:
+      type: string
+      enum:
+      - DEVELOPMENT
+      - PREVIEW
+      - PRODUCTION
+      - STAGING
+      example: PRODUCTION
+    TfVarsFileResponse:
+      title: TfVarsFileResponse
+      type: object
+      description: Represents a Terraform tfvars file with its variables
+      required:
+      - source
+      - variables
+      properties:
+        source:
+          type: string
+          description: The path to the tfvars file within the Git repository
+          example: environments/prod.tfvars
+        variables:
+          type: object
+          additionalProperties:
+            type: string
+          description: Map of variable names to their values from the tfvars file
+          example:
+            environment: production
+            region: us-east-1
+    GitTokenAssociatedServiceResponse:
+      type: object
+      required:
+      - project_id
+      - project_name
+      - environment_id
+      - environment_name
+      - service_id
+      - service_name
+      - service_type
+      properties:
+        project_id:
+          type: string
+          format: uuid
+        project_name:
+          type: string
+        environment_id:
+          type: string
+          format: uuid
+        environment_name:
+          type: string
+        service_id:
+          type: string
+          format: uuid
+        service_name:
+          type: string
+        service_type:
+          $ref: '#/components/schemas/GitTokenAssociatedServiceType'
+    OrganizationAvailableRole:
+      type: object
+      required:
+      - id
+      - name
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+    TfVarsListRequest:
+      title: TfVarsListRequest
+      type: object
+      description: Request to list Terraform tfvars files from a Git repository
+      required:
+      - git_repository
+      - mode
+      properties:
+        git_repository:
+          $ref: '#/components/schemas/ApplicationGitRepositoryRequest'
+        mode:
+          $ref: '#/components/schemas/TfVarsDiscoveryMode'
+    TfVarsDiscoveryModeAutoDiscover:
+      title: TfVarsDiscoveryModeAutoDiscover
+      type: object
+      description: Automatically discover all tfvars files in the repository
+      required:
+      - type
+      properties:
+        type:
+          type: string
+          enum:
+          - AutoDiscover
+          description: Discriminator for auto-discovery mode
+    TfVarsDiscoveryModeSpecificPaths:
+      title: TfVarsDiscoveryModeSpecificPaths
+      type: object
+      description: Discover tfvars files at specific paths only
+      required:
+      - type
+      - paths
+      properties:
+        type:
+          type: string
+          enum:
+          - SpecificPaths
+          description: Discriminator for specific paths mode
+        paths:
+          type: array
+          items:
+            type: string
+          description: List of specific paths to tfvars files
+          example:
+          - /environments/prod.tfvars
+          - /environments/staging.tfvars
+    CloudProviderEnum:
+      type: string
+      enum:
+      - AWS
+      - SCW
+      - GCP
+      - ON_PREMISE
+      - AZURE
+    ServiceLightResponse:
+      title: ServiceLightResponse
+      x-stoplight:
+        id: tg1rwcmait89l
+      type: object
+      required:
+      - id
+      - name
+      - description
+      - icon_uri
+      - service_type
+      - project_id
+      - project_name
+      - environment_id
+      - environment_name
+      - cluster_id
+      properties:
+        id:
+          type: string
+          x-stoplight:
+            id: kusnde41nhbq0
+          format: uuid
+        name:
+          type: string
+          x-stoplight:
+            id: uxr40wquz4uo4
+        description:
+          type: string
+          x-stoplight:
+            id: 71c9yrajgrd9f
+        icon_uri:
+          type: string
+          format: uri
+          x-stoplight:
+            id: k6zs0jdg7k95f
+        service_type:
+          $ref: '#/components/schemas/ServiceTypeEnum'
+        project_id:
+          type: string
+          x-stoplight:
+            id: 6j6xz0qq65mbs
+          format: uuid
+        project_name:
+          type: string
+          x-stoplight:
+            id: jfl0pof91101b
+        environment_id:
+          type: string
+          x-stoplight:
+            id: cs79bi0ic3r18
+          format: uuid
+        environment_name:
+          type: string
+          x-stoplight:
+            id: s8c6hmto9njzg
+        cluster_id:
+          type: string
+          x-stoplight:
+            id: hg9qpxe5z7
+          format: uuid
+        job_type:
+          x-stoplight:
+            id: jwtmqb1fq5a6m
+          enum:
+          - CRON
+          - LIFECYCLE
+    GitTokenResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/GitTokenResponse'
+    ContainerRegistryAssociatedServicesResponseList:
+      title: ContainerRegistryAssociatedServicesResponseList
+      x-stoplight:
+        id: xn1fsp17ahwfi
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContainerRegistryAssociatedServicesResponse'
+    OrganizationEnvironmentResponse:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        required:
+        - name
+        - organization
+        - project
+        - mode
+        properties:
+          name:
+            type: string
+            description: name is case insensitive
+          organization:
+            $ref: '#/components/schemas/ReferenceObject'
+          project:
+            $ref: '#/components/schemas/ReferenceObject'
+          mode:
+            $ref: '#/components/schemas/EnvironmentModeEnum'
+    ApplicationGitRepositoryRequest:
+      type: object
+      required:
+      - url
+      - owner
+      - name
+      - provider
+      properties:
+        url:
+          type: string
+          description: application git repository URL
+          example: https://github.com/Qovery/simple-node-app
+        branch:
+          type: string
+          description: 'Name of the branch to use. This is optional
+
+            If not specified, then the branch used is the `main` or `master` one
+
+            '
+          example: feat/text_xxx
+        root_path:
+          type: string
+          default: /
+          description: indicates the root path of the application.
+        git_token_id:
+          type: string
+          format: uuid
+          description: The git token id on Qovery side
+          nullable: true
+        provider:
+          $ref: '#/components/schemas/GitProviderEnum'
+    HelmRepositoryAssociatedServicesResponse:
+      title: HelmRepositoryAssociatedServicesResponse
+      x-stoplight:
+        id: een4pa4di1fir
+      type: object
+      required:
+      - project_id
+      - project_name
+      - environment_id
+      - environment_name
+      - service_id
+      - service_name
+      - service_type
+      properties:
+        project_id:
+          type: string
+          x-stoplight:
+            id: 5p4tj302re42n
+          format: uuid
+        project_name:
+          type: string
+          x-stoplight:
+            id: j9o1qaceqfiu8
+        environment_id:
+          type: string
+          x-stoplight:
+            id: oe1zp7vzdukve
+          format: uuid
+        environment_name:
+          type: string
+          x-stoplight:
+            id: n2usi4loyu8kn
+        service_id:
+          type: string
+          x-stoplight:
+            id: 9nnymt6uz7zdq
+          format: uuid
+        service_name:
+          type: string
+          x-stoplight:
+            id: rb0g9ev15frmu
+        service_type:
+          $ref: '#/components/schemas/HelmRepositoryAssociatedServiceType'
+    PlanEnum:
+      type: string
+      description: FREE, BUSINESS & PROFESSIONAL are deprecated. 2025 plans are the new plans available.
+      enum:
+      - FREE
+      - TEAM
+      - TEAM_YEARLY
+      - ENTERPRISE
+      - ENTERPRISE_YEARLY
+      - PROFESSIONAL
+      - BUSINESS
+      - USER_2025
+      - TEAM_2025
+      - BUSINESS_2025
+      - ENTERPRISE_2025
+    TfVarsDiscoveryMode:
+      title: TfVarsDiscoveryMode
+      description: Discovery mode for Terraform tfvars files - either auto-discover or specify paths
+      oneOf:
+      - $ref: '#/components/schemas/TfVarsDiscoveryModeAutoDiscover'
+      - $ref: '#/components/schemas/TfVarsDiscoveryModeSpecificPaths'
+      discriminator:
+        propertyName: type
+        mapping:
+          AutoDiscover: '#/components/schemas/TfVarsDiscoveryModeAutoDiscover'
+          SpecificPaths: '#/components/schemas/TfVarsDiscoveryModeSpecificPaths'
+    ScalewayClusterCredentials:
+      title: ScalewayClusterCredentials
+      x-stoplight:
+        id: j3ep46eyah9p5
+      type: object
+      required:
+      - id
+      - name
+      - scaleway_access_key
+      - object_type
+      - scaleway_project_id
+      - scaleway_organization_id
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        scaleway_access_key:
+          type: string
+          x-stoplight:
+            id: 4db3031sq6tea
+        object_type:
+          enum:
+          - SCW
+        scaleway_project_id:
+          type: string
+          x-stoplight:
+            id: 0630fqc615vg4
+        scaleway_organization_id:
+          type: string
+          x-stoplight:
+            id: 5ui02pola5ndr
+    AwsRoleClusterCredentials:
+      title: AwsRoleClusterCredentials
+      x-stoplight:
+        id: f5c1iewg51zam
+      type: object
+      required:
+      - id
+      - name
+      - role_arn
+      - object_type
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        role_arn:
+          type: string
+          x-stoplight:
+            id: 8l5tuxflg76d2
+        object_type:
+          enum:
+          - AWS_ROLE
+    Base:
+      type: object
+      required:
+      - id
+      - created_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          readOnly: true
+          format: date-time
+        updated_at:
+          type: string
+          readOnly: true
+          format: date-time
+    OrganizationAvailableRoleList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrganizationAvailableRole'
+    Organization:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - $ref: '#/components/schemas/OrganizationRequest'
+      - type: object
+        properties:
+          owner:
+            type: string
+            format: uuid
+            description: uuid of the user owning the organization
+          billing_deployment_restriction:
+            type: string
+            nullable: true
+            description: If set, indicates a billing-related restriction on the organization. 'NO_CREDIT_CARD' means the organization is on a free trial without a credit card — managed cluster creation and deployments on managed clusters are blocked, but demo cluster usage is allowed. Any other value blocks all deployments. null means no restriction.
+      - type: object
+        properties:
+          organization_plan:
+            type: object
+            properties:
+              plan:
+                $ref: '#/components/schemas/PlanEnum'
+              audit_logs_retention_in_days:
+                type: number
+                description: audit logs maximum period available in days
+  parameters:
+    gitTokenId:
+      name: gitTokenId
+      in: path
+      description: Git Token ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+    organizationId:
+      name: organizationId
+      in: path
+      description: Organization ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+  responses:
+    '400':
+      description: Bad request
+    204-deletion:
+      description: The resource was deleted successfully
+    '403':
+      description: Access forbidden
+    '404':
+      description: Resource not found
+    '401':
+      description: Access token is missing or invalid
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'JWT tokens should be used with OIDC account (human to machine). JWT tokens used by the Qovery console to communicate with the API have a TTL. Curl Example '' curl https://console.qovery.com/organization -H "Authorization: Bearer $qovery_token" '''
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'Token API are generated by Qovery to manage machine to machine interaction and do not have a TTL. Curl Example '' curl https://console.qovery.com/organization -H "Authorization: Token $qovery_token" '''
+x-tagGroups:
+- name: Organization
+  tags:
+  - Organization Main Calls
+  - Organization Api Token
+  - Organization Account Git Repositories
+  - Organization Cluster Lock
+  - Organization Webhook
+  - Organization Custom Role
+  - Organization Event
+  - Organization Annotations Group
+  - Organization Labels Group
+  - Organization Enterprise Connection
+  - Projects
+  - Members
+  - Billing
+  - Clusters
+  - Cloud Provider
+  - Cloud Provider Credentials
+  - Github App
+  - Container Registries
+  - Helm Repositories
+- name: Project
+  tags:
+  - Project Main Calls
+  - Environments
+  - Project Deployment Rule
+  - Project Environment Variable
+  - Project Secret
+- name: Environment
+  tags:
+  - Environment Main Calls
+  - Applications
+  - Containers
+  - Databases
+  - Jobs
+  - Helms
+  - Terraforms
+  - Environment Actions
+  - Environment Logs
+  - Environment Deployment History
+  - Environment Deployment Rule
+  - Environment Variable
+  - Environment Secret
+  - Environment Export
+- name: Deployment Stage
+  tags:
+  - Deployment Stage Main Calls
+- name: Application
+  tags:
+  - Application Main Calls
+  - Application Actions
+  - Application Configuration
+  - Application Custom Domain
+  - Application Database
+  - Application Logs
+  - Application Deployment Restriction
+  - Application Deployment History
+  - Application Environment Variable
+  - Application Secret
+  - Application Annotations Group
+- name: Container
+  tags:
+  - Container Main Calls
+  - Container Actions
+  - Container Configuration
+  - Container Custom Domain
+  - Container Database
+  - Container Logs
+  - Container Deployment History
+  - Container Environment Variable
+  - Container Secret
+  - Container Annotations Group
+- name: Database
+  tags:
+  - Database Main Calls
+  - Database Actions
+  - Database Applications
+  - Database Deployment History
+  - Database Containers
+  - Database Application
+  - Database Container
+  - Backups
+  - Database Annotations Group
+- name: Job
+  tags:
+  - Job Main Calls
+  - Job Actions
+  - Job Configuration
+  - Job Custom Domain
+  - Job Deployment Restriction
+  - Job Deployment History
+  - Job Environment Variable
+  - Job Secret
+  - Job Annotations Group
+- name: Helm
+  tags:
+  - Helm Main Calls
+  - Helm Actions
+  - Helm Configuration
+  - Helm Custom Domain
+  - Helm Deployment Restriction
+  - Helm Deployment History
+- name: Terraform
+  tags:
+  - Terraform Main Calls
+  - Terraform Actions
+  - Terraform Configuration
+  - Terraform Deployment Restriction
+  - Terraform Deployment History
+- name: Account
+  tags:
+  - Account Info
+  - Git repositories
+  - Referral & Rewards
+- name: Git
+  tags:
+  - Git repositories
+- name: Variable
+  tags:
+  - Variable Main Calls
+- name: Lifecycle Template
+  tags:
+  - Lifecycle Template Main Calls
+- name: Admin
+  tags:
+  - User Sign Up
+- name: Alerting
+  tags:
+  - Alert Receivers
+  - Alert Rules
