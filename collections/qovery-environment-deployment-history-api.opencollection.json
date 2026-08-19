@@ -1,0 +1,96 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Qovery Account Info Environment Deployment History API",
+    "version": "1.0.4"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Environment Deployment History",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List environment deployments",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/environment/:environmentId/deploymentHistory",
+            "params": [
+              {
+                "name": "environmentId",
+                "value": "",
+                "type": "path",
+                "description": "Environment ID"
+              },
+              {
+                "name": "startId",
+                "value": "",
+                "type": "query",
+                "description": "Starting point after which to return results"
+              }
+            ]
+          },
+          "docs": "List previous and current environment deployments with the status deployment and the related services. By default it returns the 20 last results. The response is paginated. In order to request the next page, you can use the startId query parameter"
+        },
+        {
+          "info": {
+            "name": "List environment deployments",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/environment/:environmentId/deploymentHistoryV2",
+            "params": [
+              {
+                "name": "environmentId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "The number of deployments to return in the current page"
+              }
+            ]
+          },
+          "docs": "List previous and current environment deployments with the status deployment and the related services. By default it returns the 20 last results. The response is paginated. In order to request the next page, you can use the startId query parameter"
+        },
+        {
+          "info": {
+            "name": "Generate a Grafana snapshot report showing build runner pod usage for a specific deployment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.qovery.com/environment/:environmentId/deploymentBuildUsageReport",
+            "params": [
+              {
+                "name": "environmentId",
+                "value": "",
+                "type": "path",
+                "description": "Environment ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Generate a Grafana snapshot report that shows the resource usage (CPU, memory) of build runner pods for a specific deployment execution. The report is publicly accessible for the specified duration."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,153 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Qovery Account Info Environment API",
+    "version": "1.0.4"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Environment",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Check dockerfile configuration is correct",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.qovery.com/environment/:environmentId/checkDockerfile",
+            "params": [
+              {
+                "name": "environmentId",
+                "value": "",
+                "type": "path",
+                "description": "Environment ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Check dockerfile configuration is correct"
+        },
+        {
+          "info": {
+            "name": "Check helm repository configuration is correct",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.qovery.com/environment/:environmentId/checkHelmRepository",
+            "params": [
+              {
+                "name": "environmentId",
+                "value": "",
+                "type": "path",
+                "description": "Environment ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Check helm repository configuration is correct"
+        },
+        {
+          "info": {
+            "name": "Check container image configuration is correct",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.qovery.com/environment/:environmentId/checkContainerImage",
+            "params": [
+              {
+                "name": "environmentId",
+                "value": "",
+                "type": "path",
+                "description": "Environment ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Check container image configuration is correct"
+        },
+        {
+          "info": {
+            "name": "Check git file configuration is correct",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.qovery.com/environment/:environmentId/checkGitFile",
+            "params": [
+              {
+                "name": "environmentId",
+                "value": "",
+                "type": "path",
+                "description": "Environment ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Check git file configuration is correct"
+        },
+        {
+          "info": {
+            "name": "Get Deployment Status By DeploymentRequestId",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/environment/deploymentStatus",
+            "params": [
+              {
+                "name": "deploymentRequestId",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get Deployment Status By DeploymentRequestId"
+        },
+        {
+          "info": {
+            "name": "List environment services links",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/environment/:environmentId/link",
+            "params": [
+              {
+                "name": "environmentId",
+                "value": "",
+                "type": "path",
+                "description": "Environment ID"
+              }
+            ]
+          },
+          "docs": "List services links of an environment"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

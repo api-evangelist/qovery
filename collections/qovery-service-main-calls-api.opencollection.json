@@ -1,0 +1,62 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Qovery Account Info Service Main Calls API",
+    "version": "1.0.4"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Service Main Calls",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get git webhook status for a service",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/service/:serviceId/gitWebhookStatus",
+            "params": [
+              {
+                "name": "serviceId",
+                "value": "",
+                "type": "path",
+                "description": "Service ID of an application/job/container/database"
+              }
+            ]
+          },
+          "docs": "Returns the webhook status for a git-based service. Checks if the Qovery webhook is correctly configured on the git provider (GitHub, GitLab, or Bitbucket)."
+        },
+        {
+          "info": {
+            "name": "Synchronize git webhook for a service",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.qovery.com/service/:serviceId/gitWebhook/sync",
+            "params": [
+              {
+                "name": "serviceId",
+                "value": "",
+                "type": "path",
+                "description": "Service ID of an application/job/container/database"
+              }
+            ]
+          },
+          "docs": "Synchronizes the Qovery webhook configuration for a git-based service.\n- If no webhook exists, creates one with the correct configuration\n- If webhook exists but is misconfigured, updates it with the correct events\n- If webhook is already correctly configured, returns current status\nWorks with GitHub, GitLab, and Bitbucket repositories.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

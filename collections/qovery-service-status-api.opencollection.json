@@ -1,0 +1,47 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Qovery Account Info service_status API",
+    "version": "1.0.4"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "service_status",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Ingress Deployment Status By Service",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/:serviceType/:serviceId/ingressDeploymentStatus",
+            "params": [
+              {
+                "name": "serviceType",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "serviceId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get Ingress Deployment Status By Service"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

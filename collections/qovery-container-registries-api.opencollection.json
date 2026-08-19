@@ -1,0 +1,193 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Qovery Account Info Container Registries API",
+    "version": "1.0.4"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Container Registries",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List organization container registries",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/organization/:organizationId/containerRegistry",
+            "params": [
+              {
+                "name": "organizationId",
+                "value": "",
+                "type": "path",
+                "description": "Organization ID"
+              }
+            ]
+          },
+          "docs": "List organization container registries"
+        },
+        {
+          "info": {
+            "name": "Create a container registry",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.qovery.com/organization/:organizationId/containerRegistry",
+            "params": [
+              {
+                "name": "organizationId",
+                "value": "",
+                "type": "path",
+                "description": "Organization ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a container registry"
+        },
+        {
+          "info": {
+            "name": "Get a container registry",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/organization/:organizationId/containerRegistry/:containerRegistryId",
+            "params": [
+              {
+                "name": "organizationId",
+                "value": "",
+                "type": "path",
+                "description": "Organization ID"
+              },
+              {
+                "name": "containerRegistryId",
+                "value": "",
+                "type": "path",
+                "description": "Container Registry ID"
+              }
+            ]
+          },
+          "docs": "Get a container registry"
+        },
+        {
+          "info": {
+            "name": "Edit a container registry",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.qovery.com/organization/:organizationId/containerRegistry/:containerRegistryId",
+            "params": [
+              {
+                "name": "organizationId",
+                "value": "",
+                "type": "path",
+                "description": "Organization ID"
+              },
+              {
+                "name": "containerRegistryId",
+                "value": "",
+                "type": "path",
+                "description": "Container Registry ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Edit a container registry"
+        },
+        {
+          "info": {
+            "name": "Delete a container registry",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.qovery.com/organization/:organizationId/containerRegistry/:containerRegistryId",
+            "params": [
+              {
+                "name": "organizationId",
+                "value": "",
+                "type": "path",
+                "description": "Organization ID"
+              },
+              {
+                "name": "containerRegistryId",
+                "value": "",
+                "type": "path",
+                "description": "Container Registry ID"
+              }
+            ]
+          },
+          "docs": "Delete a container registry"
+        },
+        {
+          "info": {
+            "name": "List image version for a container registry",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/organization/:organizationId/containerRegistry/:containerRegistryId/images",
+            "params": [
+              {
+                "name": "organizationId",
+                "value": "",
+                "type": "path",
+                "description": "Organization ID"
+              },
+              {
+                "name": "containerRegistryId",
+                "value": "",
+                "type": "path",
+                "description": "Container Registry ID"
+              },
+              {
+                "name": "imageName",
+                "value": "",
+                "type": "query",
+                "description": "container image name"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "partial container image name to search"
+              }
+            ]
+          },
+          "docs": "List image version for a container registry"
+        },
+        {
+          "info": {
+            "name": "List supported container registries",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/availableContainerRegistry"
+          },
+          "docs": "List supported container registries by Qovery and get the mandatory authentification configuration."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,114 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Qovery Account Info Terraform Deployment Restriction API",
+    "version": "1.0.4"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Terraform Deployment Restriction",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get terraform deployment restrictions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/terraform/:terraformId/deploymentRestriction",
+            "params": [
+              {
+                "name": "terraformId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get terraform deployment restrictions"
+        },
+        {
+          "info": {
+            "name": "Create a terraform deployment restriction",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.qovery.com/terraform/:terraformId/deploymentRestriction",
+            "params": [
+              {
+                "name": "terraformId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a terraform deployment restriction"
+        },
+        {
+          "info": {
+            "name": "Edit a terraform deployment restriction",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.qovery.com/terraform/:terraformId/deploymentRestriction/:deploymentRestrictionId",
+            "params": [
+              {
+                "name": "terraformId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "deploymentRestrictionId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Edit a terraform deployment restriction"
+        },
+        {
+          "info": {
+            "name": "Delete a terraform deployment restriction",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.qovery.com/terraform/:terraformId/deploymentRestriction/:deploymentRestrictionId",
+            "params": [
+              {
+                "name": "terraformId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "deploymentRestrictionId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a terraform deployment restriction"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

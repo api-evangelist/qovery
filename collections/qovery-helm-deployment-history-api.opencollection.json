@@ -1,0 +1,67 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Qovery Account Info Helm Deployment History API",
+    "version": "1.0.4"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Helm Deployment History",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List helm deployments",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/helm/:helmId/deploymentHistory",
+            "params": [
+              {
+                "name": "helmId",
+                "value": "",
+                "type": "path",
+                "description": "Helm ID"
+              }
+            ]
+          },
+          "docs": "Returns the 20 last helm deployments"
+        },
+        {
+          "info": {
+            "name": "List helm deployments",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/helm/:helmId/deploymentHistoryV2",
+            "params": [
+              {
+                "name": "helmId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "The number of deployments to return in the current page"
+              }
+            ]
+          },
+          "docs": "Returns the 20 last helm deployments"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

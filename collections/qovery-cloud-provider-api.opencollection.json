@@ -1,0 +1,300 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Qovery Account Info Cloud Provider API",
+    "version": "1.0.4"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Cloud Provider",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Cloud providers available",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/cloudProvider"
+          },
+          "docs": "List Cloud providers available"
+        },
+        {
+          "info": {
+            "name": "List AWS regions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/aws/region"
+          },
+          "docs": "List AWS regions"
+        },
+        {
+          "info": {
+            "name": "List AWS features available",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/aws/clusterFeature"
+          },
+          "docs": "List AWS features available"
+        },
+        {
+          "info": {
+            "name": "List AWS available instance types",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/aws/instanceType"
+          },
+          "docs": "List AWS available instance types"
+        },
+        {
+          "info": {
+            "name": "List AWS available managed database types",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/aws/managedDatabase/type"
+          },
+          "docs": "List AWS available managed database types"
+        },
+        {
+          "info": {
+            "name": "List AWS available managed database instance types",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/aws/managedDatabase/instanceType/:region/:databaseType",
+            "params": [
+              {
+                "name": "region",
+                "value": "",
+                "type": "path",
+                "description": "region name"
+              },
+              {
+                "name": "databaseType",
+                "value": "",
+                "type": "path",
+                "description": "Database type"
+              }
+            ]
+          },
+          "docs": "List AWS available managed database instance types"
+        },
+        {
+          "info": {
+            "name": "List Azure AKS available instance types",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/azure/aks/instanceType/:region",
+            "params": [
+              {
+                "name": "region",
+                "value": "",
+                "type": "path",
+                "description": "region name"
+              },
+              {
+                "name": "only_meets_resource_reqs",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "with_gpu",
+                "value": "",
+                "type": "query",
+                "description": "deprecated field, use `gpu` instead"
+              },
+              {
+                "name": "gpu",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "List Azure AKS available instance types"
+        },
+        {
+          "info": {
+            "name": "List AWS EKS available instance types",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/aws/eks/instanceType/:region",
+            "params": [
+              {
+                "name": "region",
+                "value": "",
+                "type": "path",
+                "description": "region name"
+              },
+              {
+                "name": "only_meets_resource_reqs",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "with_gpu",
+                "value": "",
+                "type": "query",
+                "description": "deprecated field, use `gpu` instead"
+              },
+              {
+                "name": "gpu",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "List AWS EKS available instance types"
+        },
+        {
+          "info": {
+            "name": "List Scaleway regions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/scaleway/region"
+          },
+          "docs": "List Scaleway regions"
+        },
+        {
+          "info": {
+            "name": "List Scaleway features available",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/scaleway/clusterFeature"
+          },
+          "docs": "List Scaleway features available"
+        },
+        {
+          "info": {
+            "name": "List Scaleway available instance types",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/scaleway/instanceType"
+          },
+          "docs": "List Scaleway available instance types"
+        },
+        {
+          "info": {
+            "name": "List Scaleway available managed database types",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/scaleway/managedDatabase/type"
+          },
+          "docs": "List Scaleway available managed database types"
+        },
+        {
+          "info": {
+            "name": "List Scaleway Kapsule available instance types",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/scaleway/instanceType/:zone",
+            "params": [
+              {
+                "name": "zone",
+                "value": "",
+                "type": "path",
+                "description": "zone name"
+              }
+            ]
+          },
+          "docs": "List Scaleway Kapsule available instance types"
+        },
+        {
+          "info": {
+            "name": "List GCP regions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/gcp/region"
+          },
+          "docs": "List GCP regions"
+        },
+        {
+          "info": {
+            "name": "List GCP features available",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/gcp/clusterFeature"
+          },
+          "docs": "List GCP features available"
+        },
+        {
+          "info": {
+            "name": "List GCP GKE available instance types",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/gcp/instanceType/:region",
+            "params": [
+              {
+                "name": "region",
+                "value": "",
+                "type": "path",
+                "description": "region name"
+              }
+            ]
+          },
+          "docs": "List GCP GKE available instance types"
+        },
+        {
+          "info": {
+            "name": "List Azure regions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/azure/region"
+          },
+          "docs": "List Azure regions"
+        },
+        {
+          "info": {
+            "name": "List Azure features available",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/azure/clusterFeature"
+          },
+          "docs": "List Azure features available"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

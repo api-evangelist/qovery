@@ -1,0 +1,93 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Qovery Account Info Terraform Actions API",
+    "version": "1.0.4"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Terraform Actions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Redeploy terraform",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.qovery.com/terraform/:terraformId/redeploy",
+            "params": [
+              {
+                "name": "terraformId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Redeploy terraform"
+        },
+        {
+          "info": {
+            "name": "Deploy terraform",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.qovery.com/terraform/:terraformId/deploy",
+            "params": [
+              {
+                "name": "terraformId",
+                "value": "",
+                "type": "path",
+                "description": "Terraform ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "You must provide a git commit id."
+        },
+        {
+          "info": {
+            "name": "Uninstall terraform",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.qovery.com/terraform/:terraformId/uninstall",
+            "params": [
+              {
+                "name": "terraformId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "force_terraform_action",
+                "value": "",
+                "type": "query",
+                "description": "Force a specific action to be executed by Terraform during uninstall."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Delete the resources of the terraform but keep Qovery configuration"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

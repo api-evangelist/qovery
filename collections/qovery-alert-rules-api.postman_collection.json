@@ -1,0 +1,1337 @@
+{
+  "item": [
+    {
+      "id": "738bc911-3780-4a55-8b6a-3e4e27f44117",
+      "name": "Alert Rules",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "e479c0c1-de4d-4feb-a736-27abdac642dd",
+          "name": "Create alert rule",
+          "request": {
+            "name": "Create alert rule",
+            "description": {
+              "content": "Create a new alert rule with PromQL expression",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "alert-rules"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"organization_id\": \"<uuid>\",\n  \"cluster_id\": \"<uuid>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"tag\": \"<string>\",\n  \"condition\": {\n    \"kind\": \"<string>\",\n    \"promql\": \"<string>\",\n    \"operator\": \"<string>\",\n    \"threshold\": \"<number>\",\n    \"function\": \"<string>\"\n  },\n  \"for_duration\": \"<duration>\",\n  \"severity\": \"<string>\",\n  \"presentation\": {\n    \"summary\": \"<string>\",\n    \"runbook_url\": \"<uri>\"\n  },\n  \"enabled\": \"<boolean>\",\n  \"alert_receiver_ids\": [\n    \"<uuid>\"\n  ],\n  \"target\": {\n    \"target_type\": \"<string>\",\n    \"target_id\": \"<uuid>\",\n    \"service\": {\n      \"id\": \"<uuid>\",\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"icon_uri\": \"<uri>\",\n      \"service_type\": \"<string>\",\n      \"project_id\": \"<uuid>\",\n      \"project_name\": \"<string>\",\n      \"environment_id\": \"<uuid>\",\n      \"environment_name\": \"<string>\",\n      \"cluster_id\": \"<uuid>\",\n      \"job_type\": \"<string>\"\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "69ba2a41-85d7-4165-8298-b5e0de05140b",
+              "name": "Created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "alert-rules"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"organization_id\": \"<uuid>\",\n  \"cluster_id\": \"<uuid>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"tag\": \"<string>\",\n  \"condition\": {\n    \"kind\": \"<string>\",\n    \"promql\": \"<string>\",\n    \"operator\": \"<string>\",\n    \"threshold\": \"<number>\",\n    \"function\": \"<string>\"\n  },\n  \"for_duration\": \"<duration>\",\n  \"severity\": \"<string>\",\n  \"presentation\": {\n    \"summary\": \"<string>\",\n    \"runbook_url\": \"<uri>\"\n  },\n  \"enabled\": \"<boolean>\",\n  \"alert_receiver_ids\": [\n    \"<uuid>\"\n  ],\n  \"target\": {\n    \"target_type\": \"<string>\",\n    \"target_id\": \"<uuid>\",\n    \"service\": {\n      \"id\": \"<uuid>\",\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"icon_uri\": \"<uri>\",\n      \"service_type\": \"<string>\",\n      \"project_id\": \"<uuid>\",\n      \"project_name\": \"<string>\",\n      \"environment_id\": \"<uuid>\",\n      \"environment_name\": \"<string>\",\n      \"cluster_id\": \"<uuid>\",\n      \"job_type\": \"<string>\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"alert_receiver_ids\": [\n    \"54006d59-e859-dc9b-071b-32b14dd11768\",\n    \"cc5058d6-53b3-a108-003d-234e8c566449\"\n  ],\n  \"cluster_id\": \"f00950a1-f444-254d-319b-ddd8fdfd1a8a\",\n  \"condition\": {\n    \"kind\": \"<string>\",\n    \"promql\": \"<string>\",\n    \"operator\": \"<string>\",\n    \"threshold\": \"<number>\",\n    \"function\": \"<string>\"\n  },\n  \"created_at\": \"2017-11-25T19:39:47.464Z\",\n  \"description\": \"string\",\n  \"enabled\": false,\n  \"for_duration\": \"string\",\n  \"id\": \"86da6e91-de87-d2dc-c789-68519c6d4517\",\n  \"is_up_to_date\": false,\n  \"name\": \"string\",\n  \"organization_id\": \"bf125cd4-4bd9-3e71-689d-2e64e909f1bc\",\n  \"presentation\": {\n    \"summary\": \"string\",\n    \"runbook_url\": \"https://bgNoPQV.zbQ0W,vTu9v80oKGfwT-TJqSmKYVd.BIJ\"\n  },\n  \"severity\": \"<string>\",\n  \"source\": \"string\",\n  \"state\": \"string\",\n  \"tag\": \"string\",\n  \"target\": {\n    \"target_type\": \"<string>\",\n    \"target_id\": \"<uuid>\",\n    \"service\": {\n      \"id\": \"<uuid>\",\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"icon_uri\": \"<uri>\",\n      \"service_type\": \"<string>\",\n      \"project_id\": \"<uuid>\",\n      \"project_name\": \"<string>\",\n      \"environment_id\": \"<uuid>\",\n      \"environment_name\": \"<string>\",\n      \"cluster_id\": \"<uuid>\",\n      \"job_type\": \"<string>\"\n    }\n  },\n  \"updated_at\": \"1966-12-13T10:17:15.904Z\",\n  \"starts_at\": \"2021-08-16T21:09:30.019Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b26ab041-0e3b-435c-9eba-fec77903cca7",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "alert-rules"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"organization_id\": \"<uuid>\",\n  \"cluster_id\": \"<uuid>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"tag\": \"<string>\",\n  \"condition\": {\n    \"kind\": \"<string>\",\n    \"promql\": \"<string>\",\n    \"operator\": \"<string>\",\n    \"threshold\": \"<number>\",\n    \"function\": \"<string>\"\n  },\n  \"for_duration\": \"<duration>\",\n  \"severity\": \"<string>\",\n  \"presentation\": {\n    \"summary\": \"<string>\",\n    \"runbook_url\": \"<uri>\"\n  },\n  \"enabled\": \"<boolean>\",\n  \"alert_receiver_ids\": [\n    \"<uuid>\"\n  ],\n  \"target\": {\n    \"target_type\": \"<string>\",\n    \"target_id\": \"<uuid>\",\n    \"service\": {\n      \"id\": \"<uuid>\",\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"icon_uri\": \"<uri>\",\n      \"service_type\": \"<string>\",\n      \"project_id\": \"<uuid>\",\n      \"project_name\": \"<string>\",\n      \"environment_id\": \"<uuid>\",\n      \"environment_name\": \"<string>\",\n      \"cluster_id\": \"<uuid>\",\n      \"job_type\": \"<string>\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "c2724496-c16a-473c-b7b0-64bdb406cb17",
+              "name": "Access token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "alert-rules"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"organization_id\": \"<uuid>\",\n  \"cluster_id\": \"<uuid>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"tag\": \"<string>\",\n  \"condition\": {\n    \"kind\": \"<string>\",\n    \"promql\": \"<string>\",\n    \"operator\": \"<string>\",\n    \"threshold\": \"<number>\",\n    \"function\": \"<string>\"\n  },\n  \"for_duration\": \"<duration>\",\n  \"severity\": \"<string>\",\n  \"presentation\": {\n    \"summary\": \"<string>\",\n    \"runbook_url\": \"<uri>\"\n  },\n  \"enabled\": \"<boolean>\",\n  \"alert_receiver_ids\": [\n    \"<uuid>\"\n  ],\n  \"target\": {\n    \"target_type\": \"<string>\",\n    \"target_id\": \"<uuid>\",\n    \"service\": {\n      \"id\": \"<uuid>\",\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"icon_uri\": \"<uri>\",\n      \"service_type\": \"<string>\",\n      \"project_id\": \"<uuid>\",\n      \"project_name\": \"<string>\",\n      \"environment_id\": \"<uuid>\",\n      \"environment_name\": \"<string>\",\n      \"cluster_id\": \"<uuid>\",\n      \"job_type\": \"<string>\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "371369db-8f55-4897-9ad3-76bf72fc14a4",
+              "name": "Access forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "alert-rules"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"organization_id\": \"<uuid>\",\n  \"cluster_id\": \"<uuid>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"tag\": \"<string>\",\n  \"condition\": {\n    \"kind\": \"<string>\",\n    \"promql\": \"<string>\",\n    \"operator\": \"<string>\",\n    \"threshold\": \"<number>\",\n    \"function\": \"<string>\"\n  },\n  \"for_duration\": \"<duration>\",\n  \"severity\": \"<string>\",\n  \"presentation\": {\n    \"summary\": \"<string>\",\n    \"runbook_url\": \"<uri>\"\n  },\n  \"enabled\": \"<boolean>\",\n  \"alert_receiver_ids\": [\n    \"<uuid>\"\n  ],\n  \"target\": {\n    \"target_type\": \"<string>\",\n    \"target_id\": \"<uuid>\",\n    \"service\": {\n      \"id\": \"<uuid>\",\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"icon_uri\": \"<uri>\",\n      \"service_type\": \"<string>\",\n      \"project_id\": \"<uuid>\",\n      \"project_name\": \"<string>\",\n      \"environment_id\": \"<uuid>\",\n      \"environment_name\": \"<string>\",\n      \"cluster_id\": \"<uuid>\",\n      \"job_type\": \"<string>\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "776d4ca0-f84d-41cc-a598-a14865893884",
+          "name": "Get alert rule",
+          "request": {
+            "name": "Get alert rule",
+            "description": {
+              "content": "Retrieve a specific alert rule by its ID",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "alert-rules",
+                ":alertRuleId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "alertRuleId",
+                  "description": "(Required) Alert Rule ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e150cbf7-baea-4b4f-80bc-af3d179fc1cc",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "alert-rules",
+                    ":alertRuleId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "alertRuleId",
+                      "description": "(Required) Alert Rule ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"alert_receiver_ids\": [\n    \"dca24f73-cec6-e945-b87c-1c7f9e1ca572\",\n    \"8966b7f6-e51e-a0fd-fbd8-470de2104e69\"\n  ],\n  \"cluster_id\": \"fd8add22-0920-fd06-4853-448302060ec5\",\n  \"condition\": {\n    \"kind\": \"<string>\",\n    \"promql\": \"<string>\",\n    \"operator\": \"<string>\",\n    \"threshold\": \"<number>\",\n    \"function\": \"<string>\"\n  },\n  \"created_at\": \"1978-04-12T22:46:04.938Z\",\n  \"description\": \"string\",\n  \"enabled\": false,\n  \"for_duration\": \"string\",\n  \"id\": \"647eddd5-6d99-2414-ab4e-6063db28af4e\",\n  \"is_up_to_date\": false,\n  \"name\": \"string\",\n  \"organization_id\": \"9c9d9f59-9772-479b-1c02-599e4fe0107c\",\n  \"presentation\": {\n    \"summary\": \"string\",\n    \"runbook_url\": \"https://nrMHI.zcHBvM\"\n  },\n  \"severity\": \"<string>\",\n  \"source\": \"string\",\n  \"state\": \"string\",\n  \"tag\": \"string\",\n  \"target\": {\n    \"target_type\": \"<string>\",\n    \"target_id\": \"<uuid>\",\n    \"service\": {\n      \"id\": \"<uuid>\",\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"icon_uri\": \"<uri>\",\n      \"service_type\": \"<string>\",\n      \"project_id\": \"<uuid>\",\n      \"project_name\": \"<string>\",\n      \"environment_id\": \"<uuid>\",\n      \"environment_name\": \"<string>\",\n      \"cluster_id\": \"<uuid>\",\n      \"job_type\": \"<string>\"\n    }\n  },\n  \"updated_at\": \"1981-02-19T04:02:59.112Z\",\n  \"starts_at\": \"1972-10-09T03:04:00.259Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ad75ba41-ad10-4681-91f6-f13a0c9d841d",
+              "name": "Access token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "alert-rules",
+                    ":alertRuleId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "alertRuleId",
+                      "description": "(Required) Alert Rule ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "35ecf21a-ef4a-4c7b-82d2-922b5a15ad4b",
+              "name": "Access forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "alert-rules",
+                    ":alertRuleId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "alertRuleId",
+                      "description": "(Required) Alert Rule ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "188fdb5a-942e-4f30-bfbe-eaa63e2ea7bb",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "alert-rules",
+                    ":alertRuleId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "alertRuleId",
+                      "description": "(Required) Alert Rule ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "bf64ec83-92f2-4e0f-a98a-7475e7656896",
+          "name": "Update alert rule",
+          "request": {
+            "name": "Update alert rule",
+            "description": {
+              "content": "Update an existing alert rule",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "alert-rules",
+                ":alertRuleId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "alertRuleId",
+                  "description": "(Required) Alert Rule ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"tag\": \"<string>\",\n  \"condition\": {\n    \"kind\": \"<string>\",\n    \"promql\": \"<string>\",\n    \"operator\": \"<string>\",\n    \"threshold\": \"<number>\",\n    \"function\": \"<string>\"\n  },\n  \"for_duration\": \"<duration>\",\n  \"severity\": \"<string>\",\n  \"enabled\": \"<boolean>\",\n  \"alert_receiver_ids\": [\n    \"<uuid>\"\n  ],\n  \"presentation\": {\n    \"summary\": \"<string>\",\n    \"runbook_url\": \"<uri>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "945973ed-6f68-4d8f-bd95-c10c000081eb",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "alert-rules",
+                    ":alertRuleId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "alertRuleId",
+                      "description": "(Required) Alert Rule ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"tag\": \"<string>\",\n  \"condition\": {\n    \"kind\": \"<string>\",\n    \"promql\": \"<string>\",\n    \"operator\": \"<string>\",\n    \"threshold\": \"<number>\",\n    \"function\": \"<string>\"\n  },\n  \"for_duration\": \"<duration>\",\n  \"severity\": \"<string>\",\n  \"enabled\": \"<boolean>\",\n  \"alert_receiver_ids\": [\n    \"<uuid>\"\n  ],\n  \"presentation\": {\n    \"summary\": \"<string>\",\n    \"runbook_url\": \"<uri>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"alert_receiver_ids\": [\n    \"dca24f73-cec6-e945-b87c-1c7f9e1ca572\",\n    \"8966b7f6-e51e-a0fd-fbd8-470de2104e69\"\n  ],\n  \"cluster_id\": \"fd8add22-0920-fd06-4853-448302060ec5\",\n  \"condition\": {\n    \"kind\": \"<string>\",\n    \"promql\": \"<string>\",\n    \"operator\": \"<string>\",\n    \"threshold\": \"<number>\",\n    \"function\": \"<string>\"\n  },\n  \"created_at\": \"1978-04-12T22:46:04.938Z\",\n  \"description\": \"string\",\n  \"enabled\": false,\n  \"for_duration\": \"string\",\n  \"id\": \"647eddd5-6d99-2414-ab4e-6063db28af4e\",\n  \"is_up_to_date\": false,\n  \"name\": \"string\",\n  \"organization_id\": \"9c9d9f59-9772-479b-1c02-599e4fe0107c\",\n  \"presentation\": {\n    \"summary\": \"string\",\n    \"runbook_url\": \"https://nrMHI.zcHBvM\"\n  },\n  \"severity\": \"<string>\",\n  \"source\": \"string\",\n  \"state\": \"string\",\n  \"tag\": \"string\",\n  \"target\": {\n    \"target_type\": \"<string>\",\n    \"target_id\": \"<uuid>\",\n    \"service\": {\n      \"id\": \"<uuid>\",\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"icon_uri\": \"<uri>\",\n      \"service_type\": \"<string>\",\n      \"project_id\": \"<uuid>\",\n      \"project_name\": \"<string>\",\n      \"environment_id\": \"<uuid>\",\n      \"environment_name\": \"<string>\",\n      \"cluster_id\": \"<uuid>\",\n      \"job_type\": \"<string>\"\n    }\n  },\n  \"updated_at\": \"1981-02-19T04:02:59.112Z\",\n  \"starts_at\": \"1972-10-09T03:04:00.259Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d115a9ab-9b71-4989-a61a-f0cb6bf90f25",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "alert-rules",
+                    ":alertRuleId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "alertRuleId",
+                      "description": "(Required) Alert Rule ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"tag\": \"<string>\",\n  \"condition\": {\n    \"kind\": \"<string>\",\n    \"promql\": \"<string>\",\n    \"operator\": \"<string>\",\n    \"threshold\": \"<number>\",\n    \"function\": \"<string>\"\n  },\n  \"for_duration\": \"<duration>\",\n  \"severity\": \"<string>\",\n  \"enabled\": \"<boolean>\",\n  \"alert_receiver_ids\": [\n    \"<uuid>\"\n  ],\n  \"presentation\": {\n    \"summary\": \"<string>\",\n    \"runbook_url\": \"<uri>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "8798efae-0eb9-414b-b71b-6a38720afe88",
+              "name": "Access token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "alert-rules",
+                    ":alertRuleId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "alertRuleId",
+                      "description": "(Required) Alert Rule ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"tag\": \"<string>\",\n  \"condition\": {\n    \"kind\": \"<string>\",\n    \"promql\": \"<string>\",\n    \"operator\": \"<string>\",\n    \"threshold\": \"<number>\",\n    \"function\": \"<string>\"\n  },\n  \"for_duration\": \"<duration>\",\n  \"severity\": \"<string>\",\n  \"enabled\": \"<boolean>\",\n  \"alert_receiver_ids\": [\n    \"<uuid>\"\n  ],\n  \"presentation\": {\n    \"summary\": \"<string>\",\n    \"runbook_url\": \"<uri>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "05438c01-4278-46ff-b0df-4a740d6980b3",
+              "name": "Access forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "alert-rules",
+                    ":alertRuleId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "alertRuleId",
+                      "description": "(Required) Alert Rule ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"tag\": \"<string>\",\n  \"condition\": {\n    \"kind\": \"<string>\",\n    \"promql\": \"<string>\",\n    \"operator\": \"<string>\",\n    \"threshold\": \"<number>\",\n    \"function\": \"<string>\"\n  },\n  \"for_duration\": \"<duration>\",\n  \"severity\": \"<string>\",\n  \"enabled\": \"<boolean>\",\n  \"alert_receiver_ids\": [\n    \"<uuid>\"\n  ],\n  \"presentation\": {\n    \"summary\": \"<string>\",\n    \"runbook_url\": \"<uri>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "151a670a-a292-42e5-bac7-e16102b9a5df",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "alert-rules",
+                    ":alertRuleId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "alertRuleId",
+                      "description": "(Required) Alert Rule ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"tag\": \"<string>\",\n  \"condition\": {\n    \"kind\": \"<string>\",\n    \"promql\": \"<string>\",\n    \"operator\": \"<string>\",\n    \"threshold\": \"<number>\",\n    \"function\": \"<string>\"\n  },\n  \"for_duration\": \"<duration>\",\n  \"severity\": \"<string>\",\n  \"enabled\": \"<boolean>\",\n  \"alert_receiver_ids\": [\n    \"<uuid>\"\n  ],\n  \"presentation\": {\n    \"summary\": \"<string>\",\n    \"runbook_url\": \"<uri>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "59420b0a-c455-4cfc-a9df-6caaaaa3bdad",
+          "name": "Delete alert rule",
+          "request": {
+            "name": "Delete alert rule",
+            "description": {
+              "content": "Delete an alert rule",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "alert-rules",
+                ":alertRuleId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "alertRuleId",
+                  "description": "(Required) Alert Rule ID"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a2518405-28e2-487d-992c-117fbc0149af",
+              "name": "Alert rule successfully deleted",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "alert-rules",
+                    ":alertRuleId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "alertRuleId",
+                      "description": "(Required) Alert Rule ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "cab62d68-5e52-40f0-ba00-065334992265",
+              "name": "Access token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "alert-rules",
+                    ":alertRuleId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "alertRuleId",
+                      "description": "(Required) Alert Rule ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "aa36faeb-f75c-4aa8-a710-ba8fd6e698b9",
+              "name": "Access forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "alert-rules",
+                    ":alertRuleId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "alertRuleId",
+                      "description": "(Required) Alert Rule ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "db176988-3f1d-4f39-a9db-b3845906c0a1",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "alert-rules",
+                    ":alertRuleId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "alertRuleId",
+                      "description": "(Required) Alert Rule ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "bc2ad853-3897-42d0-a24b-6a97629850fe",
+          "name": "List alert rules",
+          "request": {
+            "name": "List alert rules",
+            "description": {
+              "content": "Retrieve all alert rules for a specific organization",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "organization",
+                ":organizationId",
+                "alert-rules"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "organizationId",
+                  "description": "(Required) Organization ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "69cccc62-a173-4ea6-a36d-75b56e5328de",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "organization",
+                    ":organizationId",
+                    "alert-rules"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "organizationId",
+                      "description": "(Required) Organization ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"results\": [\n    {\n      \"alert_receiver_ids\": [\n        \"887da1dc-511d-ab31-8f58-47802635c5a3\",\n        \"aac39d7f-6302-0409-a6c9-d1a646373a0d\"\n      ],\n      \"cluster_id\": \"92ef6b76-3c3d-c38e-f1c8-563ff8e41605\",\n      \"condition\": {\n        \"kind\": \"<string>\",\n        \"promql\": \"<string>\",\n        \"operator\": \"<string>\",\n        \"threshold\": \"<number>\",\n        \"function\": \"<string>\"\n      },\n      \"created_at\": \"1993-04-30T09:01:09.740Z\",\n      \"description\": \"string\",\n      \"enabled\": true,\n      \"for_duration\": \"string\",\n      \"id\": \"18308f53-4698-b5e4-9683-4820ca1e4ebb\",\n      \"is_up_to_date\": true,\n      \"name\": \"string\",\n      \"organization_id\": \"ae4c2d32-8c6e-74c2-8533-4cab647a7163\",\n      \"presentation\": {\n        \"summary\": \"string\",\n        \"runbook_url\": \"http://QKrLhHEQP.qkdGoCstHEu,OSkMiqRNTa5RPwQM8mxF2dSAqAZHrjdYlKSg15oBD7\"\n      },\n      \"severity\": \"<string>\",\n      \"source\": \"string\",\n      \"state\": \"string\",\n      \"tag\": \"string\",\n      \"target\": {\n        \"target_type\": \"<string>\",\n        \"target_id\": \"<uuid>\",\n        \"service\": {\n          \"id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"description\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"icon_uri\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"service_type\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"project_id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"project_name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"environment_id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"environment_name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"cluster_id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"job_type\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      },\n      \"updated_at\": \"1955-11-15T10:36:59.855Z\",\n      \"starts_at\": \"2015-04-16T11:32:24.583Z\"\n    },\n    {\n      \"alert_receiver_ids\": [\n        \"184a8a00-7732-4e70-e348-56dc33da9abf\",\n        \"563bd35d-b8c7-0ab5-0f34-b80337969d0c\"\n      ],\n      \"cluster_id\": \"0d71d706-481b-5704-97d2-5d58235c4f29\",\n      \"condition\": {\n        \"kind\": \"<string>\",\n        \"promql\": \"<string>\",\n        \"operator\": \"<string>\",\n        \"threshold\": \"<number>\",\n        \"function\": \"<string>\"\n      },\n      \"created_at\": \"1960-02-08T16:59:34.872Z\",\n      \"description\": \"string\",\n      \"enabled\": false,\n      \"for_duration\": \"string\",\n      \"id\": \"14c9cfb8-33f3-0b11-d228-6bfb39ec29f8\",\n      \"is_up_to_date\": true,\n      \"name\": \"string\",\n      \"organization_id\": \"5e43fd27-781a-4670-63ac-a9dec4d379dc\",\n      \"presentation\": {\n        \"summary\": \"string\",\n        \"runbook_url\": \"http://ephNxosMckgTYvJILfCj.ftswi-ElhIIU-uriOB0GnTYrtp5x8I1zeazG7.w3BkIGyWNMqwyKK7mD4CBbE\"\n      },\n      \"severity\": \"<string>\",\n      \"source\": \"string\",\n      \"state\": \"string\",\n      \"tag\": \"string\",\n      \"target\": {\n        \"target_type\": \"<string>\",\n        \"target_id\": \"<uuid>\",\n        \"service\": {\n          \"id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"description\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"icon_uri\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"service_type\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"project_id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"project_name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"environment_id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"environment_name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"cluster_id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"job_type\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      },\n      \"updated_at\": \"1969-01-18T15:57:38.001Z\",\n      \"starts_at\": \"2009-05-08T11:56:26.182Z\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "13a80f45-809f-42c4-ab8a-3bc8c6a93bfc",
+              "name": "Access token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "organization",
+                    ":organizationId",
+                    "alert-rules"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "organizationId",
+                      "description": "(Required) Organization ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "3acb66d9-2be0-49b0-8e15-f17d69c3e103",
+              "name": "Access forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "organization",
+                    ":organizationId",
+                    "alert-rules"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "organizationId",
+                      "description": "(Required) Organization ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "5dd363e9-7c05-4212-b286-c11d503f0e1d",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "organization",
+                    ":organizationId",
+                    "alert-rules"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "organizationId",
+                      "description": "(Required) Organization ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.qovery.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "ec615aec-6457-4f07-8b60-6968fc9243e1",
+    "name": "Qovery Account Info Alert Rules API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider.\n- ℹ️ The API is stable and still in development.\n\n\nContact Support:\n Name: Qovery Product Team\n Email: support+api+documentation@qovery.com",
+      "type": "text/plain"
+    }
+  }
+}

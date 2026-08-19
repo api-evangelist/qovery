@@ -1,0 +1,313 @@
+{
+  "item": [
+    {
+      "id": "2baa765d-1e38-4edc-b1b4-f21d81fb2fcf",
+      "name": "Terraform Deployment History",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "e284678a-54b1-459d-bc5f-f3b406e4f8a1",
+          "name": "List terraform deployments",
+          "request": {
+            "name": "List terraform deployments",
+            "description": {
+              "content": "Returns the 20 last terraform deployments",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "terraform",
+                ":terraformId",
+                "deploymentHistoryV2"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "pageSize",
+                  "value": "20",
+                  "description": "The number of deployments to return in the current page"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "terraformId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e0f6de1c-1a89-4b1e-b679-6a5fb78addbe",
+              "name": "List deployment history",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "terraform",
+                    ":terraformId",
+                    "deploymentHistoryV2"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageSize",
+                      "value": "20"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "terraformId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"page\": 1,\n  \"page_size\": 20,\n  \"results\": [\n    {\n      \"identifier\": {\n        \"name\": \"string\",\n        \"service_id\": \"8021d3c4-07aa-bd69-f06e-a69e25d59310\",\n        \"service_type\": \"HELM\",\n        \"execution_id\": \"string\"\n      },\n      \"status\": \"STOP_ERROR\",\n      \"auditing_data\": {\n        \"created_at\": \"2020-07-17T14:01:51.919Z\",\n        \"updated_at\": \"2010-05-12T18:23:15.244Z\",\n        \"triggered_by\": \"string\",\n        \"origin\": \"API\"\n      },\n      \"details\": {\n        \"commit\": {\n          \"git_commit_id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"created_at\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"author_name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"message\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tag\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"author_avatar_url\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"commit_page_url\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"build_pod_name\": \"string\"\n      },\n      \"icon_uri\": \"http://YPFnOVPsCGyqN.czkuaP2we27hbEBWsgB-YGUcyZ7IbVT0g157EoFvQ23nq-rQG4C67ZKG2\",\n      \"status_details\": {\n        \"action\": \"UNKNOWN\",\n        \"status\": \"EXECUTING\",\n        \"sub_action\": \"NONE\"\n      },\n      \"total_duration\": \"string\"\n    },\n    {\n      \"identifier\": {\n        \"name\": \"string\",\n        \"service_id\": \"0352be08-bb6c-ed83-4fec-7aacfec5bb91\",\n        \"service_type\": \"JOB\",\n        \"execution_id\": \"string\"\n      },\n      \"status\": \"EXECUTING\",\n      \"auditing_data\": {\n        \"created_at\": \"1956-02-27T22:40:51.621Z\",\n        \"updated_at\": \"2013-01-10T16:45:57.403Z\",\n        \"triggered_by\": \"string\",\n        \"origin\": \"API\"\n      },\n      \"details\": {\n        \"commit\": {\n          \"git_commit_id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"created_at\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"author_name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"message\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tag\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"author_avatar_url\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"commit_page_url\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"build_pod_name\": \"string\"\n      },\n      \"icon_uri\": \"https://QCgIkKvZJxAceHNJsdgHBEpyRvjU.nutfmU2ZIUlJ\",\n      \"status_details\": {\n        \"action\": \"UNKNOWN\",\n        \"status\": \"NEVER\",\n        \"sub_action\": \"NONE\"\n      },\n      \"total_duration\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "aa1d715f-47dd-4a96-8434-e3d78c145a29",
+              "name": "Access token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "terraform",
+                    ":terraformId",
+                    "deploymentHistoryV2"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageSize",
+                      "value": "20"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "terraformId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "ea8761a1-bf4f-4f81-b336-5309d8a2a7fe",
+              "name": "Access forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "terraform",
+                    ":terraformId",
+                    "deploymentHistoryV2"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageSize",
+                      "value": "20"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "terraformId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "1f2a987a-9c3b-4288-81dd-94275738d2c6",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "terraform",
+                    ":terraformId",
+                    "deploymentHistoryV2"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageSize",
+                      "value": "20"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "terraformId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.qovery.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "775b3928-d6a6-448e-82cd-7626060cc2d5",
+    "name": "Qovery Account Info Terraform Deployment History API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider.\n- ℹ️ The API is stable and still in development.\n\n\nContact Support:\n Name: Qovery Product Team\n Email: support+api+documentation@qovery.com",
+      "type": "text/plain"
+    }
+  }
+}

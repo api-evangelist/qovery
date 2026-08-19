@@ -1,0 +1,169 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Qovery Account Info ArgoCD API",
+    "version": "1.0.4"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "ArgoCD",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get ArgoCD credentials for a cluster",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/cluster/:clusterId/argoCdConfig",
+            "params": [
+              {
+                "name": "clusterId",
+                "value": "",
+                "type": "path",
+                "description": "Cluster ID"
+              }
+            ]
+          },
+          "docs": "Retrieve the stored ArgoCD configuration for a cluster. The token is always returned as REDACTED. Requires VIEWER role."
+        },
+        {
+          "info": {
+            "name": "Save ArgoCD credentials for a cluster",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.qovery.com/cluster/:clusterId/argoCdConfig",
+            "params": [
+              {
+                "name": "clusterId",
+                "value": "",
+                "type": "path",
+                "description": "Cluster ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Save or update the ArgoCD URL and authentication token for a cluster. Requires ADMIN role."
+        },
+        {
+          "info": {
+            "name": "Delete ArgoCD credentials for a cluster",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.qovery.com/cluster/:clusterId/argoCdConfig",
+            "params": [
+              {
+                "name": "clusterId",
+                "value": "",
+                "type": "path",
+                "description": "Cluster ID"
+              }
+            ]
+          },
+          "docs": "Remove the stored ArgoCD configuration for a cluster. Requires ADMIN role."
+        },
+        {
+          "info": {
+            "name": "Check ArgoCD connection",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.qovery.com/cluster/:clusterId/argoCdConfig/check",
+            "params": [
+              {
+                "name": "clusterId",
+                "value": "",
+                "type": "path",
+                "description": "Cluster ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Test an ArgoCD URL and token before saving. The cluster agent attempts to connect to ArgoCD and returns the connection result.\nAlways returns HTTP 200 — check the `status` field for the connection outcome. Requires ADMIN role.\n"
+        },
+        {
+          "info": {
+            "name": "List ArgoCD instance mappings for an organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/organization/:organizationId/argoCdDestinationClusterMapping",
+            "params": [
+              {
+                "name": "organizationId",
+                "value": "",
+                "type": "path",
+                "description": "Organization ID"
+              }
+            ]
+          },
+          "docs": "Returns one entry per ArgoCD agent cluster that has credentials configured.\nEach entry lists linked clusters and unlinked clusters. Requires VIEWER role.\n"
+        },
+        {
+          "info": {
+            "name": "Save an ArgoCD destination cluster mapping",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.qovery.com/organization/:organizationId/argoCdDestinationClusterMapping",
+            "params": [
+              {
+                "name": "organizationId",
+                "value": "",
+                "type": "path",
+                "description": "Organization ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Map an ArgoCD destination cluster URL to a Qovery cluster for a given agent cluster.\nIf a mapping for the same (agentClusterId, argocdClusterUrl) already exists, it is updated.\nRequires ADMIN role on the agent cluster.\n"
+        },
+        {
+          "info": {
+            "name": "Get ArgoCD app by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/argocdApp/:argocdAppId",
+            "params": [
+              {
+                "name": "argocdAppId",
+                "value": "",
+                "type": "path",
+                "description": "ArgoCD App ID"
+              }
+            ]
+          },
+          "docs": "Get ArgoCD app by ID"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

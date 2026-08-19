@@ -1,0 +1,1916 @@
+{
+  "item": [
+    {
+      "id": "285039d5-ab1f-4cc6-816c-6feffeca024a",
+      "name": "Environment Main Calls",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "dc8c938d-10b3-4e36-8b6e-510f7d87bc03",
+          "name": "Get environment by ID",
+          "request": {
+            "name": "Get environment by ID",
+            "description": {},
+            "url": {
+              "path": [
+                "environment",
+                ":environmentId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "environmentId",
+                  "description": "(Required) Environment ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "78b2205b-dc8c-4081-9f58-8db5ec00eec5",
+              "name": "Get environment by ID",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"cloud_provider\": {\n    \"provider\": \"aws\",\n    \"cluster\": \"us-east-2\"\n  },\n  \"cluster_id\": \"b446b507-d948-63a6-ad59-15bbb14e3ce9\",\n  \"created_at\": \"2008-05-15T02:30:00.903Z\",\n  \"id\": \"d91efb9a-3976-972f-e326-b361c19e1613\",\n  \"mode\": \"PRODUCTION\",\n  \"name\": \"string\",\n  \"organization\": {\n    \"id\": \"95cc73cb-512c-f239-0685-41dd5d38f6ad\"\n  },\n  \"project\": {\n    \"id\": \"bd13663e-5f3e-f791-efc9-df7d9c3e267f\"\n  },\n  \"updated_at\": \"2020-12-03T13:49:17.308Z\",\n  \"last_updated_by\": \"dac9cd2a-4226-a993-8433-2c4719c1c9fa\",\n  \"cluster_name\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3e9bae5a-cae1-4a48-8407-bcb47c9e9657",
+              "name": "Access token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "2c224980-0927-4f03-9983-5511b136c89a",
+              "name": "Access forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "6d3f14ee-3f77-4487-be7b-c2c9df7a7290",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "69020af9-cfc9-49e6-bd86-7e743f09d708",
+          "name": "Edit an environment",
+          "request": {
+            "name": "Edit an environment",
+            "description": {
+              "content": "To edit an environment you must have the admin permission",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "environment",
+                ":environmentId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "environmentId",
+                  "description": "(Required) Environment ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"mode\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "471f7d2c-5d4f-4e16-9dca-6c2f8dda4166",
+              "name": "Edit an environment",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"mode\": \"PRODUCTION\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"cloud_provider\": {\n    \"provider\": \"aws\",\n    \"cluster\": \"us-east-2\"\n  },\n  \"cluster_id\": \"b446b507-d948-63a6-ad59-15bbb14e3ce9\",\n  \"created_at\": \"2008-05-15T02:30:00.903Z\",\n  \"id\": \"d91efb9a-3976-972f-e326-b361c19e1613\",\n  \"mode\": \"PRODUCTION\",\n  \"name\": \"string\",\n  \"organization\": {\n    \"id\": \"95cc73cb-512c-f239-0685-41dd5d38f6ad\"\n  },\n  \"project\": {\n    \"id\": \"bd13663e-5f3e-f791-efc9-df7d9c3e267f\"\n  },\n  \"updated_at\": \"2020-12-03T13:49:17.308Z\",\n  \"last_updated_by\": \"dac9cd2a-4226-a993-8433-2c4719c1c9fa\",\n  \"cluster_name\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c77097c5-4e13-4bf4-ad09-413f3ac555df",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"mode\": \"PRODUCTION\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "54f0080a-efda-493a-aa56-5c952b62f671",
+              "name": "Access token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"mode\": \"PRODUCTION\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "38321d4b-b83e-4d78-814a-59bbc8d356ed",
+              "name": "Access forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"mode\": \"PRODUCTION\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "059d35d0-be38-4142-8ddd-0f15d255252c",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"mode\": \"PRODUCTION\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "f90cd226-a124-4220-8ce8-01cb09b3c074",
+              "name": "Environment name within the project is already taken",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"mode\": \"PRODUCTION\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1f154983-a36e-426c-ad50-129a0d351241",
+          "name": "Delete an environment",
+          "request": {
+            "name": "Delete an environment",
+            "description": {
+              "content": "To delete an environment you must have the admin permission",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "environment",
+                ":environmentId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "environmentId",
+                  "description": "(Required) Environment ID"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "85aa4677-5262-4349-88a6-6cfc74b67de8",
+              "name": "The resource was deleted successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "79ec2b89-2768-4ad3-a50a-406033d2e669",
+              "name": "Access token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "37d9fb8b-7f35-4244-8fe3-17735e38d1e8",
+              "name": "Access forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "7d5c4c63-b012-43a9-8fda-65c5c18c5e5d",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "65bbfbb2-ffc0-4161-b422-982c4da05da2",
+          "name": "Get environment status",
+          "request": {
+            "name": "Get environment status",
+            "description": {},
+            "url": {
+              "path": [
+                "environment",
+                ":environmentId",
+                "status"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "environmentId",
+                  "description": "(Required) Environment ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f1829f67-d931-4b4b-87ec-851db759869e",
+              "name": "Get status",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"3dbbd896-aad4-d9ba-ec4a-692d1bb2423a\",\n  \"state\": \"EXECUTING\",\n  \"last_deployment_state\": \"STOPPED\",\n  \"last_deployment_date\": \"2024-09-25T14:20:55.198Z\",\n  \"last_deployment_id\": \"string\",\n  \"total_deployment_duration_in_seconds\": 5332,\n  \"origin\": \"API\",\n  \"triggered_by\": \"string\",\n  \"deployment_status\": \"string\",\n  \"deployment_request_id\": \"71df8c0b-184d-17b1-f247-f2f767c28b0c\",\n  \"metrics\": [\n    {\n      \"stage_id\": \"ed87e435-f027-6e5f-9d73-318367004b60\",\n      \"total_duration_sec\": 90,\n      \"details\": [\n        {\n          \"stage_id\": \"778163fe-fb22-411e-a83e-29788cf1ee51\",\n          \"step_name\": \"TOTAL\",\n          \"status\": \"SKIP\",\n          \"duration_sec\": 6656\n        },\n        {\n          \"stage_id\": \"88ef2fda-58a5-5ec3-161a-87a0676c8cae\",\n          \"step_name\": \"TOTAL\",\n          \"status\": \"ERROR\",\n          \"duration_sec\": 1234\n        }\n      ]\n    },\n    {\n      \"stage_id\": \"7c3d0f07-d3b8-2b38-9a8e-096154953cb9\",\n      \"total_duration_sec\": 3099,\n      \"details\": [\n        {\n          \"stage_id\": \"979bed4d-0d65-10b5-48a5-7c24385e6625\",\n          \"step_name\": \"QUEUEING\",\n          \"status\": \"ERROR\",\n          \"duration_sec\": 2578\n        },\n        {\n          \"stage_id\": \"7a45cfbe-6272-2749-d360-e05852b65d6f\",\n          \"step_name\": \"QUEUEING\",\n          \"status\": \"CANCEL\",\n          \"duration_sec\": 3129\n        }\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3a8831a4-d1e6-4d58-9f02-2077ac81744d",
+              "name": "Access token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "5e7b1feb-6d3b-44d8-bf02-be880875d5e1",
+              "name": "Access forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "793c7bd2-cf43-4f73-b1fd-d6930bf710a2",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9748f5ae-df25-401c-802c-087dab662713",
+          "name": "Get environment statuses with services status",
+          "request": {
+            "name": "Get environment statuses with services status",
+            "description": {},
+            "url": {
+              "path": [
+                "environment",
+                ":environmentId",
+                "statuses"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "environmentId",
+                  "description": "(Required) Environment ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2e590905-986b-4b3b-aea2-5909d4efad71",
+              "name": "Get statuses",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "statuses"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"environment\": {\n    \"id\": \"4d06ee33-cfdb-6275-2a15-f050a47513d2\",\n    \"state\": \"RESTART_ERROR\",\n    \"last_deployment_state\": \"DELETED\",\n    \"last_deployment_date\": \"2025-01-15T18:28:48.156Z\",\n    \"last_deployment_id\": \"string\",\n    \"total_deployment_duration_in_seconds\": 2238,\n    \"origin\": \"API\",\n    \"triggered_by\": \"string\",\n    \"deployment_status\": \"string\",\n    \"deployment_request_id\": \"9866cf29-dc0f-b0d8-2a1e-6544f6d3242f\",\n    \"metrics\": [\n      {\n        \"stage_id\": \"15600ce7-43ee-a602-7a81-95746be4834b\",\n        \"total_duration_sec\": 8427,\n        \"details\": [\n          {\n            \"stage_id\": \"7f27555a-e249-70aa-0d1c-7e19b57c6144\",\n            \"step_name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"duration_sec\": 4726\n          },\n          {\n            \"stage_id\": \"74875985-aef6-a90f-3f05-98859549c4d2\",\n            \"step_name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"duration_sec\": 2367\n          }\n        ]\n      },\n      {\n        \"stage_id\": \"509c3ff7-7146-182f-2550-1cb3420a1edb\",\n        \"total_duration_sec\": 615,\n        \"details\": [\n          {\n            \"stage_id\": \"f7a2f1df-4a41-41e9-8d66-15ec21fb0180\",\n            \"step_name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"duration_sec\": 3860\n          },\n          {\n            \"stage_id\": \"eef25954-fc03-cd7c-2a23-62f17ec0f390\",\n            \"step_name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"duration_sec\": 9407\n          }\n        ]\n      }\n    ]\n  },\n  \"containers\": [\n    {\n      \"id\": \"b388b153-eaeb-a925-3368-136857bf767d\",\n      \"state\": \"RESTART_QUEUED\",\n      \"service_deployment_status\": \"UP_TO_DATE\",\n      \"status_details\": {\n        \"action\": \"DEPLOY\",\n        \"status\": \"CANCELING\",\n        \"sub_action\": \"NONE\"\n      },\n      \"is_part_last_deployment\": false,\n      \"deployment_requests_count\": 4336,\n      \"deployment_request_id\": \"ad146fe2-284b-a4c5-10c2-4dc12c13e98f\",\n      \"last_deployment_date\": \"2005-02-15T09:31:12.921Z\",\n      \"steps\": {\n        \"total_duration_sec\": 5893,\n        \"total_computing_duration_sec\": 9118,\n        \"details\": [\n          {\n            \"step_name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"duration_sec\": 6740\n          },\n          {\n            \"step_name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"duration_sec\": 3875\n          }\n        ]\n      },\n      \"execution_id\": \"string\"\n    },\n    {\n      \"id\": \"ccd551d6-3969-ee8f-e928-3179a53a3280\",\n      \"state\": \"WAITING_STOPPING\",\n      \"service_deployment_status\": \"NEVER_DEPLOYED\",\n      \"status_details\": {\n        \"action\": \"STOP\",\n        \"status\": \"CANCELED\",\n        \"sub_action\": \"NONE\"\n      },\n      \"is_part_last_deployment\": true,\n      \"deployment_requests_count\": 6446,\n      \"deployment_request_id\": \"f01d2d3d-5d37-e87e-4b64-81b4d3ab3108\",\n      \"last_deployment_date\": \"1959-05-11T05:57:11.246Z\",\n      \"steps\": {\n        \"total_duration_sec\": 6930,\n        \"total_computing_duration_sec\": 9833,\n        \"details\": [\n          {\n            \"step_name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"duration_sec\": 525\n          },\n          {\n            \"step_name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"duration_sec\": 2750\n          }\n        ]\n      },\n      \"execution_id\": \"string\"\n    }\n  ],\n  \"applications\": [\n    {\n      \"id\": \"be834a09-bf7c-06dc-9f50-1e0110178b63\",\n      \"state\": \"WAITING_RUNNING\",\n      \"service_deployment_status\": \"UP_TO_DATE\",\n      \"status_details\": {\n        \"action\": \"DEPLOY\",\n        \"status\": \"CANCELED\",\n        \"sub_action\": \"NONE\"\n      },\n      \"is_part_last_deployment\": true,\n      \"deployment_requests_count\": 9157,\n      \"deployment_request_id\": \"a38abf18-6b3b-174f-2e14-3df925cbf456\",\n      \"last_deployment_date\": \"1988-08-08T19:24:32.895Z\",\n      \"steps\": {\n        \"total_duration_sec\": 8399,\n        \"total_computing_duration_sec\": 1157,\n        \"details\": [\n          {\n            \"step_name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"duration_sec\": 7661\n          },\n          {\n            \"step_name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"duration_sec\": 7020\n          }\n        ]\n      },\n      \"execution_id\": \"string\"\n    },\n    {\n      \"id\": \"dd3d1b9b-e226-5219-485c-d4825999bbd6\",\n      \"state\": \"WAITING_STOPPING\",\n      \"service_deployment_status\": \"UP_TO_DATE\",\n      \"status_details\": {\n        \"action\": \"RESTART\",\n        \"status\": \"QUEUED\",\n        \"sub_action\": \"NONE\"\n      },\n      \"is_part_last_deployment\": false,\n      \"deployment_requests_count\": 9817,\n      \"deployment_request_id\": \"542e839d-68e0-b05a-b986-4a4303d40ec8\",\n      \"last_deployment_date\": \"2013-07-02T12:28:13.220Z\",\n      \"steps\": {\n        \"total_duration_sec\": 5336,\n        \"total_computing_duration_sec\": 6760,\n        \"details\": [\n          {\n            \"step_name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"duration_sec\": 5856\n          },\n          {\n            \"step_name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"duration_sec\": 6106\n          }\n        ]\n      },\n      \"execution_id\": \"string\"\n    }\n  ],\n  \"jobs\": [\n    {\n      \"id\": \"15c42e08-f0fa-1000-23b6-c93a8d0b57d0\",\n      \"state\": \"STOPPED\",\n      \"service_deployment_status\": \"NEVER_DEPLOYED\",\n      \"status_details\": {\n        \"action\": \"STOP\",\n        \"status\": \"CANCELED\",\n        \"sub_action\": \"NONE\"\n      },\n      \"is_part_last_deployment\": false,\n      \"deployment_requests_count\": 4165,\n      \"deployment_request_id\": \"6764df0a-e459-65b4-5d97-3f16f2597b1e\",\n      \"last_deployment_date\": \"1949-11-09T08:29:04.237Z\",\n      \"steps\": {\n        \"total_duration_sec\": 7214,\n        \"total_computing_duration_sec\": 4185,\n        \"details\": [\n          {\n            \"step_name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"duration_sec\": 7861\n          },\n          {\n            \"step_name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"duration_sec\": 6139\n          }\n        ]\n      },\n      \"execution_id\": \"string\"\n    },\n    {\n      \"id\": \"4e4345d4-0bb0-32de-440a-8f0bbe60ca18\",\n      \"state\": \"RECAP\",\n      \"service_deployment_status\": \"NEVER_DEPLOYED\",\n      \"status_details\": {\n        \"action\": \"DELETE\",\n        \"status\": \"CANCELING\",\n        \"sub_action\": \"NONE\"\n      },\n      \"is_part_last_deployment\": true,\n      \"deployment_requests_count\": 7504,\n      \"deployment_request_id\": \"3db367df-40b4-d494-66fe-9af250b45753\",\n      \"last_deployment_date\": \"1965-12-04T17:50:33.932Z\",\n      \"steps\": {\n        \"total_duration_sec\": 8094,\n        \"total_computing_duration_sec\": 1072,\n        \"details\": [\n          {\n            \"step_name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"duration_sec\": 4281\n          },\n          {\n            \"step_name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"duration_sec\": 1907\n          }\n        ]\n      },\n      \"execution_id\": \"string\"\n    }\n  ],\n  \"databases\": [\n    {\n      \"id\": \"e574c2ea-c820-5985-6cda-7f115719b6f1\",\n      \"state\": \"RESTARTED\",\n      \"service_deployment_status\": \"UP_TO_DATE\",\n      \"status_details\": {\n        \"action\": \"STOP\",\n        \"status\": \"ERROR\",\n        \"sub_action\": \"NONE\"\n      },\n      \"is_part_last_deployment\": true,\n      \"deployment_requests_count\": 3484,\n      \"deployment_request_id\": \"99246eae-33f9-87a0-c2ad-dbf0d18a5568\",\n      \"last_deployment_date\": \"1990-03-30T00:46:59.906Z\",\n      \"steps\": {\n        \"total_duration_sec\": 8682,\n        \"total_computing_duration_sec\": 3074,\n        \"details\": [\n          {\n            \"step_name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"duration_sec\": 7755\n          },\n          {\n            \"step_name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"duration_sec\": 136\n          }\n        ]\n      },\n      \"execution_id\": \"string\"\n    },\n    {\n      \"id\": \"e396239f-c4b2-b081-3a3f-76f627fc1a53\",\n      \"state\": \"WAITING_RUNNING\",\n      \"service_deployment_status\": \"OUT_OF_DATE\",\n      \"status_details\": {\n        \"action\": \"STOP\",\n        \"status\": \"NEVER\",\n        \"sub_action\": \"NONE\"\n      },\n      \"is_part_last_deployment\": true,\n      \"deployment_requests_count\": 6084,\n      \"deployment_request_id\": \"04fb1e0d-4c2d-84ad-3b35-9a3fe0da1563\",\n      \"last_deployment_date\": \"1950-05-25T11:26:35.423Z\",\n      \"steps\": {\n        \"total_duration_sec\": 7026,\n        \"total_computing_duration_sec\": 7336,\n        \"details\": [\n          {\n            \"step_name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"duration_sec\": 4139\n          },\n          {\n            \"step_name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"duration_sec\": 1996\n          }\n        ]\n      },\n      \"execution_id\": \"string\"\n    }\n  ],\n  \"helms\": [\n    {\n      \"id\": \"20c9694e-aca8-316b-a8d5-6908a67be267\",\n      \"state\": \"DELETED\",\n      \"service_deployment_status\": \"NEVER_DEPLOYED\",\n      \"status_details\": {\n        \"action\": \"DEPLOY\",\n        \"status\": \"NEVER\",\n        \"sub_action\": \"NONE\"\n      },\n      \"is_part_last_deployment\": true,\n      \"deployment_requests_count\": 6345,\n      \"deployment_request_id\": \"013d5a51-dad7-37fb-7320-fadcf1b55ffb\",\n      \"last_deployment_date\": \"2003-09-26T19:00:49.771Z\",\n      \"steps\": {\n        \"total_duration_sec\": 1977,\n        \"total_computing_duration_sec\": 9327,\n        \"details\": [\n          {\n            \"step_name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"duration_sec\": 7522\n          },\n          {\n            \"step_name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"duration_sec\": 838\n          }\n        ]\n      },\n      \"execution_id\": \"string\"\n    },\n    {\n      \"id\": \"65ff3c63-e83d-8b62-64e7-74ae101d86f2\",\n      \"state\": \"RECAP\",\n      \"service_deployment_status\": \"NEVER_DEPLOYED\",\n      \"status_details\": {\n        \"action\": \"UNKNOWN\",\n        \"status\": \"NEVER\",\n        \"sub_action\": \"NONE\"\n      },\n      \"is_part_last_deployment\": false,\n      \"deployment_requests_count\": 2992,\n      \"deployment_request_id\": \"c75b2d5f-ecda-4555-a285-22e332f087ef\",\n      \"last_deployment_date\": \"1954-01-29T11:10:49.284Z\",\n      \"steps\": {\n        \"total_duration_sec\": 8282,\n        \"total_computing_duration_sec\": 2908,\n        \"details\": [\n          {\n            \"step_name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"duration_sec\": 3231\n          },\n          {\n            \"step_name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"duration_sec\": 843\n          }\n        ]\n      },\n      \"execution_id\": \"string\"\n    }\n  ],\n  \"terraforms\": [\n    {\n      \"id\": \"c163cfc3-731b-5c50-6201-c5d3db5801d7\",\n      \"state\": \"BUILDING\",\n      \"service_deployment_status\": \"OUT_OF_DATE\",\n      \"status_details\": {\n        \"action\": \"RESTART\",\n        \"status\": \"CANCELED\",\n        \"sub_action\": \"NONE\"\n      },\n      \"is_part_last_deployment\": true,\n      \"deployment_requests_count\": 3010,\n      \"deployment_request_id\": \"6e0bcdb3-43d7-fad1-b939-bd4ffd76d286\",\n      \"last_deployment_date\": \"1968-11-29T15:42:59.156Z\",\n      \"steps\": {\n        \"total_duration_sec\": 7611,\n        \"total_computing_duration_sec\": 198,\n        \"details\": [\n          {\n            \"step_name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"duration_sec\": 4367\n          },\n          {\n            \"step_name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"duration_sec\": 8079\n          }\n        ]\n      },\n      \"execution_id\": \"string\"\n    },\n    {\n      \"id\": \"ba0eaa37-8c52-bf1d-0f54-b697590e9964\",\n      \"state\": \"QUEUED\",\n      \"service_deployment_status\": \"UP_TO_DATE\",\n      \"status_details\": {\n        \"action\": \"STOP\",\n        \"status\": \"EXECUTING\",\n        \"sub_action\": \"NONE\"\n      },\n      \"is_part_last_deployment\": true,\n      \"deployment_requests_count\": 4541,\n      \"deployment_request_id\": \"32dd18e3-1fb8-2ab0-1792-b6b95518482b\",\n      \"last_deployment_date\": \"1946-12-14T16:26:34.356Z\",\n      \"steps\": {\n        \"total_duration_sec\": 1393,\n        \"total_computing_duration_sec\": 1910,\n        \"details\": [\n          {\n            \"step_name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"duration_sec\": 9164\n          },\n          {\n            \"step_name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"duration_sec\": 5760\n          }\n        ]\n      },\n      \"execution_id\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "eeb5d647-cba0-4724-9b49-ac0068ce1e09",
+              "name": "Access token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "statuses"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "82fc1d68-8ab6-4804-a699-c7a9969d7308",
+              "name": "Access forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "statuses"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "08c68ca9-bb0f-4407-95d3-96230dcc109b",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "statuses"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "023d8702-08b0-4301-87ba-cdfb4a52cf66",
+          "name": "Get environment statuses with stages",
+          "request": {
+            "name": "Get environment statuses with stages",
+            "description": {},
+            "url": {
+              "path": [
+                "environment",
+                ":environmentId",
+                "statusesWithStages"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "environmentId",
+                  "description": "(Required) Environment ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "174de6ab-cd2f-4fa7-98b3-64d2d4197d3d",
+              "name": "Get statuses with stages",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "statusesWithStages"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"environment\": {\n    \"id\": \"fd3cfb97-da44-b5e4-7091-b8bb59cf3ea3\",\n    \"state\": \"DELETE_ERROR\",\n    \"last_deployment_state\": \"RESTART_QUEUED\",\n    \"last_deployment_date\": \"1948-04-08T16:45:25.872Z\",\n    \"last_deployment_id\": \"string\",\n    \"total_deployment_duration_in_seconds\": 1057,\n    \"origin\": \"API\",\n    \"triggered_by\": \"string\",\n    \"deployment_status\": \"string\",\n    \"deployment_request_id\": \"3d1fd383-e746-ac6c-7fdc-3cadc4f93a56\",\n    \"metrics\": [\n      {\n        \"stage_id\": \"cb0ea961-dc82-076e-138b-ac093ed19b61\",\n        \"total_duration_sec\": 4724,\n        \"details\": [\n          {\n            \"stage_id\": \"07ac09c1-4077-4e7e-dd83-666ddaee9340\",\n            \"step_name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"duration_sec\": 414\n          },\n          {\n            \"stage_id\": \"2d0fcd8f-1b97-bc67-82d4-f0dac9dabf59\",\n            \"step_name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"duration_sec\": 5627\n          }\n        ]\n      },\n      {\n        \"stage_id\": \"50632642-3d8c-3bcd-872e-61e0b47a6b13\",\n        \"total_duration_sec\": 4665,\n        \"details\": [\n          {\n            \"stage_id\": \"c18be73d-8ba7-3049-32c2-197830812a93\",\n            \"step_name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"duration_sec\": 709\n          },\n          {\n            \"stage_id\": \"ace6ebb0-0c75-6959-551c-446f845bf0f1\",\n            \"step_name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"duration_sec\": 1256\n          }\n        ]\n      }\n    ]\n  },\n  \"stages\": [\n    {\n      \"applications\": [\n        {\n          \"id\": \"8b0217c7-a768-5113-56cf-870a99dced7a\",\n          \"state\": \"WAITING_DELETING\",\n          \"service_deployment_status\": \"UP_TO_DATE\",\n          \"status_details\": {\n            \"action\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"sub_action\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"is_part_last_deployment\": true,\n          \"deployment_requests_count\": 6630,\n          \"deployment_request_id\": \"b47f5c97-fee6-c3f3-a7fd-5d11781f7d9f\",\n          \"last_deployment_date\": \"1985-04-21T20:57:52.330Z\",\n          \"steps\": {\n            \"total_duration_sec\": 22,\n            \"total_computing_duration_sec\": 3681,\n            \"details\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          },\n          \"execution_id\": \"string\"\n        },\n        {\n          \"id\": \"4898f9b1-e269-33f6-4917-9a023ac84af2\",\n          \"state\": \"DEPLOYED\",\n          \"service_deployment_status\": \"UP_TO_DATE\",\n          \"status_details\": {\n            \"action\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"sub_action\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"is_part_last_deployment\": true,\n          \"deployment_requests_count\": 2038,\n          \"deployment_request_id\": \"a6553da7-38f8-54ab-ec03-0745707b79db\",\n          \"last_deployment_date\": \"2016-07-15T02:46:58.207Z\",\n          \"steps\": {\n            \"total_duration_sec\": 8788,\n            \"total_computing_duration_sec\": 1716,\n            \"details\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          },\n          \"execution_id\": \"string\"\n        }\n      ],\n      \"containers\": [\n        {\n          \"id\": \"b2564716-823c-a8e3-cd35-e6b65698423b\",\n          \"state\": \"DEPLOYMENT_QUEUED\",\n          \"service_deployment_status\": \"OUT_OF_DATE\",\n          \"status_details\": {\n            \"action\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"sub_action\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"is_part_last_deployment\": false,\n          \"deployment_requests_count\": 398,\n          \"deployment_request_id\": \"40a91eb4-0c4d-3ddb-bfe3-a0a00ddd6c34\",\n          \"last_deployment_date\": \"1951-05-05T09:53:15.941Z\",\n          \"steps\": {\n            \"total_duration_sec\": 1366,\n            \"total_computing_duration_sec\": 5978,\n            \"details\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          },\n          \"execution_id\": \"string\"\n        },\n        {\n          \"id\": \"5ce173e6-cf61-5d70-e4b0-37d2ba0770bb\",\n          \"state\": \"RESTART_ERROR\",\n          \"service_deployment_status\": \"NEVER_DEPLOYED\",\n          \"status_details\": {\n            \"action\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"sub_action\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"is_part_last_deployment\": false,\n          \"deployment_requests_count\": 9376,\n          \"deployment_request_id\": \"f9b8de18-667b-7461-955f-f17a65b975b8\",\n          \"last_deployment_date\": \"1988-09-17T09:08:45.952Z\",\n          \"steps\": {\n            \"total_duration_sec\": 9512,\n            \"total_computing_duration_sec\": 8413,\n            \"details\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          },\n          \"execution_id\": \"string\"\n        }\n      ],\n      \"jobs\": [\n        {\n          \"id\": \"e35f58cd-58fd-ff95-fe48-37b3fb373240\",\n          \"state\": \"DELETING\",\n          \"service_deployment_status\": \"UP_TO_DATE\",\n          \"status_details\": {\n            \"action\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"sub_action\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"is_part_last_deployment\": false,\n          \"deployment_requests_count\": 9657,\n          \"deployment_request_id\": \"a4bb7410-4356-cca8-e02d-f2318b092618\",\n          \"last_deployment_date\": \"1958-09-08T09:48:24.524Z\",\n          \"steps\": {\n            \"total_duration_sec\": 405,\n            \"total_computing_duration_sec\": 5086,\n            \"details\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          },\n          \"execution_id\": \"string\"\n        },\n        {\n          \"id\": \"8ccdc655-50f1-0435-564b-46c685626d55\",\n          \"state\": \"DEPLOYING\",\n          \"service_deployment_status\": \"OUT_OF_DATE\",\n          \"status_details\": {\n            \"action\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"sub_action\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"is_part_last_deployment\": false,\n          \"deployment_requests_count\": 7860,\n          \"deployment_request_id\": \"32bea6ca-d0ab-aeb8-5c27-38cfa9cbf76f\",\n          \"last_deployment_date\": \"1984-02-07T05:21:40.898Z\",\n          \"steps\": {\n            \"total_duration_sec\": 5221,\n            \"total_computing_duration_sec\": 9437,\n            \"details\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          },\n          \"execution_id\": \"string\"\n        }\n      ],\n      \"databases\": [\n        {\n          \"id\": \"100b180a-a861-da1d-3347-938a13140d97\",\n          \"state\": \"QUEUED\",\n          \"service_deployment_status\": \"NEVER_DEPLOYED\",\n          \"status_details\": {\n            \"action\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"sub_action\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"is_part_last_deployment\": false,\n          \"deployment_requests_count\": 657,\n          \"deployment_request_id\": \"8459259a-87ea-1a31-a965-90c0df2e6a59\",\n          \"last_deployment_date\": \"1965-08-14T22:42:07.135Z\",\n          \"steps\": {\n            \"total_duration_sec\": 1170,\n            \"total_computing_duration_sec\": 2362,\n            \"details\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          },\n          \"execution_id\": \"string\"\n        },\n        {\n          \"id\": \"dbf7344c-d10e-2aee-59ad-afad1b953935\",\n          \"state\": \"RECAP\",\n          \"service_deployment_status\": \"NEVER_DEPLOYED\",\n          \"status_details\": {\n            \"action\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"sub_action\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"is_part_last_deployment\": false,\n          \"deployment_requests_count\": 7391,\n          \"deployment_request_id\": \"28e21544-51a9-078c-7bbb-07712434f8b0\",\n          \"last_deployment_date\": \"2000-03-06T04:41:09.305Z\",\n          \"steps\": {\n            \"total_duration_sec\": 675,\n            \"total_computing_duration_sec\": 3849,\n            \"details\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          },\n          \"execution_id\": \"string\"\n        }\n      ],\n      \"helms\": [\n        {\n          \"id\": \"b18102a9-615c-ba34-1468-e5a023f4e93f\",\n          \"state\": \"CANCELED\",\n          \"service_deployment_status\": \"OUT_OF_DATE\",\n          \"status_details\": {\n            \"action\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"sub_action\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"is_part_last_deployment\": true,\n          \"deployment_requests_count\": 2562,\n          \"deployment_request_id\": \"232d421a-9e69-cba5-088a-e9c5d3e7589a\",\n          \"last_deployment_date\": \"1978-02-22T23:52:17.274Z\",\n          \"steps\": {\n            \"total_duration_sec\": 9601,\n            \"total_computing_duration_sec\": 4705,\n            \"details\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          },\n          \"execution_id\": \"string\"\n        },\n        {\n          \"id\": \"543a1fbf-4112-7de3-0672-4a9c32d6b9cd\",\n          \"state\": \"BUILDING\",\n          \"service_deployment_status\": \"NEVER_DEPLOYED\",\n          \"status_details\": {\n            \"action\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"sub_action\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"is_part_last_deployment\": false,\n          \"deployment_requests_count\": 6931,\n          \"deployment_request_id\": \"00f85ae6-971c-7ffc-5414-47bd04e4a140\",\n          \"last_deployment_date\": \"1999-02-07T14:40:19.197Z\",\n          \"steps\": {\n            \"total_duration_sec\": 545,\n            \"total_computing_duration_sec\": 64,\n            \"details\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          },\n          \"execution_id\": \"string\"\n        }\n      ],\n      \"terraforms\": [\n        {\n          \"id\": \"cb0efbc8-dd07-8cf1-8d4f-71610421abd6\",\n          \"state\": \"WAITING_RESTARTING\",\n          \"service_deployment_status\": \"UP_TO_DATE\",\n          \"status_details\": {\n            \"action\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"sub_action\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"is_part_last_deployment\": false,\n          \"deployment_requests_count\": 9300,\n          \"deployment_request_id\": \"8d188611-6768-ae46-2a19-3abbd4a5f2d5\",\n          \"last_deployment_date\": \"1973-01-21T11:06:01.415Z\",\n          \"steps\": {\n            \"total_duration_sec\": 6567,\n            \"total_computing_duration_sec\": 4709,\n            \"details\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          },\n          \"execution_id\": \"string\"\n        },\n        {\n          \"id\": \"ee52e34f-7a6a-4f02-bba3-c493699a7663\",\n          \"state\": \"RESTARTED\",\n          \"service_deployment_status\": \"UP_TO_DATE\",\n          \"status_details\": {\n            \"action\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"sub_action\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"is_part_last_deployment\": true,\n          \"deployment_requests_count\": 9600,\n          \"deployment_request_id\": \"f772ae55-3707-3fed-24ef-114e8ac8ea77\",\n          \"last_deployment_date\": \"1984-07-12T12:26:57.498Z\",\n          \"steps\": {\n            \"total_duration_sec\": 8830,\n            \"total_computing_duration_sec\": 5726,\n            \"details\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          },\n          \"execution_id\": \"string\"\n        }\n      ],\n      \"stage\": {\n        \"id\": \"9c19a921-dd9c-caa8-40c8-37f7eedef21a\",\n        \"name\": \"string\",\n        \"description\": \"string\",\n        \"steps\": {\n          \"stage_id\": \"d7d24f8c-e49f-94b1-51f4-f0d9943f9d33\",\n          \"total_duration_sec\": 9852,\n          \"details\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        },\n        \"status\": \"QUEUED\"\n      }\n    },\n    {\n      \"applications\": [\n        {\n          \"id\": \"8749ca24-6b29-5740-c876-a21c789d5ab4\",\n          \"state\": \"WAITING_DELETING\",\n          \"service_deployment_status\": \"OUT_OF_DATE\",\n          \"status_details\": {\n            \"action\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"sub_action\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"is_part_last_deployment\": true,\n          \"deployment_requests_count\": 4868,\n          \"deployment_request_id\": \"7366c6a5-44cb-2f6c-4cc4-7909e780725d\",\n          \"last_deployment_date\": \"2015-09-24T02:28:04.245Z\",\n          \"steps\": {\n            \"total_duration_sec\": 1733,\n            \"total_computing_duration_sec\": 6253,\n            \"details\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          },\n          \"execution_id\": \"string\"\n        },\n        {\n          \"id\": \"481e2ce7-1f38-208e-b029-a9ae0b6601ba\",\n          \"state\": \"BUILDING\",\n          \"service_deployment_status\": \"OUT_OF_DATE\",\n          \"status_details\": {\n            \"action\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"sub_action\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"is_part_last_deployment\": true,\n          \"deployment_requests_count\": 3214,\n          \"deployment_request_id\": \"27c71ca9-e5fa-84b4-6f44-7c454a707b8e\",\n          \"last_deployment_date\": \"1959-01-21T06:07:00.871Z\",\n          \"steps\": {\n            \"total_duration_sec\": 5422,\n            \"total_computing_duration_sec\": 6023,\n            \"details\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          },\n          \"execution_id\": \"string\"\n        }\n      ],\n      \"containers\": [\n        {\n          \"id\": \"0c83714d-03ee-d034-a1c3-049b7819c952\",\n          \"state\": \"WAITING_RUNNING\",\n          \"service_deployment_status\": \"OUT_OF_DATE\",\n          \"status_details\": {\n            \"action\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"sub_action\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"is_part_last_deployment\": false,\n          \"deployment_requests_count\": 3436,\n          \"deployment_request_id\": \"9c28d250-fa54-50c1-5255-10633eaef450\",\n          \"last_deployment_date\": \"2024-08-19T15:06:23.031Z\",\n          \"steps\": {\n            \"total_duration_sec\": 7519,\n            \"total_computing_duration_sec\": 1630,\n            \"details\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          },\n          \"execution_id\": \"string\"\n        },\n        {\n          \"id\": \"d0ba06cb-7aa4-d9d3-83fe-9b16f3b9ee04\",\n          \"state\": \"WAITING_DELETING\",\n          \"service_deployment_status\": \"OUT_OF_DATE\",\n          \"status_details\": {\n            \"action\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"sub_action\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"is_part_last_deployment\": false,\n          \"deployment_requests_count\": 3246,\n          \"deployment_request_id\": \"6e18d9cb-b54d-1b7b-cc99-b063233381ef\",\n          \"last_deployment_date\": \"1988-10-05T20:54:51.604Z\",\n          \"steps\": {\n            \"total_duration_sec\": 3144,\n            \"total_computing_duration_sec\": 6954,\n            \"details\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          },\n          \"execution_id\": \"string\"\n        }\n      ],\n      \"jobs\": [\n        {\n          \"id\": \"bafe7acd-ecc9-8bba-32a7-070afd1f673a\",\n          \"state\": \"DELETING\",\n          \"service_deployment_status\": \"UP_TO_DATE\",\n          \"status_details\": {\n            \"action\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"sub_action\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"is_part_last_deployment\": false,\n          \"deployment_requests_count\": 6335,\n          \"deployment_request_id\": \"b8eabb09-939c-5418-3a31-b0f0a1287bca\",\n          \"last_deployment_date\": \"1984-08-26T04:04:42.745Z\",\n          \"steps\": {\n            \"total_duration_sec\": 8108,\n            \"total_computing_duration_sec\": 5004,\n            \"details\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          },\n          \"execution_id\": \"string\"\n        },\n        {\n          \"id\": \"6b78d51b-9e74-39c9-8456-05543ded53bf\",\n          \"state\": \"RESTART_QUEUED\",\n          \"service_deployment_status\": \"OUT_OF_DATE\",\n          \"status_details\": {\n            \"action\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"sub_action\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"is_part_last_deployment\": false,\n          \"deployment_requests_count\": 1440,\n          \"deployment_request_id\": \"ae73acbd-457e-f71f-4e31-e99fc64aed0c\",\n          \"last_deployment_date\": \"1970-04-25T20:32:10.760Z\",\n          \"steps\": {\n            \"total_duration_sec\": 5745,\n            \"total_computing_duration_sec\": 426,\n            \"details\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          },\n          \"execution_id\": \"string\"\n        }\n      ],\n      \"databases\": [\n        {\n          \"id\": \"0c3c29a0-5353-c46e-8be6-ab01f75c4a42\",\n          \"state\": \"RESTARTED\",\n          \"service_deployment_status\": \"OUT_OF_DATE\",\n          \"status_details\": {\n            \"action\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"sub_action\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"is_part_last_deployment\": false,\n          \"deployment_requests_count\": 7125,\n          \"deployment_request_id\": \"fcc9cfe6-32a4-a57f-f520-09fee2adfddb\",\n          \"last_deployment_date\": \"1957-12-12T00:23:42.435Z\",\n          \"steps\": {\n            \"total_duration_sec\": 20,\n            \"total_computing_duration_sec\": 8836,\n            \"details\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          },\n          \"execution_id\": \"string\"\n        },\n        {\n          \"id\": \"5b453f2b-b6be-27e5-f7d4-c0d2123c1ded\",\n          \"state\": \"WAITING_STOPPING\",\n          \"service_deployment_status\": \"NEVER_DEPLOYED\",\n          \"status_details\": {\n            \"action\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"sub_action\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"is_part_last_deployment\": false,\n          \"deployment_requests_count\": 4099,\n          \"deployment_request_id\": \"cf15be2f-820f-3d91-ab6a-59b1eb30e1a2\",\n          \"last_deployment_date\": \"2015-10-24T10:36:21.221Z\",\n          \"steps\": {\n            \"total_duration_sec\": 975,\n            \"total_computing_duration_sec\": 7088,\n            \"details\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          },\n          \"execution_id\": \"string\"\n        }\n      ],\n      \"helms\": [\n        {\n          \"id\": \"3a225e11-225e-29a7-f337-17c587685bde\",\n          \"state\": \"DEPLOYMENT_ERROR\",\n          \"service_deployment_status\": \"UP_TO_DATE\",\n          \"status_details\": {\n            \"action\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"sub_action\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"is_part_last_deployment\": false,\n          \"deployment_requests_count\": 6246,\n          \"deployment_request_id\": \"b57c3ab2-580b-bca6-7842-05efda818b64\",\n          \"last_deployment_date\": \"1968-08-22T11:03:58.659Z\",\n          \"steps\": {\n            \"total_duration_sec\": 379,\n            \"total_computing_duration_sec\": 6,\n            \"details\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          },\n          \"execution_id\": \"string\"\n        },\n        {\n          \"id\": \"889d5fe8-5c4e-f55e-f3a2-0ea7f25f921d\",\n          \"state\": \"STOPPING\",\n          \"service_deployment_status\": \"UP_TO_DATE\",\n          \"status_details\": {\n            \"action\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"sub_action\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"is_part_last_deployment\": false,\n          \"deployment_requests_count\": 2582,\n          \"deployment_request_id\": \"f1fc3085-b7a9-1878-8b67-e62e3a153e55\",\n          \"last_deployment_date\": \"1986-05-27T19:11:18.209Z\",\n          \"steps\": {\n            \"total_duration_sec\": 6343,\n            \"total_computing_duration_sec\": 4650,\n            \"details\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          },\n          \"execution_id\": \"string\"\n        }\n      ],\n      \"terraforms\": [\n        {\n          \"id\": \"6bbf28b0-1f12-ece7-676c-3a56e123c1ad\",\n          \"state\": \"READY\",\n          \"service_deployment_status\": \"OUT_OF_DATE\",\n          \"status_details\": {\n            \"action\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"sub_action\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"is_part_last_deployment\": true,\n          \"deployment_requests_count\": 540,\n          \"deployment_request_id\": \"14a4dac9-9930-4354-0d19-1b405f35cbe1\",\n          \"last_deployment_date\": \"2006-06-02T09:24:10.711Z\",\n          \"steps\": {\n            \"total_duration_sec\": 8441,\n            \"total_computing_duration_sec\": 8432,\n            \"details\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          },\n          \"execution_id\": \"string\"\n        },\n        {\n          \"id\": \"cf63d3a1-f7ab-b540-f61f-2503cb6002a1\",\n          \"state\": \"STOP_QUEUED\",\n          \"service_deployment_status\": \"OUT_OF_DATE\",\n          \"status_details\": {\n            \"action\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"status\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"sub_action\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"is_part_last_deployment\": true,\n          \"deployment_requests_count\": 5456,\n          \"deployment_request_id\": \"5965ad69-703a-5e23-6062-324c3f13bb86\",\n          \"last_deployment_date\": \"1977-08-20T11:03:08.733Z\",\n          \"steps\": {\n            \"total_duration_sec\": 2665,\n            \"total_computing_duration_sec\": 4048,\n            \"details\": [\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            ]\n          },\n          \"execution_id\": \"string\"\n        }\n      ],\n      \"stage\": {\n        \"id\": \"1b214065-8bf9-fb9e-e20e-d7acf6958b2f\",\n        \"name\": \"string\",\n        \"description\": \"string\",\n        \"steps\": {\n          \"stage_id\": \"de9e909f-a04a-2419-fd74-72a1b0d304c0\",\n          \"total_duration_sec\": 8474,\n          \"details\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        },\n        \"status\": \"ERROR\"\n      }\n    }\n  ],\n  \"pre_check_stage\": {\n    \"status\": \"SUCCESS\",\n    \"total_duration_sec\": 3640\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "605d0733-83e4-423f-806b-257b6739bcaa",
+              "name": "Access token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "statusesWithStages"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "0a6fbcf1-a7f8-490e-95f6-d40a4b6cd30c",
+              "name": "Access forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "statusesWithStages"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "92423af8-c22c-492e-81e5-adcfc5c220d9",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "statusesWithStages"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "cad014b7-c860-4c8e-8247-2e3cbffb4cdf",
+          "name": "List Services By EnvironmentId",
+          "request": {
+            "name": "List Services By EnvironmentId",
+            "description": {},
+            "url": {
+              "path": [
+                "environment",
+                ":environmentId",
+                "services"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "environmentId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "043e0f0e-78f8-4a03-8c2d-9dfb8d1e63f1",
+              "name": "Service List",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "services"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "environmentId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"results\": [\n    {\n      \"created_at\": \"2004-02-07T17:20:20.941Z\",\n      \"environment\": {\n        \"id\": \"b9588a4d-ef5c-cdfe-c237-33dd9951db0d\"\n      },\n      \"healthchecks\": {\n        \"readiness_probe\": {\n          \"type\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"initial_delay_seconds\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"period_seconds\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"timeout_seconds\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"success_threshold\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"failure_threshold\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"liveness_probe\": {\n          \"type\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"initial_delay_seconds\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"period_seconds\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"timeout_seconds\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"success_threshold\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"failure_threshold\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      },\n      \"icon_uri\": \"http://WpjkHlWTsuXnryCMamuFw.bfoALY1.-n6GUBCgX2gp,0NDfTtvoDRLJUs75\",\n      \"id\": \"b848e7d3-d8cd-cde6-9099-a7442c8dab32\",\n      \"name\": \"string\",\n      \"service_type\": \"DATABASE\",\n      \"updated_at\": \"2023-11-01T11:42:53.454Z\",\n      \"storage\": [\n        {\n          \"id\": \"6dfe0a85-8262-d169-072d-29d735deafb1\",\n          \"type\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"size\": 16,\n          \"mount_point\": \"/mnt/images\"\n        },\n        {\n          \"id\": \"3d04b30e-4295-235e-cbe6-87ed7f6e27be\",\n          \"type\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"size\": 16,\n          \"mount_point\": \"/mnt/images\"\n        }\n      ],\n      \"git_repository\": {\n        \"provider\": \"GITLAB\",\n        \"owner\": \"John Doe\",\n        \"name\": \"simple-node-app\",\n        \"url\": \"https://oOXxUgEZVaGfgaKImphgmrxgDV.bdtABjM85Sgmn42NDzoqi\",\n        \"has_access\": false,\n        \"branch\": \"string\",\n        \"root_path\": \"string\",\n        \"deployed_commit_id\": \"string\",\n        \"deployed_commit_date\": \"2002-05-25T10:51:16.369Z\",\n        \"deployed_commit_contributor\": \"string\",\n        \"deployed_commit_tag\": \"v1.0.1\",\n        \"git_token_id\": \"string\",\n        \"git_token_name\": \"string\"\n      },\n      \"maximum_cpu\": 16000,\n      \"maximum_memory\": 16384,\n      \"maximun_gpu\": 0,\n      \"description\": \"string\",\n      \"build_mode\": \"DOCKER\",\n      \"dockerfile_path\": \"string\",\n      \"cpu\": 1250,\n      \"memory\": 1024,\n      \"gpu\": 0,\n      \"min_running_instances\": 1,\n      \"max_running_instances\": 1,\n      \"auto_preview\": true,\n      \"ports\": [\n        {\n          \"id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"internal_port\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"publicly_accessible\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"protocol\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"external_port\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"is_default\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"public_path\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"public_path_rewrite\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"internal_port\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"publicly_accessible\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"protocol\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"external_port\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"is_default\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"public_path\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"public_path_rewrite\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ],\n      \"arguments\": [\n        \"string\",\n        \"string\"\n      ],\n      \"entrypoint\": \"string\",\n      \"auto_deploy\": false,\n      \"annotations_groups\": [\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      ],\n      \"labels_groups\": [\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      ],\n      \"docker_target_build_stage\": \"string\",\n      \"autoscaling\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      }\n    },\n    {\n      \"created_at\": \"2011-04-15T03:51:23.814Z\",\n      \"environment\": {\n        \"id\": \"50af59ad-8ad9-0bbb-9ac3-e66434a4f6d8\"\n      },\n      \"healthchecks\": {\n        \"readiness_probe\": {\n          \"type\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"initial_delay_seconds\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"period_seconds\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"timeout_seconds\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"success_threshold\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"failure_threshold\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"liveness_probe\": {\n          \"type\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"initial_delay_seconds\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"period_seconds\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"timeout_seconds\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"success_threshold\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"failure_threshold\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      },\n      \"icon_uri\": \"http://XvUxCcvOQfozTcOZQIwBYCADiJgDEPJz.hqdYdRAfuo7AStveINf,9anBUD0iewfyAHSJKP+9U7a1MPu\",\n      \"id\": \"33e3eb6f-d331-a468-c795-db204ab611c0\",\n      \"name\": \"string\",\n      \"service_type\": \"HELM\",\n      \"updated_at\": \"2007-02-01T12:04:37.405Z\",\n      \"storage\": [\n        {\n          \"id\": \"8b133352-30b1-0672-5b99-43967a0ccbf5\",\n          \"type\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"size\": 16,\n          \"mount_point\": \"/mnt/images\"\n        },\n        {\n          \"id\": \"32d368f5-35fe-d800-dded-a0d83ca201d6\",\n          \"type\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"size\": 16,\n          \"mount_point\": \"/mnt/images\"\n        }\n      ],\n      \"git_repository\": {\n        \"provider\": \"GITHUB\",\n        \"owner\": \"John Doe\",\n        \"name\": \"simple-node-app\",\n        \"url\": \"http://StaJrnHrbPmnjjBNpBn.uqjysQ9Fs1ojmcOS738jNa-Uc+VCunmindO4kLs.zju,aWLPdk,MzMDZL\",\n        \"has_access\": true,\n        \"branch\": \"string\",\n        \"root_path\": \"string\",\n        \"deployed_commit_id\": \"string\",\n        \"deployed_commit_date\": \"1967-06-10T20:54:33.814Z\",\n        \"deployed_commit_contributor\": \"string\",\n        \"deployed_commit_tag\": \"v1.0.1\",\n        \"git_token_id\": \"string\",\n        \"git_token_name\": \"string\"\n      },\n      \"maximum_cpu\": 16000,\n      \"maximum_memory\": 16384,\n      \"maximun_gpu\": 0,\n      \"description\": \"string\",\n      \"build_mode\": \"DOCKER\",\n      \"dockerfile_path\": \"string\",\n      \"cpu\": 1250,\n      \"memory\": 1024,\n      \"gpu\": 0,\n      \"min_running_instances\": 1,\n      \"max_running_instances\": 1,\n      \"auto_preview\": true,\n      \"ports\": [\n        {\n          \"id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"internal_port\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"publicly_accessible\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"protocol\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"external_port\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"is_default\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"public_path\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"public_path_rewrite\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"internal_port\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"publicly_accessible\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"protocol\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"external_port\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"is_default\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"public_path\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"public_path_rewrite\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ],\n      \"arguments\": [\n        \"string\",\n        \"string\"\n      ],\n      \"entrypoint\": \"string\",\n      \"auto_deploy\": false,\n      \"annotations_groups\": [\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      ],\n      \"labels_groups\": [\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      ],\n      \"docker_target_build_stage\": \"string\",\n      \"autoscaling\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0a0e4fa2-6ce7-4a1c-9af7-a9c529462bd4",
+          "name": "List Deployment Queue Request By EnvironmentId",
+          "request": {
+            "name": "List Deployment Queue Request By EnvironmentId",
+            "description": {},
+            "url": {
+              "path": [
+                "environment",
+                ":environmentId",
+                "deploymentQueue"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "environmentId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "75b8063a-4eb4-46b5-b82a-7771c154ecbe",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "deploymentQueue"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"results\": [\n    {\n      \"identifier\": {\n        \"deployment_request_id\": \"b5d0c86b-e27f-15fa-2026-aa1b249a3a2e\",\n        \"environment_id\": \"6fe43620-9853-407e-3d48-c38db55a120e\"\n      },\n      \"auditing_data\": {\n        \"triggered_by\": \"string\",\n        \"origin\": \"API\"\n      },\n      \"trigger_action\": \"string\",\n      \"stages\": [\n        {\n          \"name\": \"string\",\n          \"status\": \"ERROR\",\n          \"services\": [\n            {\n              \"identifier\": {\n                \"service_id\": \"1a0ef8b3-6b82-8b79-f3dc-58a69bd73401\",\n                \"service_type\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                \"name\": \"string\"\n              },\n              \"status\": \"SKIPPED\",\n              \"icon_uri\": \"string\",\n              \"details\": {\n                \"job_type\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              }\n            },\n            {\n              \"identifier\": {\n                \"service_id\": \"0145aa04-ce85-cdb8-f828-78d775f855e5\",\n                \"service_type\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                \"name\": \"string\"\n              },\n              \"status\": \"QUEUED\",\n              \"icon_uri\": \"string\",\n              \"details\": {\n                \"job_type\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              }\n            }\n          ]\n        },\n        {\n          \"name\": \"string\",\n          \"status\": \"QUEUED\",\n          \"services\": [\n            {\n              \"identifier\": {\n                \"service_id\": \"3ad87a64-e386-221a-326a-1ecb47ea1368\",\n                \"service_type\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                \"name\": \"string\"\n              },\n              \"status\": \"SKIPPED\",\n              \"icon_uri\": \"string\",\n              \"details\": {\n                \"job_type\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              }\n            },\n            {\n              \"identifier\": {\n                \"service_id\": \"5a822936-79fa-b4e3-0b87-e86493119b4c\",\n                \"service_type\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                \"name\": \"string\"\n              },\n              \"status\": \"QUEUED\",\n              \"icon_uri\": \"string\",\n              \"details\": {\n                \"job_type\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              }\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"identifier\": {\n        \"deployment_request_id\": \"784faa76-0a6e-b535-57fb-d8da211444d2\",\n        \"environment_id\": \"9ea20c02-b30b-a46c-d8a4-a50c073db6b4\"\n      },\n      \"auditing_data\": {\n        \"triggered_by\": \"string\",\n        \"origin\": \"API\"\n      },\n      \"trigger_action\": \"string\",\n      \"stages\": [\n        {\n          \"name\": \"string\",\n          \"status\": \"ERROR\",\n          \"services\": [\n            {\n              \"identifier\": {\n                \"service_id\": \"078328a5-aac7-2a65-3edb-0e89df77b935\",\n                \"service_type\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                \"name\": \"string\"\n              },\n              \"status\": \"ONGOING\",\n              \"icon_uri\": \"string\",\n              \"details\": {\n                \"job_type\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              }\n            },\n            {\n              \"identifier\": {\n                \"service_id\": \"ba83d706-50a4-35b2-08ff-105b0cda3981\",\n                \"service_type\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                \"name\": \"string\"\n              },\n              \"status\": \"ONGOING\",\n              \"icon_uri\": \"string\",\n              \"details\": {\n                \"job_type\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              }\n            }\n          ]\n        },\n        {\n          \"name\": \"string\",\n          \"status\": \"ONGOING\",\n          \"services\": [\n            {\n              \"identifier\": {\n                \"service_id\": \"47307aa1-a0bc-5179-bfd2-4ce5b75d5ea6\",\n                \"service_type\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                \"name\": \"string\"\n              },\n              \"status\": \"CANCELED\",\n              \"icon_uri\": \"string\",\n              \"details\": {\n                \"job_type\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              }\n            },\n            {\n              \"identifier\": {\n                \"service_id\": \"c734ff16-3f56-4196-8337-7fd928bc9e0a\",\n                \"service_type\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                },\n                \"name\": \"string\"\n              },\n              \"status\": \"QUEUED\",\n              \"icon_uri\": \"string\",\n              \"details\": {\n                \"job_type\": {\n                  \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n                }\n              }\n            }\n          ]\n        }\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "fbc2669e-2fdf-403c-8b0c-893207862268",
+          "name": "List Deployment Queue Request By ServiceId",
+          "request": {
+            "name": "List Deployment Queue Request By ServiceId",
+            "description": {},
+            "url": {
+              "path": [
+                "service",
+                ":serviceId",
+                "deploymentQueue"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "serviceId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "9aec1ba8-a5ce-44b5-8ef8-ecca7a398362",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "service",
+                    ":serviceId",
+                    "deploymentQueue"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "serviceId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"results\": [\n    {\n      \"identifier\": {\n        \"deployment_request_id\": \"d4279d13-ac0a-be64-e1ac-63302ac40b28\",\n        \"service_id\": \"c68c37f8-0564-bddd-37b2-4ddc9a2688d2\",\n        \"service_type\": \"ARGOCD_APP\",\n        \"name\": \"string\"\n      },\n      \"auditing_data\": {\n        \"triggered_by\": \"string\",\n        \"origin\": \"API\"\n      },\n      \"status_details\": {\n        \"action\": \"UNKNOWN\",\n        \"status\": \"ERROR\",\n        \"sub_action\": \"NONE\"\n      },\n      \"icon_uri\": \"string\"\n    },\n    {\n      \"identifier\": {\n        \"deployment_request_id\": \"83ee5a96-4fa9-523b-83fb-75d9949f983c\",\n        \"service_id\": \"a18f6600-40fa-ef0e-f4c0-d012053dedbd\",\n        \"service_type\": \"JOB\",\n        \"name\": \"string\"\n      },\n      \"auditing_data\": {\n        \"triggered_by\": \"string\",\n        \"origin\": \"API\"\n      },\n      \"status_details\": {\n        \"action\": \"STOP\",\n        \"status\": \"CANCELED\",\n        \"sub_action\": \"NONE\"\n      },\n      \"icon_uri\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.qovery.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "88b4774a-2bbf-4616-98fb-63fe54d18469",
+    "name": "Qovery Account Info Environment Main Calls API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider.\n- ℹ️ The API is stable and still in development.\n\n\nContact Support:\n Name: Qovery Product Team\n Email: support+api+documentation@qovery.com",
+      "type": "text/plain"
+    }
+  }
+}

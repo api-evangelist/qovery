@@ -1,0 +1,2554 @@
+{
+  "item": [
+    {
+      "id": "7d75d452-4f85-419c-aa6a-6befbb06dd9e",
+      "name": "Containers",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "12418070-2b27-469d-be67-c45ffaa74886",
+          "name": "List all container registry container statuses",
+          "request": {
+            "name": "List all container registry container statuses",
+            "description": {
+              "content": "Returns a list of containers with only their id and status.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "organization",
+                ":organizationId",
+                "containerRegistry",
+                ":containerRegistryId",
+                "container",
+                "status"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "organizationId",
+                  "description": "(Required) Organization ID"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "containerRegistryId",
+                  "description": "(Required) Container Registry ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "eda49dc9-d92d-42e9-8bc4-f6b1f61311e8",
+              "name": "Get status",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "organization",
+                    ":organizationId",
+                    "containerRegistry",
+                    ":containerRegistryId",
+                    "container",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "organizationId",
+                      "description": "(Required) Organization ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "containerRegistryId",
+                      "description": "(Required) Container Registry ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"results\": [\n    {\n      \"deployment_request_id\": \"9453e79e-bc9e-11ac-6844-6f1427a9e742\",\n      \"deployment_requests_count\": 6379,\n      \"id\": \"dac7c7a4-1f90-443e-59af-05a94040da6a\",\n      \"is_part_last_deployment\": true,\n      \"service_deployment_status\": \"UP_TO_DATE\",\n      \"state\": \"STOP_ERROR\",\n      \"status_details\": {\n        \"action\": \"DELETE\",\n        \"status\": \"ERROR\",\n        \"sub_action\": \"NONE\"\n      },\n      \"last_deployment_date\": \"1984-02-22T02:12:44.246Z\",\n      \"steps\": {\n        \"total_duration_sec\": 9583,\n        \"total_computing_duration_sec\": 5106,\n        \"details\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ]\n      },\n      \"execution_id\": \"string\"\n    },\n    {\n      \"deployment_request_id\": \"3aa40996-4f3b-eeae-efb4-effe43d5e6ba\",\n      \"deployment_requests_count\": 4480,\n      \"id\": \"5f8d62a6-5ed2-32f4-ace6-83cfc410d58d\",\n      \"is_part_last_deployment\": false,\n      \"service_deployment_status\": \"NEVER_DEPLOYED\",\n      \"state\": \"CANCELED\",\n      \"status_details\": {\n        \"action\": \"RESTART\",\n        \"status\": \"NEVER\",\n        \"sub_action\": \"NONE\"\n      },\n      \"last_deployment_date\": \"2000-08-15T06:52:21.365Z\",\n      \"steps\": {\n        \"total_duration_sec\": 8638,\n        \"total_computing_duration_sec\": 4293,\n        \"details\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ]\n      },\n      \"execution_id\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "983f7363-2942-4397-a6c5-39b4d62b822a",
+              "name": "Access token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "organization",
+                    ":organizationId",
+                    "containerRegistry",
+                    ":containerRegistryId",
+                    "container",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "organizationId",
+                      "description": "(Required) Organization ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "containerRegistryId",
+                      "description": "(Required) Container Registry ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "b0ec0101-afba-4626-af42-6e8317c3c39e",
+              "name": "Access forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "organization",
+                    ":organizationId",
+                    "containerRegistry",
+                    ":containerRegistryId",
+                    "container",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "organizationId",
+                      "description": "(Required) Organization ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "containerRegistryId",
+                      "description": "(Required) Container Registry ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "274d2385-5c93-44f1-9ccb-d8f116bd246f",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "organization",
+                    ":organizationId",
+                    "containerRegistry",
+                    ":containerRegistryId",
+                    "container",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "organizationId",
+                      "description": "(Required) Organization ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "containerRegistryId",
+                      "description": "(Required) Container Registry ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3939a222-b9f0-458e-b30b-0950bf26bb74",
+          "name": "List containers",
+          "request": {
+            "name": "List containers",
+            "description": {},
+            "url": {
+              "path": [
+                "environment",
+                ":environmentId",
+                "container"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "environmentId",
+                  "description": "(Required) Environment ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "58c45db1-25d9-4d1a-a25b-d9effed1f419",
+              "name": "List containers",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "container"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"results\": [\n    {\n      \"auto_preview\": true,\n      \"cpu\": 1250,\n      \"created_at\": \"1971-12-10T20:06:41.689Z\",\n      \"environment\": {\n        \"id\": \"140a6c30-c75c-3da0-f01b-0b5c64cbfd54\"\n      },\n      \"gpu\": 1,\n      \"healthchecks\": {\n        \"readiness_probe\": {\n          \"type\": {\n            \"tcp\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"http\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"exec\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"grpc\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"initial_delay_seconds\": 30,\n          \"period_seconds\": 10,\n          \"timeout_seconds\": 5,\n          \"success_threshold\": 1,\n          \"failure_threshold\": 9\n        },\n        \"liveness_probe\": {\n          \"type\": {\n            \"tcp\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"http\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"exec\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"grpc\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"initial_delay_seconds\": 30,\n          \"period_seconds\": 10,\n          \"timeout_seconds\": 5,\n          \"success_threshold\": 1,\n          \"failure_threshold\": 9\n        }\n      },\n      \"icon_uri\": \"http://szyosO.fjuM3.JmFONmJhsA7s6bl,YnnkeMRA-dX7hQlJMlMvCzbyMUAkn6y893V1guWL,CdDTDT.Q43FwAHZHS.M2ECS9-\",\n      \"id\": \"d2c540ca-d627-d893-771e-cfa7f18722c3\",\n      \"image_name\": \"string\",\n      \"max_running_instances\": 1,\n      \"maximum_cpu\": 16000,\n      \"maximum_gpu\": 2,\n      \"maximum_memory\": 16384,\n      \"memory\": 1024,\n      \"min_running_instances\": 1,\n      \"name\": \"string\",\n      \"registry\": {\n        \"id\": \"094f0249-2e13-94e9-1d05-cabbb062a7b7\",\n        \"name\": \"string\",\n        \"url\": \"string\",\n        \"kind\": \"GENERIC_CR\"\n      },\n      \"service_type\": \"CONTAINER\",\n      \"tag\": \"string\",\n      \"updated_at\": \"1993-07-03T11:00:23.924Z\",\n      \"storage\": [\n        {\n          \"id\": \"a7687d2a-b6b3-b365-dde2-d270356c0b3d\",\n          \"type\": \"FAST_SSD\",\n          \"size\": 16,\n          \"mount_point\": \"/mnt/images\"\n        },\n        {\n          \"id\": \"026bf179-5094-3cdc-12b7-de4ca7a77e82\",\n          \"type\": \"FAST_SSD\",\n          \"size\": 16,\n          \"mount_point\": \"/mnt/images\"\n        }\n      ],\n      \"registry_id\": \"string\",\n      \"description\": \"string\",\n      \"arguments\": [\n        \"string\",\n        \"string\"\n      ],\n      \"entrypoint\": \"string\",\n      \"ports\": [\n        {\n          \"id\": \"749e56f1-df95-e73b-4624-8106df2f0dbd\",\n          \"internal_port\": 8080,\n          \"publicly_accessible\": true,\n          \"protocol\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"name\": \"string\",\n          \"external_port\": 8080,\n          \"is_default\": true,\n          \"public_path\": \"string\",\n          \"public_path_rewrite\": \"string\"\n        },\n        {\n          \"id\": \"419087db-7ef9-a8ef-3987-d234aa51cb6c\",\n          \"internal_port\": 8080,\n          \"publicly_accessible\": false,\n          \"protocol\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"name\": \"string\",\n          \"external_port\": 8080,\n          \"is_default\": false,\n          \"public_path\": \"string\",\n          \"public_path_rewrite\": \"string\"\n        }\n      ],\n      \"auto_deploy\": true,\n      \"annotations_groups\": [\n        {\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"annotations\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"scopes\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"annotations\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"scopes\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ],\n      \"labels_groups\": [\n        {\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"labels\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"labels\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ],\n      \"autoscaling\": {\n        \"service_id\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"mode\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"polling_interval_seconds\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"cooldown_period_seconds\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"scalers\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    },\n    {\n      \"auto_preview\": true,\n      \"cpu\": 1250,\n      \"created_at\": \"1956-02-11T10:07:23.749Z\",\n      \"environment\": {\n        \"id\": \"17daaa76-4b92-2ddc-c905-e6db1c1b0298\"\n      },\n      \"gpu\": 1,\n      \"healthchecks\": {\n        \"readiness_probe\": {\n          \"type\": {\n            \"tcp\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"http\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"exec\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"grpc\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"initial_delay_seconds\": 30,\n          \"period_seconds\": 10,\n          \"timeout_seconds\": 5,\n          \"success_threshold\": 1,\n          \"failure_threshold\": 9\n        },\n        \"liveness_probe\": {\n          \"type\": {\n            \"tcp\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"http\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"exec\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"grpc\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"initial_delay_seconds\": 30,\n          \"period_seconds\": 10,\n          \"timeout_seconds\": 5,\n          \"success_threshold\": 1,\n          \"failure_threshold\": 9\n        }\n      },\n      \"icon_uri\": \"http://sQNmxMfkaETiLGyHoziUSazDIlJNN.auzgjuzlRL3JvygUl0SZdVaz-Yobi0uMaR,PY83b2\",\n      \"id\": \"2f6764ab-480d-23a3-3f54-13af8b15ef9a\",\n      \"image_name\": \"string\",\n      \"max_running_instances\": 1,\n      \"maximum_cpu\": 16000,\n      \"maximum_gpu\": 2,\n      \"maximum_memory\": 16384,\n      \"memory\": 1024,\n      \"min_running_instances\": 1,\n      \"name\": \"string\",\n      \"registry\": {\n        \"id\": \"b0c3302d-aebb-c253-08d5-0834e4563142\",\n        \"name\": \"string\",\n        \"url\": \"string\",\n        \"kind\": \"GITLAB_CR\"\n      },\n      \"service_type\": \"APPLICATION\",\n      \"tag\": \"string\",\n      \"updated_at\": \"1985-06-19T17:07:36.632Z\",\n      \"storage\": [\n        {\n          \"id\": \"d60bd2da-e43f-fc69-8eb6-859254236b64\",\n          \"type\": \"FAST_SSD\",\n          \"size\": 16,\n          \"mount_point\": \"/mnt/images\"\n        },\n        {\n          \"id\": \"d4190549-1b9b-b1f8-e1d3-8479368f03f4\",\n          \"type\": \"FAST_SSD\",\n          \"size\": 16,\n          \"mount_point\": \"/mnt/images\"\n        }\n      ],\n      \"registry_id\": \"string\",\n      \"description\": \"string\",\n      \"arguments\": [\n        \"string\",\n        \"string\"\n      ],\n      \"entrypoint\": \"string\",\n      \"ports\": [\n        {\n          \"id\": \"1f9dd3ec-6552-c5ef-4499-29266a06b82f\",\n          \"internal_port\": 8080,\n          \"publicly_accessible\": true,\n          \"protocol\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"name\": \"string\",\n          \"external_port\": 8080,\n          \"is_default\": false,\n          \"public_path\": \"string\",\n          \"public_path_rewrite\": \"string\"\n        },\n        {\n          \"id\": \"6c9ab39c-b82b-e7a8-4fbd-493ef9fc0e23\",\n          \"internal_port\": 8080,\n          \"publicly_accessible\": true,\n          \"protocol\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"name\": \"string\",\n          \"external_port\": 8080,\n          \"is_default\": true,\n          \"public_path\": \"string\",\n          \"public_path_rewrite\": \"string\"\n        }\n      ],\n      \"auto_deploy\": true,\n      \"annotations_groups\": [\n        {\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"annotations\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"scopes\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"annotations\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"scopes\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ],\n      \"labels_groups\": [\n        {\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"labels\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"labels\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ],\n      \"autoscaling\": {\n        \"service_id\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"mode\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"polling_interval_seconds\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"cooldown_period_seconds\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"scalers\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0005065f-9180-4d8a-9835-d43afd70e5b7",
+              "name": "Access token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "container"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "acf52faa-4616-4a5c-981e-49e05534aa80",
+              "name": "Access forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "container"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "a3cab3db-56e8-47db-a83f-1294818795c7",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "container"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "725a6d8e-8b5e-484c-8a75-696d12736b7b",
+          "name": "Create a container",
+          "request": {
+            "name": "Create a container",
+            "description": {},
+            "url": {
+              "path": [
+                "environment",
+                ":environmentId",
+                "container"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "environmentId",
+                  "description": "(Required) Environment ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"registry_id\": \"<string>\",\n  \"image_name\": \"<string>\",\n  \"tag\": \"<string>\",\n  \"healthchecks\": {\n    \"readiness_probe\": {\n      \"type\": {\n        \"tcp\": {\n          \"port\": \"<integer>\",\n          \"host\": null\n        },\n        \"http\": {\n          \"path\": \"/\",\n          \"scheme\": \"HTTP\",\n          \"port\": \"<integer>\"\n        },\n        \"exec\": {\n          \"command\": [\n            \"<string>\"\n          ]\n        },\n        \"grpc\": {\n          \"service\": null,\n          \"port\": \"<integer>\"\n        }\n      },\n      \"initial_delay_seconds\": 30,\n      \"period_seconds\": 10,\n      \"timeout_seconds\": 5,\n      \"success_threshold\": 1,\n      \"failure_threshold\": 9\n    },\n    \"liveness_probe\": {\n      \"type\": {\n        \"tcp\": {\n          \"port\": \"<integer>\",\n          \"host\": null\n        },\n        \"http\": {\n          \"path\": \"/\",\n          \"scheme\": \"HTTP\",\n          \"port\": \"<integer>\"\n        },\n        \"exec\": {\n          \"command\": [\n            \"<string>\"\n          ]\n        },\n        \"grpc\": {\n          \"service\": null,\n          \"port\": \"<integer>\"\n        }\n      },\n      \"initial_delay_seconds\": 30,\n      \"period_seconds\": 10,\n      \"timeout_seconds\": 5,\n      \"success_threshold\": 1,\n      \"failure_threshold\": 9\n    }\n  },\n  \"storage\": [\n    {\n      \"type\": \"<string>\",\n      \"size\": \"<integer>\",\n      \"mount_point\": \"<string>\",\n      \"id\": \"<uuid>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"size\": \"<integer>\",\n      \"mount_point\": \"<string>\",\n      \"id\": \"<uuid>\"\n    }\n  ],\n  \"ports\": [\n    {\n      \"internal_port\": \"<integer>\",\n      \"publicly_accessible\": \"<boolean>\",\n      \"id\": \"<uuid>\",\n      \"name\": \"<string>\",\n      \"external_port\": \"<integer>\",\n      \"is_default\": \"<boolean>\",\n      \"protocol\": \"HTTP\",\n      \"public_path\": \"<string>\",\n      \"public_path_rewrite\": \"<string>\"\n    },\n    {\n      \"internal_port\": \"<integer>\",\n      \"publicly_accessible\": \"<boolean>\",\n      \"id\": \"<uuid>\",\n      \"name\": \"<string>\",\n      \"external_port\": \"<integer>\",\n      \"is_default\": \"<boolean>\",\n      \"protocol\": \"HTTP\",\n      \"public_path\": \"<string>\",\n      \"public_path_rewrite\": \"<string>\"\n    }\n  ],\n  \"description\": \"<string>\",\n  \"arguments\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"entrypoint\": \"<string>\",\n  \"cpu\": 500,\n  \"memory\": 512,\n  \"gpu\": 0,\n  \"min_running_instances\": 1,\n  \"max_running_instances\": 1,\n  \"auto_preview\": \"<boolean>\",\n  \"auto_deploy\": \"<boolean>\",\n  \"annotations_groups\": [\n    {\n      \"id\": \"<uuid>\"\n    },\n    {\n      \"id\": \"<uuid>\"\n    }\n  ],\n  \"labels_groups\": [\n    {\n      \"id\": \"<uuid>\"\n    },\n    {\n      \"id\": \"<uuid>\"\n    }\n  ],\n  \"icon_uri\": \"<uri>\",\n  \"autoscaling\": {\n    \"mode\": \"<string>\",\n    \"scalers\": [\n      {\n        \"scaler_type\": \"<string>\",\n        \"role\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"enabled\": \"<boolean>\",\n        \"config_json\": \"<object>\",\n        \"config_yaml\": \"<string>\",\n        \"trigger_authentication\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    ],\n    \"polling_interval_seconds\": \"<integer>\",\n    \"cooldown_period_seconds\": \"<integer>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "9be7a949-ae66-4db2-9a70-57811ed10153",
+              "name": "Create container",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "container"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"registry_id\": \"<string>\",\n  \"image_name\": \"<string>\",\n  \"tag\": \"<string>\",\n  \"healthchecks\": {\n    \"readiness_probe\": {\n      \"type\": {\n        \"tcp\": {\n          \"port\": \"<integer>\",\n          \"host\": null\n        },\n        \"http\": {\n          \"path\": \"/\",\n          \"scheme\": \"HTTP\",\n          \"port\": \"<integer>\"\n        },\n        \"exec\": {\n          \"command\": [\n            \"sh\",\n            \"-c\",\n            \"test -f /tmp/healthy\"\n          ]\n        },\n        \"grpc\": {\n          \"service\": null,\n          \"port\": \"<integer>\"\n        }\n      },\n      \"initial_delay_seconds\": 30,\n      \"period_seconds\": 10,\n      \"timeout_seconds\": 5,\n      \"success_threshold\": 1,\n      \"failure_threshold\": 9\n    },\n    \"liveness_probe\": {\n      \"type\": {\n        \"tcp\": {\n          \"port\": \"<integer>\",\n          \"host\": null\n        },\n        \"http\": {\n          \"path\": \"/\",\n          \"scheme\": \"HTTP\",\n          \"port\": \"<integer>\"\n        },\n        \"exec\": {\n          \"command\": [\n            \"sh\",\n            \"-c\",\n            \"test -f /tmp/healthy\"\n          ]\n        },\n        \"grpc\": {\n          \"service\": null,\n          \"port\": \"<integer>\"\n        }\n      },\n      \"initial_delay_seconds\": 30,\n      \"period_seconds\": 10,\n      \"timeout_seconds\": 5,\n      \"success_threshold\": 1,\n      \"failure_threshold\": 9\n    }\n  },\n  \"storage\": [\n    {\n      \"type\": \"<string>\",\n      \"size\": 16,\n      \"mount_point\": \"/mnt/images\",\n      \"id\": \"<uuid>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"size\": 16,\n      \"mount_point\": \"/mnt/images\",\n      \"id\": \"<uuid>\"\n    }\n  ],\n  \"ports\": [\n    {\n      \"internal_port\": 8080,\n      \"publicly_accessible\": \"<boolean>\",\n      \"id\": \"<uuid>\",\n      \"name\": \"<string>\",\n      \"external_port\": 8080,\n      \"is_default\": \"<boolean>\",\n      \"protocol\": \"HTTP\",\n      \"public_path\": \"<string>\",\n      \"public_path_rewrite\": \"<string>\"\n    },\n    {\n      \"internal_port\": 8080,\n      \"publicly_accessible\": \"<boolean>\",\n      \"id\": \"<uuid>\",\n      \"name\": \"<string>\",\n      \"external_port\": 8080,\n      \"is_default\": \"<boolean>\",\n      \"protocol\": \"HTTP\",\n      \"public_path\": \"<string>\",\n      \"public_path_rewrite\": \"<string>\"\n    }\n  ],\n  \"description\": \"<string>\",\n  \"arguments\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"entrypoint\": \"<string>\",\n  \"cpu\": 1250,\n  \"memory\": 1024,\n  \"gpu\": 1,\n  \"min_running_instances\": 1,\n  \"max_running_instances\": 1,\n  \"auto_preview\": \"<boolean>\",\n  \"auto_deploy\": \"<boolean>\",\n  \"annotations_groups\": [\n    {\n      \"id\": \"<uuid>\"\n    },\n    {\n      \"id\": \"<uuid>\"\n    }\n  ],\n  \"labels_groups\": [\n    {\n      \"id\": \"<uuid>\"\n    },\n    {\n      \"id\": \"<uuid>\"\n    }\n  ],\n  \"icon_uri\": \"<uri>\",\n  \"autoscaling\": {\n    \"mode\": \"<string>\",\n    \"scalers\": [\n      {\n        \"scaler_type\": \"<string>\",\n        \"role\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"enabled\": \"<boolean>\",\n        \"config_json\": \"<object>\",\n        \"config_yaml\": \"<string>\",\n        \"trigger_authentication\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    ],\n    \"polling_interval_seconds\": \"<integer>\",\n    \"cooldown_period_seconds\": \"<integer>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"auto_preview\": false,\n  \"cpu\": 1250,\n  \"created_at\": \"1990-05-25T19:00:21.547Z\",\n  \"environment\": {\n    \"id\": \"acd655ea-534e-0200-672f-ffb075ccad7e\"\n  },\n  \"gpu\": 1,\n  \"healthchecks\": {\n    \"readiness_probe\": {\n      \"type\": {\n        \"tcp\": {\n          \"port\": \"<integer>\",\n          \"host\": null\n        },\n        \"http\": {\n          \"path\": \"/\",\n          \"scheme\": \"HTTP\",\n          \"port\": \"<integer>\"\n        },\n        \"exec\": {\n          \"command\": [\n            \"sh\",\n            \"-c\",\n            \"test -f /tmp/healthy\"\n          ]\n        },\n        \"grpc\": {\n          \"service\": null,\n          \"port\": \"<integer>\"\n        }\n      },\n      \"initial_delay_seconds\": 30,\n      \"period_seconds\": 10,\n      \"timeout_seconds\": 5,\n      \"success_threshold\": 1,\n      \"failure_threshold\": 9\n    },\n    \"liveness_probe\": {\n      \"type\": {\n        \"tcp\": {\n          \"port\": \"<integer>\",\n          \"host\": null\n        },\n        \"http\": {\n          \"path\": \"/\",\n          \"scheme\": \"HTTP\",\n          \"port\": \"<integer>\"\n        },\n        \"exec\": {\n          \"command\": [\n            \"sh\",\n            \"-c\",\n            \"test -f /tmp/healthy\"\n          ]\n        },\n        \"grpc\": {\n          \"service\": null,\n          \"port\": \"<integer>\"\n        }\n      },\n      \"initial_delay_seconds\": 30,\n      \"period_seconds\": 10,\n      \"timeout_seconds\": 5,\n      \"success_threshold\": 1,\n      \"failure_threshold\": 9\n    }\n  },\n  \"icon_uri\": \"https://czqmhqYRWDPBx.neNJ\",\n  \"id\": \"d1e3c09f-b2dd-d450-bfce-3e1304b97d50\",\n  \"image_name\": \"string\",\n  \"max_running_instances\": 1,\n  \"maximum_cpu\": 16000,\n  \"maximum_gpu\": 2,\n  \"maximum_memory\": 16384,\n  \"memory\": 1024,\n  \"min_running_instances\": 1,\n  \"name\": \"string\",\n  \"registry\": {\n    \"id\": \"633a959c-0a3b-2ef8-3fb4-2ee7aa283ee2\",\n    \"name\": \"string\",\n    \"url\": \"string\",\n    \"kind\": \"GCP_ARTIFACT_REGISTRY\"\n  },\n  \"service_type\": \"APPLICATION\",\n  \"tag\": \"string\",\n  \"updated_at\": \"2016-05-17T08:45:17.488Z\",\n  \"storage\": [\n    {\n      \"id\": \"9c780aab-4734-34ea-6c63-07b9bcfddec0\",\n      \"type\": \"<string>\",\n      \"size\": 16,\n      \"mount_point\": \"/mnt/images\"\n    },\n    {\n      \"id\": \"ca029cef-a3ae-3a9e-a152-670548c410de\",\n      \"type\": \"<string>\",\n      \"size\": 16,\n      \"mount_point\": \"/mnt/images\"\n    }\n  ],\n  \"registry_id\": \"string\",\n  \"description\": \"string\",\n  \"arguments\": [\n    \"string\",\n    \"string\"\n  ],\n  \"entrypoint\": \"string\",\n  \"ports\": [\n    {\n      \"id\": \"77825761-253c-389a-d6bd-7a891405c1d0\",\n      \"internal_port\": 8080,\n      \"publicly_accessible\": false,\n      \"protocol\": \"HTTP\",\n      \"name\": \"string\",\n      \"external_port\": 8080,\n      \"is_default\": false,\n      \"public_path\": \"string\",\n      \"public_path_rewrite\": \"string\"\n    },\n    {\n      \"id\": \"90af4619-c7f1-69c4-2268-998637e54fd2\",\n      \"internal_port\": 8080,\n      \"publicly_accessible\": false,\n      \"protocol\": \"HTTP\",\n      \"name\": \"string\",\n      \"external_port\": 8080,\n      \"is_default\": true,\n      \"public_path\": \"string\",\n      \"public_path_rewrite\": \"string\"\n    }\n  ],\n  \"auto_deploy\": false,\n  \"annotations_groups\": [\n    {\n      \"annotations\": [\n        {\n          \"key\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"value\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"key\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"value\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ],\n      \"created_at\": \"2007-01-20T19:35:15.052Z\",\n      \"id\": \"f8764b05-8c34-9955-322c-471ea3f38453\",\n      \"name\": \"string\",\n      \"scopes\": [\n        \"JOBS\",\n        \"PODS\"\n      ],\n      \"updated_at\": \"1967-10-19T19:05:49.248Z\"\n    },\n    {\n      \"annotations\": [\n        {\n          \"key\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"value\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"key\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"value\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ],\n      \"created_at\": \"1959-08-05T14:51:31.988Z\",\n      \"id\": \"7e11ae72-06a1-c19a-2843-5ac4b9ea513a\",\n      \"name\": \"string\",\n      \"scopes\": [\n        \"INGRESS\",\n        \"CRON_JOBS\"\n      ],\n      \"updated_at\": \"1991-02-06T18:08:36.392Z\"\n    }\n  ],\n  \"labels_groups\": [\n    {\n      \"created_at\": \"1974-07-24T08:31:08.029Z\",\n      \"id\": \"e61bfa7d-686d-2fbc-f35b-616e09b4c2e4\",\n      \"labels\": [\n        {\n          \"key\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"value\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"propagate_to_cloud_provider\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"key\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"value\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"propagate_to_cloud_provider\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ],\n      \"name\": \"string\",\n      \"updated_at\": \"2000-12-16T11:11:43.475Z\"\n    },\n    {\n      \"created_at\": \"2015-03-01T15:02:31.775Z\",\n      \"id\": \"63efbb49-0193-cb94-94b6-aca2fa996c64\",\n      \"labels\": [\n        {\n          \"key\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"value\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"propagate_to_cloud_provider\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"key\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"value\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"propagate_to_cloud_provider\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ],\n      \"name\": \"string\",\n      \"updated_at\": \"1946-11-30T19:58:55.052Z\"\n    }\n  ],\n  \"autoscaling\": {\n    \"cooldown_period_seconds\": 1704,\n    \"created_at\": \"1988-11-07T15:48:31.929Z\",\n    \"id\": \"956370ef-97fa-2640-65a1-f2a6c4a90b9a\",\n    \"mode\": \"<string>\",\n    \"polling_interval_seconds\": 2587,\n    \"scalers\": [\n      {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      }\n    ],\n    \"service_id\": \"8810c320-3278-7c03-1771-736da02705aa\",\n    \"updated_at\": \"1987-08-30T07:16:31.633Z\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ba95cac5-fe6a-41e7-841b-0b276740c850",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "container"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"registry_id\": \"<string>\",\n  \"image_name\": \"<string>\",\n  \"tag\": \"<string>\",\n  \"healthchecks\": {\n    \"readiness_probe\": {\n      \"type\": {\n        \"tcp\": {\n          \"port\": \"<integer>\",\n          \"host\": null\n        },\n        \"http\": {\n          \"path\": \"/\",\n          \"scheme\": \"HTTP\",\n          \"port\": \"<integer>\"\n        },\n        \"exec\": {\n          \"command\": [\n            \"sh\",\n            \"-c\",\n            \"test -f /tmp/healthy\"\n          ]\n        },\n        \"grpc\": {\n          \"service\": null,\n          \"port\": \"<integer>\"\n        }\n      },\n      \"initial_delay_seconds\": 30,\n      \"period_seconds\": 10,\n      \"timeout_seconds\": 5,\n      \"success_threshold\": 1,\n      \"failure_threshold\": 9\n    },\n    \"liveness_probe\": {\n      \"type\": {\n        \"tcp\": {\n          \"port\": \"<integer>\",\n          \"host\": null\n        },\n        \"http\": {\n          \"path\": \"/\",\n          \"scheme\": \"HTTP\",\n          \"port\": \"<integer>\"\n        },\n        \"exec\": {\n          \"command\": [\n            \"sh\",\n            \"-c\",\n            \"test -f /tmp/healthy\"\n          ]\n        },\n        \"grpc\": {\n          \"service\": null,\n          \"port\": \"<integer>\"\n        }\n      },\n      \"initial_delay_seconds\": 30,\n      \"period_seconds\": 10,\n      \"timeout_seconds\": 5,\n      \"success_threshold\": 1,\n      \"failure_threshold\": 9\n    }\n  },\n  \"storage\": [\n    {\n      \"type\": \"<string>\",\n      \"size\": 16,\n      \"mount_point\": \"/mnt/images\",\n      \"id\": \"<uuid>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"size\": 16,\n      \"mount_point\": \"/mnt/images\",\n      \"id\": \"<uuid>\"\n    }\n  ],\n  \"ports\": [\n    {\n      \"internal_port\": 8080,\n      \"publicly_accessible\": \"<boolean>\",\n      \"id\": \"<uuid>\",\n      \"name\": \"<string>\",\n      \"external_port\": 8080,\n      \"is_default\": \"<boolean>\",\n      \"protocol\": \"HTTP\",\n      \"public_path\": \"<string>\",\n      \"public_path_rewrite\": \"<string>\"\n    },\n    {\n      \"internal_port\": 8080,\n      \"publicly_accessible\": \"<boolean>\",\n      \"id\": \"<uuid>\",\n      \"name\": \"<string>\",\n      \"external_port\": 8080,\n      \"is_default\": \"<boolean>\",\n      \"protocol\": \"HTTP\",\n      \"public_path\": \"<string>\",\n      \"public_path_rewrite\": \"<string>\"\n    }\n  ],\n  \"description\": \"<string>\",\n  \"arguments\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"entrypoint\": \"<string>\",\n  \"cpu\": 1250,\n  \"memory\": 1024,\n  \"gpu\": 1,\n  \"min_running_instances\": 1,\n  \"max_running_instances\": 1,\n  \"auto_preview\": \"<boolean>\",\n  \"auto_deploy\": \"<boolean>\",\n  \"annotations_groups\": [\n    {\n      \"id\": \"<uuid>\"\n    },\n    {\n      \"id\": \"<uuid>\"\n    }\n  ],\n  \"labels_groups\": [\n    {\n      \"id\": \"<uuid>\"\n    },\n    {\n      \"id\": \"<uuid>\"\n    }\n  ],\n  \"icon_uri\": \"<uri>\",\n  \"autoscaling\": {\n    \"mode\": \"<string>\",\n    \"scalers\": [\n      {\n        \"scaler_type\": \"<string>\",\n        \"role\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"enabled\": \"<boolean>\",\n        \"config_json\": \"<object>\",\n        \"config_yaml\": \"<string>\",\n        \"trigger_authentication\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    ],\n    \"polling_interval_seconds\": \"<integer>\",\n    \"cooldown_period_seconds\": \"<integer>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "b2b5641a-2326-467f-ba14-b18f069d494f",
+              "name": "Access token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "container"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"registry_id\": \"<string>\",\n  \"image_name\": \"<string>\",\n  \"tag\": \"<string>\",\n  \"healthchecks\": {\n    \"readiness_probe\": {\n      \"type\": {\n        \"tcp\": {\n          \"port\": \"<integer>\",\n          \"host\": null\n        },\n        \"http\": {\n          \"path\": \"/\",\n          \"scheme\": \"HTTP\",\n          \"port\": \"<integer>\"\n        },\n        \"exec\": {\n          \"command\": [\n            \"sh\",\n            \"-c\",\n            \"test -f /tmp/healthy\"\n          ]\n        },\n        \"grpc\": {\n          \"service\": null,\n          \"port\": \"<integer>\"\n        }\n      },\n      \"initial_delay_seconds\": 30,\n      \"period_seconds\": 10,\n      \"timeout_seconds\": 5,\n      \"success_threshold\": 1,\n      \"failure_threshold\": 9\n    },\n    \"liveness_probe\": {\n      \"type\": {\n        \"tcp\": {\n          \"port\": \"<integer>\",\n          \"host\": null\n        },\n        \"http\": {\n          \"path\": \"/\",\n          \"scheme\": \"HTTP\",\n          \"port\": \"<integer>\"\n        },\n        \"exec\": {\n          \"command\": [\n            \"sh\",\n            \"-c\",\n            \"test -f /tmp/healthy\"\n          ]\n        },\n        \"grpc\": {\n          \"service\": null,\n          \"port\": \"<integer>\"\n        }\n      },\n      \"initial_delay_seconds\": 30,\n      \"period_seconds\": 10,\n      \"timeout_seconds\": 5,\n      \"success_threshold\": 1,\n      \"failure_threshold\": 9\n    }\n  },\n  \"storage\": [\n    {\n      \"type\": \"<string>\",\n      \"size\": 16,\n      \"mount_point\": \"/mnt/images\",\n      \"id\": \"<uuid>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"size\": 16,\n      \"mount_point\": \"/mnt/images\",\n      \"id\": \"<uuid>\"\n    }\n  ],\n  \"ports\": [\n    {\n      \"internal_port\": 8080,\n      \"publicly_accessible\": \"<boolean>\",\n      \"id\": \"<uuid>\",\n      \"name\": \"<string>\",\n      \"external_port\": 8080,\n      \"is_default\": \"<boolean>\",\n      \"protocol\": \"HTTP\",\n      \"public_path\": \"<string>\",\n      \"public_path_rewrite\": \"<string>\"\n    },\n    {\n      \"internal_port\": 8080,\n      \"publicly_accessible\": \"<boolean>\",\n      \"id\": \"<uuid>\",\n      \"name\": \"<string>\",\n      \"external_port\": 8080,\n      \"is_default\": \"<boolean>\",\n      \"protocol\": \"HTTP\",\n      \"public_path\": \"<string>\",\n      \"public_path_rewrite\": \"<string>\"\n    }\n  ],\n  \"description\": \"<string>\",\n  \"arguments\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"entrypoint\": \"<string>\",\n  \"cpu\": 1250,\n  \"memory\": 1024,\n  \"gpu\": 1,\n  \"min_running_instances\": 1,\n  \"max_running_instances\": 1,\n  \"auto_preview\": \"<boolean>\",\n  \"auto_deploy\": \"<boolean>\",\n  \"annotations_groups\": [\n    {\n      \"id\": \"<uuid>\"\n    },\n    {\n      \"id\": \"<uuid>\"\n    }\n  ],\n  \"labels_groups\": [\n    {\n      \"id\": \"<uuid>\"\n    },\n    {\n      \"id\": \"<uuid>\"\n    }\n  ],\n  \"icon_uri\": \"<uri>\",\n  \"autoscaling\": {\n    \"mode\": \"<string>\",\n    \"scalers\": [\n      {\n        \"scaler_type\": \"<string>\",\n        \"role\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"enabled\": \"<boolean>\",\n        \"config_json\": \"<object>\",\n        \"config_yaml\": \"<string>\",\n        \"trigger_authentication\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    ],\n    \"polling_interval_seconds\": \"<integer>\",\n    \"cooldown_period_seconds\": \"<integer>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "91411aa4-271d-4fc8-99c6-f6658dd92867",
+              "name": "Access forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "container"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"registry_id\": \"<string>\",\n  \"image_name\": \"<string>\",\n  \"tag\": \"<string>\",\n  \"healthchecks\": {\n    \"readiness_probe\": {\n      \"type\": {\n        \"tcp\": {\n          \"port\": \"<integer>\",\n          \"host\": null\n        },\n        \"http\": {\n          \"path\": \"/\",\n          \"scheme\": \"HTTP\",\n          \"port\": \"<integer>\"\n        },\n        \"exec\": {\n          \"command\": [\n            \"sh\",\n            \"-c\",\n            \"test -f /tmp/healthy\"\n          ]\n        },\n        \"grpc\": {\n          \"service\": null,\n          \"port\": \"<integer>\"\n        }\n      },\n      \"initial_delay_seconds\": 30,\n      \"period_seconds\": 10,\n      \"timeout_seconds\": 5,\n      \"success_threshold\": 1,\n      \"failure_threshold\": 9\n    },\n    \"liveness_probe\": {\n      \"type\": {\n        \"tcp\": {\n          \"port\": \"<integer>\",\n          \"host\": null\n        },\n        \"http\": {\n          \"path\": \"/\",\n          \"scheme\": \"HTTP\",\n          \"port\": \"<integer>\"\n        },\n        \"exec\": {\n          \"command\": [\n            \"sh\",\n            \"-c\",\n            \"test -f /tmp/healthy\"\n          ]\n        },\n        \"grpc\": {\n          \"service\": null,\n          \"port\": \"<integer>\"\n        }\n      },\n      \"initial_delay_seconds\": 30,\n      \"period_seconds\": 10,\n      \"timeout_seconds\": 5,\n      \"success_threshold\": 1,\n      \"failure_threshold\": 9\n    }\n  },\n  \"storage\": [\n    {\n      \"type\": \"<string>\",\n      \"size\": 16,\n      \"mount_point\": \"/mnt/images\",\n      \"id\": \"<uuid>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"size\": 16,\n      \"mount_point\": \"/mnt/images\",\n      \"id\": \"<uuid>\"\n    }\n  ],\n  \"ports\": [\n    {\n      \"internal_port\": 8080,\n      \"publicly_accessible\": \"<boolean>\",\n      \"id\": \"<uuid>\",\n      \"name\": \"<string>\",\n      \"external_port\": 8080,\n      \"is_default\": \"<boolean>\",\n      \"protocol\": \"HTTP\",\n      \"public_path\": \"<string>\",\n      \"public_path_rewrite\": \"<string>\"\n    },\n    {\n      \"internal_port\": 8080,\n      \"publicly_accessible\": \"<boolean>\",\n      \"id\": \"<uuid>\",\n      \"name\": \"<string>\",\n      \"external_port\": 8080,\n      \"is_default\": \"<boolean>\",\n      \"protocol\": \"HTTP\",\n      \"public_path\": \"<string>\",\n      \"public_path_rewrite\": \"<string>\"\n    }\n  ],\n  \"description\": \"<string>\",\n  \"arguments\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"entrypoint\": \"<string>\",\n  \"cpu\": 1250,\n  \"memory\": 1024,\n  \"gpu\": 1,\n  \"min_running_instances\": 1,\n  \"max_running_instances\": 1,\n  \"auto_preview\": \"<boolean>\",\n  \"auto_deploy\": \"<boolean>\",\n  \"annotations_groups\": [\n    {\n      \"id\": \"<uuid>\"\n    },\n    {\n      \"id\": \"<uuid>\"\n    }\n  ],\n  \"labels_groups\": [\n    {\n      \"id\": \"<uuid>\"\n    },\n    {\n      \"id\": \"<uuid>\"\n    }\n  ],\n  \"icon_uri\": \"<uri>\",\n  \"autoscaling\": {\n    \"mode\": \"<string>\",\n    \"scalers\": [\n      {\n        \"scaler_type\": \"<string>\",\n        \"role\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"enabled\": \"<boolean>\",\n        \"config_json\": \"<object>\",\n        \"config_yaml\": \"<string>\",\n        \"trigger_authentication\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    ],\n    \"polling_interval_seconds\": \"<integer>\",\n    \"cooldown_period_seconds\": \"<integer>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "a3915690-f266-413a-99a7-84c12cbda115",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "container"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"registry_id\": \"<string>\",\n  \"image_name\": \"<string>\",\n  \"tag\": \"<string>\",\n  \"healthchecks\": {\n    \"readiness_probe\": {\n      \"type\": {\n        \"tcp\": {\n          \"port\": \"<integer>\",\n          \"host\": null\n        },\n        \"http\": {\n          \"path\": \"/\",\n          \"scheme\": \"HTTP\",\n          \"port\": \"<integer>\"\n        },\n        \"exec\": {\n          \"command\": [\n            \"sh\",\n            \"-c\",\n            \"test -f /tmp/healthy\"\n          ]\n        },\n        \"grpc\": {\n          \"service\": null,\n          \"port\": \"<integer>\"\n        }\n      },\n      \"initial_delay_seconds\": 30,\n      \"period_seconds\": 10,\n      \"timeout_seconds\": 5,\n      \"success_threshold\": 1,\n      \"failure_threshold\": 9\n    },\n    \"liveness_probe\": {\n      \"type\": {\n        \"tcp\": {\n          \"port\": \"<integer>\",\n          \"host\": null\n        },\n        \"http\": {\n          \"path\": \"/\",\n          \"scheme\": \"HTTP\",\n          \"port\": \"<integer>\"\n        },\n        \"exec\": {\n          \"command\": [\n            \"sh\",\n            \"-c\",\n            \"test -f /tmp/healthy\"\n          ]\n        },\n        \"grpc\": {\n          \"service\": null,\n          \"port\": \"<integer>\"\n        }\n      },\n      \"initial_delay_seconds\": 30,\n      \"period_seconds\": 10,\n      \"timeout_seconds\": 5,\n      \"success_threshold\": 1,\n      \"failure_threshold\": 9\n    }\n  },\n  \"storage\": [\n    {\n      \"type\": \"<string>\",\n      \"size\": 16,\n      \"mount_point\": \"/mnt/images\",\n      \"id\": \"<uuid>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"size\": 16,\n      \"mount_point\": \"/mnt/images\",\n      \"id\": \"<uuid>\"\n    }\n  ],\n  \"ports\": [\n    {\n      \"internal_port\": 8080,\n      \"publicly_accessible\": \"<boolean>\",\n      \"id\": \"<uuid>\",\n      \"name\": \"<string>\",\n      \"external_port\": 8080,\n      \"is_default\": \"<boolean>\",\n      \"protocol\": \"HTTP\",\n      \"public_path\": \"<string>\",\n      \"public_path_rewrite\": \"<string>\"\n    },\n    {\n      \"internal_port\": 8080,\n      \"publicly_accessible\": \"<boolean>\",\n      \"id\": \"<uuid>\",\n      \"name\": \"<string>\",\n      \"external_port\": 8080,\n      \"is_default\": \"<boolean>\",\n      \"protocol\": \"HTTP\",\n      \"public_path\": \"<string>\",\n      \"public_path_rewrite\": \"<string>\"\n    }\n  ],\n  \"description\": \"<string>\",\n  \"arguments\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"entrypoint\": \"<string>\",\n  \"cpu\": 1250,\n  \"memory\": 1024,\n  \"gpu\": 1,\n  \"min_running_instances\": 1,\n  \"max_running_instances\": 1,\n  \"auto_preview\": \"<boolean>\",\n  \"auto_deploy\": \"<boolean>\",\n  \"annotations_groups\": [\n    {\n      \"id\": \"<uuid>\"\n    },\n    {\n      \"id\": \"<uuid>\"\n    }\n  ],\n  \"labels_groups\": [\n    {\n      \"id\": \"<uuid>\"\n    },\n    {\n      \"id\": \"<uuid>\"\n    }\n  ],\n  \"icon_uri\": \"<uri>\",\n  \"autoscaling\": {\n    \"mode\": \"<string>\",\n    \"scalers\": [\n      {\n        \"scaler_type\": \"<string>\",\n        \"role\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"enabled\": \"<boolean>\",\n        \"config_json\": \"<object>\",\n        \"config_yaml\": \"<string>\",\n        \"trigger_authentication\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    ],\n    \"polling_interval_seconds\": \"<integer>\",\n    \"cooldown_period_seconds\": \"<integer>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "78ab2cbf-90f9-41c5-bd98-73f4e8d3d8d8",
+              "name": "Container name within the environment is already taken",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "container"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"registry_id\": \"<string>\",\n  \"image_name\": \"<string>\",\n  \"tag\": \"<string>\",\n  \"healthchecks\": {\n    \"readiness_probe\": {\n      \"type\": {\n        \"tcp\": {\n          \"port\": \"<integer>\",\n          \"host\": null\n        },\n        \"http\": {\n          \"path\": \"/\",\n          \"scheme\": \"HTTP\",\n          \"port\": \"<integer>\"\n        },\n        \"exec\": {\n          \"command\": [\n            \"sh\",\n            \"-c\",\n            \"test -f /tmp/healthy\"\n          ]\n        },\n        \"grpc\": {\n          \"service\": null,\n          \"port\": \"<integer>\"\n        }\n      },\n      \"initial_delay_seconds\": 30,\n      \"period_seconds\": 10,\n      \"timeout_seconds\": 5,\n      \"success_threshold\": 1,\n      \"failure_threshold\": 9\n    },\n    \"liveness_probe\": {\n      \"type\": {\n        \"tcp\": {\n          \"port\": \"<integer>\",\n          \"host\": null\n        },\n        \"http\": {\n          \"path\": \"/\",\n          \"scheme\": \"HTTP\",\n          \"port\": \"<integer>\"\n        },\n        \"exec\": {\n          \"command\": [\n            \"sh\",\n            \"-c\",\n            \"test -f /tmp/healthy\"\n          ]\n        },\n        \"grpc\": {\n          \"service\": null,\n          \"port\": \"<integer>\"\n        }\n      },\n      \"initial_delay_seconds\": 30,\n      \"period_seconds\": 10,\n      \"timeout_seconds\": 5,\n      \"success_threshold\": 1,\n      \"failure_threshold\": 9\n    }\n  },\n  \"storage\": [\n    {\n      \"type\": \"<string>\",\n      \"size\": 16,\n      \"mount_point\": \"/mnt/images\",\n      \"id\": \"<uuid>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"size\": 16,\n      \"mount_point\": \"/mnt/images\",\n      \"id\": \"<uuid>\"\n    }\n  ],\n  \"ports\": [\n    {\n      \"internal_port\": 8080,\n      \"publicly_accessible\": \"<boolean>\",\n      \"id\": \"<uuid>\",\n      \"name\": \"<string>\",\n      \"external_port\": 8080,\n      \"is_default\": \"<boolean>\",\n      \"protocol\": \"HTTP\",\n      \"public_path\": \"<string>\",\n      \"public_path_rewrite\": \"<string>\"\n    },\n    {\n      \"internal_port\": 8080,\n      \"publicly_accessible\": \"<boolean>\",\n      \"id\": \"<uuid>\",\n      \"name\": \"<string>\",\n      \"external_port\": 8080,\n      \"is_default\": \"<boolean>\",\n      \"protocol\": \"HTTP\",\n      \"public_path\": \"<string>\",\n      \"public_path_rewrite\": \"<string>\"\n    }\n  ],\n  \"description\": \"<string>\",\n  \"arguments\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"entrypoint\": \"<string>\",\n  \"cpu\": 1250,\n  \"memory\": 1024,\n  \"gpu\": 1,\n  \"min_running_instances\": 1,\n  \"max_running_instances\": 1,\n  \"auto_preview\": \"<boolean>\",\n  \"auto_deploy\": \"<boolean>\",\n  \"annotations_groups\": [\n    {\n      \"id\": \"<uuid>\"\n    },\n    {\n      \"id\": \"<uuid>\"\n    }\n  ],\n  \"labels_groups\": [\n    {\n      \"id\": \"<uuid>\"\n    },\n    {\n      \"id\": \"<uuid>\"\n    }\n  ],\n  \"icon_uri\": \"<uri>\",\n  \"autoscaling\": {\n    \"mode\": \"<string>\",\n    \"scalers\": [\n      {\n        \"scaler_type\": \"<string>\",\n        \"role\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"enabled\": \"<boolean>\",\n        \"config_json\": \"<object>\",\n        \"config_yaml\": \"<string>\",\n        \"trigger_authentication\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    ],\n    \"polling_interval_seconds\": \"<integer>\",\n    \"cooldown_period_seconds\": \"<integer>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d836764d-6db7-4b04-8fb5-177c25d98c34",
+          "name": "List all environment container statuses",
+          "request": {
+            "name": "List all environment container statuses",
+            "description": {
+              "content": "Returns a list of containers with only their id and status.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "environment",
+                ":environmentId",
+                "container",
+                "status"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "environmentId",
+                  "description": "(Required) Environment ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "455d66dd-d76a-4a79-821b-0318f9de1d22",
+              "name": "Get status",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "container",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"results\": [\n    {\n      \"deployment_request_id\": \"206a910c-0591-6d07-5daa-77b48b6818da\",\n      \"deployment_requests_count\": 9400,\n      \"id\": \"81b94c4f-6c6f-ff2b-2168-88c90c3f39c6\",\n      \"is_part_last_deployment\": true,\n      \"service_deployment_status\": \"NEVER_DEPLOYED\",\n      \"state\": \"DEPLOYED\",\n      \"status_details\": {\n        \"action\": \"DELETE\",\n        \"status\": \"ONGOING\",\n        \"sub_action\": \"NONE\"\n      },\n      \"last_deployment_date\": \"1998-03-08T02:34:01.222Z\",\n      \"steps\": {\n        \"total_duration_sec\": 6422,\n        \"total_computing_duration_sec\": 8997,\n        \"details\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ]\n      },\n      \"execution_id\": \"string\"\n    },\n    {\n      \"deployment_request_id\": \"5887ea04-9b75-fcae-b5c2-5dbc1e9dea3f\",\n      \"deployment_requests_count\": 1786,\n      \"id\": \"9a2a57ef-6e45-17d6-a5db-ce651d10f5c4\",\n      \"is_part_last_deployment\": false,\n      \"service_deployment_status\": \"OUT_OF_DATE\",\n      \"state\": \"WAITING_STOPPING\",\n      \"status_details\": {\n        \"action\": \"DEPLOY\",\n        \"status\": \"ERROR\",\n        \"sub_action\": \"NONE\"\n      },\n      \"last_deployment_date\": \"1954-02-10T16:57:05.741Z\",\n      \"steps\": {\n        \"total_duration_sec\": 7840,\n        \"total_computing_duration_sec\": 5227,\n        \"details\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ]\n      },\n      \"execution_id\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "44ae1546-4de9-4603-b25a-a9424c104cad",
+              "name": "Access token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "container",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "0d276655-5dc9-496d-b9ea-2cf99a5cc3df",
+              "name": "Access forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "container",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "07d7aefc-b072-4586-a30f-e3cc648737a5",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "container",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "961a6890-e264-4f7b-bab1-d167129aa61e",
+          "name": "Auto deploy containers",
+          "request": {
+            "name": "Auto deploy containers",
+            "description": {
+              "content": "Triggers a new container deploy in each environment matching the following conditions\n- environment should have the auto-deploy enabled\n- the container should have the same image name and a different tag\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "organization",
+                ":organizationId",
+                "container",
+                "deploy"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "organizationId",
+                  "description": "(Required) Organization ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"image_name\": \"<string>\",\n  \"tag\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "da44b2bf-3db5-4294-9338-bbf089f72a11",
+              "name": "Deployed containers",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "organization",
+                    ":organizationId",
+                    "container",
+                    "deploy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "organizationId",
+                      "description": "(Required) Organization ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"image_name\": \"<string>\",\n  \"tag\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"a00d09db-6247-54b4-55f8-fb581cf048bd\",\n  \"state\": \"WAITING_DELETING\",\n  \"service_deployment_status\": \"OUT_OF_DATE\",\n  \"status_details\": {\n    \"action\": \"DEPLOY\",\n    \"status\": \"CANCELED\",\n    \"sub_action\": \"NONE\"\n  },\n  \"is_part_last_deployment\": false,\n  \"deployment_requests_count\": 3564,\n  \"deployment_request_id\": \"63ec5fbf-db66-b9d5-345c-f04901726528\",\n  \"last_deployment_date\": \"1990-06-13T20:41:32.382Z\",\n  \"steps\": {\n    \"total_duration_sec\": 3306,\n    \"total_computing_duration_sec\": 8851,\n    \"details\": [\n      {\n        \"step_name\": \"MIRROR_IMAGE\",\n        \"status\": \"ERROR\",\n        \"duration_sec\": 4123\n      },\n      {\n        \"step_name\": \"GIT_CLONE\",\n        \"status\": \"SKIP\",\n        \"duration_sec\": 6500\n      }\n    ]\n  },\n  \"execution_id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "430d2b8e-3bb6-4302-8a3a-22fa39709d9e",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "organization",
+                    ":organizationId",
+                    "container",
+                    "deploy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "organizationId",
+                      "description": "(Required) Organization ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"image_name\": \"<string>\",\n  \"tag\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "e64e3b7f-518e-41d4-8f41-dc0630d01975",
+              "name": "Access token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "organization",
+                    ":organizationId",
+                    "container",
+                    "deploy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "organizationId",
+                      "description": "(Required) Organization ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"image_name\": \"<string>\",\n  \"tag\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "c74219d9-ec19-4d3d-abec-d5036ccd1078",
+              "name": "Access forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "organization",
+                    ":organizationId",
+                    "container",
+                    "deploy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "organizationId",
+                      "description": "(Required) Organization ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"image_name\": \"<string>\",\n  \"tag\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "53745f61-a855-485e-89de-436a963c197d",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "organization",
+                    ":organizationId",
+                    "container",
+                    "deploy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "organizationId",
+                      "description": "(Required) Organization ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"image_name\": \"<string>\",\n  \"tag\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "4e169aee-dfe5-48be-a6fc-6390386a270b",
+              "name": "Operation is in progress",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "organization",
+                    ":organizationId",
+                    "container",
+                    "deploy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "organizationId",
+                      "description": "(Required) Organization ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"image_name\": \"<string>\",\n  \"tag\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c4d6072c-70cf-4800-afa0-e5c08641f794",
+          "name": "Preview container environments",
+          "request": {
+            "name": "Preview container environments",
+            "description": {
+              "content": "Triggers a new container preview for each environment matching the following conditions\n- preview environment feature should be enabled for the container\n- the container should have the same image name and a different tag\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "organization",
+                ":organizationId",
+                "container",
+                "preview"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "organizationId",
+                  "description": "(Required) Organization ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"image_name\": \"<string>\",\n  \"tag\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "4adb043d-53cb-4740-bfde-578d8c6d25d9",
+              "name": "Preview environments processing",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "organization",
+                    ":organizationId",
+                    "container",
+                    "preview"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "organizationId",
+                      "description": "(Required) Organization ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"image_name\": \"<string>\",\n  \"tag\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"a00d09db-6247-54b4-55f8-fb581cf048bd\",\n  \"state\": \"WAITING_DELETING\",\n  \"service_deployment_status\": \"OUT_OF_DATE\",\n  \"status_details\": {\n    \"action\": \"DEPLOY\",\n    \"status\": \"CANCELED\",\n    \"sub_action\": \"NONE\"\n  },\n  \"is_part_last_deployment\": false,\n  \"deployment_requests_count\": 3564,\n  \"deployment_request_id\": \"63ec5fbf-db66-b9d5-345c-f04901726528\",\n  \"last_deployment_date\": \"1990-06-13T20:41:32.382Z\",\n  \"steps\": {\n    \"total_duration_sec\": 3306,\n    \"total_computing_duration_sec\": 8851,\n    \"details\": [\n      {\n        \"step_name\": \"MIRROR_IMAGE\",\n        \"status\": \"ERROR\",\n        \"duration_sec\": 4123\n      },\n      {\n        \"step_name\": \"GIT_CLONE\",\n        \"status\": \"SKIP\",\n        \"duration_sec\": 6500\n      }\n    ]\n  },\n  \"execution_id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "09eade12-0fac-4023-9c54-dfb09dd27e44",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "organization",
+                    ":organizationId",
+                    "container",
+                    "preview"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "organizationId",
+                      "description": "(Required) Organization ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"image_name\": \"<string>\",\n  \"tag\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "e15bdb0c-d7ae-4d14-86f7-4a27fd5e86c8",
+              "name": "Access token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "organization",
+                    ":organizationId",
+                    "container",
+                    "preview"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "organizationId",
+                      "description": "(Required) Organization ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"image_name\": \"<string>\",\n  \"tag\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "a18957dc-500f-45e6-bd27-5e2a870dbb3c",
+              "name": "Access forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "organization",
+                    ":organizationId",
+                    "container",
+                    "preview"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "organizationId",
+                      "description": "(Required) Organization ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"image_name\": \"<string>\",\n  \"tag\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "4e328388-bf81-484c-b953-c52c6b687a22",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "organization",
+                    ":organizationId",
+                    "container",
+                    "preview"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "organizationId",
+                      "description": "(Required) Organization ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"image_name\": \"<string>\",\n  \"tag\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "a70c4efa-2413-49e5-9c71-95393abdbef0",
+              "name": "Operation is in progress",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "organization",
+                    ":organizationId",
+                    "container",
+                    "preview"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "organizationId",
+                      "description": "(Required) Organization ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"image_name\": \"<string>\",\n  \"tag\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5a6f81df-448e-4591-9667-2ebec9fee2fa",
+          "name": "List default container advanced settings",
+          "request": {
+            "name": "List default container advanced settings",
+            "description": {
+              "content": "Default values for each setting are available in [our documentation](https://hub.qovery.com/docs/using-qovery/configuration/advanced-settings/)",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "defaultContainerAdvancedSettings"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "656d0f13-79c4-46b4-a3ff-46913612b039",
+              "name": "Default container advanced settings",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "defaultContainerAdvancedSettings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"deployment.custom_domain_check_enabled\": true,\n  \"deployment.termination_grace_period_seconds\": 1146,\n  \"deployment.affinity.node.required\": {\n    \"key_0\": \"string\"\n  },\n  \"deployment.antiaffinity.pod\": \"Requirred\",\n  \"deployment.topology_spread.zone\": \"Disabled\",\n  \"deployment.update_strategy.type\": \"RollingUpdate\",\n  \"deployment.update_strategy.rolling_update.max_unavailable_percent\": 3441,\n  \"deployment.update_strategy.rolling_update.max_surge_percent\": 7719,\n  \"network.ingress.proxy_body_size_mb\": 3667,\n  \"network.ingress.force_ssl_redirect\": false,\n  \"network.ingress.enable_cors\": true,\n  \"network.ingress.cors_allow_origin\": \"string\",\n  \"network.ingress.cors_allow_methods\": \"string\",\n  \"network.ingress.cors_allow_headers\": \"string\",\n  \"network.ingress.proxy_buffer_size_kb\": 7924,\n  \"network.ingress.keepalive_time_seconds\": 34,\n  \"network.ingress.keepalive_timeout_seconds\": 166,\n  \"network.ingress.send_timeout_seconds\": 4076,\n  \"network.ingress.proxy_connect_timeout_seconds\": 6379,\n  \"network.ingress.proxy_send_timeout_seconds\": 7157,\n  \"network.ingress.proxy_read_timeout_seconds\": 614,\n  \"network.ingress.proxy_buffering\": \"string\",\n  \"network.ingress.proxy_request_buffering\": \"string\",\n  \"network.ingress.grpc_send_timeout_seconds\": 9605,\n  \"network.ingress.grpc_read_timeout_seconds\": 9717,\n  \"network.ingress.whitelist_source_range\": \"string\",\n  \"network.ingress.denylist_source_range\": \"string\",\n  \"network.ingress.extra_headers\": \"{\\\"X-Frame-Options\\\":\\\"DENY \\\",\\\"X-Content-Type-Options\\\":\\\"nosniff\\\"}\",\n  \"network.gateway_api.http_request_timeout_seconds\": 6327,\n  \"network.gateway_api.http_connection_idle_timeout_seconds\": 7773,\n  \"network.ingress.basic_auth_env_var\": \"string\",\n  \"network.ingress.enable_sticky_session\": true,\n  \"security.service_account_name\": \"string\",\n  \"hpa.cpu.average_utilization_percent\": 8945,\n  \"hpa.memory.average_utilization_percent\": 241,\n  \"security.automount_service_account_token\": true,\n  \"security.read_only_root_filesystem\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "72847447-4e77-44db-9781-d44ee7292273",
+              "name": "Access token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "defaultContainerAdvancedSettings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "62fd46ae-35ce-4f3a-a04a-e37fec576f4c",
+              "name": "Access forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "defaultContainerAdvancedSettings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "dc940093-53fa-40fa-acf1-610cb07967e8",
+          "name": "Clone container",
+          "request": {
+            "name": "Clone container",
+            "description": {
+              "content": "This will create a new container with the same configuration on the targeted environment Id.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "container",
+                ":containerId",
+                "clone"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "containerId",
+                  "description": "(Required) Container ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"environment_id\": \"<uuid>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "1a6fdec4-30c3-4120-8c8a-06bff9e22ebf",
+              "name": "Container clone has been requested",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "container",
+                    ":containerId",
+                    "clone"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "containerId",
+                      "description": "(Required) Container ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"environment_id\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"auto_preview\": true,\n  \"cpu\": 1250,\n  \"created_at\": \"1989-06-06T16:48:03.084Z\",\n  \"environment\": {\n    \"id\": \"af1e20de-5221-e3b4-1a1b-db14e082a521\"\n  },\n  \"gpu\": 1,\n  \"healthchecks\": {\n    \"readiness_probe\": {\n      \"type\": {\n        \"tcp\": {\n          \"port\": \"<integer>\",\n          \"host\": null\n        },\n        \"http\": {\n          \"path\": \"/\",\n          \"scheme\": \"HTTP\",\n          \"port\": \"<integer>\"\n        },\n        \"exec\": {\n          \"command\": [\n            \"sh\",\n            \"-c\",\n            \"test -f /tmp/healthy\"\n          ]\n        },\n        \"grpc\": {\n          \"service\": null,\n          \"port\": \"<integer>\"\n        }\n      },\n      \"initial_delay_seconds\": 30,\n      \"period_seconds\": 10,\n      \"timeout_seconds\": 5,\n      \"success_threshold\": 1,\n      \"failure_threshold\": 9\n    },\n    \"liveness_probe\": {\n      \"type\": {\n        \"tcp\": {\n          \"port\": \"<integer>\",\n          \"host\": null\n        },\n        \"http\": {\n          \"path\": \"/\",\n          \"scheme\": \"HTTP\",\n          \"port\": \"<integer>\"\n        },\n        \"exec\": {\n          \"command\": [\n            \"sh\",\n            \"-c\",\n            \"test -f /tmp/healthy\"\n          ]\n        },\n        \"grpc\": {\n          \"service\": null,\n          \"port\": \"<integer>\"\n        }\n      },\n      \"initial_delay_seconds\": 30,\n      \"period_seconds\": 10,\n      \"timeout_seconds\": 5,\n      \"success_threshold\": 1,\n      \"failure_threshold\": 9\n    }\n  },\n  \"icon_uri\": \"https://tEYyQqL.ayGV8NqivQAlWCWeEeBvcWP\",\n  \"id\": \"6feff09f-739c-d8bd-03c8-42671c35342a\",\n  \"image_name\": \"string\",\n  \"max_running_instances\": 1,\n  \"maximum_cpu\": 16000,\n  \"maximum_gpu\": 2,\n  \"maximum_memory\": 16384,\n  \"memory\": 1024,\n  \"min_running_instances\": 1,\n  \"name\": \"string\",\n  \"registry\": {\n    \"id\": \"6751e354-73f4-800c-2d23-ca1fb33c99d6\",\n    \"name\": \"string\",\n    \"url\": \"string\",\n    \"kind\": \"DOCKER_HUB\"\n  },\n  \"service_type\": \"JOB\",\n  \"tag\": \"string\",\n  \"updated_at\": \"2013-07-11T08:01:25.013Z\",\n  \"storage\": [\n    {\n      \"id\": \"a6e3f7ee-5ce5-c187-1ae6-aeeb0ff9b683\",\n      \"type\": \"<string>\",\n      \"size\": 16,\n      \"mount_point\": \"/mnt/images\"\n    },\n    {\n      \"id\": \"fe6f9bbd-853d-267b-d338-c3d30e760843\",\n      \"type\": \"<string>\",\n      \"size\": 16,\n      \"mount_point\": \"/mnt/images\"\n    }\n  ],\n  \"registry_id\": \"string\",\n  \"description\": \"string\",\n  \"arguments\": [\n    \"string\",\n    \"string\"\n  ],\n  \"entrypoint\": \"string\",\n  \"ports\": [\n    {\n      \"id\": \"50def37b-3d42-dad3-269f-5219b195103b\",\n      \"internal_port\": 8080,\n      \"publicly_accessible\": false,\n      \"protocol\": \"HTTP\",\n      \"name\": \"string\",\n      \"external_port\": 8080,\n      \"is_default\": false,\n      \"public_path\": \"string\",\n      \"public_path_rewrite\": \"string\"\n    },\n    {\n      \"id\": \"47ac466e-6460-52e8-3708-7163c6d242a3\",\n      \"internal_port\": 8080,\n      \"publicly_accessible\": true,\n      \"protocol\": \"HTTP\",\n      \"name\": \"string\",\n      \"external_port\": 8080,\n      \"is_default\": true,\n      \"public_path\": \"string\",\n      \"public_path_rewrite\": \"string\"\n    }\n  ],\n  \"auto_deploy\": true,\n  \"annotations_groups\": [\n    {\n      \"annotations\": [\n        {\n          \"key\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"value\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"key\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"value\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ],\n      \"created_at\": \"2014-03-12T18:57:55.461Z\",\n      \"id\": \"2e1050d3-677a-44e3-8d75-1674af888209\",\n      \"name\": \"string\",\n      \"scopes\": [\n        \"CRON_JOBS\",\n        \"HPA\"\n      ],\n      \"updated_at\": \"2025-11-09T18:34:16.260Z\"\n    },\n    {\n      \"annotations\": [\n        {\n          \"key\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"value\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"key\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"value\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ],\n      \"created_at\": \"1990-10-01T05:55:15.928Z\",\n      \"id\": \"0526ba08-2118-4279-8c73-424e2eec1469\",\n      \"name\": \"string\",\n      \"scopes\": [\n        \"INGRESS\",\n        \"INGRESS\"\n      ],\n      \"updated_at\": \"1965-11-18T18:43:45.712Z\"\n    }\n  ],\n  \"labels_groups\": [\n    {\n      \"created_at\": \"1972-10-19T06:41:37.433Z\",\n      \"id\": \"d7b4e3fa-3eb4-9195-d9bf-065437a736e4\",\n      \"labels\": [\n        {\n          \"key\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"value\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"propagate_to_cloud_provider\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"key\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"value\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"propagate_to_cloud_provider\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ],\n      \"name\": \"string\",\n      \"updated_at\": \"1992-09-26T10:03:27.788Z\"\n    },\n    {\n      \"created_at\": \"2026-04-13T05:50:17.279Z\",\n      \"id\": \"a04aaf46-916a-c3ac-7697-081210fc4c6a\",\n      \"labels\": [\n        {\n          \"key\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"value\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"propagate_to_cloud_provider\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"key\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"value\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"propagate_to_cloud_provider\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ],\n      \"name\": \"string\",\n      \"updated_at\": \"1962-05-14T07:28:57.244Z\"\n    }\n  ],\n  \"autoscaling\": {\n    \"cooldown_period_seconds\": 7584,\n    \"created_at\": \"2002-10-06T23:32:59.435Z\",\n    \"id\": \"b578178c-71fb-2c9f-97c4-723de8b8d7dc\",\n    \"mode\": \"<string>\",\n    \"polling_interval_seconds\": 5289,\n    \"scalers\": [\n      {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      }\n    ],\n    \"service_id\": \"c42e8373-f8e5-0ea4-9d8f-2b52267d8437\",\n    \"updated_at\": \"1948-11-11T10:57:58.781Z\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b4c51d24-3b4f-428b-8965-944f444c5754",
+              "name": "Access token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "container",
+                    ":containerId",
+                    "clone"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "containerId",
+                      "description": "(Required) Container ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"environment_id\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "c1f34ef0-1bf5-4cd9-a512-ae056ac7e609",
+              "name": "Access forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "container",
+                    ":containerId",
+                    "clone"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "containerId",
+                      "description": "(Required) Container ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"environment_id\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "8f6bafd5-e579-4177-abf9-d6016d5217ae",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "container",
+                    ":containerId",
+                    "clone"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "containerId",
+                      "description": "(Required) Container ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"environment_id\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "b8f07d90-9a58-4a4e-81c7-af2c8efcf76f",
+              "name": "Operation is in progress",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "container",
+                    ":containerId",
+                    "clone"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "containerId",
+                      "description": "(Required) Container ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"environment_id\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.qovery.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "74853f9b-8ca4-4188-8f3c-fa7f007bf0b3",
+    "name": "Qovery Account Info Containers API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider.\n- ℹ️ The API is stable and still in development.\n\n\nContact Support:\n Name: Qovery Product Team\n Email: support+api+documentation@qovery.com",
+      "type": "text/plain"
+    }
+  }
+}

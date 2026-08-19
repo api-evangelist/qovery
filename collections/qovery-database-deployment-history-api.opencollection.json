@@ -1,0 +1,73 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Qovery Account Info Database Deployment History API",
+    "version": "1.0.4"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Database Deployment History",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List database deploys",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/database/:databaseId/deploymentHistory",
+            "params": [
+              {
+                "name": "databaseId",
+                "value": "",
+                "type": "path",
+                "description": "Database ID"
+              },
+              {
+                "name": "startId",
+                "value": "",
+                "type": "query",
+                "description": "Starting point after which to return results"
+              }
+            ]
+          },
+          "docs": "By default it returns the 20 last results. The response is paginated."
+        },
+        {
+          "info": {
+            "name": "List database deploys",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/database/:databaseId/deploymentHistoryV2",
+            "params": [
+              {
+                "name": "databaseId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "The number of deployments to return in the current page"
+              }
+            ]
+          },
+          "docs": "By default it returns the 20 last results. The response is paginated."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

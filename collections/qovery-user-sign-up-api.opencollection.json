@@ -1,0 +1,50 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Qovery Account Info User Sign Up API",
+    "version": "1.0.4"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "User Sign Up",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Sign up information",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/admin/userSignUp"
+          },
+          "docs": "Retrieve the Sign Up information of the user"
+        },
+        {
+          "info": {
+            "name": "Send Sign Up request",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.qovery.com/admin/userSignUp",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Send a Sign Up request containing the user information"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

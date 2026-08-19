@@ -1,0 +1,97 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Qovery Account Info Organization Enterprise Connection API",
+    "version": "1.0.4"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Organization Enterprise Connection",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List enterprise connections",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/organization/:organizationId/enterpriseconnection",
+            "params": [
+              {
+                "name": "organizationId",
+                "value": "",
+                "type": "path",
+                "description": "Organization ID"
+              }
+            ]
+          },
+          "docs": "List enterprise connections"
+        },
+        {
+          "info": {
+            "name": "Get enterprise connection",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/organization/:organizationId/enterpriseconnection/:connectionName",
+            "params": [
+              {
+                "name": "organizationId",
+                "value": "",
+                "type": "path",
+                "description": "Organization ID"
+              },
+              {
+                "name": "connectionName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the Organization's Enterprise Connection"
+              }
+            ]
+          },
+          "docs": "Get enterprise connection"
+        },
+        {
+          "info": {
+            "name": "Update enterprise connection",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.qovery.com/organization/:organizationId/enterpriseconnection/:connectionName",
+            "params": [
+              {
+                "name": "organizationId",
+                "value": "",
+                "type": "path",
+                "description": "Organization ID"
+              },
+              {
+                "name": "connectionName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the Organization's Enterprise Connection"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update enterprise connection"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

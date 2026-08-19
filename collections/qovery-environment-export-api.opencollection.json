@@ -1,0 +1,49 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Qovery Account Info Environment Export API",
+    "version": "1.0.4"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Environment Export",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Export full environment and its resources into Terraform manifests",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/environment/:environmentId/terraformExport",
+            "params": [
+              {
+                "name": "environmentId",
+                "value": "",
+                "type": "path",
+                "description": "Environment ID"
+              },
+              {
+                "name": "exportSecrets",
+                "value": "",
+                "type": "query",
+                "description": "export Secrets from configuration and include them into Terraform export"
+              }
+            ]
+          },
+          "docs": "Export full environment and its resources into Terraform manifests"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

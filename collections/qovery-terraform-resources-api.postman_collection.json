@@ -1,0 +1,286 @@
+{
+  "item": [
+    {
+      "id": "abebf2d3-be90-4b7e-a38d-1898e83b0e8e",
+      "name": "Terraform Resources",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "c71b09de-1427-490b-b785-0a215e1f72d2",
+          "name": "Get terraform resources from latest deployment",
+          "request": {
+            "name": "Get terraform resources from latest deployment",
+            "description": {
+              "content": "Returns the list of Terraform resources from the most recent deployment execution",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "terraform",
+                ":terraformId",
+                "terraformResources"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "terraformId",
+                  "description": "(Required) Terraform ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "6bb298f0-116e-4563-b523-9ba262352992",
+              "name": "List of terraform resources from latest deployment",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "terraform",
+                    ":terraformId",
+                    "terraformResources"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "terraformId",
+                      "description": "(Required) Terraform ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"results\": [\n    {\n      \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n      \"resource_type\": \"aws_instance\",\n      \"name\": \"web_server\",\n      \"address\": \"aws_instance.web_server\",\n      \"provider\": \"aws\",\n      \"mode\": \"managed\",\n      \"attributes\": {\n        \"instance_id\": \"i-1234567890abcdef0\",\n        \"instance_type\": \"t2.micro\",\n        \"public_ip\": \"10.0.0.1\",\n        \"private_ip\": \"172.31.0.1\"\n      },\n      \"extracted_at\": \"2023-01-15T10:30:00Z\"\n    },\n    {\n      \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n      \"resource_type\": \"aws_instance\",\n      \"name\": \"web_server\",\n      \"address\": \"aws_instance.web_server\",\n      \"provider\": \"aws\",\n      \"mode\": \"managed\",\n      \"attributes\": {\n        \"instance_id\": \"i-1234567890abcdef0\",\n        \"instance_type\": \"t2.micro\",\n        \"public_ip\": \"10.0.0.1\",\n        \"private_ip\": \"172.31.0.1\"\n      },\n      \"extracted_at\": \"2023-01-15T10:30:00Z\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "750f6af8-7ae0-440f-9964-379334259a7f",
+              "name": "Access token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "terraform",
+                    ":terraformId",
+                    "terraformResources"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "terraformId",
+                      "description": "(Required) Terraform ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "a21879e0-25b8-4a5f-8cc0-8dfff78e1d13",
+              "name": "Access forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "terraform",
+                    ":terraformId",
+                    "terraformResources"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "terraformId",
+                      "description": "(Required) Terraform ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "093f52b6-c5ed-4db5-89bf-512af399afb6",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "terraform",
+                    ":terraformId",
+                    "terraformResources"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "terraformId",
+                      "description": "(Required) Terraform ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.qovery.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "c9807441-6747-4542-8894-281e7b5ce12b",
+    "name": "Qovery Account Info Terraform Resources API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider.\n- ℹ️ The API is stable and still in development.\n\n\nContact Support:\n Name: Qovery Product Team\n Email: support+api+documentation@qovery.com",
+      "type": "text/plain"
+    }
+  }
+}

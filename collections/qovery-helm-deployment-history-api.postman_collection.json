@@ -1,0 +1,558 @@
+{
+  "item": [
+    {
+      "id": "43f79f34-b1c2-4c16-864c-a87620347143",
+      "name": "Helm Deployment History",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "e6e832b0-124e-40df-b17e-94f868d0febf",
+          "name": "List helm deployments",
+          "request": {
+            "name": "List helm deployments",
+            "description": {
+              "content": "Returns the 20 last helm deployments",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "helm",
+                ":helmId",
+                "deploymentHistory"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "helmId",
+                  "description": "(Required) Helm ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "5e9281ca-4c06-4fd6-92fd-1fdbd35bbae2",
+              "name": "List deployment history",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "helm",
+                    ":helmId",
+                    "deploymentHistory"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "helmId",
+                      "description": "(Required) Helm ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"page\": 1,\n  \"page_size\": 20,\n  \"results\": [\n    {\n      \"id\": \"16ceec32-d26b-8ad7-f7c1-003abc9a09b5\",\n      \"created_at\": \"1973-04-15T04:58:45.219Z\",\n      \"updated_at\": \"1976-10-13T21:14:41.669Z\",\n      \"name\": \"string\",\n      \"status\": \"WAITING_DELETING\",\n      \"commit\": {\n        \"git_commit_id\": \"string\",\n        \"created_at\": \"2011-02-24T15:46:59.971Z\",\n        \"author_name\": \"string\",\n        \"message\": \"string\",\n        \"tag\": \"v2.1.1\",\n        \"author_avatar_url\": \"string\",\n        \"commit_page_url\": \"string\"\n      },\n      \"repository\": {\n        \"chart_name\": \"string\",\n        \"chart_version\": \"string\"\n      }\n    },\n    {\n      \"id\": \"f435d860-2fb3-18b0-31cb-e5793407aa75\",\n      \"created_at\": \"2019-08-19T00:46:24.888Z\",\n      \"updated_at\": \"2019-07-31T15:39:32.495Z\",\n      \"name\": \"string\",\n      \"status\": \"BUILDING\",\n      \"commit\": {\n        \"git_commit_id\": \"string\",\n        \"created_at\": \"1969-12-26T10:17:54.182Z\",\n        \"author_name\": \"string\",\n        \"message\": \"string\",\n        \"tag\": \"v2.1.1\",\n        \"author_avatar_url\": \"string\",\n        \"commit_page_url\": \"string\"\n      },\n      \"repository\": {\n        \"chart_name\": \"string\",\n        \"chart_version\": \"string\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "25d3ad66-ed0b-4361-bc19-76ab8a0d1a6e",
+              "name": "Access token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "helm",
+                    ":helmId",
+                    "deploymentHistory"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "helmId",
+                      "description": "(Required) Helm ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "012f21ed-6913-4734-8968-bb7b4ea43822",
+              "name": "Access forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "helm",
+                    ":helmId",
+                    "deploymentHistory"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "helmId",
+                      "description": "(Required) Helm ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "cab58ebc-f8b2-49f0-9339-1d7908d407f7",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "helm",
+                    ":helmId",
+                    "deploymentHistory"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "helmId",
+                      "description": "(Required) Helm ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "db7d9f57-e526-48d0-8a72-0f00ccadd1e3",
+          "name": "List helm deployments",
+          "request": {
+            "name": "List helm deployments",
+            "description": {
+              "content": "Returns the 20 last helm deployments",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "helm",
+                ":helmId",
+                "deploymentHistoryV2"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "pageSize",
+                  "value": "20",
+                  "description": "The number of deployments to return in the current page"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "helmId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e1972110-a9ee-45c1-b062-206df65e1335",
+              "name": "List deployment history",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "helm",
+                    ":helmId",
+                    "deploymentHistoryV2"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageSize",
+                      "value": "20"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "helmId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"page\": 1,\n  \"page_size\": 20,\n  \"results\": [\n    {\n      \"identifier\": {\n        \"name\": \"string\",\n        \"service_id\": \"48e306f2-2692-d9a0-2a0b-4fe528b93d5a\",\n        \"service_type\": \"JOB\",\n        \"execution_id\": \"string\"\n      },\n      \"status\": \"QUEUED\",\n      \"auditing_data\": {\n        \"created_at\": \"1966-05-07T01:14:40.371Z\",\n        \"updated_at\": \"1962-01-17T01:04:19.125Z\",\n        \"triggered_by\": \"string\",\n        \"origin\": \"API\"\n      },\n      \"details\": {\n        \"commit\": {\n          \"git_commit_id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"created_at\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"author_name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"message\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tag\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"author_avatar_url\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"commit_page_url\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"build_pod_name\": \"string\"\n      },\n      \"icon_uri\": \"https://hVddTCCkwVLUSK.gsmmrmZ53Guj30k9hvKXTDqghr,QpdnXrVpa.35hc5kx-1s\",\n      \"status_details\": {\n        \"action\": \"STOP\",\n        \"status\": \"CANCELING\",\n        \"sub_action\": \"NONE\"\n      },\n      \"total_duration\": \"string\"\n    },\n    {\n      \"identifier\": {\n        \"name\": \"string\",\n        \"service_id\": \"cde60117-c4d3-bfa8-b3da-fab45a298379\",\n        \"service_type\": \"DATABASE\",\n        \"execution_id\": \"string\"\n      },\n      \"status\": \"DEPLOYMENT_ERROR\",\n      \"auditing_data\": {\n        \"created_at\": \"1948-10-08T18:54:47.095Z\",\n        \"updated_at\": \"1969-09-07T21:25:45.248Z\",\n        \"triggered_by\": \"string\",\n        \"origin\": \"API\"\n      },\n      \"details\": {\n        \"commit\": {\n          \"git_commit_id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"created_at\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"author_name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"message\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tag\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"author_avatar_url\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"commit_page_url\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"build_pod_name\": \"string\"\n      },\n      \"icon_uri\": \"https://TvsyNYstoJdyxxxVryLOkrdXDjNO.hqssCVN\",\n      \"status_details\": {\n        \"action\": \"RESTART\",\n        \"status\": \"ONGOING\",\n        \"sub_action\": \"NONE\"\n      },\n      \"total_duration\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0085f2fa-5a89-4707-8e60-3dd9ece619ad",
+              "name": "Access token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "helm",
+                    ":helmId",
+                    "deploymentHistoryV2"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageSize",
+                      "value": "20"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "helmId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "0133641c-eb45-4121-86d7-d8ecff85f738",
+              "name": "Access forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "helm",
+                    ":helmId",
+                    "deploymentHistoryV2"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageSize",
+                      "value": "20"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "helmId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "a3e67515-e5be-4ef9-9206-a43611288b65",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "helm",
+                    ":helmId",
+                    "deploymentHistoryV2"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageSize",
+                      "value": "20"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "helmId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.qovery.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "2f6658e2-a3d0-4c58-9780-cf88a9d59b0c",
+    "name": "Qovery Account Info Helm Deployment History API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider.\n- ℹ️ The API is stable and still in development.\n\n\nContact Support:\n Name: Qovery Product Team\n Email: support+api+documentation@qovery.com",
+      "type": "text/plain"
+    }
+  }
+}

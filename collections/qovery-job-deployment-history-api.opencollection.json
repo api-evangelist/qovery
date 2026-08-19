@@ -1,0 +1,67 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Qovery Account Info Job Deployment History API",
+    "version": "1.0.4"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Job Deployment History",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List job deployments",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/job/:jobId/deploymentHistory",
+            "params": [
+              {
+                "name": "jobId",
+                "value": "",
+                "type": "path",
+                "description": "Job ID"
+              }
+            ]
+          },
+          "docs": "Returns the 20 last job deployments"
+        },
+        {
+          "info": {
+            "name": "List job deployments",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/job/:jobId/deploymentHistoryV2",
+            "params": [
+              {
+                "name": "jobId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "The number of deployments to return in the current page"
+              }
+            ]
+          },
+          "docs": "Returns the 20 last job deployments"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

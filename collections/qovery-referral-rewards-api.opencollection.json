@@ -1,0 +1,50 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Qovery Account Info Referral & Rewards API",
+    "version": "1.0.4"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Referral & Rewards",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get your referral information",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/account/referral"
+          },
+          "docs": "Get your referral information"
+        },
+        {
+          "info": {
+            "name": "Claim a reward",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.qovery.com/account/rewardClaim",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "A same code can be claimed only 3 times at max"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

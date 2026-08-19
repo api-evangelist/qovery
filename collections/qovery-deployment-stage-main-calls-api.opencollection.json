@@ -1,0 +1,225 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Qovery Account Info Deployment Stage Main Calls API",
+    "version": "1.0.4"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Deployment Stage Main Calls",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List environment deployment stage",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/environment/:environmentId/deploymentStage",
+            "params": [
+              {
+                "name": "environmentId",
+                "value": "",
+                "type": "path",
+                "description": "Environment ID"
+              }
+            ]
+          },
+          "docs": "List environment deployment stage"
+        },
+        {
+          "info": {
+            "name": "Create environment deployment stage",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.qovery.com/environment/:environmentId/deploymentStage",
+            "params": [
+              {
+                "name": "environmentId",
+                "value": "",
+                "type": "path",
+                "description": "Environment ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create environment deployment stage"
+        },
+        {
+          "info": {
+            "name": "Get Deployment Stage",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/deploymentStage/:deploymentStageId",
+            "params": [
+              {
+                "name": "deploymentStageId",
+                "value": "",
+                "type": "path",
+                "description": "Deployment Stage ID"
+              }
+            ]
+          },
+          "docs": "Get Deployment Stage"
+        },
+        {
+          "info": {
+            "name": "Edit deployment stage",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.qovery.com/deploymentStage/:deploymentStageId",
+            "params": [
+              {
+                "name": "deploymentStageId",
+                "value": "",
+                "type": "path",
+                "description": "Deployment Stage ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Edit deployment stage"
+        },
+        {
+          "info": {
+            "name": "Delete deployment stage",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.qovery.com/deploymentStage/:deploymentStageId",
+            "params": [
+              {
+                "name": "deploymentStageId",
+                "value": "",
+                "type": "path",
+                "description": "Deployment Stage ID"
+              }
+            ]
+          },
+          "docs": "Delete deployment stage"
+        },
+        {
+          "info": {
+            "name": "Attach service to deployment stage",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.qovery.com/deploymentStage/:deploymentStageId/service/:serviceId",
+            "params": [
+              {
+                "name": "deploymentStageId",
+                "value": "",
+                "type": "path",
+                "description": "Deployment Stage ID"
+              },
+              {
+                "name": "serviceId",
+                "value": "",
+                "type": "path",
+                "description": "Service ID of an application/job/container/database"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Moves the service to the specified deployment stage. To skip a service from environment-level deployments while keeping it in its current stage, set `is_skipped: true` in the request body. Moving the service to a different stage automatically un-skips it (sets `is_skipped: false`)."
+        },
+        {
+          "info": {
+            "name": "Move deployment stage before requested stage",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.qovery.com/deploymentStage/:deploymentStageId/moveBefore/:stageId",
+            "params": [
+              {
+                "name": "deploymentStageId",
+                "value": "",
+                "type": "path",
+                "description": "Deployment Stage ID"
+              },
+              {
+                "name": "stageId",
+                "value": "",
+                "type": "path",
+                "description": "Deployment Stage ID"
+              }
+            ]
+          },
+          "docs": "Move deployment stage before requested stage"
+        },
+        {
+          "info": {
+            "name": "Move deployment stage after requested stage",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.qovery.com/deploymentStage/:deploymentStageId/moveAfter/:stageId",
+            "params": [
+              {
+                "name": "deploymentStageId",
+                "value": "",
+                "type": "path",
+                "description": "Deployment Stage ID"
+              },
+              {
+                "name": "stageId",
+                "value": "",
+                "type": "path",
+                "description": "Deployment Stage ID"
+              }
+            ]
+          },
+          "docs": "Move deployment stage after requested stage"
+        },
+        {
+          "info": {
+            "name": "Get Service Deployment Stage",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/service/:serviceId/deploymentStage",
+            "params": [
+              {
+                "name": "serviceId",
+                "value": "",
+                "type": "path",
+                "description": "Service ID of an application/job/container/database"
+              }
+            ]
+          },
+          "docs": "Get Service Deployment Stage"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

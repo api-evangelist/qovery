@@ -1,0 +1,558 @@
+{
+  "item": [
+    {
+      "id": "788ac70d-8527-45dd-886c-d5dd413a6f87",
+      "name": "Container Deployment History",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "6a4d78a0-9e32-4d0e-9665-2758ce643004",
+          "name": "List container deployments",
+          "request": {
+            "name": "List container deployments",
+            "description": {
+              "content": "Returns the 20 last container deployments",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "container",
+                ":containerId",
+                "deploymentHistory"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "containerId",
+                  "description": "(Required) Container ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "279f3570-889d-4869-9c9b-5406a1583190",
+              "name": "List deployment history",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "container",
+                    ":containerId",
+                    "deploymentHistory"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "containerId",
+                      "description": "(Required) Container ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"page\": 1,\n  \"page_size\": 20,\n  \"results\": [\n    {\n      \"id\": \"c5d75c3e-9400-1b42-8266-502f24032871\",\n      \"created_at\": \"1987-05-17T18:30:58.531Z\",\n      \"updated_at\": \"1948-08-03T17:26:10.623Z\",\n      \"name\": \"string\",\n      \"status\": \"DEPLOYED\",\n      \"image_name\": \"string\",\n      \"tag\": \"string\",\n      \"arguments\": [\n        \"string\",\n        \"string\"\n      ],\n      \"entrypoint\": \"string\"\n    },\n    {\n      \"id\": \"6e0d08b2-414b-d761-0c4d-0cd90a13a6e3\",\n      \"created_at\": \"1978-02-21T07:12:16.949Z\",\n      \"updated_at\": \"1962-12-24T01:26:36.286Z\",\n      \"name\": \"string\",\n      \"status\": \"EXECUTING\",\n      \"image_name\": \"string\",\n      \"tag\": \"string\",\n      \"arguments\": [\n        \"string\",\n        \"string\"\n      ],\n      \"entrypoint\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "195324f2-b092-4f4c-bb59-451773364561",
+              "name": "Access token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "container",
+                    ":containerId",
+                    "deploymentHistory"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "containerId",
+                      "description": "(Required) Container ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "735d89e3-0100-44fa-aab2-803813121147",
+              "name": "Access forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "container",
+                    ":containerId",
+                    "deploymentHistory"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "containerId",
+                      "description": "(Required) Container ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "19cf055d-93b5-4955-a915-cfb1d715a02d",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "container",
+                    ":containerId",
+                    "deploymentHistory"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "containerId",
+                      "description": "(Required) Container ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c7ad6cf9-654d-422b-a2ae-4901d97e30bf",
+          "name": "List container deployments",
+          "request": {
+            "name": "List container deployments",
+            "description": {
+              "content": "Returns the 20 last container deployments",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "container",
+                ":containerId",
+                "deploymentHistoryV2"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "pageSize",
+                  "value": "20",
+                  "description": "The number of deployments to return in the current page"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "containerId",
+                  "description": "(Required) Container ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c5bf7bda-115c-4035-a8a0-07954564228c",
+              "name": "List deployment history",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "container",
+                    ":containerId",
+                    "deploymentHistoryV2"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageSize",
+                      "value": "20"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "containerId",
+                      "description": "(Required) Container ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"page\": 1,\n  \"page_size\": 20,\n  \"results\": [\n    {\n      \"identifier\": {\n        \"name\": \"string\",\n        \"service_id\": \"9956d09c-7978-1cf9-b73a-ae7d55a57d9e\",\n        \"service_type\": \"APPLICATION\",\n        \"execution_id\": \"string\"\n      },\n      \"status\": \"WAITING_STOPPING\",\n      \"auditing_data\": {\n        \"created_at\": \"1968-03-22T18:39:28.228Z\",\n        \"updated_at\": \"2013-04-23T12:35:20.807Z\",\n        \"triggered_by\": \"string\",\n        \"origin\": \"API\"\n      },\n      \"details\": {\n        \"commit\": {\n          \"git_commit_id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"created_at\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"author_name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"message\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tag\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"author_avatar_url\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"commit_page_url\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"build_pod_name\": \"string\"\n      },\n      \"icon_uri\": \"http://zapdcqZwPhibDjU.mpI6I.PyD14QTLcr6p3XjPZl\",\n      \"status_details\": {\n        \"action\": \"DELETE\",\n        \"status\": \"NEVER\",\n        \"sub_action\": \"NONE\"\n      },\n      \"total_duration\": \"string\"\n    },\n    {\n      \"identifier\": {\n        \"name\": \"string\",\n        \"service_id\": \"685899be-7d40-8522-5511-019a352528f2\",\n        \"service_type\": \"APPLICATION\",\n        \"execution_id\": \"string\"\n      },\n      \"status\": \"WAITING_STOPPING\",\n      \"auditing_data\": {\n        \"created_at\": \"1967-07-20T12:42:51.908Z\",\n        \"updated_at\": \"1950-01-04T19:30:21.112Z\",\n        \"triggered_by\": \"string\",\n        \"origin\": \"API\"\n      },\n      \"details\": {\n        \"commit\": {\n          \"git_commit_id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"created_at\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"author_name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"message\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tag\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"author_avatar_url\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"commit_page_url\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"build_pod_name\": \"string\"\n      },\n      \"icon_uri\": \"https://rIDqnXGxJPhC.ncmF1T7uxbGPrAB3gHbIiU,N65RcTCPW2eJJU.BQyq-hsd.wnvsb6x0SsqyWj\",\n      \"status_details\": {\n        \"action\": \"DELETE\",\n        \"status\": \"EXECUTING\",\n        \"sub_action\": \"NONE\"\n      },\n      \"total_duration\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "085e60f4-5060-40ce-8e75-73b4c81de820",
+              "name": "Access token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "container",
+                    ":containerId",
+                    "deploymentHistoryV2"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageSize",
+                      "value": "20"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "containerId",
+                      "description": "(Required) Container ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "b3a31982-b441-4ad2-864d-00e5289e9168",
+              "name": "Access forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "container",
+                    ":containerId",
+                    "deploymentHistoryV2"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageSize",
+                      "value": "20"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "containerId",
+                      "description": "(Required) Container ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "e99bc1af-8c07-42a6-b5d7-b3452db07799",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "container",
+                    ":containerId",
+                    "deploymentHistoryV2"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageSize",
+                      "value": "20"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "containerId",
+                      "description": "(Required) Container ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.qovery.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "43c2f3aa-8023-4108-ac00-578dfb9661f9",
+    "name": "Qovery Account Info Container Deployment History API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider.\n- ℹ️ The API is stable and still in development.\n\n\nContact Support:\n Name: Qovery Product Team\n Email: support+api+documentation@qovery.com",
+      "type": "text/plain"
+    }
+  }
+}

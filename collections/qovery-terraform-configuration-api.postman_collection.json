@@ -1,0 +1,627 @@
+{
+  "item": [
+    {
+      "id": "3f6a7b69-d005-4fc3-a307-e1458e379f64",
+      "name": "Terraform Configuration",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "db84b21c-1c56-4253-8ec2-10bff58fd2fd",
+          "name": "Get Advanced settings",
+          "request": {
+            "name": "Get Advanced settings",
+            "description": {},
+            "url": {
+              "path": [
+                "terraform",
+                ":terraformId",
+                "advancedSettings"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "terraformId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "787f960e-a74c-4f6e-a025-daa5872ce8f0",
+              "name": "Advanced settings list",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "terraform",
+                    ":terraformId",
+                    "advancedSettings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "terraformId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"build.timeout_max_sec\": 3635,\n  \"build.cpu_max_in_milli\": 2107,\n  \"build.ram_max_in_gib\": 875,\n  \"build.ephemeral_storage_in_gib\": 3330,\n  \"deployment.termination_grace_period_seconds\": 6300,\n  \"deployment.affinity.node.required\": {\n    \"key_0\": \"string\",\n    \"key_1\": \"string\"\n  },\n  \"security.service_account_name\": \"string\",\n  \"security.read_only_root_filesystem\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7a1a6228-1c5f-433b-8cda-06579ab15c64",
+              "name": "Access token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "terraform",
+                    ":terraformId",
+                    "advancedSettings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "terraformId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "b0a3848e-60c3-4098-b652-c23087710358",
+              "name": "Access forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "terraform",
+                    ":terraformId",
+                    "advancedSettings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "terraformId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "bf057435-eea8-4e4f-8e99-fec9f2709e32",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "terraform",
+                    ":terraformId",
+                    "advancedSettings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "terraformId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "65e31f36-f0b8-4e7c-a9a8-54b2a59ad6ef",
+          "name": "Edit Advanced settings",
+          "request": {
+            "name": "Edit Advanced settings",
+            "description": {},
+            "url": {
+              "path": [
+                "terraform",
+                ":terraformId",
+                "advancedSettings"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "terraformId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"build.timeout_max_sec\": \"<integer>\",\n  \"build.cpu_max_in_milli\": \"<integer>\",\n  \"build.ram_max_in_gib\": \"<integer>\",\n  \"build.ephemeral_storage_in_gib\": \"<integer>\",\n  \"deployment.termination_grace_period_seconds\": \"<integer>\",\n  \"deployment.affinity.node.required\": {\n    \"key_0\": \"<string>\"\n  },\n  \"security.service_account_name\": \"<string>\",\n  \"security.read_only_root_filesystem\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "a0a7e891-7ee2-4ec3-9692-41090114503b",
+              "name": "Updated advanced settings",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "terraform",
+                    ":terraformId",
+                    "advancedSettings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "terraformId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"build.timeout_max_sec\": \"<integer>\",\n  \"build.cpu_max_in_milli\": \"<integer>\",\n  \"build.ram_max_in_gib\": \"<integer>\",\n  \"build.ephemeral_storage_in_gib\": \"<integer>\",\n  \"deployment.termination_grace_period_seconds\": \"<integer>\",\n  \"deployment.affinity.node.required\": {\n    \"key_0\": \"<string>\"\n  },\n  \"security.service_account_name\": \"<string>\",\n  \"security.read_only_root_filesystem\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"build.timeout_max_sec\": \"<integer>\",\n  \"build.cpu_max_in_milli\": \"<integer>\",\n  \"build.ram_max_in_gib\": \"<integer>\",\n  \"build.ephemeral_storage_in_gib\": \"<integer>\",\n  \"deployment.termination_grace_period_seconds\": \"<integer>\",\n  \"deployment.affinity.node.required\": {\n    \"key_0\": \"<string>\"\n  },\n  \"security.service_account_name\": \"<string>\",\n  \"security.read_only_root_filesystem\": \"<boolean>\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "22f52a53-5786-4579-aadc-eceab50ce4cd",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "terraform",
+                    ":terraformId",
+                    "advancedSettings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "terraformId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"build.timeout_max_sec\": \"<integer>\",\n  \"build.cpu_max_in_milli\": \"<integer>\",\n  \"build.ram_max_in_gib\": \"<integer>\",\n  \"build.ephemeral_storage_in_gib\": \"<integer>\",\n  \"deployment.termination_grace_period_seconds\": \"<integer>\",\n  \"deployment.affinity.node.required\": {\n    \"key_0\": \"<string>\"\n  },\n  \"security.service_account_name\": \"<string>\",\n  \"security.read_only_root_filesystem\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "c5d90675-7a59-4059-b71a-facd217f1103",
+              "name": "Access token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "terraform",
+                    ":terraformId",
+                    "advancedSettings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "terraformId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"build.timeout_max_sec\": \"<integer>\",\n  \"build.cpu_max_in_milli\": \"<integer>\",\n  \"build.ram_max_in_gib\": \"<integer>\",\n  \"build.ephemeral_storage_in_gib\": \"<integer>\",\n  \"deployment.termination_grace_period_seconds\": \"<integer>\",\n  \"deployment.affinity.node.required\": {\n    \"key_0\": \"<string>\"\n  },\n  \"security.service_account_name\": \"<string>\",\n  \"security.read_only_root_filesystem\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "d8184e56-85c4-4881-b27e-4d129ea508f9",
+              "name": "Access forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "terraform",
+                    ":terraformId",
+                    "advancedSettings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "terraformId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"build.timeout_max_sec\": \"<integer>\",\n  \"build.cpu_max_in_milli\": \"<integer>\",\n  \"build.ram_max_in_gib\": \"<integer>\",\n  \"build.ephemeral_storage_in_gib\": \"<integer>\",\n  \"deployment.termination_grace_period_seconds\": \"<integer>\",\n  \"deployment.affinity.node.required\": {\n    \"key_0\": \"<string>\"\n  },\n  \"security.service_account_name\": \"<string>\",\n  \"security.read_only_root_filesystem\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "23bfbd84-1571-4e7a-a5ec-80d529843cf4",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "terraform",
+                    ":terraformId",
+                    "advancedSettings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "terraformId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"build.timeout_max_sec\": \"<integer>\",\n  \"build.cpu_max_in_milli\": \"<integer>\",\n  \"build.ram_max_in_gib\": \"<integer>\",\n  \"build.ephemeral_storage_in_gib\": \"<integer>\",\n  \"deployment.termination_grace_period_seconds\": \"<integer>\",\n  \"deployment.affinity.node.required\": {\n    \"key_0\": \"<string>\"\n  },\n  \"security.service_account_name\": \"<string>\",\n  \"security.read_only_root_filesystem\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.qovery.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "4c2e6bd9-6f2a-48e5-9e7f-3d2552d2ce63",
+    "name": "Qovery Account Info Terraform Configuration API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider.\n- ℹ️ The API is stable and still in development.\n\n\nContact Support:\n Name: Qovery Product Team\n Email: support+api+documentation@qovery.com",
+      "type": "text/plain"
+    }
+  }
+}

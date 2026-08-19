@@ -1,0 +1,120 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Qovery Account Info Job Deployment Restriction API",
+    "version": "1.0.4"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Job Deployment Restriction",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get job deployment restrictions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/job/:jobId/deploymentRestriction",
+            "params": [
+              {
+                "name": "jobId",
+                "value": "",
+                "type": "path",
+                "description": "Job ID"
+              }
+            ]
+          },
+          "docs": "Get job deployment restrictions"
+        },
+        {
+          "info": {
+            "name": "Create a job deployment restriction",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.qovery.com/job/:jobId/deploymentRestriction",
+            "params": [
+              {
+                "name": "jobId",
+                "value": "",
+                "type": "path",
+                "description": "Job ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a job deployment restriction"
+        },
+        {
+          "info": {
+            "name": "Edit a job deployment restriction",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.qovery.com/job/:jobId/deploymentRestriction/:deploymentRestrictionId",
+            "params": [
+              {
+                "name": "jobId",
+                "value": "",
+                "type": "path",
+                "description": "Job ID"
+              },
+              {
+                "name": "deploymentRestrictionId",
+                "value": "",
+                "type": "path",
+                "description": "Deployment Restriction ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Edit a job deployment restriction"
+        },
+        {
+          "info": {
+            "name": "Delete a job deployment restriction",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.qovery.com/job/:jobId/deploymentRestriction/:deploymentRestrictionId",
+            "params": [
+              {
+                "name": "jobId",
+                "value": "",
+                "type": "path",
+                "description": "Job ID"
+              },
+              {
+                "name": "deploymentRestrictionId",
+                "value": "",
+                "type": "path",
+                "description": "Deployment Restriction ID"
+              }
+            ]
+          },
+          "docs": "Delete a job deployment restriction"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

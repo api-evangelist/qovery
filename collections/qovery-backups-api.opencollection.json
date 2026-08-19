@@ -1,0 +1,97 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Qovery Account Info Backups API",
+    "version": "1.0.4"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Backups",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List database  backups",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/database/:databaseId/backup",
+            "params": [
+              {
+                "name": "databaseId",
+                "value": "",
+                "type": "path",
+                "description": "Database ID"
+              },
+              {
+                "name": "startId",
+                "value": "",
+                "type": "query",
+                "description": "Starting point after which to return results"
+              }
+            ]
+          },
+          "docs": "By default it returns the 20 last results. The response is paginated. In order to request the next page, you can use the startId query parameter"
+        },
+        {
+          "info": {
+            "name": "Add a backup to the Database ",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.qovery.com/database/:databaseId/backup",
+            "params": [
+              {
+                "name": "databaseId",
+                "value": "",
+                "type": "path",
+                "description": "Database ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Add a backup to the Database "
+        },
+        {
+          "info": {
+            "name": "Remove database  backup",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.qovery.com/database/:databaseId/backup/:backupId",
+            "params": [
+              {
+                "name": "databaseId",
+                "value": "",
+                "type": "path",
+                "description": "Database ID"
+              },
+              {
+                "name": "backupId",
+                "value": "",
+                "type": "path",
+                "description": "Database Backup ID"
+              }
+            ]
+          },
+          "docs": "Remove database  backup"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,72 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Qovery Account Info Github App API",
+    "version": "1.0.4"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Github App",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Connect a github account to an organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.qovery.com/organization/:organizationId/github/connect",
+            "params": [
+              {
+                "name": "organizationId",
+                "value": "",
+                "type": "path",
+                "description": "Organization ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Connect a github account to an organization"
+        },
+        {
+          "info": {
+            "name": "Disconnect a github account from an organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.qovery.com/organization/:organizationId/github/disconnect",
+            "params": [
+              {
+                "name": "organizationId",
+                "value": "",
+                "type": "path",
+                "description": "Organization ID"
+              },
+              {
+                "name": "force",
+                "value": "",
+                "type": "query",
+                "description": "Indicates if the github app should be disconnected despite github applications linked to organization"
+              }
+            ]
+          },
+          "docs": "Disconnect a github account from an organization"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

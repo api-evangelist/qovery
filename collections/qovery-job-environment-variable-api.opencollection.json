@@ -1,0 +1,201 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Qovery Account Info Job Environment Variable API",
+    "version": "1.0.4"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Job Environment Variable",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List environment variables",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/job/:jobId/environmentVariable",
+            "params": [
+              {
+                "name": "jobId",
+                "value": "",
+                "type": "path",
+                "description": "Job ID"
+              }
+            ]
+          },
+          "docs": "List environment variables"
+        },
+        {
+          "info": {
+            "name": "Add an environment variable to the job",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.qovery.com/job/:jobId/environmentVariable",
+            "params": [
+              {
+                "name": "jobId",
+                "value": "",
+                "type": "path",
+                "description": "Job ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "- Add an environment variable to the job.\n"
+        },
+        {
+          "info": {
+            "name": "Import variables",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.qovery.com/job/:jobId/environmentVariable/import",
+            "params": [
+              {
+                "name": "jobId",
+                "value": "",
+                "type": "path",
+                "description": "Job ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Import environment variables in a defined scope, with a defined visibility."
+        },
+        {
+          "info": {
+            "name": "Edit an environment variable belonging to the job",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.qovery.com/job/:jobId/environmentVariable/:environmentVariableId",
+            "params": [
+              {
+                "name": "jobId",
+                "value": "",
+                "type": "path",
+                "description": "Job ID"
+              },
+              {
+                "name": "environmentVariableId",
+                "value": "",
+                "type": "path",
+                "description": "Environment Variable ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "- You can't edit a BUILT_IN variable\n- For an override, you can't edit the key\n- For an alias, you can't edit the value\n- An override can only have a scope lower to the variable it is overriding (hierarchy is BUILT_IN > PROJECT > ENVIRONMENT > CONTAINER)\n"
+        },
+        {
+          "info": {
+            "name": "Delete an environment variable from a job",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.qovery.com/job/:jobId/environmentVariable/:environmentVariableId",
+            "params": [
+              {
+                "name": "jobId",
+                "value": "",
+                "type": "path",
+                "description": "Job ID"
+              },
+              {
+                "name": "environmentVariableId",
+                "value": "",
+                "type": "path",
+                "description": "Environment Variable ID"
+              }
+            ]
+          },
+          "docs": "- To delete an environment variable from an job you must have the project user permission\n- You can't delete a BUILT_IN variable\n- If you delete a variable having override or alias, the associated override/alias will be deleted as well\n"
+        },
+        {
+          "info": {
+            "name": "Create an environment variable override at the job level",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.qovery.com/job/:jobId/environmentVariable/:environmentVariableId/override",
+            "params": [
+              {
+                "name": "jobId",
+                "value": "",
+                "type": "path",
+                "description": "Job ID"
+              },
+              {
+                "name": "environmentVariableId",
+                "value": "",
+                "type": "path",
+                "description": "Environment Variable ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "- Allows you to override at job level an environment variable that has a higher scope.\n- You only have to specify a value in the request body\n- The system will create a new environment variable at job level with the same key as the one corresponding to the variable id in the path\n- The response body will contain the newly created variable\n- Information regarding the overridden_variable will be exposed in the \"overridden_variable\" field of the newly created variable\n"
+        },
+        {
+          "info": {
+            "name": "Create an environment variable alias at the job level",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.qovery.com/job/:jobId/environmentVariable/:environmentVariableId/alias",
+            "params": [
+              {
+                "name": "jobId",
+                "value": "",
+                "type": "path",
+                "description": "Job ID"
+              },
+              {
+                "name": "environmentVariableId",
+                "value": "",
+                "type": "path",
+                "description": "Environment Variable ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "- Allows you to add an alias at job level on an existing environment variable having higher scope, in order to customize its key.\n- You only have to specify a key in the request body\n- The system will create a new environment variable at job level with the same value as the one corresponding to the variable id in the path\n- The response body will contain the newly created variable\n- Information regarding the aliased_variable will be exposed in the \"aliased_variable\" field of the newly created va"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

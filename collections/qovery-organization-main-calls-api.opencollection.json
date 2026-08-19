@@ -1,0 +1,437 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Qovery Account Info Organization Main Calls API",
+    "version": "1.0.4"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Organization Main Calls",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List user organizations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/organization"
+          },
+          "docs": "List user organizations"
+        },
+        {
+          "info": {
+            "name": "Create an organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.qovery.com/organization",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create an organization"
+        },
+        {
+          "info": {
+            "name": "Get organization by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/organization/:organizationId",
+            "params": [
+              {
+                "name": "organizationId",
+                "value": "",
+                "type": "path",
+                "description": "Organization ID"
+              }
+            ]
+          },
+          "docs": "Get organization by ID"
+        },
+        {
+          "info": {
+            "name": "Edit an organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.qovery.com/organization/:organizationId",
+            "params": [
+              {
+                "name": "organizationId",
+                "value": "",
+                "type": "path",
+                "description": "Organization ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "To edit an organization you must have the admin permission."
+        },
+        {
+          "info": {
+            "name": "Delete an organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.qovery.com/organization/:organizationId",
+            "params": [
+              {
+                "name": "organizationId",
+                "value": "",
+                "type": "path",
+                "description": "Organization ID"
+              }
+            ]
+          },
+          "docs": "To delete an organization you must have the admin permission"
+        },
+        {
+          "info": {
+            "name": "List organization available roles",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/organization/:organizationId/availableRole",
+            "params": [
+              {
+                "name": "organizationId",
+                "value": "",
+                "type": "path",
+                "description": "Organization ID"
+              }
+            ]
+          },
+          "docs": "List organization available roles"
+        },
+        {
+          "info": {
+            "name": "List organization git tokens",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/organization/:organizationId/gitToken",
+            "params": [
+              {
+                "name": "organizationId",
+                "value": "",
+                "type": "path",
+                "description": "Organization ID"
+              }
+            ]
+          },
+          "docs": "List organization git tokens"
+        },
+        {
+          "info": {
+            "name": "Create a git token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.qovery.com/organization/:organizationId/gitToken",
+            "params": [
+              {
+                "name": "organizationId",
+                "value": "",
+                "type": "path",
+                "description": "Organization ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new git token to be used as a git provider by a service"
+        },
+        {
+          "info": {
+            "name": "Get organization git token",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/organization/:organizationId/gitToken/:gitTokenId",
+            "params": [
+              {
+                "name": "organizationId",
+                "value": "",
+                "type": "path",
+                "description": "Organization ID"
+              },
+              {
+                "name": "gitTokenId",
+                "value": "",
+                "type": "path",
+                "description": "Git Token ID"
+              }
+            ]
+          },
+          "docs": "Get organization git token"
+        },
+        {
+          "info": {
+            "name": "Edit a git token",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.qovery.com/organization/:organizationId/gitToken/:gitTokenId",
+            "params": [
+              {
+                "name": "organizationId",
+                "value": "",
+                "type": "path",
+                "description": "Organization ID"
+              },
+              {
+                "name": "gitTokenId",
+                "value": "",
+                "type": "path",
+                "description": "Git Token ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Edit a git token"
+        },
+        {
+          "info": {
+            "name": "Delete a git token",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.qovery.com/organization/:organizationId/gitToken/:gitTokenId",
+            "params": [
+              {
+                "name": "organizationId",
+                "value": "",
+                "type": "path",
+                "description": "Organization ID"
+              },
+              {
+                "name": "gitTokenId",
+                "value": "",
+                "type": "path",
+                "description": "Git Token ID"
+              }
+            ]
+          },
+          "docs": "Delete a git token"
+        },
+        {
+          "info": {
+            "name": "Get organization git token associated services",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/organization/:organizationId/gitToken/:gitTokenId/associatedServices",
+            "params": [
+              {
+                "name": "organizationId",
+                "value": "",
+                "type": "path",
+                "description": "Organization ID"
+              },
+              {
+                "name": "gitTokenId",
+                "value": "",
+                "type": "path",
+                "description": "Git Token ID"
+              }
+            ]
+          },
+          "docs": "Get organization git tokens associated services"
+        },
+        {
+          "info": {
+            "name": "Get organization container registry associated services",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/organization/:organizationId/containerRegistry/:containerRegistryId/associatedServices",
+            "params": [
+              {
+                "name": "organizationId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "containerRegistryId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get organization container registry associated services"
+        },
+        {
+          "info": {
+            "name": "Get organization helm repository associated services",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/organization/:organizationId/helmRepository/:helmRepositoryId/associatedServices",
+            "params": [
+              {
+                "name": "organizationId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "helmRepositoryId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get organization helm repository associated services"
+        },
+        {
+          "info": {
+            "name": "List Services By OrganizationId",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/organization/:organizationId/services",
+            "params": [
+              {
+                "name": "organizationId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "environment_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "cluster_id",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "List Services By OrganizationId"
+        },
+        {
+          "info": {
+            "name": "List Environments By OrganizationId",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/organization/:organizationId/environments",
+            "params": [
+              {
+                "name": "organizationId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "List Environments By OrganizationId"
+        },
+        {
+          "info": {
+            "name": "Parse Terraform variables from Git repository",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.qovery.com/organization/:organizationId/parseTerraformVariablesFromGitRepo",
+            "params": [
+              {
+                "name": "organizationId",
+                "value": "",
+                "type": "path",
+                "description": "Organization ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Parse Terraform variables from Git repository"
+        },
+        {
+          "info": {
+            "name": "List Terraform tfvars files from Git repository",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.qovery.com/organization/:organizationId/listTfVarsFilesFromGitRepo",
+            "params": [
+              {
+                "name": "organizationId",
+                "value": "",
+                "type": "path",
+                "description": "Organization ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "List Terraform tfvars files from Git repository"
+        },
+        {
+          "info": {
+            "name": "List credentials of an organization and their associated clusters",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/organization/:organizationId/credentials",
+            "params": [
+              {
+                "name": "organizationId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "List credentials of an organization and their associated clusters"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

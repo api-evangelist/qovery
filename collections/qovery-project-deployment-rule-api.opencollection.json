@@ -1,0 +1,168 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Qovery Account Info Project Deployment Rule API",
+    "version": "1.0.4"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Project Deployment Rule",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List project deployment rules",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/project/:projectId/deploymentRule",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path",
+                "description": "Project ID"
+              }
+            ]
+          },
+          "docs": "List project deployment rules"
+        },
+        {
+          "info": {
+            "name": "Create a deployment rule",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.qovery.com/project/:projectId/deploymentRule",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path",
+                "description": "Project ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a deployment rule"
+        },
+        {
+          "info": {
+            "name": "Get a project deployment rule",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/project/:projectId/deploymentRule/:deploymentRuleId",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path",
+                "description": "Project ID"
+              },
+              {
+                "name": "deploymentRuleId",
+                "value": "",
+                "type": "path",
+                "description": "Deployment Rule ID"
+              }
+            ]
+          },
+          "docs": "Get a project deployment rule"
+        },
+        {
+          "info": {
+            "name": "Edit a project deployment rule",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.qovery.com/project/:projectId/deploymentRule/:deploymentRuleId",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path",
+                "description": "Project ID"
+              },
+              {
+                "name": "deploymentRuleId",
+                "value": "",
+                "type": "path",
+                "description": "Deployment Rule ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Edit a project deployment rule"
+        },
+        {
+          "info": {
+            "name": "Delete a project deployment rule",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.qovery.com/project/:projectId/deploymentRule/:deploymentRuleId",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path",
+                "description": "Project ID"
+              },
+              {
+                "name": "deploymentRuleId",
+                "value": "",
+                "type": "path",
+                "description": "Deployment Rule ID"
+              }
+            ]
+          },
+          "docs": "Delete a project deployment rule"
+        },
+        {
+          "info": {
+            "name": "Update deployment rules priority order",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.qovery.com/project/:projectId/deploymentRule/order",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path",
+                "description": "Project ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update deployment rules priority order"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

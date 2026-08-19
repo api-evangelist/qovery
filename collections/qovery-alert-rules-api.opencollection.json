@@ -1,0 +1,119 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Qovery Account Info Alert Rules API",
+    "version": "1.0.4"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Alert Rules",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create alert rule",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.qovery.com/alert-rules",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new alert rule with PromQL expression"
+        },
+        {
+          "info": {
+            "name": "Get alert rule",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/alert-rules/:alertRuleId",
+            "params": [
+              {
+                "name": "alertRuleId",
+                "value": "",
+                "type": "path",
+                "description": "Alert Rule ID"
+              }
+            ]
+          },
+          "docs": "Retrieve a specific alert rule by its ID"
+        },
+        {
+          "info": {
+            "name": "Update alert rule",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.qovery.com/alert-rules/:alertRuleId",
+            "params": [
+              {
+                "name": "alertRuleId",
+                "value": "",
+                "type": "path",
+                "description": "Alert Rule ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update an existing alert rule"
+        },
+        {
+          "info": {
+            "name": "Delete alert rule",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.qovery.com/alert-rules/:alertRuleId",
+            "params": [
+              {
+                "name": "alertRuleId",
+                "value": "",
+                "type": "path",
+                "description": "Alert Rule ID"
+              }
+            ]
+          },
+          "docs": "Delete an alert rule"
+        },
+        {
+          "info": {
+            "name": "List alert rules",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/organization/:organizationId/alert-rules",
+            "params": [
+              {
+                "name": "organizationId",
+                "value": "",
+                "type": "path",
+                "description": "Organization ID"
+              }
+            ]
+          },
+          "docs": "Retrieve all alert rules for a specific organization"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

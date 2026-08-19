@@ -1,0 +1,119 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Qovery Account Info Helm Actions API",
+    "version": "1.0.4"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Helm Actions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Deploy helm",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.qovery.com/helm/:helmId/deploy",
+            "params": [
+              {
+                "name": "helmId",
+                "value": "",
+                "type": "path",
+                "description": "Helm ID"
+              },
+              {
+                "name": "forceEvent",
+                "value": "",
+                "type": "query",
+                "description": "When filled, it indicates the target event to be deployed.  \nIf the concerned helm hasn't the target event provided, the helm won't be deployed.\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "You must provide a git commit id or a helm version depending on the source location of your code (git vs helm repository)."
+        },
+        {
+          "info": {
+            "name": "Uninstall helm",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.qovery.com/helm/:helmId/uninstall",
+            "params": [
+              {
+                "name": "helmId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Delete the resources of the helm but keep Qovery configuration"
+        },
+        {
+          "info": {
+            "name": "Redeploy helm",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.qovery.com/helm/:helmId/redeploy",
+            "params": [
+              {
+                "name": "helmId",
+                "value": "",
+                "type": "path",
+                "description": "Helm ID"
+              },
+              {
+                "name": "forceEvent",
+                "value": "",
+                "type": "query",
+                "description": "When filled, it indicates the target event to be deployed.  \nIf the concerned helm hasn't the target event provided, the helm won't be deployed.\n"
+              }
+            ]
+          },
+          "docs": "Redeploy helm"
+        },
+        {
+          "info": {
+            "name": "Stop helm",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.qovery.com/helm/:helmId/stop",
+            "params": [
+              {
+                "name": "helmId",
+                "value": "",
+                "type": "path",
+                "description": "Helm ID"
+              }
+            ]
+          },
+          "docs": "Stop helm"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

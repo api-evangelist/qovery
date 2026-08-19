@@ -1,0 +1,1875 @@
+{
+  "item": [
+    {
+      "id": "aa0d10c3-c07b-4098-9f91-e468fb39a296",
+      "name": "Jobs",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "d689e8bf-b5c1-4e67-972c-7e29d9ec184b",
+          "name": "Auto deploy jobs",
+          "request": {
+            "name": "Auto deploy jobs",
+            "description": {
+              "content": "Triggers a new job deploy in each environment matching the following conditions\n- environment should have the auto-deploy enabled\n- the job should have the same image name and a different tag\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "organization",
+                ":organizationId",
+                "job",
+                "deploy"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "organizationId",
+                  "description": "(Required) Organization ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"image_name\": \"<string>\",\n  \"tag\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "7598bc68-2647-4415-95f1-5ee39e7e87e1",
+              "name": "Deployed jobs",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "organization",
+                    ":organizationId",
+                    "job",
+                    "deploy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "organizationId",
+                      "description": "(Required) Organization ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"image_name\": \"<string>\",\n  \"tag\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"18c9007e-952a-a46e-135e-0f5fc3227c47\",\n  \"state\": \"WAITING_RESTARTING\",\n  \"service_deployment_status\": \"NEVER_DEPLOYED\",\n  \"status_details\": {\n    \"action\": \"DEPLOY\",\n    \"status\": \"SUCCESS\",\n    \"sub_action\": \"NONE\"\n  },\n  \"is_part_last_deployment\": true,\n  \"deployment_requests_count\": 555,\n  \"deployment_request_id\": \"462da684-5d60-9fe4-5e6f-1f292f84f5e8\",\n  \"last_deployment_date\": \"1948-02-07T18:08:49.841Z\",\n  \"steps\": {\n    \"total_duration_sec\": 6937,\n    \"total_computing_duration_sec\": 3388,\n    \"details\": [\n      {\n        \"step_name\": \"EXECUTING\",\n        \"status\": \"SUCCESS\",\n        \"duration_sec\": 9327\n      },\n      {\n        \"step_name\": \"BUILD_QUEUEING\",\n        \"status\": \"CANCEL\",\n        \"duration_sec\": 6641\n      }\n    ]\n  },\n  \"execution_id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ac86d09a-cb5b-4226-b82b-168405418e82",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "organization",
+                    ":organizationId",
+                    "job",
+                    "deploy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "organizationId",
+                      "description": "(Required) Organization ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"image_name\": \"<string>\",\n  \"tag\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "211869f9-d7dc-4c58-8448-7703585dd2b4",
+              "name": "Access token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "organization",
+                    ":organizationId",
+                    "job",
+                    "deploy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "organizationId",
+                      "description": "(Required) Organization ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"image_name\": \"<string>\",\n  \"tag\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "84cdf0bc-a68a-4897-bbab-891b5af77d65",
+              "name": "Access forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "organization",
+                    ":organizationId",
+                    "job",
+                    "deploy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "organizationId",
+                      "description": "(Required) Organization ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"image_name\": \"<string>\",\n  \"tag\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "824fd080-575b-410c-abdd-524bdee1f06b",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "organization",
+                    ":organizationId",
+                    "job",
+                    "deploy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "organizationId",
+                      "description": "(Required) Organization ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"image_name\": \"<string>\",\n  \"tag\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "6906d62c-375a-48d1-90fe-a02e1beeb266",
+              "name": "Operation is in progress",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "organization",
+                    ":organizationId",
+                    "job",
+                    "deploy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "organizationId",
+                      "description": "(Required) Organization ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"image_name\": \"<string>\",\n  \"tag\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "36eb7dc2-4eeb-46d7-a10b-f915aa167e66",
+          "name": "List default job advanced settings",
+          "request": {
+            "name": "List default job advanced settings",
+            "description": {
+              "content": "Default values for each setting is available in [our documentation](https://hub.qovery.com/docs/using-qovery/configuration/advanced-settings/)",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "defaultJobAdvancedSettings"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "962250e6-b688-4939-93f5-e9920154d999",
+              "name": "Default job advanced settings",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "defaultJobAdvancedSettings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"build.timeout_max_sec\": 5454,\n  \"build.cpu_max_in_milli\": 4586,\n  \"build.ram_max_in_gib\": 3925,\n  \"build.disable_buildkit_cache\": true,\n  \"deployment.termination_grace_period_seconds\": 3568,\n  \"deployment.affinity.node.required\": {\n    \"key_0\": \"string\"\n  },\n  \"job.delete_ttl_seconds_after_finished\": 1001,\n  \"cronjob.concurrency_policy\": \"string\",\n  \"cronjob.failed_jobs_history_limit\": 8307,\n  \"cronjob.success_jobs_history_limit\": 8999,\n  \"security.service_account_name\": \"string\",\n  \"security.automount_service_account_token\": false,\n  \"security.read_only_root_filesystem\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "212f0030-8e1f-4c30-96d7-75740bb510ab",
+              "name": "Access token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "defaultJobAdvancedSettings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "e3abb725-7ecb-4924-b663-75238ac65428",
+              "name": "Access forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "defaultJobAdvancedSettings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b9ce1bc9-75b9-42ee-bc15-21861d6b58ab",
+          "name": "List jobs",
+          "request": {
+            "name": "List jobs",
+            "description": {},
+            "url": {
+              "path": [
+                "environment",
+                ":environmentId",
+                "job"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "toUpdate",
+                  "value": "false",
+                  "description": "return (or not) results that must be updated"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "environmentId",
+                  "description": "(Required) Environment ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d279f8a5-fa31-486e-8578-2b5b5d4ee75d",
+              "name": "List jobs",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "job"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "toUpdate",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"results\": [\n    {\n      \"auto_preview\": false,\n      \"cpu\": 1250,\n      \"created_at\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"environment\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"gpu\": 1,\n      \"healthchecks\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"icon_uri\": \"http://XaOvaqJqHPsXsCpsGDKgSOKhzpwwdpkDg.qahcZ-nZ+s5lePJtaJlwAB\",\n      \"id\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"job_type\": \"LIFECYCLE\",\n      \"maximum_cpu\": 16000,\n      \"maximum_gpu\": 2,\n      \"maximum_memory\": 16384,\n      \"memory\": 1024,\n      \"name\": \"string\",\n      \"schedule\": {\n        \"on_start\": {\n          \"arguments\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"entrypoint\": \"string\"\n        },\n        \"on_stop\": {\n          \"arguments\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"entrypoint\": \"string\"\n        },\n        \"on_delete\": {\n          \"arguments\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"entrypoint\": \"string\"\n        },\n        \"lifecycle_type\": \"string\"\n      },\n      \"service_type\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"source\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"updated_at\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"description\": \"string\",\n      \"max_nb_restart\": 3378,\n      \"max_duration_seconds\": 8474,\n      \"port\": null,\n      \"auto_deploy\": true,\n      \"annotations_groups\": [\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      ],\n      \"labels_groups\": [\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      ]\n    },\n    {\n      \"auto_preview\": false,\n      \"cpu\": 1250,\n      \"created_at\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"environment\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"gpu\": 1,\n      \"healthchecks\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"icon_uri\": \"http://krLvsgTWNOGQduEE.xhhtsKoIcInU6hUOuyKcg9frCH94vMtbEaoYVGgZSP1ZZPt4\",\n      \"id\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"job_type\": \"LIFECYCLE\",\n      \"maximum_cpu\": 16000,\n      \"maximum_gpu\": 2,\n      \"maximum_memory\": 16384,\n      \"memory\": 1024,\n      \"name\": \"string\",\n      \"schedule\": {\n        \"on_start\": {\n          \"arguments\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"entrypoint\": \"string\"\n        },\n        \"on_stop\": {\n          \"arguments\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"entrypoint\": \"string\"\n        },\n        \"on_delete\": {\n          \"arguments\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ],\n          \"entrypoint\": \"string\"\n        },\n        \"lifecycle_type\": \"string\"\n      },\n      \"service_type\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"source\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"updated_at\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"description\": \"string\",\n      \"max_nb_restart\": 8194,\n      \"max_duration_seconds\": 8933,\n      \"port\": null,\n      \"auto_deploy\": false,\n      \"annotations_groups\": [\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      ],\n      \"labels_groups\": [\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "556998ea-759c-4e76-a042-7f8d5a4ff950",
+              "name": "Access token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "job"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "toUpdate",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "f796c28a-9107-40e9-ae48-0da586809f7f",
+              "name": "Access forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "job"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "toUpdate",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "210f6d75-7a17-4dbf-87d6-58206df249aa",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "job"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "toUpdate",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8ba388ef-cebf-4651-a26f-01357b676098",
+          "name": "Create a job",
+          "request": {
+            "name": "Create a job",
+            "description": {},
+            "url": {
+              "path": [
+                "environment",
+                ":environmentId",
+                "job"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "environmentId",
+                  "description": "(Required) Environment ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "<object>",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "aeb4c2b8-1e20-4d1b-9357-1da024b93321",
+              "name": "Create job",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "job"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"healthchecks\": {\n    \"readiness_probe\": {\n      \"type\": {\n        \"tcp\": {\n          \"port\": \"<integer>\",\n          \"host\": null\n        },\n        \"http\": {\n          \"path\": \"/\",\n          \"scheme\": \"HTTP\",\n          \"port\": \"<integer>\"\n        },\n        \"exec\": {\n          \"command\": [\n            \"sh\",\n            \"-c\",\n            \"test -f /tmp/healthy\"\n          ]\n        },\n        \"grpc\": {\n          \"service\": null,\n          \"port\": \"<integer>\"\n        }\n      },\n      \"initial_delay_seconds\": 30,\n      \"period_seconds\": 10,\n      \"timeout_seconds\": 5,\n      \"success_threshold\": 1,\n      \"failure_threshold\": 9\n    },\n    \"liveness_probe\": {\n      \"type\": {\n        \"tcp\": {\n          \"port\": \"<integer>\",\n          \"host\": null\n        },\n        \"http\": {\n          \"path\": \"/\",\n          \"scheme\": \"HTTP\",\n          \"port\": \"<integer>\"\n        },\n        \"exec\": {\n          \"command\": [\n            \"sh\",\n            \"-c\",\n            \"test -f /tmp/healthy\"\n          ]\n        },\n        \"grpc\": {\n          \"service\": null,\n          \"port\": \"<integer>\"\n        }\n      },\n      \"initial_delay_seconds\": 30,\n      \"period_seconds\": 10,\n      \"timeout_seconds\": 5,\n      \"success_threshold\": 1,\n      \"failure_threshold\": 9\n    }\n  },\n  \"description\": \"<string>\",\n  \"cpu\": 1250,\n  \"memory\": 1024,\n  \"gpu\": 1,\n  \"max_nb_restart\": 0,\n  \"max_duration_seconds\": \"<integer>\",\n  \"auto_preview\": \"<boolean>\",\n  \"port\": null,\n  \"source\": {\n    \"image\": {\n      \"image_name\": \"<string>\",\n      \"tag\": \"<string>\",\n      \"registry_id\": \"<string>\"\n    },\n    \"docker\": {\n      \"git_repository\": {\n        \"url\": \"https://github.com/Qovery/simple-node-app\",\n        \"provider\": \"<string>\",\n        \"branch\": \"feat/text_xxx\",\n        \"root_path\": \"/\",\n        \"git_token_id\": \"<uuid>\"\n      },\n      \"dockerfile_path\": \"<string>\",\n      \"dockerfile_raw\": \"<string>\",\n      \"docker_target_build_stage\": \"<string>\"\n    }\n  },\n  \"schedule\": {\n    \"on_start\": {\n      \"arguments\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"entrypoint\": \"<string>\"\n    },\n    \"on_stop\": {\n      \"arguments\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"entrypoint\": \"<string>\"\n    },\n    \"on_delete\": {\n      \"arguments\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"entrypoint\": \"<string>\"\n    },\n    \"cronjob\": {\n      \"scheduled_at\": \"<cron>\",\n      \"arguments\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"entrypoint\": \"<string>\",\n      \"timezone\": \"<string>\"\n    },\n    \"lifecycle_type\": \"<string>\"\n  },\n  \"auto_deploy\": \"<boolean>\",\n  \"annotations_groups\": [\n    {\n      \"id\": \"<uuid>\"\n    },\n    {\n      \"id\": \"<uuid>\"\n    }\n  ],\n  \"labels_groups\": [\n    {\n      \"id\": \"<uuid>\"\n    },\n    {\n      \"id\": \"<uuid>\"\n    }\n  ],\n  \"icon_uri\": \"<uri>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"auto_preview\": false,\n  \"cpu\": 1250,\n  \"created_at\": \"2026-05-14T08:32:50.723Z\",\n  \"environment\": {\n    \"id\": \"1c276fb9-4d68-6863-5b1a-f5c32ed56b2b\"\n  },\n  \"gpu\": 1,\n  \"healthchecks\": {\n    \"readiness_probe\": {\n      \"type\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"initial_delay_seconds\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"period_seconds\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"timeout_seconds\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"success_threshold\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"failure_threshold\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      }\n    },\n    \"liveness_probe\": {\n      \"type\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"initial_delay_seconds\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"period_seconds\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"timeout_seconds\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"success_threshold\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"failure_threshold\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      }\n    }\n  },\n  \"icon_uri\": \"https://brbzEBXVtrhXGTLGHOZmGIYAROmG.cyoQ.H,SzKIHNlIB8htpsk8wSpn7ls1cdXm88j1J0ThusKjdb.HCN9wO+,nDG\",\n  \"id\": \"dbbfd7b6-3713-65cd-bd34-a488d16b9edf\",\n  \"job_type\": \"CRON\",\n  \"maximum_cpu\": 16000,\n  \"maximum_gpu\": 2,\n  \"maximum_memory\": 16384,\n  \"memory\": 1024,\n  \"name\": \"string\",\n  \"schedule\": {\n    \"on_start\": {\n      \"arguments\": [\n        \"string\",\n        \"string\"\n      ],\n      \"entrypoint\": \"string\"\n    },\n    \"on_stop\": {\n      \"arguments\": [\n        \"string\",\n        \"string\"\n      ],\n      \"entrypoint\": \"string\"\n    },\n    \"on_delete\": {\n      \"arguments\": [\n        \"string\",\n        \"string\"\n      ],\n      \"entrypoint\": \"string\"\n    },\n    \"lifecycle_type\": \"<string>\"\n  },\n  \"service_type\": \"JOB\",\n  \"source\": {\n    \"image\": {\n      \"image_name\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"tag\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"registry\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"registry_id\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      }\n    }\n  },\n  \"updated_at\": \"1963-05-15T07:25:40.200Z\",\n  \"description\": \"string\",\n  \"max_nb_restart\": 3384,\n  \"max_duration_seconds\": 8096,\n  \"port\": null,\n  \"auto_deploy\": false,\n  \"annotations_groups\": [\n    {\n      \"annotations\": [\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      ],\n      \"created_at\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"id\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"name\": \"string\",\n      \"scopes\": [\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      ],\n      \"updated_at\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      }\n    },\n    {\n      \"annotations\": [\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      ],\n      \"created_at\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"id\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"name\": \"string\",\n      \"scopes\": [\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      ],\n      \"updated_at\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      }\n    }\n  ],\n  \"labels_groups\": [\n    {\n      \"created_at\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"id\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"labels\": [\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      ],\n      \"name\": \"string\",\n      \"updated_at\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      }\n    },\n    {\n      \"created_at\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"id\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"labels\": [\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      ],\n      \"name\": \"string\",\n      \"updated_at\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6fc4b5fc-1c00-4c56-ad89-a04387e56ade",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "job"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"healthchecks\": {\n    \"readiness_probe\": {\n      \"type\": {\n        \"tcp\": {\n          \"port\": \"<integer>\",\n          \"host\": null\n        },\n        \"http\": {\n          \"path\": \"/\",\n          \"scheme\": \"HTTP\",\n          \"port\": \"<integer>\"\n        },\n        \"exec\": {\n          \"command\": [\n            \"sh\",\n            \"-c\",\n            \"test -f /tmp/healthy\"\n          ]\n        },\n        \"grpc\": {\n          \"service\": null,\n          \"port\": \"<integer>\"\n        }\n      },\n      \"initial_delay_seconds\": 30,\n      \"period_seconds\": 10,\n      \"timeout_seconds\": 5,\n      \"success_threshold\": 1,\n      \"failure_threshold\": 9\n    },\n    \"liveness_probe\": {\n      \"type\": {\n        \"tcp\": {\n          \"port\": \"<integer>\",\n          \"host\": null\n        },\n        \"http\": {\n          \"path\": \"/\",\n          \"scheme\": \"HTTP\",\n          \"port\": \"<integer>\"\n        },\n        \"exec\": {\n          \"command\": [\n            \"sh\",\n            \"-c\",\n            \"test -f /tmp/healthy\"\n          ]\n        },\n        \"grpc\": {\n          \"service\": null,\n          \"port\": \"<integer>\"\n        }\n      },\n      \"initial_delay_seconds\": 30,\n      \"period_seconds\": 10,\n      \"timeout_seconds\": 5,\n      \"success_threshold\": 1,\n      \"failure_threshold\": 9\n    }\n  },\n  \"description\": \"<string>\",\n  \"cpu\": 1250,\n  \"memory\": 1024,\n  \"gpu\": 1,\n  \"max_nb_restart\": 0,\n  \"max_duration_seconds\": \"<integer>\",\n  \"auto_preview\": \"<boolean>\",\n  \"port\": null,\n  \"source\": {\n    \"image\": {\n      \"image_name\": \"<string>\",\n      \"tag\": \"<string>\",\n      \"registry_id\": \"<string>\"\n    },\n    \"docker\": {\n      \"git_repository\": {\n        \"url\": \"https://github.com/Qovery/simple-node-app\",\n        \"provider\": \"<string>\",\n        \"branch\": \"feat/text_xxx\",\n        \"root_path\": \"/\",\n        \"git_token_id\": \"<uuid>\"\n      },\n      \"dockerfile_path\": \"<string>\",\n      \"dockerfile_raw\": \"<string>\",\n      \"docker_target_build_stage\": \"<string>\"\n    }\n  },\n  \"schedule\": {\n    \"on_start\": {\n      \"arguments\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"entrypoint\": \"<string>\"\n    },\n    \"on_stop\": {\n      \"arguments\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"entrypoint\": \"<string>\"\n    },\n    \"on_delete\": {\n      \"arguments\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"entrypoint\": \"<string>\"\n    },\n    \"cronjob\": {\n      \"scheduled_at\": \"<cron>\",\n      \"arguments\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"entrypoint\": \"<string>\",\n      \"timezone\": \"<string>\"\n    },\n    \"lifecycle_type\": \"<string>\"\n  },\n  \"auto_deploy\": \"<boolean>\",\n  \"annotations_groups\": [\n    {\n      \"id\": \"<uuid>\"\n    },\n    {\n      \"id\": \"<uuid>\"\n    }\n  ],\n  \"labels_groups\": [\n    {\n      \"id\": \"<uuid>\"\n    },\n    {\n      \"id\": \"<uuid>\"\n    }\n  ],\n  \"icon_uri\": \"<uri>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "db3c297c-df04-4de8-b7ee-4ed06a1e0881",
+              "name": "Access token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "job"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"healthchecks\": {\n    \"readiness_probe\": {\n      \"type\": {\n        \"tcp\": {\n          \"port\": \"<integer>\",\n          \"host\": null\n        },\n        \"http\": {\n          \"path\": \"/\",\n          \"scheme\": \"HTTP\",\n          \"port\": \"<integer>\"\n        },\n        \"exec\": {\n          \"command\": [\n            \"sh\",\n            \"-c\",\n            \"test -f /tmp/healthy\"\n          ]\n        },\n        \"grpc\": {\n          \"service\": null,\n          \"port\": \"<integer>\"\n        }\n      },\n      \"initial_delay_seconds\": 30,\n      \"period_seconds\": 10,\n      \"timeout_seconds\": 5,\n      \"success_threshold\": 1,\n      \"failure_threshold\": 9\n    },\n    \"liveness_probe\": {\n      \"type\": {\n        \"tcp\": {\n          \"port\": \"<integer>\",\n          \"host\": null\n        },\n        \"http\": {\n          \"path\": \"/\",\n          \"scheme\": \"HTTP\",\n          \"port\": \"<integer>\"\n        },\n        \"exec\": {\n          \"command\": [\n            \"sh\",\n            \"-c\",\n            \"test -f /tmp/healthy\"\n          ]\n        },\n        \"grpc\": {\n          \"service\": null,\n          \"port\": \"<integer>\"\n        }\n      },\n      \"initial_delay_seconds\": 30,\n      \"period_seconds\": 10,\n      \"timeout_seconds\": 5,\n      \"success_threshold\": 1,\n      \"failure_threshold\": 9\n    }\n  },\n  \"description\": \"<string>\",\n  \"cpu\": 1250,\n  \"memory\": 1024,\n  \"gpu\": 1,\n  \"max_nb_restart\": 0,\n  \"max_duration_seconds\": \"<integer>\",\n  \"auto_preview\": \"<boolean>\",\n  \"port\": null,\n  \"source\": {\n    \"image\": {\n      \"image_name\": \"<string>\",\n      \"tag\": \"<string>\",\n      \"registry_id\": \"<string>\"\n    },\n    \"docker\": {\n      \"git_repository\": {\n        \"url\": \"https://github.com/Qovery/simple-node-app\",\n        \"provider\": \"<string>\",\n        \"branch\": \"feat/text_xxx\",\n        \"root_path\": \"/\",\n        \"git_token_id\": \"<uuid>\"\n      },\n      \"dockerfile_path\": \"<string>\",\n      \"dockerfile_raw\": \"<string>\",\n      \"docker_target_build_stage\": \"<string>\"\n    }\n  },\n  \"schedule\": {\n    \"on_start\": {\n      \"arguments\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"entrypoint\": \"<string>\"\n    },\n    \"on_stop\": {\n      \"arguments\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"entrypoint\": \"<string>\"\n    },\n    \"on_delete\": {\n      \"arguments\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"entrypoint\": \"<string>\"\n    },\n    \"cronjob\": {\n      \"scheduled_at\": \"<cron>\",\n      \"arguments\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"entrypoint\": \"<string>\",\n      \"timezone\": \"<string>\"\n    },\n    \"lifecycle_type\": \"<string>\"\n  },\n  \"auto_deploy\": \"<boolean>\",\n  \"annotations_groups\": [\n    {\n      \"id\": \"<uuid>\"\n    },\n    {\n      \"id\": \"<uuid>\"\n    }\n  ],\n  \"labels_groups\": [\n    {\n      \"id\": \"<uuid>\"\n    },\n    {\n      \"id\": \"<uuid>\"\n    }\n  ],\n  \"icon_uri\": \"<uri>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "1433baea-6403-45ea-a205-ecee101979db",
+              "name": "Access forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "job"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"healthchecks\": {\n    \"readiness_probe\": {\n      \"type\": {\n        \"tcp\": {\n          \"port\": \"<integer>\",\n          \"host\": null\n        },\n        \"http\": {\n          \"path\": \"/\",\n          \"scheme\": \"HTTP\",\n          \"port\": \"<integer>\"\n        },\n        \"exec\": {\n          \"command\": [\n            \"sh\",\n            \"-c\",\n            \"test -f /tmp/healthy\"\n          ]\n        },\n        \"grpc\": {\n          \"service\": null,\n          \"port\": \"<integer>\"\n        }\n      },\n      \"initial_delay_seconds\": 30,\n      \"period_seconds\": 10,\n      \"timeout_seconds\": 5,\n      \"success_threshold\": 1,\n      \"failure_threshold\": 9\n    },\n    \"liveness_probe\": {\n      \"type\": {\n        \"tcp\": {\n          \"port\": \"<integer>\",\n          \"host\": null\n        },\n        \"http\": {\n          \"path\": \"/\",\n          \"scheme\": \"HTTP\",\n          \"port\": \"<integer>\"\n        },\n        \"exec\": {\n          \"command\": [\n            \"sh\",\n            \"-c\",\n            \"test -f /tmp/healthy\"\n          ]\n        },\n        \"grpc\": {\n          \"service\": null,\n          \"port\": \"<integer>\"\n        }\n      },\n      \"initial_delay_seconds\": 30,\n      \"period_seconds\": 10,\n      \"timeout_seconds\": 5,\n      \"success_threshold\": 1,\n      \"failure_threshold\": 9\n    }\n  },\n  \"description\": \"<string>\",\n  \"cpu\": 1250,\n  \"memory\": 1024,\n  \"gpu\": 1,\n  \"max_nb_restart\": 0,\n  \"max_duration_seconds\": \"<integer>\",\n  \"auto_preview\": \"<boolean>\",\n  \"port\": null,\n  \"source\": {\n    \"image\": {\n      \"image_name\": \"<string>\",\n      \"tag\": \"<string>\",\n      \"registry_id\": \"<string>\"\n    },\n    \"docker\": {\n      \"git_repository\": {\n        \"url\": \"https://github.com/Qovery/simple-node-app\",\n        \"provider\": \"<string>\",\n        \"branch\": \"feat/text_xxx\",\n        \"root_path\": \"/\",\n        \"git_token_id\": \"<uuid>\"\n      },\n      \"dockerfile_path\": \"<string>\",\n      \"dockerfile_raw\": \"<string>\",\n      \"docker_target_build_stage\": \"<string>\"\n    }\n  },\n  \"schedule\": {\n    \"on_start\": {\n      \"arguments\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"entrypoint\": \"<string>\"\n    },\n    \"on_stop\": {\n      \"arguments\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"entrypoint\": \"<string>\"\n    },\n    \"on_delete\": {\n      \"arguments\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"entrypoint\": \"<string>\"\n    },\n    \"cronjob\": {\n      \"scheduled_at\": \"<cron>\",\n      \"arguments\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"entrypoint\": \"<string>\",\n      \"timezone\": \"<string>\"\n    },\n    \"lifecycle_type\": \"<string>\"\n  },\n  \"auto_deploy\": \"<boolean>\",\n  \"annotations_groups\": [\n    {\n      \"id\": \"<uuid>\"\n    },\n    {\n      \"id\": \"<uuid>\"\n    }\n  ],\n  \"labels_groups\": [\n    {\n      \"id\": \"<uuid>\"\n    },\n    {\n      \"id\": \"<uuid>\"\n    }\n  ],\n  \"icon_uri\": \"<uri>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "10267503-0354-4d0d-87ce-516cbf2f89e0",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "job"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"healthchecks\": {\n    \"readiness_probe\": {\n      \"type\": {\n        \"tcp\": {\n          \"port\": \"<integer>\",\n          \"host\": null\n        },\n        \"http\": {\n          \"path\": \"/\",\n          \"scheme\": \"HTTP\",\n          \"port\": \"<integer>\"\n        },\n        \"exec\": {\n          \"command\": [\n            \"sh\",\n            \"-c\",\n            \"test -f /tmp/healthy\"\n          ]\n        },\n        \"grpc\": {\n          \"service\": null,\n          \"port\": \"<integer>\"\n        }\n      },\n      \"initial_delay_seconds\": 30,\n      \"period_seconds\": 10,\n      \"timeout_seconds\": 5,\n      \"success_threshold\": 1,\n      \"failure_threshold\": 9\n    },\n    \"liveness_probe\": {\n      \"type\": {\n        \"tcp\": {\n          \"port\": \"<integer>\",\n          \"host\": null\n        },\n        \"http\": {\n          \"path\": \"/\",\n          \"scheme\": \"HTTP\",\n          \"port\": \"<integer>\"\n        },\n        \"exec\": {\n          \"command\": [\n            \"sh\",\n            \"-c\",\n            \"test -f /tmp/healthy\"\n          ]\n        },\n        \"grpc\": {\n          \"service\": null,\n          \"port\": \"<integer>\"\n        }\n      },\n      \"initial_delay_seconds\": 30,\n      \"period_seconds\": 10,\n      \"timeout_seconds\": 5,\n      \"success_threshold\": 1,\n      \"failure_threshold\": 9\n    }\n  },\n  \"description\": \"<string>\",\n  \"cpu\": 1250,\n  \"memory\": 1024,\n  \"gpu\": 1,\n  \"max_nb_restart\": 0,\n  \"max_duration_seconds\": \"<integer>\",\n  \"auto_preview\": \"<boolean>\",\n  \"port\": null,\n  \"source\": {\n    \"image\": {\n      \"image_name\": \"<string>\",\n      \"tag\": \"<string>\",\n      \"registry_id\": \"<string>\"\n    },\n    \"docker\": {\n      \"git_repository\": {\n        \"url\": \"https://github.com/Qovery/simple-node-app\",\n        \"provider\": \"<string>\",\n        \"branch\": \"feat/text_xxx\",\n        \"root_path\": \"/\",\n        \"git_token_id\": \"<uuid>\"\n      },\n      \"dockerfile_path\": \"<string>\",\n      \"dockerfile_raw\": \"<string>\",\n      \"docker_target_build_stage\": \"<string>\"\n    }\n  },\n  \"schedule\": {\n    \"on_start\": {\n      \"arguments\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"entrypoint\": \"<string>\"\n    },\n    \"on_stop\": {\n      \"arguments\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"entrypoint\": \"<string>\"\n    },\n    \"on_delete\": {\n      \"arguments\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"entrypoint\": \"<string>\"\n    },\n    \"cronjob\": {\n      \"scheduled_at\": \"<cron>\",\n      \"arguments\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"entrypoint\": \"<string>\",\n      \"timezone\": \"<string>\"\n    },\n    \"lifecycle_type\": \"<string>\"\n  },\n  \"auto_deploy\": \"<boolean>\",\n  \"annotations_groups\": [\n    {\n      \"id\": \"<uuid>\"\n    },\n    {\n      \"id\": \"<uuid>\"\n    }\n  ],\n  \"labels_groups\": [\n    {\n      \"id\": \"<uuid>\"\n    },\n    {\n      \"id\": \"<uuid>\"\n    }\n  ],\n  \"icon_uri\": \"<uri>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "f26782bf-d586-4f34-b796-40bb68347755",
+              "name": "Job name within the environment is already taken",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "job"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"healthchecks\": {\n    \"readiness_probe\": {\n      \"type\": {\n        \"tcp\": {\n          \"port\": \"<integer>\",\n          \"host\": null\n        },\n        \"http\": {\n          \"path\": \"/\",\n          \"scheme\": \"HTTP\",\n          \"port\": \"<integer>\"\n        },\n        \"exec\": {\n          \"command\": [\n            \"sh\",\n            \"-c\",\n            \"test -f /tmp/healthy\"\n          ]\n        },\n        \"grpc\": {\n          \"service\": null,\n          \"port\": \"<integer>\"\n        }\n      },\n      \"initial_delay_seconds\": 30,\n      \"period_seconds\": 10,\n      \"timeout_seconds\": 5,\n      \"success_threshold\": 1,\n      \"failure_threshold\": 9\n    },\n    \"liveness_probe\": {\n      \"type\": {\n        \"tcp\": {\n          \"port\": \"<integer>\",\n          \"host\": null\n        },\n        \"http\": {\n          \"path\": \"/\",\n          \"scheme\": \"HTTP\",\n          \"port\": \"<integer>\"\n        },\n        \"exec\": {\n          \"command\": [\n            \"sh\",\n            \"-c\",\n            \"test -f /tmp/healthy\"\n          ]\n        },\n        \"grpc\": {\n          \"service\": null,\n          \"port\": \"<integer>\"\n        }\n      },\n      \"initial_delay_seconds\": 30,\n      \"period_seconds\": 10,\n      \"timeout_seconds\": 5,\n      \"success_threshold\": 1,\n      \"failure_threshold\": 9\n    }\n  },\n  \"description\": \"<string>\",\n  \"cpu\": 1250,\n  \"memory\": 1024,\n  \"gpu\": 1,\n  \"max_nb_restart\": 0,\n  \"max_duration_seconds\": \"<integer>\",\n  \"auto_preview\": \"<boolean>\",\n  \"port\": null,\n  \"source\": {\n    \"image\": {\n      \"image_name\": \"<string>\",\n      \"tag\": \"<string>\",\n      \"registry_id\": \"<string>\"\n    },\n    \"docker\": {\n      \"git_repository\": {\n        \"url\": \"https://github.com/Qovery/simple-node-app\",\n        \"provider\": \"<string>\",\n        \"branch\": \"feat/text_xxx\",\n        \"root_path\": \"/\",\n        \"git_token_id\": \"<uuid>\"\n      },\n      \"dockerfile_path\": \"<string>\",\n      \"dockerfile_raw\": \"<string>\",\n      \"docker_target_build_stage\": \"<string>\"\n    }\n  },\n  \"schedule\": {\n    \"on_start\": {\n      \"arguments\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"entrypoint\": \"<string>\"\n    },\n    \"on_stop\": {\n      \"arguments\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"entrypoint\": \"<string>\"\n    },\n    \"on_delete\": {\n      \"arguments\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"entrypoint\": \"<string>\"\n    },\n    \"cronjob\": {\n      \"scheduled_at\": \"<cron>\",\n      \"arguments\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"entrypoint\": \"<string>\",\n      \"timezone\": \"<string>\"\n    },\n    \"lifecycle_type\": \"<string>\"\n  },\n  \"auto_deploy\": \"<boolean>\",\n  \"annotations_groups\": [\n    {\n      \"id\": \"<uuid>\"\n    },\n    {\n      \"id\": \"<uuid>\"\n    }\n  ],\n  \"labels_groups\": [\n    {\n      \"id\": \"<uuid>\"\n    },\n    {\n      \"id\": \"<uuid>\"\n    }\n  ],\n  \"icon_uri\": \"<uri>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ca4fd97b-c52e-4caa-998d-6fe4cea5c390",
+          "name": "List all environment job statuses",
+          "request": {
+            "name": "List all environment job statuses",
+            "description": {
+              "content": "Returns a list of jobs with only their id and status.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "environment",
+                ":environmentId",
+                "job",
+                "status"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "environmentId",
+                  "description": "(Required) Environment ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b6e221f6-3374-4f5f-b21b-0cb93f8c47b6",
+              "name": "Get status",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "job",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"results\": [\n    {\n      \"deployment_request_id\": \"90b19317-acc2-c920-9c66-58d1b7680d7f\",\n      \"deployment_requests_count\": 6653,\n      \"id\": \"84d8700a-9d6b-dd50-b9e7-eeda9eeab0fb\",\n      \"is_part_last_deployment\": true,\n      \"service_deployment_status\": \"NEVER_DEPLOYED\",\n      \"state\": \"DEPLOYMENT_ERROR\",\n      \"status_details\": {\n        \"action\": \"RESTART\",\n        \"status\": \"CANCELING\",\n        \"sub_action\": \"NONE\"\n      },\n      \"last_deployment_date\": \"1959-09-27T20:06:40.929Z\",\n      \"steps\": {\n        \"total_duration_sec\": 5413,\n        \"total_computing_duration_sec\": 532,\n        \"details\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ]\n      },\n      \"execution_id\": \"string\"\n    },\n    {\n      \"deployment_request_id\": \"8490c387-a5cd-4d20-eead-68844d11d0d6\",\n      \"deployment_requests_count\": 9513,\n      \"id\": \"167b6b10-b512-fd16-161c-05b7c2927220\",\n      \"is_part_last_deployment\": true,\n      \"service_deployment_status\": \"OUT_OF_DATE\",\n      \"state\": \"DEPLOYMENT_QUEUED\",\n      \"status_details\": {\n        \"action\": \"RESTART\",\n        \"status\": \"CANCELING\",\n        \"sub_action\": \"NONE\"\n      },\n      \"last_deployment_date\": \"1955-09-24T03:03:04.536Z\",\n      \"steps\": {\n        \"total_duration_sec\": 6432,\n        \"total_computing_duration_sec\": 9072,\n        \"details\": [\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        ]\n      },\n      \"execution_id\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d2413b75-ec23-463e-af93-e99654552f16",
+              "name": "Access token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "job",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "bcd110bd-195c-4c23-81d8-424fde0f6118",
+              "name": "Access forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "job",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "6fb5a3bb-c4ff-45b0-a6e2-92a91971ec64",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "job",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "cfafe719-3fa5-4755-bda7-5472f7e5c5d9",
+          "name": "Clone job",
+          "request": {
+            "name": "Clone job",
+            "description": {
+              "content": "This will create a new job with the same configuration on the targeted environment Id.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "job",
+                ":jobId",
+                "clone"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "jobId",
+                  "description": "(Required) Job ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"environment_id\": \"<uuid>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "521a88dd-cae3-4ead-9242-322beb8dde60",
+              "name": "Job clone has been requested",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "job",
+                    ":jobId",
+                    "clone"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "jobId",
+                      "description": "(Required) Job ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"environment_id\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"auto_preview\": true,\n  \"cpu\": 1250,\n  \"created_at\": \"1963-11-29T12:31:36.712Z\",\n  \"environment\": {\n    \"id\": \"1afff3c6-8be2-c1f2-718d-92973905124c\"\n  },\n  \"gpu\": 1,\n  \"healthchecks\": {\n    \"readiness_probe\": {\n      \"type\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"initial_delay_seconds\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"period_seconds\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"timeout_seconds\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"success_threshold\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"failure_threshold\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      }\n    },\n    \"liveness_probe\": {\n      \"type\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"initial_delay_seconds\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"period_seconds\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"timeout_seconds\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"success_threshold\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"failure_threshold\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      }\n    }\n  },\n  \"icon_uri\": \"https://wuLeRZEIKUjRyuGlDtNHzwCIQn.ydpKHDlwKf8jSiDUmmgLfby+\",\n  \"id\": \"f5ee5d33-fc2e-fb00-2276-b373da5a2609\",\n  \"job_type\": \"LIFECYCLE\",\n  \"maximum_cpu\": 16000,\n  \"maximum_gpu\": 2,\n  \"maximum_memory\": 16384,\n  \"memory\": 1024,\n  \"name\": \"string\",\n  \"schedule\": {\n    \"on_start\": {\n      \"arguments\": [\n        \"string\",\n        \"string\"\n      ],\n      \"entrypoint\": \"string\"\n    },\n    \"on_stop\": {\n      \"arguments\": [\n        \"string\",\n        \"string\"\n      ],\n      \"entrypoint\": \"string\"\n    },\n    \"on_delete\": {\n      \"arguments\": [\n        \"string\",\n        \"string\"\n      ],\n      \"entrypoint\": \"string\"\n    },\n    \"lifecycle_type\": \"<string>\"\n  },\n  \"service_type\": \"CONTAINER\",\n  \"source\": {\n    \"image\": {\n      \"image_name\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"tag\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"registry\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"registry_id\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      }\n    }\n  },\n  \"updated_at\": \"2005-10-03T16:09:02.679Z\",\n  \"description\": \"string\",\n  \"max_nb_restart\": 5952,\n  \"max_duration_seconds\": 6431,\n  \"port\": null,\n  \"auto_deploy\": false,\n  \"annotations_groups\": [\n    {\n      \"annotations\": [\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      ],\n      \"created_at\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"id\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"name\": \"string\",\n      \"scopes\": [\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      ],\n      \"updated_at\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      }\n    },\n    {\n      \"annotations\": [\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      ],\n      \"created_at\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"id\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"name\": \"string\",\n      \"scopes\": [\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      ],\n      \"updated_at\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      }\n    }\n  ],\n  \"labels_groups\": [\n    {\n      \"created_at\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"id\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"labels\": [\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      ],\n      \"name\": \"string\",\n      \"updated_at\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      }\n    },\n    {\n      \"created_at\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"id\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"labels\": [\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      ],\n      \"name\": \"string\",\n      \"updated_at\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "586aa31e-a41d-4d7b-abb0-082614e19469",
+              "name": "Access token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "job",
+                    ":jobId",
+                    "clone"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "jobId",
+                      "description": "(Required) Job ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"environment_id\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "57ec8850-e1b3-440e-883b-72a07d13625a",
+              "name": "Access forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "job",
+                    ":jobId",
+                    "clone"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "jobId",
+                      "description": "(Required) Job ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"environment_id\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "3f49719a-992c-4c9d-b6e6-381c4b660315",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "job",
+                    ":jobId",
+                    "clone"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "jobId",
+                      "description": "(Required) Job ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"environment_id\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "08c6da2a-0fc2-4a48-9d1e-7441c6b59f16",
+              "name": "Operation is in progress",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "job",
+                    ":jobId",
+                    "clone"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "jobId",
+                      "description": "(Required) Job ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"environment_id\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.qovery.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "0846aa23-317d-46bf-9e49-26306ab3b3b4",
+    "name": "Qovery Account Info Jobs API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider.\n- ℹ️ The API is stable and still in development.\n\n\nContact Support:\n Name: Qovery Product Team\n Email: support+api+documentation@qovery.com",
+      "type": "text/plain"
+    }
+  }
+}

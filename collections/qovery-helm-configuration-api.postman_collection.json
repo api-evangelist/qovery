@@ -1,0 +1,633 @@
+{
+  "item": [
+    {
+      "id": "64976547-a0dd-4ba7-9381-d9a9aeff8668",
+      "name": "Helm Configuration",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "64f7d5a9-dd09-4e85-84a6-aa8eb8b4ff12",
+          "name": "Get advanced settings",
+          "request": {
+            "name": "Get advanced settings",
+            "description": {
+              "content": "Get list and values of the advanced settings of the helm.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "helm",
+                ":helmId",
+                "advancedSettings"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "helmId",
+                  "description": "(Required) Helm ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "404ea872-18b6-4ff5-ba3f-f82b747e167b",
+              "name": "Advanced settings list",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "helm",
+                    ":helmId",
+                    "advancedSettings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "helmId",
+                      "description": "(Required) Helm ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"deployment.custom_domain_check_enabled\": true,\n  \"network.ingress.proxy_body_size_mb\": 9548,\n  \"network.ingress.force_ssl_redirect\": true,\n  \"network.ingress.enable_cors\": true,\n  \"network.ingress.cors_allow_origin\": \"string\",\n  \"network.ingress.cors_allow_methods\": \"string\",\n  \"network.ingress.cors_allow_headers\": \"string\",\n  \"network.ingress.proxy_buffer_size_kb\": 4537,\n  \"network.ingress.keepalive_time_seconds\": 4646,\n  \"network.ingress.keepalive_timeout_seconds\": 302,\n  \"network.ingress.send_timeout_seconds\": 767,\n  \"network.ingress.proxy_connect_timeout_seconds\": 7909,\n  \"network.ingress.proxy_send_timeout_seconds\": 1316,\n  \"network.ingress.proxy_read_timeout_seconds\": 8513,\n  \"network.ingress.proxy_buffering\": \"string\",\n  \"network.ingress.proxy_request_buffering\": \"string\",\n  \"network.ingress.grpc_send_timeout_seconds\": 4972,\n  \"network.ingress.grpc_read_timeout_seconds\": 2814,\n  \"network.ingress.whitelist_source_range\": \"string\",\n  \"network.ingress.denylist_source_range\": \"string\",\n  \"network.ingress.extra_headers\": \"{\\\"X-Frame-Options\\\":\\\"DENY \\\",\\\"X-Content-Type-Options\\\":\\\"nosniff\\\"}\",\n  \"network.ingress.basic_auth_env_var\": \"string\",\n  \"network.ingress.enable_sticky_session\": false,\n  \"network.gateway_api.http_request_timeout_seconds\": 6976,\n  \"network.gateway_api.http_connection_idle_timeout_seconds\": 6219\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "266725d0-5464-4f3e-bc9e-ed385e8f259d",
+              "name": "Access token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "helm",
+                    ":helmId",
+                    "advancedSettings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "helmId",
+                      "description": "(Required) Helm ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "7b114dba-6b65-47fd-a7ae-e7c639d12c4d",
+              "name": "Access forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "helm",
+                    ":helmId",
+                    "advancedSettings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "helmId",
+                      "description": "(Required) Helm ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "28233e44-152d-4b45-b9c4-5ad14284ae23",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "helm",
+                    ":helmId",
+                    "advancedSettings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "helmId",
+                      "description": "(Required) Helm ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ec9a1e66-8412-40e2-adfc-837bab541c1c",
+          "name": "Edit advanced settings",
+          "request": {
+            "name": "Edit advanced settings",
+            "description": {
+              "content": "Edit advanced settings by returning table of advanced settings.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "helm",
+                ":helmId",
+                "advancedSettings"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "helmId",
+                  "description": "(Required) Helm ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"deployment.custom_domain_check_enabled\": \"<boolean>\",\n  \"network.ingress.proxy_body_size_mb\": \"<integer>\",\n  \"network.ingress.force_ssl_redirect\": \"<boolean>\",\n  \"network.ingress.enable_cors\": \"<boolean>\",\n  \"network.ingress.cors_allow_origin\": \"<string>\",\n  \"network.ingress.cors_allow_methods\": \"<string>\",\n  \"network.ingress.cors_allow_headers\": \"<string>\",\n  \"network.ingress.proxy_buffer_size_kb\": \"<integer>\",\n  \"network.ingress.keepalive_time_seconds\": \"<integer>\",\n  \"network.ingress.keepalive_timeout_seconds\": \"<integer>\",\n  \"network.ingress.send_timeout_seconds\": \"<integer>\",\n  \"network.ingress.proxy_connect_timeout_seconds\": \"<integer>\",\n  \"network.ingress.proxy_send_timeout_seconds\": \"<integer>\",\n  \"network.ingress.proxy_read_timeout_seconds\": \"<integer>\",\n  \"network.ingress.proxy_buffering\": \"<string>\",\n  \"network.ingress.proxy_request_buffering\": \"<string>\",\n  \"network.ingress.grpc_send_timeout_seconds\": \"<integer>\",\n  \"network.ingress.grpc_read_timeout_seconds\": \"<integer>\",\n  \"network.ingress.whitelist_source_range\": \"<string>\",\n  \"network.ingress.denylist_source_range\": \"<string>\",\n  \"network.ingress.extra_headers\": \"<string>\",\n  \"network.ingress.basic_auth_env_var\": \"<string>\",\n  \"network.ingress.enable_sticky_session\": \"<boolean>\",\n  \"network.gateway_api.http_request_timeout_seconds\": \"<integer>\",\n  \"network.gateway_api.http_connection_idle_timeout_seconds\": \"<integer>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "b4a97c80-a3d6-4ff4-832e-fcf854d71d6b",
+              "name": "Updated advanced settings",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "helm",
+                    ":helmId",
+                    "advancedSettings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "helmId",
+                      "description": "(Required) Helm ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"deployment.custom_domain_check_enabled\": \"<boolean>\",\n  \"network.ingress.proxy_body_size_mb\": \"<integer>\",\n  \"network.ingress.force_ssl_redirect\": \"<boolean>\",\n  \"network.ingress.enable_cors\": \"<boolean>\",\n  \"network.ingress.cors_allow_origin\": \"<string>\",\n  \"network.ingress.cors_allow_methods\": \"<string>\",\n  \"network.ingress.cors_allow_headers\": \"<string>\",\n  \"network.ingress.proxy_buffer_size_kb\": \"<integer>\",\n  \"network.ingress.keepalive_time_seconds\": \"<integer>\",\n  \"network.ingress.keepalive_timeout_seconds\": \"<integer>\",\n  \"network.ingress.send_timeout_seconds\": \"<integer>\",\n  \"network.ingress.proxy_connect_timeout_seconds\": \"<integer>\",\n  \"network.ingress.proxy_send_timeout_seconds\": \"<integer>\",\n  \"network.ingress.proxy_read_timeout_seconds\": \"<integer>\",\n  \"network.ingress.proxy_buffering\": \"<string>\",\n  \"network.ingress.proxy_request_buffering\": \"<string>\",\n  \"network.ingress.grpc_send_timeout_seconds\": \"<integer>\",\n  \"network.ingress.grpc_read_timeout_seconds\": \"<integer>\",\n  \"network.ingress.whitelist_source_range\": \"<string>\",\n  \"network.ingress.denylist_source_range\": \"<string>\",\n  \"network.ingress.extra_headers\": \"{\\\"X-Frame-Options\\\":\\\"DENY \\\",\\\"X-Content-Type-Options\\\":\\\"nosniff\\\"}\",\n  \"network.ingress.basic_auth_env_var\": \"<string>\",\n  \"network.ingress.enable_sticky_session\": \"<boolean>\",\n  \"network.gateway_api.http_request_timeout_seconds\": \"<integer>\",\n  \"network.gateway_api.http_connection_idle_timeout_seconds\": \"<integer>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"deployment.custom_domain_check_enabled\": \"<boolean>\",\n  \"network.ingress.proxy_body_size_mb\": \"<integer>\",\n  \"network.ingress.force_ssl_redirect\": \"<boolean>\",\n  \"network.ingress.enable_cors\": \"<boolean>\",\n  \"network.ingress.cors_allow_origin\": \"<string>\",\n  \"network.ingress.cors_allow_methods\": \"<string>\",\n  \"network.ingress.cors_allow_headers\": \"<string>\",\n  \"network.ingress.proxy_buffer_size_kb\": \"<integer>\",\n  \"network.ingress.keepalive_time_seconds\": \"<integer>\",\n  \"network.ingress.keepalive_timeout_seconds\": \"<integer>\",\n  \"network.ingress.send_timeout_seconds\": \"<integer>\",\n  \"network.ingress.proxy_connect_timeout_seconds\": \"<integer>\",\n  \"network.ingress.proxy_send_timeout_seconds\": \"<integer>\",\n  \"network.ingress.proxy_read_timeout_seconds\": \"<integer>\",\n  \"network.ingress.proxy_buffering\": \"<string>\",\n  \"network.ingress.proxy_request_buffering\": \"<string>\",\n  \"network.ingress.grpc_send_timeout_seconds\": \"<integer>\",\n  \"network.ingress.grpc_read_timeout_seconds\": \"<integer>\",\n  \"network.ingress.whitelist_source_range\": \"<string>\",\n  \"network.ingress.denylist_source_range\": \"<string>\",\n  \"network.ingress.extra_headers\": \"{\\\"X-Frame-Options\\\":\\\"DENY \\\",\\\"X-Content-Type-Options\\\":\\\"nosniff\\\"}\",\n  \"network.ingress.basic_auth_env_var\": \"<string>\",\n  \"network.ingress.enable_sticky_session\": \"<boolean>\",\n  \"network.gateway_api.http_request_timeout_seconds\": \"<integer>\",\n  \"network.gateway_api.http_connection_idle_timeout_seconds\": \"<integer>\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8a805c74-8672-4db6-9a5f-b7c73471c653",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "helm",
+                    ":helmId",
+                    "advancedSettings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "helmId",
+                      "description": "(Required) Helm ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"deployment.custom_domain_check_enabled\": \"<boolean>\",\n  \"network.ingress.proxy_body_size_mb\": \"<integer>\",\n  \"network.ingress.force_ssl_redirect\": \"<boolean>\",\n  \"network.ingress.enable_cors\": \"<boolean>\",\n  \"network.ingress.cors_allow_origin\": \"<string>\",\n  \"network.ingress.cors_allow_methods\": \"<string>\",\n  \"network.ingress.cors_allow_headers\": \"<string>\",\n  \"network.ingress.proxy_buffer_size_kb\": \"<integer>\",\n  \"network.ingress.keepalive_time_seconds\": \"<integer>\",\n  \"network.ingress.keepalive_timeout_seconds\": \"<integer>\",\n  \"network.ingress.send_timeout_seconds\": \"<integer>\",\n  \"network.ingress.proxy_connect_timeout_seconds\": \"<integer>\",\n  \"network.ingress.proxy_send_timeout_seconds\": \"<integer>\",\n  \"network.ingress.proxy_read_timeout_seconds\": \"<integer>\",\n  \"network.ingress.proxy_buffering\": \"<string>\",\n  \"network.ingress.proxy_request_buffering\": \"<string>\",\n  \"network.ingress.grpc_send_timeout_seconds\": \"<integer>\",\n  \"network.ingress.grpc_read_timeout_seconds\": \"<integer>\",\n  \"network.ingress.whitelist_source_range\": \"<string>\",\n  \"network.ingress.denylist_source_range\": \"<string>\",\n  \"network.ingress.extra_headers\": \"{\\\"X-Frame-Options\\\":\\\"DENY \\\",\\\"X-Content-Type-Options\\\":\\\"nosniff\\\"}\",\n  \"network.ingress.basic_auth_env_var\": \"<string>\",\n  \"network.ingress.enable_sticky_session\": \"<boolean>\",\n  \"network.gateway_api.http_request_timeout_seconds\": \"<integer>\",\n  \"network.gateway_api.http_connection_idle_timeout_seconds\": \"<integer>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "6c60ef52-6d17-41c6-aeae-26c63d3b3c90",
+              "name": "Access token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "helm",
+                    ":helmId",
+                    "advancedSettings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "helmId",
+                      "description": "(Required) Helm ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"deployment.custom_domain_check_enabled\": \"<boolean>\",\n  \"network.ingress.proxy_body_size_mb\": \"<integer>\",\n  \"network.ingress.force_ssl_redirect\": \"<boolean>\",\n  \"network.ingress.enable_cors\": \"<boolean>\",\n  \"network.ingress.cors_allow_origin\": \"<string>\",\n  \"network.ingress.cors_allow_methods\": \"<string>\",\n  \"network.ingress.cors_allow_headers\": \"<string>\",\n  \"network.ingress.proxy_buffer_size_kb\": \"<integer>\",\n  \"network.ingress.keepalive_time_seconds\": \"<integer>\",\n  \"network.ingress.keepalive_timeout_seconds\": \"<integer>\",\n  \"network.ingress.send_timeout_seconds\": \"<integer>\",\n  \"network.ingress.proxy_connect_timeout_seconds\": \"<integer>\",\n  \"network.ingress.proxy_send_timeout_seconds\": \"<integer>\",\n  \"network.ingress.proxy_read_timeout_seconds\": \"<integer>\",\n  \"network.ingress.proxy_buffering\": \"<string>\",\n  \"network.ingress.proxy_request_buffering\": \"<string>\",\n  \"network.ingress.grpc_send_timeout_seconds\": \"<integer>\",\n  \"network.ingress.grpc_read_timeout_seconds\": \"<integer>\",\n  \"network.ingress.whitelist_source_range\": \"<string>\",\n  \"network.ingress.denylist_source_range\": \"<string>\",\n  \"network.ingress.extra_headers\": \"{\\\"X-Frame-Options\\\":\\\"DENY \\\",\\\"X-Content-Type-Options\\\":\\\"nosniff\\\"}\",\n  \"network.ingress.basic_auth_env_var\": \"<string>\",\n  \"network.ingress.enable_sticky_session\": \"<boolean>\",\n  \"network.gateway_api.http_request_timeout_seconds\": \"<integer>\",\n  \"network.gateway_api.http_connection_idle_timeout_seconds\": \"<integer>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "1d5749d3-6004-49b6-a6a3-49bac4624dde",
+              "name": "Access forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "helm",
+                    ":helmId",
+                    "advancedSettings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "helmId",
+                      "description": "(Required) Helm ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"deployment.custom_domain_check_enabled\": \"<boolean>\",\n  \"network.ingress.proxy_body_size_mb\": \"<integer>\",\n  \"network.ingress.force_ssl_redirect\": \"<boolean>\",\n  \"network.ingress.enable_cors\": \"<boolean>\",\n  \"network.ingress.cors_allow_origin\": \"<string>\",\n  \"network.ingress.cors_allow_methods\": \"<string>\",\n  \"network.ingress.cors_allow_headers\": \"<string>\",\n  \"network.ingress.proxy_buffer_size_kb\": \"<integer>\",\n  \"network.ingress.keepalive_time_seconds\": \"<integer>\",\n  \"network.ingress.keepalive_timeout_seconds\": \"<integer>\",\n  \"network.ingress.send_timeout_seconds\": \"<integer>\",\n  \"network.ingress.proxy_connect_timeout_seconds\": \"<integer>\",\n  \"network.ingress.proxy_send_timeout_seconds\": \"<integer>\",\n  \"network.ingress.proxy_read_timeout_seconds\": \"<integer>\",\n  \"network.ingress.proxy_buffering\": \"<string>\",\n  \"network.ingress.proxy_request_buffering\": \"<string>\",\n  \"network.ingress.grpc_send_timeout_seconds\": \"<integer>\",\n  \"network.ingress.grpc_read_timeout_seconds\": \"<integer>\",\n  \"network.ingress.whitelist_source_range\": \"<string>\",\n  \"network.ingress.denylist_source_range\": \"<string>\",\n  \"network.ingress.extra_headers\": \"{\\\"X-Frame-Options\\\":\\\"DENY \\\",\\\"X-Content-Type-Options\\\":\\\"nosniff\\\"}\",\n  \"network.ingress.basic_auth_env_var\": \"<string>\",\n  \"network.ingress.enable_sticky_session\": \"<boolean>\",\n  \"network.gateway_api.http_request_timeout_seconds\": \"<integer>\",\n  \"network.gateway_api.http_connection_idle_timeout_seconds\": \"<integer>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "a65aea3f-e869-41bc-8989-fd51504d57f7",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "helm",
+                    ":helmId",
+                    "advancedSettings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "helmId",
+                      "description": "(Required) Helm ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"deployment.custom_domain_check_enabled\": \"<boolean>\",\n  \"network.ingress.proxy_body_size_mb\": \"<integer>\",\n  \"network.ingress.force_ssl_redirect\": \"<boolean>\",\n  \"network.ingress.enable_cors\": \"<boolean>\",\n  \"network.ingress.cors_allow_origin\": \"<string>\",\n  \"network.ingress.cors_allow_methods\": \"<string>\",\n  \"network.ingress.cors_allow_headers\": \"<string>\",\n  \"network.ingress.proxy_buffer_size_kb\": \"<integer>\",\n  \"network.ingress.keepalive_time_seconds\": \"<integer>\",\n  \"network.ingress.keepalive_timeout_seconds\": \"<integer>\",\n  \"network.ingress.send_timeout_seconds\": \"<integer>\",\n  \"network.ingress.proxy_connect_timeout_seconds\": \"<integer>\",\n  \"network.ingress.proxy_send_timeout_seconds\": \"<integer>\",\n  \"network.ingress.proxy_read_timeout_seconds\": \"<integer>\",\n  \"network.ingress.proxy_buffering\": \"<string>\",\n  \"network.ingress.proxy_request_buffering\": \"<string>\",\n  \"network.ingress.grpc_send_timeout_seconds\": \"<integer>\",\n  \"network.ingress.grpc_read_timeout_seconds\": \"<integer>\",\n  \"network.ingress.whitelist_source_range\": \"<string>\",\n  \"network.ingress.denylist_source_range\": \"<string>\",\n  \"network.ingress.extra_headers\": \"{\\\"X-Frame-Options\\\":\\\"DENY \\\",\\\"X-Content-Type-Options\\\":\\\"nosniff\\\"}\",\n  \"network.ingress.basic_auth_env_var\": \"<string>\",\n  \"network.ingress.enable_sticky_session\": \"<boolean>\",\n  \"network.gateway_api.http_request_timeout_seconds\": \"<integer>\",\n  \"network.gateway_api.http_connection_idle_timeout_seconds\": \"<integer>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.qovery.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "40ffd287-4208-42cf-bf54-2b4c4ff6ee1b",
+    "name": "Qovery Account Info Helm Configuration API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider.\n- ℹ️ The API is stable and still in development.\n\n\nContact Support:\n Name: Qovery Product Team\n Email: support+api+documentation@qovery.com",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,134 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Qovery Account Info Database Actions API",
+    "version": "1.0.4"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Database Actions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Redeploy database",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.qovery.com/database/:databaseId/redeploy",
+            "params": [
+              {
+                "name": "databaseId",
+                "value": "",
+                "type": "path",
+                "description": "Database ID"
+              },
+              {
+                "name": "applyImmediately",
+                "value": "",
+                "type": "query",
+                "description": "Apply immediately regardless of the maintenance window"
+              }
+            ]
+          },
+          "docs": "Redeploy database"
+        },
+        {
+          "info": {
+            "name": "Retart database",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.qovery.com/database/:databaseId/restart-service",
+            "params": [
+              {
+                "name": "databaseId",
+                "value": "",
+                "type": "path",
+                "description": "Database ID"
+              }
+            ]
+          },
+          "docs": "Retart database"
+        },
+        {
+          "info": {
+            "name": "Stop database",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.qovery.com/database/:databaseId/stop",
+            "params": [
+              {
+                "name": "databaseId",
+                "value": "",
+                "type": "path",
+                "description": "Database ID"
+              }
+            ]
+          },
+          "docs": "Stop database"
+        },
+        {
+          "info": {
+            "name": "Deploy database ",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.qovery.com/database/:databaseId/deploy",
+            "params": [
+              {
+                "name": "databaseId",
+                "value": "",
+                "type": "path",
+                "description": "Database ID"
+              },
+              {
+                "name": "applyImmediately",
+                "value": "",
+                "type": "query",
+                "description": "Apply immediately regardless of the maintenance window"
+              }
+            ]
+          },
+          "docs": "Deploy database "
+        },
+        {
+          "info": {
+            "name": "Uninstall database",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.qovery.com/database/:databaseId/uninstall",
+            "params": [
+              {
+                "name": "databaseId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Uninstall database"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

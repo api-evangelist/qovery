@@ -1,0 +1,558 @@
+{
+  "item": [
+    {
+      "id": "66314981-e0ba-481b-a124-1c744e7cd63d",
+      "name": "Job Deployment History",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "054d3e53-cf23-419f-8b72-1f1b7467c35e",
+          "name": "List job deployments",
+          "request": {
+            "name": "List job deployments",
+            "description": {
+              "content": "Returns the 20 last job deployments",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "job",
+                ":jobId",
+                "deploymentHistory"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "jobId",
+                  "description": "(Required) Job ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2f2a8c4e-6237-4564-8227-0904d3923ba5",
+              "name": "List deployment history",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "job",
+                    ":jobId",
+                    "deploymentHistory"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "jobId",
+                      "description": "(Required) Job ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"page\": 1,\n  \"page_size\": 20,\n  \"results\": [\n    {\n      \"id\": \"a3415045-bb83-d90f-fb8d-1b0807116bef\",\n      \"created_at\": \"1990-04-05T15:28:35.106Z\",\n      \"updated_at\": \"2011-01-12T19:37:58.592Z\",\n      \"name\": \"string\",\n      \"status\": \"STOPPED\",\n      \"image_name\": \"string\",\n      \"tag\": \"string\",\n      \"commit\": {\n        \"git_commit_id\": \"string\",\n        \"created_at\": \"1948-09-13T04:37:16.400Z\",\n        \"author_name\": \"string\",\n        \"message\": \"string\",\n        \"tag\": \"v2.1.1\",\n        \"author_avatar_url\": \"string\",\n        \"commit_page_url\": \"string\"\n      },\n      \"schedule\": {\n        \"event\": \"CRON\",\n        \"schedule_at\": \"string\"\n      },\n      \"arguments\": [\n        \"string\",\n        \"string\"\n      ],\n      \"entrypoint\": \"string\"\n    },\n    {\n      \"id\": \"fdba231c-060e-c951-7682-f1da8324d6a5\",\n      \"created_at\": \"2011-07-19T21:22:08.305Z\",\n      \"updated_at\": \"1957-11-26T12:04:55.337Z\",\n      \"name\": \"string\",\n      \"status\": \"RESTART_ERROR\",\n      \"image_name\": \"string\",\n      \"tag\": \"string\",\n      \"commit\": {\n        \"git_commit_id\": \"string\",\n        \"created_at\": \"1968-04-11T18:15:50.953Z\",\n        \"author_name\": \"string\",\n        \"message\": \"string\",\n        \"tag\": \"v2.1.1\",\n        \"author_avatar_url\": \"string\",\n        \"commit_page_url\": \"string\"\n      },\n      \"schedule\": {\n        \"event\": \"CRON\",\n        \"schedule_at\": \"string\"\n      },\n      \"arguments\": [\n        \"string\",\n        \"string\"\n      ],\n      \"entrypoint\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ab1f6e9e-614a-4a64-9f94-575e9fc54fc9",
+              "name": "Access token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "job",
+                    ":jobId",
+                    "deploymentHistory"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "jobId",
+                      "description": "(Required) Job ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "0471254a-7396-4958-97a9-86eda21b6264",
+              "name": "Access forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "job",
+                    ":jobId",
+                    "deploymentHistory"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "jobId",
+                      "description": "(Required) Job ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "eedefc71-8903-4b88-8706-1512f555e00e",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "job",
+                    ":jobId",
+                    "deploymentHistory"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "jobId",
+                      "description": "(Required) Job ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "28f32ff8-cc19-4037-88f4-cb8cf3dba71d",
+          "name": "List job deployments",
+          "request": {
+            "name": "List job deployments",
+            "description": {
+              "content": "Returns the 20 last job deployments",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "job",
+                ":jobId",
+                "deploymentHistoryV2"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "pageSize",
+                  "value": "20",
+                  "description": "The number of deployments to return in the current page"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "jobId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c7fab040-6767-4e9c-8f02-4cf3ca7d6970",
+              "name": "List deployment history",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "job",
+                    ":jobId",
+                    "deploymentHistoryV2"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageSize",
+                      "value": "20"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "jobId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"page\": 1,\n  \"page_size\": 20,\n  \"results\": [\n    {\n      \"identifier\": {\n        \"name\": \"string\",\n        \"service_id\": \"94cf967c-5e17-0b40-6113-f8df24b2c17b\",\n        \"service_type\": \"ARGOCD_APP\",\n        \"execution_id\": \"string\"\n      },\n      \"status\": \"DEPLOYMENT_QUEUED\",\n      \"auditing_data\": {\n        \"created_at\": \"2001-11-21T11:58:11.196Z\",\n        \"updated_at\": \"1958-07-20T01:53:42.989Z\",\n        \"triggered_by\": \"string\",\n        \"origin\": \"API\"\n      },\n      \"details\": {\n        \"commit\": {\n          \"git_commit_id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"created_at\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"author_name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"message\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tag\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"author_avatar_url\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"commit_page_url\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"build_pod_name\": \"string\"\n      },\n      \"icon_uri\": \"https://UXFxwzWra.jchhkUbY4vNqDKLWDumMiFZMwgJuk+uAhbV3cy3FZmcugmTyLNjCe+86n.fjqvB1UunCQf\",\n      \"status_details\": {\n        \"action\": \"DEPLOY\",\n        \"status\": \"ONGOING\",\n        \"sub_action\": \"NONE\"\n      },\n      \"total_duration\": \"string\"\n    },\n    {\n      \"identifier\": {\n        \"name\": \"string\",\n        \"service_id\": \"69bf7ad0-a5a6-b9d8-0ae4-f349428aa707\",\n        \"service_type\": \"APPLICATION\",\n        \"execution_id\": \"string\"\n      },\n      \"status\": \"DEPLOYING\",\n      \"auditing_data\": {\n        \"created_at\": \"1960-05-29T23:37:48.519Z\",\n        \"updated_at\": \"1986-05-31T06:10:42.086Z\",\n        \"triggered_by\": \"string\",\n        \"origin\": \"API\"\n      },\n      \"details\": {\n        \"commit\": {\n          \"git_commit_id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"created_at\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"author_name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"message\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"tag\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"author_avatar_url\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"commit_page_url\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"build_pod_name\": \"string\"\n      },\n      \"icon_uri\": \"http://lHCSmVQL.jeymQ-7WspybyGUp1xNyUeV\",\n      \"status_details\": {\n        \"action\": \"UNKNOWN\",\n        \"status\": \"EXECUTING\",\n        \"sub_action\": \"NONE\"\n      },\n      \"total_duration\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0190313a-43bb-4214-8574-663eeb35b1f2",
+              "name": "Access token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "job",
+                    ":jobId",
+                    "deploymentHistoryV2"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageSize",
+                      "value": "20"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "jobId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "522deaa8-51ee-4dd2-b741-9eeadb2709e3",
+              "name": "Access forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "job",
+                    ":jobId",
+                    "deploymentHistoryV2"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageSize",
+                      "value": "20"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "jobId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "9070b8bf-8264-4537-9aee-8de001aa55e1",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "job",
+                    ":jobId",
+                    "deploymentHistoryV2"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageSize",
+                      "value": "20"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "jobId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.qovery.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "a877e4eb-3374-4a4e-9f26-951693cb5182",
+    "name": "Qovery Account Info Job Deployment History API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider.\n- ℹ️ The API is stable and still in development.\n\n\nContact Support:\n Name: Qovery Product Team\n Email: support+api+documentation@qovery.com",
+      "type": "text/plain"
+    }
+  }
+}

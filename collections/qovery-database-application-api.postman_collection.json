@@ -1,0 +1,555 @@
+{
+  "item": [
+    {
+      "id": "08c83127-078d-4724-9986-9b20981cd525",
+      "name": "Database Application",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "a9331a6e-ce55-49ab-9ea8-a8bdb50d3fd3",
+          "name": "List applications using the database",
+          "request": {
+            "name": "List applications using the database",
+            "description": {},
+            "url": {
+              "path": [
+                "database",
+                ":databaseId",
+                "application"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "databaseId",
+                  "description": "(Required) Database ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f996c709-9ba0-4d9e-8e1c-6195ef017f60",
+              "name": "List linked applications",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "database",
+                    ":databaseId",
+                    "application"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "databaseId",
+                      "description": "(Required) Database ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"results\": [\n    {\n      \"created_at\": \"1993-09-13T10:10:10.010Z\",\n      \"environment\": {\n        \"id\": \"ed45abcb-8559-8b18-ee7b-aed38f4b5743\"\n      },\n      \"healthchecks\": {\n        \"readiness_probe\": {\n          \"type\": {\n            \"tcp\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"http\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"exec\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"grpc\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"initial_delay_seconds\": 30,\n          \"period_seconds\": 10,\n          \"timeout_seconds\": 5,\n          \"success_threshold\": 1,\n          \"failure_threshold\": 9\n        },\n        \"liveness_probe\": {\n          \"type\": {\n            \"tcp\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"http\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"exec\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"grpc\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"initial_delay_seconds\": 30,\n          \"period_seconds\": 10,\n          \"timeout_seconds\": 5,\n          \"success_threshold\": 1,\n          \"failure_threshold\": 9\n        }\n      },\n      \"icon_uri\": \"https://lngtrDPHTgvKinIiVJC.trmeYDtImWTqBU2rqcB8ZknVw7kJJmDGxA+M6cy4l7XQJGWButGGsrCnUR5ZHhMYdPDGoJ\",\n      \"id\": \"32ceced5-68e3-0d5c-0f14-fa02827407ba\",\n      \"name\": \"string\",\n      \"service_type\": \"TERRAFORM\",\n      \"updated_at\": \"1970-09-01T14:54:35.450Z\",\n      \"storage\": [\n        {\n          \"id\": \"a4f514e3-f46f-3378-62d6-e253ae37759f\",\n          \"type\": \"FAST_SSD\",\n          \"size\": 16,\n          \"mount_point\": \"/mnt/images\"\n        },\n        {\n          \"id\": \"f417a3f9-bb54-64e4-3b48-6512199a92b9\",\n          \"type\": \"FAST_SSD\",\n          \"size\": 16,\n          \"mount_point\": \"/mnt/images\"\n        }\n      ],\n      \"git_repository\": {\n        \"provider\": \"GITLAB\",\n        \"owner\": \"John Doe\",\n        \"name\": \"simple-node-app\",\n        \"url\": \"https://oLlVQOrIqtXsGQyZGLSjGhOdeAymUoP.ovtCGlp9+4+KckSfRo9,iqN8TmyrR8NhGzevMng.iEnN87i9zdgytyMlCqCpIC\",\n        \"has_access\": false,\n        \"branch\": \"string\",\n        \"root_path\": \"string\",\n        \"deployed_commit_id\": \"string\",\n        \"deployed_commit_date\": \"2000-01-13T01:07:00.827Z\",\n        \"deployed_commit_contributor\": \"string\",\n        \"deployed_commit_tag\": \"v1.0.1\",\n        \"git_token_id\": \"string\",\n        \"git_token_name\": \"string\"\n      },\n      \"maximum_cpu\": 16000,\n      \"maximum_memory\": 16384,\n      \"maximun_gpu\": 0,\n      \"description\": \"string\",\n      \"build_mode\": \"DOCKER\",\n      \"dockerfile_path\": \"string\",\n      \"cpu\": 1250,\n      \"memory\": 1024,\n      \"gpu\": 0,\n      \"min_running_instances\": 1,\n      \"max_running_instances\": 1,\n      \"auto_preview\": true,\n      \"ports\": [\n        {\n          \"id\": \"e86d5280-dbf9-680c-893e-adf1afa4a3ed\",\n          \"internal_port\": 8080,\n          \"publicly_accessible\": false,\n          \"protocol\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"name\": \"string\",\n          \"external_port\": 8080,\n          \"is_default\": true,\n          \"public_path\": \"string\",\n          \"public_path_rewrite\": \"string\"\n        },\n        {\n          \"id\": \"a848f0d2-901b-6cb2-4112-056f8ab9b8ac\",\n          \"internal_port\": 8080,\n          \"publicly_accessible\": false,\n          \"protocol\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"name\": \"string\",\n          \"external_port\": 8080,\n          \"is_default\": true,\n          \"public_path\": \"string\",\n          \"public_path_rewrite\": \"string\"\n        }\n      ],\n      \"arguments\": [\n        \"string\",\n        \"string\"\n      ],\n      \"entrypoint\": \"string\",\n      \"auto_deploy\": true,\n      \"annotations_groups\": [\n        {\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"annotations\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"scopes\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"annotations\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"scopes\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ],\n      \"labels_groups\": [\n        {\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"labels\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"labels\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ],\n      \"docker_target_build_stage\": \"string\",\n      \"autoscaling\": {\n        \"service_id\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"mode\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"polling_interval_seconds\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"cooldown_period_seconds\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"scalers\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    },\n    {\n      \"created_at\": \"1998-07-11T21:15:37.629Z\",\n      \"environment\": {\n        \"id\": \"72351f8c-744f-1948-d010-791b003fd5b7\"\n      },\n      \"healthchecks\": {\n        \"readiness_probe\": {\n          \"type\": {\n            \"tcp\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"http\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"exec\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"grpc\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"initial_delay_seconds\": 30,\n          \"period_seconds\": 10,\n          \"timeout_seconds\": 5,\n          \"success_threshold\": 1,\n          \"failure_threshold\": 9\n        },\n        \"liveness_probe\": {\n          \"type\": {\n            \"tcp\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"http\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"exec\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"grpc\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"initial_delay_seconds\": 30,\n          \"period_seconds\": 10,\n          \"timeout_seconds\": 5,\n          \"success_threshold\": 1,\n          \"failure_threshold\": 9\n        }\n      },\n      \"icon_uri\": \"https://KhXMJFhE.mpaCX2ZM2IuZiQmYiQoLQpwvSmH3Kxu,3SMvTbNMsNNmYp\",\n      \"id\": \"f533509d-b53e-48f8-f936-c9884b2b6062\",\n      \"name\": \"string\",\n      \"service_type\": \"HELM\",\n      \"updated_at\": \"1970-08-13T03:44:01.737Z\",\n      \"storage\": [\n        {\n          \"id\": \"39aeb0c1-17ed-cf21-c58d-efc1c94c94fe\",\n          \"type\": \"FAST_SSD\",\n          \"size\": 16,\n          \"mount_point\": \"/mnt/images\"\n        },\n        {\n          \"id\": \"a774f463-9dcd-c6f2-0318-1f3de3e8accb\",\n          \"type\": \"FAST_SSD\",\n          \"size\": 16,\n          \"mount_point\": \"/mnt/images\"\n        }\n      ],\n      \"git_repository\": {\n        \"provider\": \"GITLAB\",\n        \"owner\": \"John Doe\",\n        \"name\": \"simple-node-app\",\n        \"url\": \"http://GxrNjxuOnGoOerpodFrYer.nltmokOuBO0kkdPrS9CrWrNi,45qBbzQhmHotP62Me\",\n        \"has_access\": true,\n        \"branch\": \"string\",\n        \"root_path\": \"string\",\n        \"deployed_commit_id\": \"string\",\n        \"deployed_commit_date\": \"1979-03-31T17:46:20.667Z\",\n        \"deployed_commit_contributor\": \"string\",\n        \"deployed_commit_tag\": \"v1.0.1\",\n        \"git_token_id\": \"string\",\n        \"git_token_name\": \"string\"\n      },\n      \"maximum_cpu\": 16000,\n      \"maximum_memory\": 16384,\n      \"maximun_gpu\": 0,\n      \"description\": \"string\",\n      \"build_mode\": \"DOCKER\",\n      \"dockerfile_path\": \"string\",\n      \"cpu\": 1250,\n      \"memory\": 1024,\n      \"gpu\": 0,\n      \"min_running_instances\": 1,\n      \"max_running_instances\": 1,\n      \"auto_preview\": true,\n      \"ports\": [\n        {\n          \"id\": \"d7dd5059-1738-b1e7-1335-2605fb3be957\",\n          \"internal_port\": 8080,\n          \"publicly_accessible\": false,\n          \"protocol\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"name\": \"string\",\n          \"external_port\": 8080,\n          \"is_default\": true,\n          \"public_path\": \"string\",\n          \"public_path_rewrite\": \"string\"\n        },\n        {\n          \"id\": \"8c5c6c40-1bb9-c90d-17dd-8a397fb03c77\",\n          \"internal_port\": 8080,\n          \"publicly_accessible\": true,\n          \"protocol\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"name\": \"string\",\n          \"external_port\": 8080,\n          \"is_default\": false,\n          \"public_path\": \"string\",\n          \"public_path_rewrite\": \"string\"\n        }\n      ],\n      \"arguments\": [\n        \"string\",\n        \"string\"\n      ],\n      \"entrypoint\": \"string\",\n      \"auto_deploy\": false,\n      \"annotations_groups\": [\n        {\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"annotations\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"scopes\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"annotations\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"scopes\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ],\n      \"labels_groups\": [\n        {\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"labels\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        {\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"labels\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        }\n      ],\n      \"docker_target_build_stage\": \"string\",\n      \"autoscaling\": {\n        \"service_id\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"mode\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"polling_interval_seconds\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"cooldown_period_seconds\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"scalers\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "70a074db-d699-488a-87be-39a60d13d22c",
+              "name": "Access token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "database",
+                    ":databaseId",
+                    "application"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "databaseId",
+                      "description": "(Required) Database ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "985235f3-0983-40d8-96b8-70e3174fa0d1",
+              "name": "Access forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "database",
+                    ":databaseId",
+                    "application"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "databaseId",
+                      "description": "(Required) Database ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "71dde317-018c-4142-be79-cf0fa441465c",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "database",
+                    ":databaseId",
+                    "application"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "databaseId",
+                      "description": "(Required) Database ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3473c02f-5769-4f1c-a494-bd3d8750b276",
+          "name": "Remove an application from this database ",
+          "request": {
+            "name": "Remove an application from this database ",
+            "description": {},
+            "url": {
+              "path": [
+                "database",
+                ":databaseId",
+                "application",
+                ":targetApplicationId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "databaseId",
+                  "description": "(Required) Database ID"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "targetApplicationId",
+                  "description": "(Required) Target application ID"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a1cd79f6-d71b-4d0c-a87f-984a40db37fc",
+              "name": "no content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "database",
+                    ":databaseId",
+                    "application",
+                    ":targetApplicationId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "databaseId",
+                      "description": "(Required) Database ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "targetApplicationId",
+                      "description": "(Required) Target application ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "e2ad5c03-fd15-42ef-844c-d68f135c5a12",
+              "name": "Access token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "database",
+                    ":databaseId",
+                    "application",
+                    ":targetApplicationId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "databaseId",
+                      "description": "(Required) Database ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "targetApplicationId",
+                      "description": "(Required) Target application ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "0209e4a2-129e-4e0b-ba85-0bff0fc9c06a",
+              "name": "Access forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "database",
+                    ":databaseId",
+                    "application",
+                    ":targetApplicationId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "databaseId",
+                      "description": "(Required) Database ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "targetApplicationId",
+                      "description": "(Required) Target application ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "4ed08a1c-9f46-430a-80e8-0913ebd9ec61",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "database",
+                    ":databaseId",
+                    "application",
+                    ":targetApplicationId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "databaseId",
+                      "description": "(Required) Database ID"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "targetApplicationId",
+                      "description": "(Required) Target application ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.qovery.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "55661ee6-e627-43b4-aace-a8765d1f40d2",
+    "name": "Qovery Account Info Database Application API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider.\n- ℹ️ The API is stable and still in development.\n\n\nContact Support:\n Name: Qovery Product Team\n Email: support+api+documentation@qovery.com",
+      "type": "text/plain"
+    }
+  }
+}

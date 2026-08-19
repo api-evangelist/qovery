@@ -1,0 +1,148 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Qovery Account Info Git repositories API",
+    "version": "1.0.4"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Git repositories",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List directories from a git repository",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.qovery.com/organization/:organizationId/listDirectoriesFromGitRepository",
+            "params": [
+              {
+                "name": "organizationId",
+                "value": "",
+                "type": "path",
+                "description": "Organization ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "List immediate subdirectories at a specified path in a git repository.\nThis endpoint is used when creating Terraform services to help users browse\nand select the appropriate root path.\n"
+        },
+        {
+          "info": {
+            "name": "Get git provider accounts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/account/gitAuthProvider"
+          },
+          "docs": "Get git provider accounts"
+        },
+        {
+          "info": {
+            "name": "Get github repositories of the connected user",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/account/github/repository"
+          },
+          "docs": "Get github repositories of the connected user"
+        },
+        {
+          "info": {
+            "name": "Get github branches of the specified repository",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/account/github/repository/branch",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "The name of the repository where to retrieve the branches"
+              }
+            ]
+          },
+          "docs": "Get github branches of the specified repository"
+        },
+        {
+          "info": {
+            "name": "Get gitlab repositories of the connected user",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/account/gitlab/repository"
+          },
+          "docs": "Get gitlab repositories of the connected user"
+        },
+        {
+          "info": {
+            "name": "Get gitlab branches of the specified repository",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/account/gitlab/repository/branch",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "The name of the repository to retrieve the branches"
+              }
+            ]
+          },
+          "docs": "Get gitlab branches of the specified repository"
+        },
+        {
+          "info": {
+            "name": "Get bitbucket repositories of the connected user",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/account/bitbucket/repository"
+          },
+          "docs": "Get bitbucket repositories of the connected user"
+        },
+        {
+          "info": {
+            "name": "Get bitbucket branches of the specified repository",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/account/bitbucket/repository/branch",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "The name of the repository where to retrieve the branches"
+              }
+            ]
+          },
+          "docs": "Get bitbucket branches of the specified repository"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

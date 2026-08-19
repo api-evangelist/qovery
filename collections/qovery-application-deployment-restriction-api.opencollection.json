@@ -1,0 +1,120 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Qovery Account Info Application Deployment Restriction API",
+    "version": "1.0.4"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Application Deployment Restriction",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get application deployment restrictions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/application/:applicationId/deploymentRestriction",
+            "params": [
+              {
+                "name": "applicationId",
+                "value": "",
+                "type": "path",
+                "description": "Application ID"
+              }
+            ]
+          },
+          "docs": "Get application deployment restrictions"
+        },
+        {
+          "info": {
+            "name": "Create an application deployment restriction",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.qovery.com/application/:applicationId/deploymentRestriction",
+            "params": [
+              {
+                "name": "applicationId",
+                "value": "",
+                "type": "path",
+                "description": "Application ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create an application deployment restriction"
+        },
+        {
+          "info": {
+            "name": "Edit an application deployment restriction",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.qovery.com/application/:applicationId/deploymentRestriction/:deploymentRestrictionId",
+            "params": [
+              {
+                "name": "applicationId",
+                "value": "",
+                "type": "path",
+                "description": "Application ID"
+              },
+              {
+                "name": "deploymentRestrictionId",
+                "value": "",
+                "type": "path",
+                "description": "Deployment Restriction ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Edit an application deployment restriction"
+        },
+        {
+          "info": {
+            "name": "Delete an application deployment restriction",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.qovery.com/application/:applicationId/deploymentRestriction/:deploymentRestrictionId",
+            "params": [
+              {
+                "name": "applicationId",
+                "value": "",
+                "type": "path",
+                "description": "Application ID"
+              },
+              {
+                "name": "deploymentRestrictionId",
+                "value": "",
+                "type": "path",
+                "description": "Deployment Restriction ID"
+              }
+            ]
+          },
+          "docs": "Delete an application deployment restriction"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

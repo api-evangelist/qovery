@@ -1,0 +1,187 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Qovery Account Info Helm Repositories API",
+    "version": "1.0.4"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Helm Repositories",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List supported helm repository",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/availableHelmRepository"
+          },
+          "docs": "List supported helm repository by Qovery and get the mandatory authentification configuration."
+        },
+        {
+          "info": {
+            "name": "List organization helm repositories",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/organization/:organizationId/helmRepository",
+            "params": [
+              {
+                "name": "organizationId",
+                "value": "",
+                "type": "path",
+                "description": "Organization ID"
+              }
+            ]
+          },
+          "docs": "List organization helm repositories"
+        },
+        {
+          "info": {
+            "name": "Create a helm repository",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.qovery.com/organization/:organizationId/helmRepository",
+            "params": [
+              {
+                "name": "organizationId",
+                "value": "",
+                "type": "path",
+                "description": "Organization ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a helm repository"
+        },
+        {
+          "info": {
+            "name": "Get a helm repository",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/organization/:organizationId/helmRepository/:helmRepositoryId",
+            "params": [
+              {
+                "name": "organizationId",
+                "value": "",
+                "type": "path",
+                "description": "Organization ID"
+              },
+              {
+                "name": "helmRepositoryId",
+                "value": "",
+                "type": "path",
+                "description": "Helm chart repository ID"
+              }
+            ]
+          },
+          "docs": "Get a helm repository"
+        },
+        {
+          "info": {
+            "name": "Edit a helm repository",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.qovery.com/organization/:organizationId/helmRepository/:helmRepositoryId",
+            "params": [
+              {
+                "name": "organizationId",
+                "value": "",
+                "type": "path",
+                "description": "Organization ID"
+              },
+              {
+                "name": "helmRepositoryId",
+                "value": "",
+                "type": "path",
+                "description": "Helm chart repository ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Edit a helm repository"
+        },
+        {
+          "info": {
+            "name": "Delete a helm repository",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.qovery.com/organization/:organizationId/helmRepository/:helmRepositoryId",
+            "params": [
+              {
+                "name": "organizationId",
+                "value": "",
+                "type": "path",
+                "description": "Organization ID"
+              },
+              {
+                "name": "helmRepositoryId",
+                "value": "",
+                "type": "path",
+                "description": "Helm chart repository ID"
+              }
+            ]
+          },
+          "docs": "Delete a helm repository"
+        },
+        {
+          "info": {
+            "name": "List helm charts contained inside the repository",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/organization/:organizationId/helmRepository/:helmRepositoryId/charts",
+            "params": [
+              {
+                "name": "organizationId",
+                "value": "",
+                "type": "path",
+                "description": "Organization ID"
+              },
+              {
+                "name": "helmRepositoryId",
+                "value": "",
+                "type": "path",
+                "description": "Helm chart repository ID"
+              },
+              {
+                "name": "chartName",
+                "value": "",
+                "type": "query",
+                "description": "Helm chart name to filter the result on"
+              }
+            ]
+          },
+          "docs": "List helm charts contained inside the repository"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

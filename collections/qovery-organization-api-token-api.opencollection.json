@@ -1,0 +1,103 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Qovery Account Info Organization Api Token API",
+    "version": "1.0.4"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Organization Api Token",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List organization api tokens",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/organization/:organizationId/apiToken",
+            "params": [
+              {
+                "name": "organizationId",
+                "value": "",
+                "type": "path",
+                "description": "Organization ID"
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "Name of the token to filter results by."
+              },
+              {
+                "name": "creatorName",
+                "value": "",
+                "type": "query",
+                "description": "Name of the token creator to filter results by."
+              }
+            ]
+          },
+          "docs": "List organization api tokens"
+        },
+        {
+          "info": {
+            "name": "Create an organization api token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.qovery.com/organization/:organizationId/apiToken",
+            "params": [
+              {
+                "name": "organizationId",
+                "value": "",
+                "type": "path",
+                "description": "Organization ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create an organization api token. You can use the generated token to interact in a programmatic way with our API."
+        },
+        {
+          "info": {
+            "name": "Delete organization api token",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.qovery.com/organization/:organizationId/apiToken/:apiTokenId",
+            "params": [
+              {
+                "name": "organizationId",
+                "value": "",
+                "type": "path",
+                "description": "Organization ID"
+              },
+              {
+                "name": "apiTokenId",
+                "value": "",
+                "type": "path",
+                "description": "Organization Api Token ID"
+              }
+            ]
+          },
+          "docs": "Delete organization api token"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

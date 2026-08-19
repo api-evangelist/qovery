@@ -1,0 +1,120 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Qovery Account Info Helm Deployment Restriction API",
+    "version": "1.0.4"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Helm Deployment Restriction",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get helm deployment restrictions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/helm/:helmId/deploymentRestriction",
+            "params": [
+              {
+                "name": "helmId",
+                "value": "",
+                "type": "path",
+                "description": "Helm ID"
+              }
+            ]
+          },
+          "docs": "Get helm deployment restrictions"
+        },
+        {
+          "info": {
+            "name": "Create a helm deployment restriction",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.qovery.com/helm/:helmId/deploymentRestriction",
+            "params": [
+              {
+                "name": "helmId",
+                "value": "",
+                "type": "path",
+                "description": "Helm ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a helm deployment restriction"
+        },
+        {
+          "info": {
+            "name": "Edit a helm deployment restriction",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.qovery.com/helm/:helmId/deploymentRestriction/:deploymentRestrictionId",
+            "params": [
+              {
+                "name": "helmId",
+                "value": "",
+                "type": "path",
+                "description": "Helm ID"
+              },
+              {
+                "name": "deploymentRestrictionId",
+                "value": "",
+                "type": "path",
+                "description": "Deployment Restriction ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Edit a helm deployment restriction"
+        },
+        {
+          "info": {
+            "name": "Delete a helm deployment restriction",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.qovery.com/helm/:helmId/deploymentRestriction/:deploymentRestrictionId",
+            "params": [
+              {
+                "name": "helmId",
+                "value": "",
+                "type": "path",
+                "description": "Helm ID"
+              },
+              {
+                "name": "deploymentRestrictionId",
+                "value": "",
+                "type": "path",
+                "description": "Deployment Restriction ID"
+              }
+            ]
+          },
+          "docs": "Delete a helm deployment restriction"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

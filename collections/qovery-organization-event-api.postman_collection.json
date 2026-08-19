@@ -1,0 +1,1018 @@
+{
+  "item": [
+    {
+      "id": "919280a7-c124-45cd-ab2e-2930da290c22",
+      "name": "Organization Event",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "06012289-63b2-40ed-a763-2eeaca58396e",
+          "name": "Get all events inside the organization",
+          "request": {
+            "name": "Get all events inside the organization",
+            "description": {
+              "content": "Get all events inside the organization",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "organization",
+                ":organizationId",
+                "events"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "pageSize",
+                  "value": "10",
+                  "description": "The number of events to display in the current page"
+                },
+                {
+                  "disabled": false,
+                  "key": "fromTimestamp",
+                  "value": "<string>",
+                  "description": "Display events triggered since this timestamp.  \nA range of date can be specified by using `from-timestamp` with `to-timestamp`\nThe format is a timestamp with nano precision\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "toTimestamp",
+                  "value": "<string>",
+                  "description": "Display events triggered before this timestamp.  \nA range of date can be specified by using `to-timestamp` with `from-timestamp`\nThe format is a timestamp with nano precision\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "continueToken",
+                  "value": "<string>",
+                  "description": "Token used to fetch the next page results\nThe format is a timestamp with nano precision\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "stepBackToken",
+                  "value": "<string>",
+                  "description": "Token used to fetch the previous page results\nThe format is a timestamp with nano precision\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "eventType",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "targetType",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "targetId",
+                  "value": "<uuid>",
+                  "description": "The target resource id to search.  \nMust be specified with the corresponding `target_type`\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "subTargetType",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "triggeredBy",
+                  "value": "<string>",
+                  "description": "Information about the owner of the event (user name / apitoken / automatic action)"
+                },
+                {
+                  "disabled": false,
+                  "key": "origin",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "serviceProjectId",
+                  "value": "<string>",
+                  "description": "The project chosen when filtering on a service type"
+                },
+                {
+                  "disabled": false,
+                  "key": "serviceEnvironmentId",
+                  "value": "<string>",
+                  "description": "The environment chosen when filtering on a service type"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "organizationId",
+                  "description": "(Required) Organization ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "712ee695-50a3-4e3f-8111-8d9514f6690c",
+              "name": "Get organization events",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "organization",
+                    ":organizationId",
+                    "events"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageSize",
+                      "value": "10"
+                    },
+                    {
+                      "key": "fromTimestamp",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "toTimestamp",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "continueToken",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "stepBackToken",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "eventType",
+                      "value": "CREATE"
+                    },
+                    {
+                      "key": "targetType",
+                      "value": "APPLICATION"
+                    },
+                    {
+                      "key": "targetId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "subTargetType",
+                      "value": "ADVANCED_SETTINGS"
+                    },
+                    {
+                      "key": "triggeredBy",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "origin",
+                      "value": "API"
+                    },
+                    {
+                      "key": "serviceProjectId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "serviceEnvironmentId",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "organizationId",
+                      "description": "(Required) Organization ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"links\": {\n    \"previous\": \"http://JEsEzoyaePYdaT.mkQREEs5BAALeCHU7\",\n    \"next\": \"https://SrX.jcnhEnSz4k\"\n  },\n  \"organization_max_limit_reached\": true,\n  \"events\": [\n    {\n      \"id\": \"ef8ac243-3afa-cd00-ce08-97daafb990a5\",\n      \"timestamp\": \"1979-02-16T21:25:35.143Z\",\n      \"event_type\": \"CREATE\",\n      \"target_id\": \"cbfc81b8-1041-1ed7-831b-8957e4c4c6ff\",\n      \"target_name\": \"string\",\n      \"target_type\": \"APPLICATION\",\n      \"sub_target_type\": \"ADVANCED_SETTINGS\",\n      \"change\": \"string\",\n      \"origin\": \"API\",\n      \"triggered_by\": \"string\",\n      \"project_id\": \"97675edd-fdaa-b291-3211-8cd7775f388c\",\n      \"project_name\": \"string\",\n      \"environment_id\": \"27eef6af-de8a-6ffb-5c0b-69fd337c64cb\",\n      \"environment_name\": \"string\",\n      \"user_agent\": \"string\",\n      \"original_change\": \"string\"\n    },\n    {\n      \"id\": \"f1619f64-a8b0-2a50-4d3e-1e3496781b72\",\n      \"timestamp\": \"2009-05-08T00:32:48.730Z\",\n      \"event_type\": \"CREATE\",\n      \"target_id\": \"db4ece6f-1899-1d29-4c77-c5607179ed67\",\n      \"target_name\": \"string\",\n      \"target_type\": \"APPLICATION\",\n      \"sub_target_type\": \"ADVANCED_SETTINGS\",\n      \"change\": \"string\",\n      \"origin\": \"API\",\n      \"triggered_by\": \"string\",\n      \"project_id\": \"63cca7d3-e66e-aa9b-704c-05c2ab5265e4\",\n      \"project_name\": \"string\",\n      \"environment_id\": \"4b5440f0-bd0f-517d-9108-29134d96576a\",\n      \"environment_name\": \"string\",\n      \"user_agent\": \"string\",\n      \"original_change\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "daf6c3ad-86df-494e-9ace-5b9cd9b8c813",
+              "name": "Access token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "organization",
+                    ":organizationId",
+                    "events"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageSize",
+                      "value": "10"
+                    },
+                    {
+                      "key": "fromTimestamp",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "toTimestamp",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "continueToken",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "stepBackToken",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "eventType",
+                      "value": "CREATE"
+                    },
+                    {
+                      "key": "targetType",
+                      "value": "APPLICATION"
+                    },
+                    {
+                      "key": "targetId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "subTargetType",
+                      "value": "ADVANCED_SETTINGS"
+                    },
+                    {
+                      "key": "triggeredBy",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "origin",
+                      "value": "API"
+                    },
+                    {
+                      "key": "serviceProjectId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "serviceEnvironmentId",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "organizationId",
+                      "description": "(Required) Organization ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "44e058a4-4527-40bc-a247-8abc533a5598",
+              "name": "Access forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "organization",
+                    ":organizationId",
+                    "events"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageSize",
+                      "value": "10"
+                    },
+                    {
+                      "key": "fromTimestamp",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "toTimestamp",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "continueToken",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "stepBackToken",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "eventType",
+                      "value": "CREATE"
+                    },
+                    {
+                      "key": "targetType",
+                      "value": "APPLICATION"
+                    },
+                    {
+                      "key": "targetId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "subTargetType",
+                      "value": "ADVANCED_SETTINGS"
+                    },
+                    {
+                      "key": "triggeredBy",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "origin",
+                      "value": "API"
+                    },
+                    {
+                      "key": "serviceProjectId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "serviceEnvironmentId",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "organizationId",
+                      "description": "(Required) Organization ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "9b990aaf-8858-4b61-81b0-cfb0cb9501af",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "organization",
+                    ":organizationId",
+                    "events"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pageSize",
+                      "value": "10"
+                    },
+                    {
+                      "key": "fromTimestamp",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "toTimestamp",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "continueToken",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "stepBackToken",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "eventType",
+                      "value": "CREATE"
+                    },
+                    {
+                      "key": "targetType",
+                      "value": "APPLICATION"
+                    },
+                    {
+                      "key": "targetId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "subTargetType",
+                      "value": "ADVANCED_SETTINGS"
+                    },
+                    {
+                      "key": "triggeredBy",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "origin",
+                      "value": "API"
+                    },
+                    {
+                      "key": "serviceProjectId",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "serviceEnvironmentId",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "organizationId",
+                      "description": "(Required) Organization ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4222b9b7-1cf1-48b8-9c48-80183fd1f1f8",
+          "name": "Get available event targets to filter events",
+          "request": {
+            "name": "Get available event targets to filter events",
+            "description": {
+              "content": "Get available event targets to filter events",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "organization",
+                ":organizationId",
+                "targets"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "fromTimestamp",
+                  "value": "<string>",
+                  "description": "Display targets available since this timestamp.  \nA range of date can be specified by using `from-timestamp` with `to-timestamp`\nThe format is a timestamp with nano precision\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "toTimestamp",
+                  "value": "<string>",
+                  "description": "Display targets triggered before this timestamp.  \nA range of date can be specified by using `to-timestamp` with `from-timestamp`\nThe format is a timestamp with nano precision\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "eventType",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "targetType",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "triggeredBy",
+                  "value": "<string>",
+                  "description": "Information about the owner of the event (user name / apitoken / automatic action)"
+                },
+                {
+                  "disabled": false,
+                  "key": "origin",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "projectId",
+                  "value": "<uuid>",
+                  "description": "Mandatory when requesting an environment or a service"
+                },
+                {
+                  "disabled": false,
+                  "key": "environmentId",
+                  "value": "<uuid>",
+                  "description": "Mandatory when requesting a service"
+                },
+                {
+                  "disabled": false,
+                  "key": "targetLevelToFetch",
+                  "value": "<string>",
+                  "description": "Used only to retrieve projects or environments linked to service typed events"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "organizationId",
+                  "description": "(Required) Organization ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "afbc59c9-82db-4380-bb03-e9f5d26c9b5b",
+              "name": "Get organization event targets",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "organization",
+                    ":organizationId",
+                    "targets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "fromTimestamp",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "toTimestamp",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "eventType",
+                      "value": "CREATE"
+                    },
+                    {
+                      "key": "targetType",
+                      "value": "APPLICATION"
+                    },
+                    {
+                      "key": "triggeredBy",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "origin",
+                      "value": "API"
+                    },
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "environmentId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "targetLevelToFetch",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "organizationId",
+                      "description": "(Required) Organization ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"targets\": [\n    {\n      \"id\": \"4431b35f-e61f-7f4d-31aa-465ecf181165\",\n      \"name\": \"string\"\n    },\n    {\n      \"id\": \"406caa26-a389-10d9-c70c-f9d468097f34\",\n      \"name\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6fc0ac7b-885f-413e-ae03-c979cf1bedb6",
+              "name": "Access token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "organization",
+                    ":organizationId",
+                    "targets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "fromTimestamp",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "toTimestamp",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "eventType",
+                      "value": "CREATE"
+                    },
+                    {
+                      "key": "targetType",
+                      "value": "APPLICATION"
+                    },
+                    {
+                      "key": "triggeredBy",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "origin",
+                      "value": "API"
+                    },
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "environmentId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "targetLevelToFetch",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "organizationId",
+                      "description": "(Required) Organization ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "8724adf5-e495-4486-a453-93c0e5d56ad9",
+              "name": "Access forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "organization",
+                    ":organizationId",
+                    "targets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "fromTimestamp",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "toTimestamp",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "eventType",
+                      "value": "CREATE"
+                    },
+                    {
+                      "key": "targetType",
+                      "value": "APPLICATION"
+                    },
+                    {
+                      "key": "triggeredBy",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "origin",
+                      "value": "API"
+                    },
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "environmentId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "targetLevelToFetch",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "organizationId",
+                      "description": "(Required) Organization ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "3073abdf-e98f-4e3c-a9d6-2ff1cfa9d055",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "organization",
+                    ":organizationId",
+                    "targets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "fromTimestamp",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "toTimestamp",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "eventType",
+                      "value": "CREATE"
+                    },
+                    {
+                      "key": "targetType",
+                      "value": "APPLICATION"
+                    },
+                    {
+                      "key": "triggeredBy",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "origin",
+                      "value": "API"
+                    },
+                    {
+                      "key": "projectId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "environmentId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "key": "targetLevelToFetch",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "organizationId",
+                      "description": "(Required) Organization ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.qovery.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "3c87d3d1-1449-4473-895a-ab737dc80b11",
+    "name": "Qovery Account Info Organization Event API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider.\n- ℹ️ The API is stable and still in development.\n\n\nContact Support:\n Name: Qovery Product Team\n Email: support+api+documentation@qovery.com",
+      "type": "text/plain"
+    }
+  }
+}

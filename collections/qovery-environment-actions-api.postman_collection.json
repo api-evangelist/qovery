@@ -1,0 +1,4052 @@
+{
+  "item": [
+    {
+      "id": "2e8b45a1-fa1f-4cf0-83a9-34644624d197",
+      "name": "Environment Actions",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "6e85f5ad-9abf-4458-8f49-c1f604b8bf5c",
+          "name": "Deploy environment",
+          "request": {
+            "name": "Deploy environment",
+            "description": {
+              "content": "This will deploy all the services of this environment to their latest version.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "environment",
+                ":environmentId",
+                "deploy"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "environmentId",
+                  "description": "(Required) Environment ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "6b5d04a0-fb61-4e78-95bf-580d9f0256cb",
+              "name": "Deploy environment",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "deploy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"52f3e1d7-45d9-6ec5-4989-7f07ab50b60b\",\n  \"state\": \"QUEUED\",\n  \"service_deployment_status\": \"UP_TO_DATE\",\n  \"status_details\": {\n    \"action\": \"RESTART\",\n    \"status\": \"EXECUTING\",\n    \"sub_action\": \"NONE\"\n  },\n  \"is_part_last_deployment\": false,\n  \"deployment_requests_count\": 9528,\n  \"deployment_request_id\": \"e5cecb4e-a1f0-bdc4-019f-e47597eda540\",\n  \"last_deployment_date\": \"1985-02-16T16:42:28.223Z\",\n  \"steps\": {\n    \"total_duration_sec\": 5163,\n    \"total_computing_duration_sec\": 2844,\n    \"details\": [\n      {\n        \"step_name\": \"EXECUTING\",\n        \"status\": \"SKIP\",\n        \"duration_sec\": 877\n      },\n      {\n        \"step_name\": \"MIRROR_IMAGE\",\n        \"status\": \"SUCCESS\",\n        \"duration_sec\": 744\n      }\n    ]\n  },\n  \"execution_id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0a909dbe-54b4-431d-8f45-e8d4d68d61e1",
+              "name": "Access token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "deploy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "915ba3ba-d99f-481e-b49a-32783ec11bc9",
+              "name": "Access forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "deploy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "c088685e-da9e-4eb8-89b3-5bb470ab0ffd",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "deploy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "1a4f815c-a5d1-4f03-b61f-2b1e79f9db1d",
+              "name": "Operation is in progress",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "deploy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6f46ed14-3c8f-4faf-b003-45a24682dab1",
+          "name": "Uninstall environment",
+          "request": {
+            "name": "Uninstall environment",
+            "description": {
+              "content": "This will uninstall all the services of this environment.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "environment",
+                ":environmentId",
+                "uninstall"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "environmentId",
+                  "description": "(Required) Environment ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f8d1b3c9-def8-4ab3-8c59-61c2dba18280",
+              "name": "uninstall environment",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "uninstall"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d9c3b3fb-e281-4727-b645-e4fd7ede871f",
+              "name": "Access token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "uninstall"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "789a49fa-4d89-4678-a81c-876fe87949e7",
+              "name": "Access forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "uninstall"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "fca4c18a-ae55-4227-8b19-2111c12a44bf",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "uninstall"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "1d8244a1-4712-479e-baf7-9fc75ee6f948",
+              "name": "Operation is in progress",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "uninstall"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "aaa9e558-2ca5-4ab1-8edc-50a187b3b330",
+          "name": "Stop environment",
+          "request": {
+            "name": "Stop environment",
+            "description": {},
+            "url": {
+              "path": [
+                "environment",
+                ":environmentId",
+                "stop"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "environmentId",
+                  "description": "(Required) Environment ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "0d332e56-8cce-4bbf-99f6-1bc3330c71c6",
+              "name": "Environment stop has been requested",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "stop"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"27bb06c6-723a-ae30-9867-2369f5ab3993\",\n  \"state\": \"CANCELED\",\n  \"last_deployment_state\": \"DELETED\",\n  \"last_deployment_date\": \"1961-01-27T08:54:14.937Z\",\n  \"last_deployment_id\": \"string\",\n  \"total_deployment_duration_in_seconds\": 3324,\n  \"origin\": \"API\",\n  \"triggered_by\": \"string\",\n  \"deployment_status\": \"string\",\n  \"deployment_request_id\": \"86b9d6b0-98de-5cfc-2605-ef7ad0027c83\",\n  \"metrics\": [\n    {\n      \"stage_id\": \"e63c1785-ba87-0532-f43a-7a4653023750\",\n      \"total_duration_sec\": 3187,\n      \"details\": [\n        {\n          \"stage_id\": \"04f1ad23-6f28-bc42-d9b3-7c3cc091a2ac\",\n          \"step_name\": \"TOTAL\",\n          \"status\": \"ERROR\",\n          \"duration_sec\": 1678\n        },\n        {\n          \"stage_id\": \"04cd4482-ff10-a381-3d72-154c7eaa521a\",\n          \"step_name\": \"PROVISION_BUILDER\",\n          \"status\": \"SKIP\",\n          \"duration_sec\": 6595\n        }\n      ]\n    },\n    {\n      \"stage_id\": \"e65fa531-8d62-9702-6d1e-660f287022af\",\n      \"total_duration_sec\": 830,\n      \"details\": [\n        {\n          \"stage_id\": \"e1bb08c8-5c07-2f1b-2610-c2504e8243b2\",\n          \"step_name\": \"PROVISION_BUILDER\",\n          \"status\": \"CANCEL\",\n          \"duration_sec\": 1360\n        },\n        {\n          \"stage_id\": \"5e35ba4e-c3ef-a742-8aec-277bf1f7201d\",\n          \"step_name\": \"TOTAL\",\n          \"status\": \"SKIP\",\n          \"duration_sec\": 7656\n        }\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e5f385f1-f0d2-4f84-8c9e-acf20f8ae789",
+              "name": "Access token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "stop"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "a784b3f3-5cc9-4f64-9fce-a8c416de2e4b",
+              "name": "Access forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "stop"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "c8fa7f50-91a2-4af4-9ae6-3b7a481928b6",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "stop"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "a727fd5a-fe35-4418-9617-f69baaea4712",
+              "name": "Environment is already stopped or an operation is in progress",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "stop"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7c7884ab-89f6-49aa-8784-a7b93556b0c2",
+          "name": "Redeploy environment",
+          "request": {
+            "name": "Redeploy environment",
+            "description": {},
+            "url": {
+              "path": [
+                "environment",
+                ":environmentId",
+                "redeploy"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "environmentId",
+                  "description": "(Required) Environment ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "18001c8d-f5f7-448e-8ee2-48cf612077ef",
+              "name": "Environment redeploy has been requested",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "redeploy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"734ad6f8-bd1b-d0c3-a44f-74bb090fb884\",\n  \"state\": \"RESTARTED\",\n  \"last_deployment_state\": \"WAITING_DELETING\",\n  \"last_deployment_date\": \"2007-02-25T05:27:42.227Z\",\n  \"last_deployment_id\": \"string\",\n  \"total_deployment_duration_in_seconds\": 6733,\n  \"origin\": \"API\",\n  \"triggered_by\": \"string\",\n  \"deployment_status\": \"string\",\n  \"deployment_request_id\": \"25c0154a-1420-9785-fc09-749f9c3449fc\",\n  \"metrics\": [\n    {\n      \"stage_id\": \"c271624b-f260-5ed3-c04b-bcac021cb93d\",\n      \"total_duration_sec\": 4203,\n      \"details\": [\n        {\n          \"stage_id\": \"28cb47b4-ce26-b73a-b0c1-9cb0832aeb56\",\n          \"step_name\": \"QUEUEING\",\n          \"status\": \"ERROR\",\n          \"duration_sec\": 7516\n        },\n        {\n          \"stage_id\": \"e63eb78a-fc8b-da11-bf45-51198c42a73b\",\n          \"step_name\": \"PROVISION_BUILDER\",\n          \"status\": \"SKIP\",\n          \"duration_sec\": 3875\n        }\n      ]\n    },\n    {\n      \"stage_id\": \"d1e6bfa8-ce42-53b3-22d2-b668e9d02b03\",\n      \"total_duration_sec\": 3608,\n      \"details\": [\n        {\n          \"stage_id\": \"bf4755ce-0f33-e7fd-7073-c816d62110b8\",\n          \"step_name\": \"PROVISION_BUILDER\",\n          \"status\": \"SUCCESS\",\n          \"duration_sec\": 7205\n        },\n        {\n          \"stage_id\": \"cb0f6c1f-89c2-1ed3-1806-5d28b1466864\",\n          \"step_name\": \"PROVISION_BUILDER\",\n          \"status\": \"CANCEL\",\n          \"duration_sec\": 1471\n        }\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e8f38f73-dac3-4e63-99ad-88ab453a5599",
+              "name": "Access token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "redeploy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "70eaea1d-f52b-4b9b-abf9-71ceb2c545b7",
+              "name": "Access forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "redeploy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "f71eb327-bf12-48a3-b8bb-bcf70dd79132",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "redeploy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "543e52e1-d6cc-415b-a1b6-93684d738e1f",
+              "name": "Operation is in progress",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "redeploy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "99f5c93d-bb2c-4ec1-86c6-e92a1c8a5871",
+          "name": "Cancel environment deployment",
+          "request": {
+            "name": "Cancel environment deployment",
+            "description": {
+              "content": "Cancel the current deployment of your environment.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "environment",
+                ":environmentId",
+                "cancelDeployment"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "environmentId",
+                  "description": "(Required) Environment ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"force_cancel\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "3c55b192-17b6-4de9-bb7a-b8af5d310b87",
+              "name": "environment deployment cancelling has been requested",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "cancelDeployment"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"force_cancel\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"734ad6f8-bd1b-d0c3-a44f-74bb090fb884\",\n  \"state\": \"RESTARTED\",\n  \"last_deployment_state\": \"WAITING_DELETING\",\n  \"last_deployment_date\": \"2007-02-25T05:27:42.227Z\",\n  \"last_deployment_id\": \"string\",\n  \"total_deployment_duration_in_seconds\": 6733,\n  \"origin\": \"API\",\n  \"triggered_by\": \"string\",\n  \"deployment_status\": \"string\",\n  \"deployment_request_id\": \"25c0154a-1420-9785-fc09-749f9c3449fc\",\n  \"metrics\": [\n    {\n      \"stage_id\": \"c271624b-f260-5ed3-c04b-bcac021cb93d\",\n      \"total_duration_sec\": 4203,\n      \"details\": [\n        {\n          \"stage_id\": \"28cb47b4-ce26-b73a-b0c1-9cb0832aeb56\",\n          \"step_name\": \"QUEUEING\",\n          \"status\": \"ERROR\",\n          \"duration_sec\": 7516\n        },\n        {\n          \"stage_id\": \"e63eb78a-fc8b-da11-bf45-51198c42a73b\",\n          \"step_name\": \"PROVISION_BUILDER\",\n          \"status\": \"SKIP\",\n          \"duration_sec\": 3875\n        }\n      ]\n    },\n    {\n      \"stage_id\": \"d1e6bfa8-ce42-53b3-22d2-b668e9d02b03\",\n      \"total_duration_sec\": 3608,\n      \"details\": [\n        {\n          \"stage_id\": \"bf4755ce-0f33-e7fd-7073-c816d62110b8\",\n          \"step_name\": \"PROVISION_BUILDER\",\n          \"status\": \"SUCCESS\",\n          \"duration_sec\": 7205\n        },\n        {\n          \"stage_id\": \"cb0f6c1f-89c2-1ed3-1806-5d28b1466864\",\n          \"step_name\": \"PROVISION_BUILDER\",\n          \"status\": \"CANCEL\",\n          \"duration_sec\": 1471\n        }\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "de01af7a-5004-498a-adea-ccea1abb27f1",
+              "name": "Access token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "cancelDeployment"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"force_cancel\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "132aad15-3069-4eef-8c16-30edb690e2b1",
+              "name": "Access forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "cancelDeployment"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"force_cancel\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "06c1130a-4591-4e48-8dc3-d1de1550e58d",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "cancelDeployment"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"force_cancel\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "47b8ef35-4a84-43a9-9757-d24821f4d7ae",
+              "name": "Environment deployment is already cancelled or an operation is in progress",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "cancelDeployment"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"force_cancel\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8c71dd78-f949-42b7-9cfc-e03326f0adff",
+          "name": "Clone environment",
+          "request": {
+            "name": "Clone environment",
+            "description": {
+              "content": "You must provide a name. This will create a new environment, with the same configuration, and same applications and databases. Database data is not cloned.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "environment",
+                ":environmentId",
+                "clone"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "environmentId",
+                  "description": "(Required) Environment ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"cluster_id\": \"<uuid>\",\n  \"mode\": \"<string>\",\n  \"apply_deployment_rule\": false,\n  \"project_id\": \"<uuid>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "cc23e6c1-7ab9-4538-b6d3-ac59932acf08",
+              "name": "Environment clone has been requested",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "clone"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"cluster_id\": \"<uuid>\",\n  \"mode\": \"PRODUCTION\",\n  \"apply_deployment_rule\": false,\n  \"project_id\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"cloud_provider\": {\n    \"provider\": \"aws\",\n    \"cluster\": \"us-east-2\"\n  },\n  \"cluster_id\": \"ab377849-6ff0-1ca9-4aab-54f1766623e8\",\n  \"created_at\": \"1973-03-07T10:46:04.069Z\",\n  \"id\": \"993f9d9e-754e-53f3-73f2-1c88ba9927a5\",\n  \"mode\": \"PRODUCTION\",\n  \"name\": \"string\",\n  \"organization\": {\n    \"id\": \"25f00bf2-00b5-9074-3565-6ad07a96e98d\"\n  },\n  \"project\": {\n    \"id\": \"28dd3dc5-ce48-2792-22cb-82bd3646e4af\"\n  },\n  \"updated_at\": \"1986-12-11T20:25:46.661Z\",\n  \"last_updated_by\": \"f5a3c3a3-5596-9c89-1c23-1b26c214eed0\",\n  \"cluster_name\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fb215485-4b90-4aae-a66b-5391f57ec4db",
+              "name": "Access token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "clone"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"cluster_id\": \"<uuid>\",\n  \"mode\": \"PRODUCTION\",\n  \"apply_deployment_rule\": false,\n  \"project_id\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "15e85348-cb79-44cb-828e-5b097fe6e895",
+              "name": "Access forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "clone"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"cluster_id\": \"<uuid>\",\n  \"mode\": \"PRODUCTION\",\n  \"apply_deployment_rule\": false,\n  \"project_id\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "6e2d9247-2b55-41ff-9c91-ee947e9ed1e0",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "clone"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"cluster_id\": \"<uuid>\",\n  \"mode\": \"PRODUCTION\",\n  \"apply_deployment_rule\": false,\n  \"project_id\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "348f3db8-c336-4116-9266-f8bdb19de22d",
+              "name": "Operation is in progress",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "clone"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"cluster_id\": \"<uuid>\",\n  \"mode\": \"PRODUCTION\",\n  \"apply_deployment_rule\": false,\n  \"project_id\": \"<uuid>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4720b654-1b7d-4b28-8bcd-3e4f124cc65d",
+          "name": "Deploy services",
+          "request": {
+            "name": "Deploy services",
+            "description": {
+              "content": "Update and deploy the selected services",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "environment",
+                ":environmentId",
+                "service",
+                "deploy"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "environmentId",
+                  "description": "(Required) Environment ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"applications\": [\n    {\n      \"application_id\": \"<uuid>\",\n      \"git_commit_id\": \"<string>\"\n    },\n    {\n      \"application_id\": \"<uuid>\",\n      \"git_commit_id\": \"<string>\"\n    }\n  ],\n  \"databases\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"containers\": [\n    {\n      \"id\": \"<uuid>\",\n      \"image_tag\": \"<string>\"\n    },\n    {\n      \"id\": \"<uuid>\",\n      \"image_tag\": \"<string>\"\n    }\n  ],\n  \"jobs\": [\n    {\n      \"id\": \"<uuid>\",\n      \"image_tag\": \"<string>\",\n      \"git_commit_id\": \"<string>\"\n    },\n    {\n      \"id\": \"<uuid>\",\n      \"image_tag\": \"<string>\",\n      \"git_commit_id\": \"<string>\"\n    }\n  ],\n  \"helms\": [\n    {\n      \"id\": \"<uuid>\",\n      \"chart_version\": \"<string>\",\n      \"git_commit_id\": \"<string>\",\n      \"values_override_git_commit_id\": \"<string>\"\n    },\n    {\n      \"id\": \"<uuid>\",\n      \"chart_version\": \"<string>\",\n      \"git_commit_id\": \"<string>\",\n      \"values_override_git_commit_id\": \"<string>\"\n    }\n  ],\n  \"terraforms\": [\n    {\n      \"id\": \"<uuid>\",\n      \"git_commit_id\": \"<string>\",\n      \"action\": \"<string>\"\n    },\n    {\n      \"id\": \"<uuid>\",\n      \"git_commit_id\": \"<string>\",\n      \"action\": \"<string>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "23b9bd3e-1d61-45a6-9724-35eeff928c72",
+              "name": "Deployed services",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "service",
+                    "deploy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"applications\": [\n    {\n      \"application_id\": \"<uuid>\",\n      \"git_commit_id\": \"<string>\"\n    },\n    {\n      \"application_id\": \"<uuid>\",\n      \"git_commit_id\": \"<string>\"\n    }\n  ],\n  \"databases\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"containers\": [\n    {\n      \"id\": \"<uuid>\",\n      \"image_tag\": \"<string>\"\n    },\n    {\n      \"id\": \"<uuid>\",\n      \"image_tag\": \"<string>\"\n    }\n  ],\n  \"jobs\": [\n    {\n      \"id\": \"<uuid>\",\n      \"image_tag\": \"<string>\",\n      \"git_commit_id\": \"<string>\"\n    },\n    {\n      \"id\": \"<uuid>\",\n      \"image_tag\": \"<string>\",\n      \"git_commit_id\": \"<string>\"\n    }\n  ],\n  \"helms\": [\n    {\n      \"id\": \"<uuid>\",\n      \"chart_version\": \"<string>\",\n      \"git_commit_id\": \"<string>\",\n      \"values_override_git_commit_id\": \"<string>\"\n    },\n    {\n      \"id\": \"<uuid>\",\n      \"chart_version\": \"<string>\",\n      \"git_commit_id\": \"<string>\",\n      \"values_override_git_commit_id\": \"<string>\"\n    }\n  ],\n  \"terraforms\": [\n    {\n      \"id\": \"<uuid>\",\n      \"git_commit_id\": \"<string>\",\n      \"action\": \"<string>\"\n    },\n    {\n      \"id\": \"<uuid>\",\n      \"git_commit_id\": \"<string>\",\n      \"action\": \"<string>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"734ad6f8-bd1b-d0c3-a44f-74bb090fb884\",\n  \"state\": \"RESTARTED\",\n  \"last_deployment_state\": \"WAITING_DELETING\",\n  \"last_deployment_date\": \"2007-02-25T05:27:42.227Z\",\n  \"last_deployment_id\": \"string\",\n  \"total_deployment_duration_in_seconds\": 6733,\n  \"origin\": \"API\",\n  \"triggered_by\": \"string\",\n  \"deployment_status\": \"string\",\n  \"deployment_request_id\": \"25c0154a-1420-9785-fc09-749f9c3449fc\",\n  \"metrics\": [\n    {\n      \"stage_id\": \"c271624b-f260-5ed3-c04b-bcac021cb93d\",\n      \"total_duration_sec\": 4203,\n      \"details\": [\n        {\n          \"stage_id\": \"28cb47b4-ce26-b73a-b0c1-9cb0832aeb56\",\n          \"step_name\": \"QUEUEING\",\n          \"status\": \"ERROR\",\n          \"duration_sec\": 7516\n        },\n        {\n          \"stage_id\": \"e63eb78a-fc8b-da11-bf45-51198c42a73b\",\n          \"step_name\": \"PROVISION_BUILDER\",\n          \"status\": \"SKIP\",\n          \"duration_sec\": 3875\n        }\n      ]\n    },\n    {\n      \"stage_id\": \"d1e6bfa8-ce42-53b3-22d2-b668e9d02b03\",\n      \"total_duration_sec\": 3608,\n      \"details\": [\n        {\n          \"stage_id\": \"bf4755ce-0f33-e7fd-7073-c816d62110b8\",\n          \"step_name\": \"PROVISION_BUILDER\",\n          \"status\": \"SUCCESS\",\n          \"duration_sec\": 7205\n        },\n        {\n          \"stage_id\": \"cb0f6c1f-89c2-1ed3-1806-5d28b1466864\",\n          \"step_name\": \"PROVISION_BUILDER\",\n          \"status\": \"CANCEL\",\n          \"duration_sec\": 1471\n        }\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1f8d2cfb-2863-44e9-8877-838e4bc9bc53",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "service",
+                    "deploy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"applications\": [\n    {\n      \"application_id\": \"<uuid>\",\n      \"git_commit_id\": \"<string>\"\n    },\n    {\n      \"application_id\": \"<uuid>\",\n      \"git_commit_id\": \"<string>\"\n    }\n  ],\n  \"databases\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"containers\": [\n    {\n      \"id\": \"<uuid>\",\n      \"image_tag\": \"<string>\"\n    },\n    {\n      \"id\": \"<uuid>\",\n      \"image_tag\": \"<string>\"\n    }\n  ],\n  \"jobs\": [\n    {\n      \"id\": \"<uuid>\",\n      \"image_tag\": \"<string>\",\n      \"git_commit_id\": \"<string>\"\n    },\n    {\n      \"id\": \"<uuid>\",\n      \"image_tag\": \"<string>\",\n      \"git_commit_id\": \"<string>\"\n    }\n  ],\n  \"helms\": [\n    {\n      \"id\": \"<uuid>\",\n      \"chart_version\": \"<string>\",\n      \"git_commit_id\": \"<string>\",\n      \"values_override_git_commit_id\": \"<string>\"\n    },\n    {\n      \"id\": \"<uuid>\",\n      \"chart_version\": \"<string>\",\n      \"git_commit_id\": \"<string>\",\n      \"values_override_git_commit_id\": \"<string>\"\n    }\n  ],\n  \"terraforms\": [\n    {\n      \"id\": \"<uuid>\",\n      \"git_commit_id\": \"<string>\",\n      \"action\": \"<string>\"\n    },\n    {\n      \"id\": \"<uuid>\",\n      \"git_commit_id\": \"<string>\",\n      \"action\": \"<string>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "4877401b-9558-4a92-8e24-f36df0f22a62",
+              "name": "Access token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "service",
+                    "deploy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"applications\": [\n    {\n      \"application_id\": \"<uuid>\",\n      \"git_commit_id\": \"<string>\"\n    },\n    {\n      \"application_id\": \"<uuid>\",\n      \"git_commit_id\": \"<string>\"\n    }\n  ],\n  \"databases\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"containers\": [\n    {\n      \"id\": \"<uuid>\",\n      \"image_tag\": \"<string>\"\n    },\n    {\n      \"id\": \"<uuid>\",\n      \"image_tag\": \"<string>\"\n    }\n  ],\n  \"jobs\": [\n    {\n      \"id\": \"<uuid>\",\n      \"image_tag\": \"<string>\",\n      \"git_commit_id\": \"<string>\"\n    },\n    {\n      \"id\": \"<uuid>\",\n      \"image_tag\": \"<string>\",\n      \"git_commit_id\": \"<string>\"\n    }\n  ],\n  \"helms\": [\n    {\n      \"id\": \"<uuid>\",\n      \"chart_version\": \"<string>\",\n      \"git_commit_id\": \"<string>\",\n      \"values_override_git_commit_id\": \"<string>\"\n    },\n    {\n      \"id\": \"<uuid>\",\n      \"chart_version\": \"<string>\",\n      \"git_commit_id\": \"<string>\",\n      \"values_override_git_commit_id\": \"<string>\"\n    }\n  ],\n  \"terraforms\": [\n    {\n      \"id\": \"<uuid>\",\n      \"git_commit_id\": \"<string>\",\n      \"action\": \"<string>\"\n    },\n    {\n      \"id\": \"<uuid>\",\n      \"git_commit_id\": \"<string>\",\n      \"action\": \"<string>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "34213635-a337-4983-9d2e-932ffcd13c09",
+              "name": "Access forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "service",
+                    "deploy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"applications\": [\n    {\n      \"application_id\": \"<uuid>\",\n      \"git_commit_id\": \"<string>\"\n    },\n    {\n      \"application_id\": \"<uuid>\",\n      \"git_commit_id\": \"<string>\"\n    }\n  ],\n  \"databases\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"containers\": [\n    {\n      \"id\": \"<uuid>\",\n      \"image_tag\": \"<string>\"\n    },\n    {\n      \"id\": \"<uuid>\",\n      \"image_tag\": \"<string>\"\n    }\n  ],\n  \"jobs\": [\n    {\n      \"id\": \"<uuid>\",\n      \"image_tag\": \"<string>\",\n      \"git_commit_id\": \"<string>\"\n    },\n    {\n      \"id\": \"<uuid>\",\n      \"image_tag\": \"<string>\",\n      \"git_commit_id\": \"<string>\"\n    }\n  ],\n  \"helms\": [\n    {\n      \"id\": \"<uuid>\",\n      \"chart_version\": \"<string>\",\n      \"git_commit_id\": \"<string>\",\n      \"values_override_git_commit_id\": \"<string>\"\n    },\n    {\n      \"id\": \"<uuid>\",\n      \"chart_version\": \"<string>\",\n      \"git_commit_id\": \"<string>\",\n      \"values_override_git_commit_id\": \"<string>\"\n    }\n  ],\n  \"terraforms\": [\n    {\n      \"id\": \"<uuid>\",\n      \"git_commit_id\": \"<string>\",\n      \"action\": \"<string>\"\n    },\n    {\n      \"id\": \"<uuid>\",\n      \"git_commit_id\": \"<string>\",\n      \"action\": \"<string>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "556bf9a9-b5a1-40df-9877-99f078d8434e",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "service",
+                    "deploy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"applications\": [\n    {\n      \"application_id\": \"<uuid>\",\n      \"git_commit_id\": \"<string>\"\n    },\n    {\n      \"application_id\": \"<uuid>\",\n      \"git_commit_id\": \"<string>\"\n    }\n  ],\n  \"databases\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"containers\": [\n    {\n      \"id\": \"<uuid>\",\n      \"image_tag\": \"<string>\"\n    },\n    {\n      \"id\": \"<uuid>\",\n      \"image_tag\": \"<string>\"\n    }\n  ],\n  \"jobs\": [\n    {\n      \"id\": \"<uuid>\",\n      \"image_tag\": \"<string>\",\n      \"git_commit_id\": \"<string>\"\n    },\n    {\n      \"id\": \"<uuid>\",\n      \"image_tag\": \"<string>\",\n      \"git_commit_id\": \"<string>\"\n    }\n  ],\n  \"helms\": [\n    {\n      \"id\": \"<uuid>\",\n      \"chart_version\": \"<string>\",\n      \"git_commit_id\": \"<string>\",\n      \"values_override_git_commit_id\": \"<string>\"\n    },\n    {\n      \"id\": \"<uuid>\",\n      \"chart_version\": \"<string>\",\n      \"git_commit_id\": \"<string>\",\n      \"values_override_git_commit_id\": \"<string>\"\n    }\n  ],\n  \"terraforms\": [\n    {\n      \"id\": \"<uuid>\",\n      \"git_commit_id\": \"<string>\",\n      \"action\": \"<string>\"\n    },\n    {\n      \"id\": \"<uuid>\",\n      \"git_commit_id\": \"<string>\",\n      \"action\": \"<string>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "b15f8854-852a-4926-9b1d-9a17ef51293f",
+              "name": "Operation is in progress",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "service",
+                    "deploy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"applications\": [\n    {\n      \"application_id\": \"<uuid>\",\n      \"git_commit_id\": \"<string>\"\n    },\n    {\n      \"application_id\": \"<uuid>\",\n      \"git_commit_id\": \"<string>\"\n    }\n  ],\n  \"databases\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"containers\": [\n    {\n      \"id\": \"<uuid>\",\n      \"image_tag\": \"<string>\"\n    },\n    {\n      \"id\": \"<uuid>\",\n      \"image_tag\": \"<string>\"\n    }\n  ],\n  \"jobs\": [\n    {\n      \"id\": \"<uuid>\",\n      \"image_tag\": \"<string>\",\n      \"git_commit_id\": \"<string>\"\n    },\n    {\n      \"id\": \"<uuid>\",\n      \"image_tag\": \"<string>\",\n      \"git_commit_id\": \"<string>\"\n    }\n  ],\n  \"helms\": [\n    {\n      \"id\": \"<uuid>\",\n      \"chart_version\": \"<string>\",\n      \"git_commit_id\": \"<string>\",\n      \"values_override_git_commit_id\": \"<string>\"\n    },\n    {\n      \"id\": \"<uuid>\",\n      \"chart_version\": \"<string>\",\n      \"git_commit_id\": \"<string>\",\n      \"values_override_git_commit_id\": \"<string>\"\n    }\n  ],\n  \"terraforms\": [\n    {\n      \"id\": \"<uuid>\",\n      \"git_commit_id\": \"<string>\",\n      \"action\": \"<string>\"\n    },\n    {\n      \"id\": \"<uuid>\",\n      \"git_commit_id\": \"<string>\",\n      \"action\": \"<string>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "346fb667-e9a7-4d32-bc9b-9da928f11653",
+          "name": "Reboot services",
+          "request": {
+            "name": "Reboot services",
+            "description": {
+              "content": "Update and reboot the selected services",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "environment",
+                ":environmentId",
+                "service",
+                "restart-service"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "environmentId",
+                  "description": "(Required) Environment ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"application_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"database_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"container_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "01526984-26dd-4525-9569-a8b7822d0c43",
+              "name": "Reboot services",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "service",
+                    "restart-service"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"application_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"database_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"container_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"7a3d2876-bdf6-2492-c427-eaed9914d53f\",\n  \"state\": \"RESTARTED\",\n  \"service_deployment_status\": \"NEVER_DEPLOYED\",\n  \"status_details\": {\n    \"action\": \"DEPLOY\",\n    \"status\": \"QUEUED\",\n    \"sub_action\": \"NONE\"\n  },\n  \"is_part_last_deployment\": true,\n  \"deployment_requests_count\": 9880,\n  \"deployment_request_id\": \"a09b58c2-4e9b-eea3-8789-edb3105ab560\",\n  \"last_deployment_date\": \"1952-09-11T11:55:28.208Z\",\n  \"steps\": {\n    \"total_duration_sec\": 7409,\n    \"total_computing_duration_sec\": 5062,\n    \"details\": [\n      {\n        \"step_name\": \"BUILD\",\n        \"status\": \"SUCCESS\",\n        \"duration_sec\": 5873\n      },\n      {\n        \"step_name\": \"DEPLOYMENT\",\n        \"status\": \"SUCCESS\",\n        \"duration_sec\": 1410\n      }\n    ]\n  },\n  \"execution_id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b09beea5-2fec-4b48-bba2-5430cd27df3a",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "service",
+                    "restart-service"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"application_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"database_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"container_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "f3863f93-5ef0-4c20-9a34-ab32ae16f8fb",
+              "name": "Access token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "service",
+                    "restart-service"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"application_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"database_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"container_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "0e824967-b01f-47c9-b655-ec0bdf7b5fe3",
+              "name": "Access forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "service",
+                    "restart-service"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"application_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"database_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"container_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "81050589-edcc-4f08-9aa8-9e5cc48b211b",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "service",
+                    "restart-service"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"application_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"database_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"container_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "dffd90ee-35a3-4dee-b477-d58f54474f78",
+              "name": "Operation is in progress",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "service",
+                    "restart-service"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"application_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"database_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"container_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "696ecfd6-397b-45f9-8082-7b09687dba90",
+          "name": "Stop services",
+          "request": {
+            "name": "Stop services",
+            "description": {
+              "content": "Stop selected services",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "environment",
+                ":environmentId",
+                "service",
+                "stop"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "environmentId",
+                  "description": "(Required) Environment ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"application_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"container_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"database_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"job_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"helm_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"terraform_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "1c4ce6e4-7dd8-4635-a83a-b061eadb4f57",
+              "name": "Services have been triggered to be deleted",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "service",
+                    "stop"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"application_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"container_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"database_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"job_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"helm_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"terraform_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "4820e464-7dfc-4b4b-82cf-f0c0129fcc43",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "service",
+                    "stop"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"application_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"container_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"database_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"job_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"helm_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"terraform_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "e8772a23-1a92-4922-a7fb-0eccff2503a2",
+              "name": "Access token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "service",
+                    "stop"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"application_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"container_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"database_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"job_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"helm_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"terraform_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "71c41268-7854-4108-a8e3-36718d4fd266",
+              "name": "Access forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "service",
+                    "stop"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"application_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"container_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"database_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"job_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"helm_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"terraform_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "0c8e9b3b-d5e3-4b43-8321-73d79bc34243",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "service",
+                    "stop"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"application_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"container_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"database_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"job_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"helm_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"terraform_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "ea45e9fa-1137-43da-83c6-761f54412a75",
+              "name": "Operation is in progress",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "service",
+                    "stop"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"application_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"container_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"database_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"job_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"helm_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"terraform_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d914d996-d917-49c7-a018-4e302e2092ad",
+          "name": "Delete services",
+          "request": {
+            "name": "Delete services",
+            "description": {
+              "content": "Delete selected services",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "environment",
+                ":environmentId",
+                "service",
+                "delete"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "environmentId",
+                  "description": "(Required) Environment ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"application_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"container_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"database_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"job_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"helm_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"terraform_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "7b4e12f7-a3d3-48c6-b7a8-c76323443b11",
+              "name": "Services have been triggered to be deleted",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "service",
+                    "delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"application_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"container_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"database_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"job_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"helm_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"terraform_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "dfc36997-e21a-4746-ac8d-5b901f63bc92",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "service",
+                    "delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"application_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"container_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"database_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"job_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"helm_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"terraform_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "c9e00ae5-5544-456a-be46-c958dc06833e",
+              "name": "Access token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "service",
+                    "delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"application_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"container_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"database_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"job_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"helm_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"terraform_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "461c4416-983e-451a-9bf6-360eeedff2a0",
+              "name": "Access forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "service",
+                    "delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"application_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"container_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"database_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"job_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"helm_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"terraform_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "7a06b5e7-a022-46fe-b995-f35cb9290c8e",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "service",
+                    "delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"application_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"container_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"database_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"job_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"helm_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"terraform_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "b47050cd-d987-4f9c-89a8-509988547b08",
+              "name": "Operation is in progress",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "service",
+                    "delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"application_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"container_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"database_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"job_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"helm_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"terraform_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d09b300f-b0fc-489e-a14a-f7a12787163f",
+          "name": "Uninstall services",
+          "request": {
+            "name": "Uninstall services",
+            "description": {
+              "content": "uninstall selected services",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "environment",
+                ":environmentId",
+                "service",
+                "uninstall"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "environmentId",
+                  "description": "(Required) Environment ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"application_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"container_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"database_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"job_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"helm_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"terraform_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "3c4e1308-80f9-4bd2-8ea3-839bfc18bab6",
+              "name": "Services have been triggered to be uninstalled",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "service",
+                    "uninstall"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"application_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"container_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"database_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"job_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"helm_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"terraform_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "ee35cd43-1ff2-4d83-ad58-ed23f9307eab",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "service",
+                    "uninstall"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"application_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"container_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"database_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"job_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"helm_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"terraform_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "e091ed35-ca5b-42db-811b-a571db63faa9",
+              "name": "Access token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "service",
+                    "uninstall"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"application_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"container_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"database_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"job_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"helm_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"terraform_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "2ce63e2b-dedf-4f0f-b2b4-d2c333cb2bcc",
+              "name": "Access forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "service",
+                    "uninstall"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"application_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"container_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"database_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"job_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"helm_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"terraform_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "52b6ec1e-d003-4b1e-8b9b-d3ad2028f235",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "service",
+                    "uninstall"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"application_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"container_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"database_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"job_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"helm_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"terraform_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "b65f49e3-5b8a-4de3-bd60-8726a0db0b07",
+              "name": "Operation is in progress",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "service",
+                    "uninstall"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "environmentId",
+                      "description": "(Required) Environment ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"application_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"container_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"database_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"job_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"helm_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"terraform_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4f3101b3-d61f-47f8-a6ae-c98909f111b9",
+          "name": "Clean failed jobs within an environment",
+          "request": {
+            "name": "Clean failed jobs within an environment",
+            "description": {},
+            "url": {
+              "path": [
+                "environment",
+                ":environmentId",
+                "cleanFailedJobs"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "environmentId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"job_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "3d6ee580-603b-42f2-9b0d-856982934ad4",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "environment",
+                    ":environmentId",
+                    "cleanFailedJobs"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "environmentId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"job_ids\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"clean_job_ids\": [\n    \"8a21450e-9ae2-9038-66ca-2cf6c882af89\",\n    \"25651633-1614-3ba1-b70a-25e425f14052\"\n  ],\n  \"clean_kubernetes_jobs\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.qovery.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "3e587b65-d115-4181-8211-061443f01a68",
+    "name": "Qovery Account Info Environment Actions API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider.\n- ℹ️ The API is stable and still in development.\n\n\nContact Support:\n Name: Qovery Product Team\n Email: support+api+documentation@qovery.com",
+      "type": "text/plain"
+    }
+  }
+}

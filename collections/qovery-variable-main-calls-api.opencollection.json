@@ -1,0 +1,186 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Qovery Account Info Variable Main Calls API",
+    "version": "1.0.4"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Variable Main Calls",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List variables",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/variable",
+            "params": [
+              {
+                "name": "parent_id",
+                "value": "",
+                "type": "query",
+                "description": "it filters the list by returning only the variables accessible by the selected parent_id. This field shall contain the id of a project, environment or service depending on the selected scope. Example, if scope = APPLICATION and parent_id=<application_id>, the result will contain any variable accessible by the application. The result will contain also any variable declared at an higher scope."
+              },
+              {
+                "name": "scope",
+                "value": "",
+                "type": "query",
+                "description": "the type of the parent_id (application, project, environment etc..)."
+              },
+              {
+                "name": "is_secret",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns a list of variables. The result can be filtered by using the query parameters."
+        },
+        {
+          "info": {
+            "name": "Create a variable",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.qovery.com/variable",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "- Create a variable with the scope defined in the request body.\n"
+        },
+        {
+          "info": {
+            "name": "Create a variable alias",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.qovery.com/variable/:variableId/alias",
+            "params": [
+              {
+                "name": "variableId",
+                "value": "",
+                "type": "path",
+                "description": "Variable ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "- Allows you to create an alias of one of the existing variables.\n- You have to specify an alias (key) in the request body, the scope and the parent id of the alias (project id, environment id or service id)\n- The system will create a new variable at the requested level with the same value as the one corresponding to the variable id passed as path parameter.\n- The response body will contain the newly created variable\n- Information regarding the aliased_variable will be exposed in the \"aliased_va"
+        },
+        {
+          "info": {
+            "name": "Create a variable override",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.qovery.com/variable/:variableId/override",
+            "params": [
+              {
+                "name": "variableId",
+                "value": "",
+                "type": "path",
+                "description": "Variable ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "- Allows you to override a variable that has a higher scope.\n- You have to specify a value (override) in the request body and the scope and the parent id of the variable to override (project id, environment id or service id)\n- The system will create a new environment variable at the requested level with the same key as the one corresponding to the variable id passed as path parameter.\n- The response body will contain the newly created variable\n- Information regarding the overridden_variable will"
+        },
+        {
+          "info": {
+            "name": "Edit a variable",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.qovery.com/variable/:variableId",
+            "params": [
+              {
+                "name": "variableId",
+                "value": "",
+                "type": "path",
+                "description": "Variable ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "- You can't edit a BUILT_IN variable\n- For an override, you can't edit the key\n- For an alias, you can't edit the value\n"
+        },
+        {
+          "info": {
+            "name": "Delete a variable",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.qovery.com/variable/:variableId",
+            "params": [
+              {
+                "name": "variableId",
+                "value": "",
+                "type": "path",
+                "description": "Variable ID"
+              }
+            ]
+          },
+          "docs": "- To delete a variable\n- You can't delete a BUILT_IN variable\n- If you delete a variable having override or alias, the associated override/alias will be deleted as well\n"
+        },
+        {
+          "info": {
+            "name": "Import variables",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.qovery.com/variable/import",
+            "params": [
+              {
+                "name": "service_id",
+                "value": "",
+                "type": "query",
+                "description": "service id"
+              },
+              {
+                "name": "service_type",
+                "value": "",
+                "type": "query",
+                "description": "service type"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Import environment variables in a defined scope, with a defined visibility."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

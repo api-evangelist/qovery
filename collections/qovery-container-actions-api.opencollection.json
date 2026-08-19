@@ -1,0 +1,126 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Qovery Account Info Container Actions API",
+    "version": "1.0.4"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Container Actions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Deploy container",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.qovery.com/container/:containerId/deploy",
+            "params": [
+              {
+                "name": "containerId",
+                "value": "",
+                "type": "path",
+                "description": "Container ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "You must provide a container image tag"
+        },
+        {
+          "info": {
+            "name": "Uninstall container",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.qovery.com/container/:containerId/uninstall",
+            "params": [
+              {
+                "name": "containerId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Delete the resources of the container but keep Qovery configuration"
+        },
+        {
+          "info": {
+            "name": "Stop container",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.qovery.com/container/:containerId/stop",
+            "params": [
+              {
+                "name": "containerId",
+                "value": "",
+                "type": "path",
+                "description": "Container ID"
+              }
+            ]
+          },
+          "docs": "Stop container"
+        },
+        {
+          "info": {
+            "name": "Redeploy container",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.qovery.com/container/:containerId/redeploy",
+            "params": [
+              {
+                "name": "containerId",
+                "value": "",
+                "type": "path",
+                "description": "Container ID"
+              }
+            ]
+          },
+          "docs": "Redeploy container"
+        },
+        {
+          "info": {
+            "name": "Reboot container",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.qovery.com/container/:containerId/restart-service",
+            "params": [
+              {
+                "name": "containerId",
+                "value": "",
+                "type": "path",
+                "description": "Container ID"
+              }
+            ]
+          },
+          "docs": "Reboot container"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

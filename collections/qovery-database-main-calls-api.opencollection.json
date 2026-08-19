@@ -1,0 +1,165 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Qovery Account Info Database Main Calls API",
+    "version": "1.0.4"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Database Main Calls",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get database by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/database/:databaseId",
+            "params": [
+              {
+                "name": "databaseId",
+                "value": "",
+                "type": "path",
+                "description": "Database ID"
+              }
+            ]
+          },
+          "docs": "Get database by ID"
+        },
+        {
+          "info": {
+            "name": "Edit a database ",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.qovery.com/database/:databaseId",
+            "params": [
+              {
+                "name": "databaseId",
+                "value": "",
+                "type": "path",
+                "description": "Database ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "To edit a database  you must have the admin permission"
+        },
+        {
+          "info": {
+            "name": "Delete a database ",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.qovery.com/database/:databaseId",
+            "params": [
+              {
+                "name": "databaseId",
+                "value": "",
+                "type": "path",
+                "description": "Database ID"
+              }
+            ]
+          },
+          "docs": "To delete a database you must have the admin permission"
+        },
+        {
+          "info": {
+            "name": "Get database status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/database/:databaseId/status",
+            "params": [
+              {
+                "name": "databaseId",
+                "value": "",
+                "type": "path",
+                "description": "Database ID"
+              }
+            ]
+          },
+          "docs": "Get database status"
+        },
+        {
+          "info": {
+            "name": "List eligible versions for the database",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/database/:databaseId/version",
+            "params": [
+              {
+                "name": "databaseId",
+                "value": "",
+                "type": "path",
+                "description": "Database ID"
+              }
+            ]
+          },
+          "docs": "List eligible versions for the database"
+        },
+        {
+          "info": {
+            "name": "Get master credentials of the database",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/database/:databaseId/masterCredentials",
+            "params": [
+              {
+                "name": "databaseId",
+                "value": "",
+                "type": "path",
+                "description": "Database ID"
+              }
+            ]
+          },
+          "docs": "Get master credentials of the database"
+        },
+        {
+          "info": {
+            "name": "Edit database  master credentials",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.qovery.com/database/:databaseId/masterCredentials",
+            "params": [
+              {
+                "name": "databaseId",
+                "value": "",
+                "type": "path",
+                "description": "Database ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Edit database  master credentials"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

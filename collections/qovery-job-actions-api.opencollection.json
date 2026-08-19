@@ -1,0 +1,137 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Qovery Account Info Job Actions API",
+    "version": "1.0.4"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Job Actions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Deploy job",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.qovery.com/job/:jobId/deploy",
+            "params": [
+              {
+                "name": "jobId",
+                "value": "",
+                "type": "path",
+                "description": "Job ID"
+              },
+              {
+                "name": "forceEvent",
+                "value": "",
+                "type": "query",
+                "description": "When filled, it indicates the target event to be deployed.  \nIf the concerned job hasn't the target event provided, the job won't be deployed.\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "You must provide a git commit id or an image tag depending on the source location of your code (git vs image repository)."
+        },
+        {
+          "info": {
+            "name": "Uninstall job",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.qovery.com/job/:jobId/uninstall",
+            "params": [
+              {
+                "name": "jobId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Delete the resources of the job but keep Qovery configuration"
+        },
+        {
+          "info": {
+            "name": "Redeploy job",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.qovery.com/job/:jobId/redeploy",
+            "params": [
+              {
+                "name": "jobId",
+                "value": "",
+                "type": "path",
+                "description": "Job ID"
+              },
+              {
+                "name": "forceEvent",
+                "value": "",
+                "type": "query",
+                "description": "When filled, it indicates the target event to be deployed.  \nIf the concerned job hasn't the target event provided, the job won't be deployed.\n"
+              }
+            ]
+          },
+          "docs": "Redeploy job"
+        },
+        {
+          "info": {
+            "name": "Stop job",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.qovery.com/job/:jobId/stop",
+            "params": [
+              {
+                "name": "jobId",
+                "value": "",
+                "type": "path",
+                "description": "Job ID"
+              }
+            ]
+          },
+          "docs": "Stop job"
+        },
+        {
+          "info": {
+            "name": "Clean a failed job",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.qovery.com/job/:jobId/cleanFailedJob",
+            "params": [
+              {
+                "name": "jobId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Clean a failed job"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,633 @@
+{
+  "item": [
+    {
+      "id": "b8dc3d8a-81aa-4b86-99c6-7c97dbe33473",
+      "name": "Job Configuration",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "268a43c9-5494-4ce9-8127-a3119cc95fc4",
+          "name": "Get advanced settings",
+          "request": {
+            "name": "Get advanced settings",
+            "description": {
+              "content": "Get list and values of the advanced settings of the job.\nDefault values for each setting are available in [our documentation](https://hub.qovery.com/docs/using-qovery/configuration/advanced-settings/)\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "job",
+                ":jobId",
+                "advancedSettings"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "jobId",
+                  "description": "(Required) Job ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "580d26f5-ddb0-4aab-9441-5e2cb76f7e6d",
+              "name": "Advanced settings list",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "job",
+                    ":jobId",
+                    "advancedSettings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "jobId",
+                      "description": "(Required) Job ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"build.timeout_max_sec\": 1731,\n  \"build.cpu_max_in_milli\": 1377,\n  \"build.ram_max_in_gib\": 304,\n  \"build.disable_buildkit_cache\": false,\n  \"deployment.termination_grace_period_seconds\": 6242,\n  \"deployment.affinity.node.required\": {\n    \"key_0\": \"string\"\n  },\n  \"job.delete_ttl_seconds_after_finished\": 5930,\n  \"cronjob.concurrency_policy\": \"string\",\n  \"cronjob.failed_jobs_history_limit\": 3304,\n  \"cronjob.success_jobs_history_limit\": 6743,\n  \"security.service_account_name\": \"string\",\n  \"security.automount_service_account_token\": true,\n  \"security.read_only_root_filesystem\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "51fa79ec-88ae-4c41-98db-b10923f51b2a",
+              "name": "Access token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "job",
+                    ":jobId",
+                    "advancedSettings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "jobId",
+                      "description": "(Required) Job ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "7bc1c741-042c-4352-bdb3-77c9f15f4cbc",
+              "name": "Access forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "job",
+                    ":jobId",
+                    "advancedSettings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "jobId",
+                      "description": "(Required) Job ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "12c2e2e3-fc1b-4a86-b0b5-602407bfeab5",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "job",
+                    ":jobId",
+                    "advancedSettings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "jobId",
+                      "description": "(Required) Job ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f03708f8-b959-4a37-8eca-e70960bf3615",
+          "name": "Edit advanced settings",
+          "request": {
+            "name": "Edit advanced settings",
+            "description": {
+              "content": "Edit advanced settings by returning table of advanced settings.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "job",
+                ":jobId",
+                "advancedSettings"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "jobId",
+                  "description": "(Required) Job ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"build.timeout_max_sec\": \"<integer>\",\n  \"build.cpu_max_in_milli\": \"<integer>\",\n  \"build.ram_max_in_gib\": \"<integer>\",\n  \"build.disable_buildkit_cache\": \"<boolean>\",\n  \"deployment.termination_grace_period_seconds\": \"<integer>\",\n  \"deployment.affinity.node.required\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\",\n    \"key_2\": \"<string>\",\n    \"key_3\": \"<string>\",\n    \"key_4\": \"<string>\"\n  },\n  \"job.delete_ttl_seconds_after_finished\": \"<integer>\",\n  \"cronjob.concurrency_policy\": \"<string>\",\n  \"cronjob.failed_jobs_history_limit\": \"<integer>\",\n  \"cronjob.success_jobs_history_limit\": \"<integer>\",\n  \"security.service_account_name\": \"<string>\",\n  \"security.automount_service_account_token\": \"<boolean>\",\n  \"security.read_only_root_filesystem\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "68fa887b-2342-44eb-944e-ee26ca7b9a4a",
+              "name": "Updated advanced settings",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "job",
+                    ":jobId",
+                    "advancedSettings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "jobId",
+                      "description": "(Required) Job ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"build.timeout_max_sec\": \"<integer>\",\n  \"build.cpu_max_in_milli\": \"<integer>\",\n  \"build.ram_max_in_gib\": \"<integer>\",\n  \"build.disable_buildkit_cache\": \"<boolean>\",\n  \"deployment.termination_grace_period_seconds\": \"<integer>\",\n  \"deployment.affinity.node.required\": {\n    \"key_0\": \"<string>\"\n  },\n  \"job.delete_ttl_seconds_after_finished\": \"<integer>\",\n  \"cronjob.concurrency_policy\": \"<string>\",\n  \"cronjob.failed_jobs_history_limit\": \"<integer>\",\n  \"cronjob.success_jobs_history_limit\": \"<integer>\",\n  \"security.service_account_name\": \"<string>\",\n  \"security.automount_service_account_token\": \"<boolean>\",\n  \"security.read_only_root_filesystem\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"build.timeout_max_sec\": \"<integer>\",\n  \"build.cpu_max_in_milli\": \"<integer>\",\n  \"build.ram_max_in_gib\": \"<integer>\",\n  \"build.disable_buildkit_cache\": \"<boolean>\",\n  \"deployment.termination_grace_period_seconds\": \"<integer>\",\n  \"deployment.affinity.node.required\": {\n    \"key_0\": \"<string>\"\n  },\n  \"job.delete_ttl_seconds_after_finished\": \"<integer>\",\n  \"cronjob.concurrency_policy\": \"<string>\",\n  \"cronjob.failed_jobs_history_limit\": \"<integer>\",\n  \"cronjob.success_jobs_history_limit\": \"<integer>\",\n  \"security.service_account_name\": \"<string>\",\n  \"security.automount_service_account_token\": \"<boolean>\",\n  \"security.read_only_root_filesystem\": \"<boolean>\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b3e86117-ecb3-44de-8a6a-90eac8a557a0",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "job",
+                    ":jobId",
+                    "advancedSettings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "jobId",
+                      "description": "(Required) Job ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"build.timeout_max_sec\": \"<integer>\",\n  \"build.cpu_max_in_milli\": \"<integer>\",\n  \"build.ram_max_in_gib\": \"<integer>\",\n  \"build.disable_buildkit_cache\": \"<boolean>\",\n  \"deployment.termination_grace_period_seconds\": \"<integer>\",\n  \"deployment.affinity.node.required\": {\n    \"key_0\": \"<string>\"\n  },\n  \"job.delete_ttl_seconds_after_finished\": \"<integer>\",\n  \"cronjob.concurrency_policy\": \"<string>\",\n  \"cronjob.failed_jobs_history_limit\": \"<integer>\",\n  \"cronjob.success_jobs_history_limit\": \"<integer>\",\n  \"security.service_account_name\": \"<string>\",\n  \"security.automount_service_account_token\": \"<boolean>\",\n  \"security.read_only_root_filesystem\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "40b17227-3b51-46cf-a94f-76ad0cec55b8",
+              "name": "Access token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "job",
+                    ":jobId",
+                    "advancedSettings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "jobId",
+                      "description": "(Required) Job ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"build.timeout_max_sec\": \"<integer>\",\n  \"build.cpu_max_in_milli\": \"<integer>\",\n  \"build.ram_max_in_gib\": \"<integer>\",\n  \"build.disable_buildkit_cache\": \"<boolean>\",\n  \"deployment.termination_grace_period_seconds\": \"<integer>\",\n  \"deployment.affinity.node.required\": {\n    \"key_0\": \"<string>\"\n  },\n  \"job.delete_ttl_seconds_after_finished\": \"<integer>\",\n  \"cronjob.concurrency_policy\": \"<string>\",\n  \"cronjob.failed_jobs_history_limit\": \"<integer>\",\n  \"cronjob.success_jobs_history_limit\": \"<integer>\",\n  \"security.service_account_name\": \"<string>\",\n  \"security.automount_service_account_token\": \"<boolean>\",\n  \"security.read_only_root_filesystem\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "3f5d28a5-b1ee-40b1-8ff2-b2488b00874f",
+              "name": "Access forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "job",
+                    ":jobId",
+                    "advancedSettings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "jobId",
+                      "description": "(Required) Job ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"build.timeout_max_sec\": \"<integer>\",\n  \"build.cpu_max_in_milli\": \"<integer>\",\n  \"build.ram_max_in_gib\": \"<integer>\",\n  \"build.disable_buildkit_cache\": \"<boolean>\",\n  \"deployment.termination_grace_period_seconds\": \"<integer>\",\n  \"deployment.affinity.node.required\": {\n    \"key_0\": \"<string>\"\n  },\n  \"job.delete_ttl_seconds_after_finished\": \"<integer>\",\n  \"cronjob.concurrency_policy\": \"<string>\",\n  \"cronjob.failed_jobs_history_limit\": \"<integer>\",\n  \"cronjob.success_jobs_history_limit\": \"<integer>\",\n  \"security.service_account_name\": \"<string>\",\n  \"security.automount_service_account_token\": \"<boolean>\",\n  \"security.read_only_root_filesystem\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "0c011fcb-4b1b-4b39-bad0-97954f70d8f7",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "job",
+                    ":jobId",
+                    "advancedSettings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "jobId",
+                      "description": "(Required) Job ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"build.timeout_max_sec\": \"<integer>\",\n  \"build.cpu_max_in_milli\": \"<integer>\",\n  \"build.ram_max_in_gib\": \"<integer>\",\n  \"build.disable_buildkit_cache\": \"<boolean>\",\n  \"deployment.termination_grace_period_seconds\": \"<integer>\",\n  \"deployment.affinity.node.required\": {\n    \"key_0\": \"<string>\"\n  },\n  \"job.delete_ttl_seconds_after_finished\": \"<integer>\",\n  \"cronjob.concurrency_policy\": \"<string>\",\n  \"cronjob.failed_jobs_history_limit\": \"<integer>\",\n  \"cronjob.success_jobs_history_limit\": \"<integer>\",\n  \"security.service_account_name\": \"<string>\",\n  \"security.automount_service_account_token\": \"<boolean>\",\n  \"security.read_only_root_filesystem\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.qovery.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "f8d628b5-0eac-4311-b23f-2c2492e4e9cf",
+    "name": "Qovery Account Info Job Configuration API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider.\n- ℹ️ The API is stable and still in development.\n\n\nContact Support:\n Name: Qovery Product Team\n Email: support+api+documentation@qovery.com",
+      "type": "text/plain"
+    }
+  }
+}

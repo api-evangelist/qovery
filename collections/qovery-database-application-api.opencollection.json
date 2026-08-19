@@ -1,0 +1,68 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Qovery Account Info Database Application API",
+    "version": "1.0.4"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Database Application",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List applications using the database",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/database/:databaseId/application",
+            "params": [
+              {
+                "name": "databaseId",
+                "value": "",
+                "type": "path",
+                "description": "Database ID"
+              }
+            ]
+          },
+          "docs": "List applications using the database"
+        },
+        {
+          "info": {
+            "name": "Remove an application from this database ",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.qovery.com/database/:databaseId/application/:targetApplicationId",
+            "params": [
+              {
+                "name": "databaseId",
+                "value": "",
+                "type": "path",
+                "description": "Database ID"
+              },
+              {
+                "name": "targetApplicationId",
+                "value": "",
+                "type": "path",
+                "description": "Target application ID"
+              }
+            ]
+          },
+          "docs": "Remove an application from this database "
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

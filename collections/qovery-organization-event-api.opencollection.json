@@ -1,0 +1,187 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Qovery Account Info Organization Event API",
+    "version": "1.0.4"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Organization Event",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get all events inside the organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/organization/:organizationId/events",
+            "params": [
+              {
+                "name": "organizationId",
+                "value": "",
+                "type": "path",
+                "description": "Organization ID"
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "The number of events to display in the current page"
+              },
+              {
+                "name": "fromTimestamp",
+                "value": "",
+                "type": "query",
+                "description": "Display events triggered since this timestamp.  \nA range of date can be specified by using `from-timestamp` with `to-timestamp`\nThe format is a timestamp with nano precision\n"
+              },
+              {
+                "name": "toTimestamp",
+                "value": "",
+                "type": "query",
+                "description": "Display events triggered before this timestamp.  \nA range of date can be specified by using `to-timestamp` with `from-timestamp`\nThe format is a timestamp with nano precision\n"
+              },
+              {
+                "name": "continueToken",
+                "value": "",
+                "type": "query",
+                "description": "Token used to fetch the next page results\nThe format is a timestamp with nano precision\n"
+              },
+              {
+                "name": "stepBackToken",
+                "value": "",
+                "type": "query",
+                "description": "Token used to fetch the previous page results\nThe format is a timestamp with nano precision\n"
+              },
+              {
+                "name": "eventType",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "targetType",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "targetId",
+                "value": "",
+                "type": "query",
+                "description": "The target resource id to search.  \nMust be specified with the corresponding `target_type`\n"
+              },
+              {
+                "name": "subTargetType",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "triggeredBy",
+                "value": "",
+                "type": "query",
+                "description": "Information about the owner of the event (user name / apitoken / automatic action)"
+              },
+              {
+                "name": "origin",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "serviceProjectId",
+                "value": "",
+                "type": "query",
+                "description": "The project chosen when filtering on a service type"
+              },
+              {
+                "name": "serviceEnvironmentId",
+                "value": "",
+                "type": "query",
+                "description": "The environment chosen when filtering on a service type"
+              }
+            ]
+          },
+          "docs": "Get all events inside the organization"
+        },
+        {
+          "info": {
+            "name": "Get available event targets to filter events",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.qovery.com/organization/:organizationId/targets",
+            "params": [
+              {
+                "name": "organizationId",
+                "value": "",
+                "type": "path",
+                "description": "Organization ID"
+              },
+              {
+                "name": "fromTimestamp",
+                "value": "",
+                "type": "query",
+                "description": "Display targets available since this timestamp.  \nA range of date can be specified by using `from-timestamp` with `to-timestamp`\nThe format is a timestamp with nano precision\n"
+              },
+              {
+                "name": "toTimestamp",
+                "value": "",
+                "type": "query",
+                "description": "Display targets triggered before this timestamp.  \nA range of date can be specified by using `to-timestamp` with `from-timestamp`\nThe format is a timestamp with nano precision\n"
+              },
+              {
+                "name": "eventType",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "targetType",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "triggeredBy",
+                "value": "",
+                "type": "query",
+                "description": "Information about the owner of the event (user name / apitoken / automatic action)"
+              },
+              {
+                "name": "origin",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "query",
+                "description": "Mandatory when requesting an environment or a service"
+              },
+              {
+                "name": "environmentId",
+                "value": "",
+                "type": "query",
+                "description": "Mandatory when requesting a service"
+              },
+              {
+                "name": "targetLevelToFetch",
+                "value": "",
+                "type": "query",
+                "description": "Used only to retrieve projects or environments linked to service typed events"
+              }
+            ]
+          },
+          "docs": "Get available event targets to filter events"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

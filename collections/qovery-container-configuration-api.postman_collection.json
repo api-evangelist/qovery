@@ -1,0 +1,1225 @@
+{
+  "item": [
+    {
+      "id": "2f4d7664-bdf6-443f-ac5d-58336822de1b",
+      "name": "Container Configuration",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "93a63137-dcc1-467d-93b3-1be3b7e3203b",
+          "name": "Get advanced settings",
+          "request": {
+            "name": "Get advanced settings",
+            "description": {
+              "content": "Get list and values of the advanced settings of the container.\nDefault values for each setting are available in [our documentation](https://hub.qovery.com/docs/using-qovery/configuration/advanced-settings/)\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "container",
+                ":containerId",
+                "advancedSettings"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "containerId",
+                  "description": "(Required) Container ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "859b886d-3d3a-4078-ba9d-6ca976b850f3",
+              "name": "Advanced settings list",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "container",
+                    ":containerId",
+                    "advancedSettings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "containerId",
+                      "description": "(Required) Container ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"deployment.custom_domain_check_enabled\": false,\n  \"deployment.termination_grace_period_seconds\": 3696,\n  \"deployment.affinity.node.required\": {\n    \"key_0\": \"string\",\n    \"key_1\": \"string\"\n  },\n  \"deployment.antiaffinity.pod\": \"Preferred\",\n  \"deployment.topology_spread.zone\": \"Disabled\",\n  \"deployment.update_strategy.type\": \"RollingUpdate\",\n  \"deployment.update_strategy.rolling_update.max_unavailable_percent\": 2755,\n  \"deployment.update_strategy.rolling_update.max_surge_percent\": 2508,\n  \"network.ingress.proxy_body_size_mb\": 7301,\n  \"network.ingress.force_ssl_redirect\": true,\n  \"network.ingress.enable_cors\": false,\n  \"network.ingress.cors_allow_origin\": \"string\",\n  \"network.ingress.cors_allow_methods\": \"string\",\n  \"network.ingress.cors_allow_headers\": \"string\",\n  \"network.ingress.proxy_buffer_size_kb\": 446,\n  \"network.ingress.keepalive_time_seconds\": 9487,\n  \"network.ingress.keepalive_timeout_seconds\": 9281,\n  \"network.ingress.send_timeout_seconds\": 631,\n  \"network.ingress.proxy_connect_timeout_seconds\": 3597,\n  \"network.ingress.proxy_send_timeout_seconds\": 5383,\n  \"network.ingress.proxy_read_timeout_seconds\": 2034,\n  \"network.ingress.proxy_buffering\": \"string\",\n  \"network.ingress.proxy_request_buffering\": \"string\",\n  \"network.ingress.grpc_send_timeout_seconds\": 322,\n  \"network.ingress.grpc_read_timeout_seconds\": 3029,\n  \"network.ingress.whitelist_source_range\": \"string\",\n  \"network.ingress.denylist_source_range\": \"string\",\n  \"network.ingress.extra_headers\": \"{\\\"X-Frame-Options\\\":\\\"DENY \\\",\\\"X-Content-Type-Options\\\":\\\"nosniff\\\"}\",\n  \"network.gateway_api.http_request_timeout_seconds\": 2254,\n  \"network.gateway_api.http_connection_idle_timeout_seconds\": 6864,\n  \"network.ingress.basic_auth_env_var\": \"string\",\n  \"network.ingress.enable_sticky_session\": false,\n  \"security.service_account_name\": \"string\",\n  \"hpa.cpu.average_utilization_percent\": 1549,\n  \"hpa.memory.average_utilization_percent\": 4902,\n  \"security.automount_service_account_token\": false,\n  \"security.read_only_root_filesystem\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "579f9890-2e18-428d-95bb-839cf39de81f",
+              "name": "Access token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "container",
+                    ":containerId",
+                    "advancedSettings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "containerId",
+                      "description": "(Required) Container ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "9e99a389-a030-40ea-9db1-c7263b2e6c12",
+              "name": "Access forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "container",
+                    ":containerId",
+                    "advancedSettings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "containerId",
+                      "description": "(Required) Container ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "42548881-870b-482f-80d4-f9a018e481bb",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "container",
+                    ":containerId",
+                    "advancedSettings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "containerId",
+                      "description": "(Required) Container ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "136ac818-0ec0-4b5a-b95b-9d68001a4d26",
+          "name": "Edit advanced settings",
+          "request": {
+            "name": "Edit advanced settings",
+            "description": {
+              "content": "Edit advanced settings by returning table of advanced settings.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "container",
+                ":containerId",
+                "advancedSettings"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "containerId",
+                  "description": "(Required) Container ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"deployment.custom_domain_check_enabled\": \"<boolean>\",\n  \"deployment.termination_grace_period_seconds\": \"<integer>\",\n  \"deployment.affinity.node.required\": {\n    \"key_0\": \"<string>\",\n    \"key_1\": \"<string>\"\n  },\n  \"deployment.antiaffinity.pod\": \"<string>\",\n  \"deployment.topology_spread.zone\": \"<string>\",\n  \"deployment.update_strategy.type\": \"<string>\",\n  \"deployment.update_strategy.rolling_update.max_unavailable_percent\": \"<integer>\",\n  \"deployment.update_strategy.rolling_update.max_surge_percent\": \"<integer>\",\n  \"network.ingress.proxy_body_size_mb\": \"<integer>\",\n  \"network.ingress.force_ssl_redirect\": \"<boolean>\",\n  \"network.ingress.enable_cors\": \"<boolean>\",\n  \"network.ingress.cors_allow_origin\": \"<string>\",\n  \"network.ingress.cors_allow_methods\": \"<string>\",\n  \"network.ingress.cors_allow_headers\": \"<string>\",\n  \"network.ingress.proxy_buffer_size_kb\": \"<integer>\",\n  \"network.ingress.keepalive_time_seconds\": \"<integer>\",\n  \"network.ingress.keepalive_timeout_seconds\": \"<integer>\",\n  \"network.ingress.send_timeout_seconds\": \"<integer>\",\n  \"network.ingress.proxy_connect_timeout_seconds\": \"<integer>\",\n  \"network.ingress.proxy_send_timeout_seconds\": \"<integer>\",\n  \"network.ingress.proxy_read_timeout_seconds\": \"<integer>\",\n  \"network.ingress.proxy_buffering\": \"<string>\",\n  \"network.ingress.proxy_request_buffering\": \"<string>\",\n  \"network.ingress.grpc_send_timeout_seconds\": \"<integer>\",\n  \"network.ingress.grpc_read_timeout_seconds\": \"<integer>\",\n  \"network.ingress.whitelist_source_range\": \"<string>\",\n  \"network.ingress.denylist_source_range\": \"<string>\",\n  \"network.ingress.extra_headers\": \"<string>\",\n  \"network.gateway_api.http_request_timeout_seconds\": \"<integer>\",\n  \"network.gateway_api.http_connection_idle_timeout_seconds\": \"<integer>\",\n  \"network.ingress.basic_auth_env_var\": \"<string>\",\n  \"network.ingress.enable_sticky_session\": \"<boolean>\",\n  \"security.service_account_name\": \"<string>\",\n  \"hpa.cpu.average_utilization_percent\": \"<integer>\",\n  \"hpa.memory.average_utilization_percent\": \"<integer>\",\n  \"security.automount_service_account_token\": \"<boolean>\",\n  \"security.read_only_root_filesystem\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "fa23ee54-e518-42de-8d6f-24163707c988",
+              "name": "Updated advanced settings",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "container",
+                    ":containerId",
+                    "advancedSettings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "containerId",
+                      "description": "(Required) Container ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"deployment.custom_domain_check_enabled\": \"<boolean>\",\n  \"deployment.termination_grace_period_seconds\": \"<integer>\",\n  \"deployment.affinity.node.required\": {\n    \"key_0\": \"<string>\"\n  },\n  \"deployment.antiaffinity.pod\": \"<string>\",\n  \"deployment.topology_spread.zone\": \"<string>\",\n  \"deployment.update_strategy.type\": \"<string>\",\n  \"deployment.update_strategy.rolling_update.max_unavailable_percent\": \"<integer>\",\n  \"deployment.update_strategy.rolling_update.max_surge_percent\": \"<integer>\",\n  \"network.ingress.proxy_body_size_mb\": \"<integer>\",\n  \"network.ingress.force_ssl_redirect\": \"<boolean>\",\n  \"network.ingress.enable_cors\": \"<boolean>\",\n  \"network.ingress.cors_allow_origin\": \"<string>\",\n  \"network.ingress.cors_allow_methods\": \"<string>\",\n  \"network.ingress.cors_allow_headers\": \"<string>\",\n  \"network.ingress.proxy_buffer_size_kb\": \"<integer>\",\n  \"network.ingress.keepalive_time_seconds\": \"<integer>\",\n  \"network.ingress.keepalive_timeout_seconds\": \"<integer>\",\n  \"network.ingress.send_timeout_seconds\": \"<integer>\",\n  \"network.ingress.proxy_connect_timeout_seconds\": \"<integer>\",\n  \"network.ingress.proxy_send_timeout_seconds\": \"<integer>\",\n  \"network.ingress.proxy_read_timeout_seconds\": \"<integer>\",\n  \"network.ingress.proxy_buffering\": \"<string>\",\n  \"network.ingress.proxy_request_buffering\": \"<string>\",\n  \"network.ingress.grpc_send_timeout_seconds\": \"<integer>\",\n  \"network.ingress.grpc_read_timeout_seconds\": \"<integer>\",\n  \"network.ingress.whitelist_source_range\": \"<string>\",\n  \"network.ingress.denylist_source_range\": \"<string>\",\n  \"network.ingress.extra_headers\": \"{\\\"X-Frame-Options\\\":\\\"DENY \\\",\\\"X-Content-Type-Options\\\":\\\"nosniff\\\"}\",\n  \"network.gateway_api.http_request_timeout_seconds\": \"<integer>\",\n  \"network.gateway_api.http_connection_idle_timeout_seconds\": \"<integer>\",\n  \"network.ingress.basic_auth_env_var\": \"<string>\",\n  \"network.ingress.enable_sticky_session\": \"<boolean>\",\n  \"security.service_account_name\": \"<string>\",\n  \"hpa.cpu.average_utilization_percent\": \"<integer>\",\n  \"hpa.memory.average_utilization_percent\": \"<integer>\",\n  \"security.automount_service_account_token\": \"<boolean>\",\n  \"security.read_only_root_filesystem\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"deployment.custom_domain_check_enabled\": \"<boolean>\",\n  \"deployment.termination_grace_period_seconds\": \"<integer>\",\n  \"deployment.affinity.node.required\": {\n    \"key_0\": \"<string>\"\n  },\n  \"deployment.antiaffinity.pod\": \"<string>\",\n  \"deployment.topology_spread.zone\": \"<string>\",\n  \"deployment.update_strategy.type\": \"<string>\",\n  \"deployment.update_strategy.rolling_update.max_unavailable_percent\": \"<integer>\",\n  \"deployment.update_strategy.rolling_update.max_surge_percent\": \"<integer>\",\n  \"network.ingress.proxy_body_size_mb\": \"<integer>\",\n  \"network.ingress.force_ssl_redirect\": \"<boolean>\",\n  \"network.ingress.enable_cors\": \"<boolean>\",\n  \"network.ingress.cors_allow_origin\": \"<string>\",\n  \"network.ingress.cors_allow_methods\": \"<string>\",\n  \"network.ingress.cors_allow_headers\": \"<string>\",\n  \"network.ingress.proxy_buffer_size_kb\": \"<integer>\",\n  \"network.ingress.keepalive_time_seconds\": \"<integer>\",\n  \"network.ingress.keepalive_timeout_seconds\": \"<integer>\",\n  \"network.ingress.send_timeout_seconds\": \"<integer>\",\n  \"network.ingress.proxy_connect_timeout_seconds\": \"<integer>\",\n  \"network.ingress.proxy_send_timeout_seconds\": \"<integer>\",\n  \"network.ingress.proxy_read_timeout_seconds\": \"<integer>\",\n  \"network.ingress.proxy_buffering\": \"<string>\",\n  \"network.ingress.proxy_request_buffering\": \"<string>\",\n  \"network.ingress.grpc_send_timeout_seconds\": \"<integer>\",\n  \"network.ingress.grpc_read_timeout_seconds\": \"<integer>\",\n  \"network.ingress.whitelist_source_range\": \"<string>\",\n  \"network.ingress.denylist_source_range\": \"<string>\",\n  \"network.ingress.extra_headers\": \"{\\\"X-Frame-Options\\\":\\\"DENY \\\",\\\"X-Content-Type-Options\\\":\\\"nosniff\\\"}\",\n  \"network.gateway_api.http_request_timeout_seconds\": \"<integer>\",\n  \"network.gateway_api.http_connection_idle_timeout_seconds\": \"<integer>\",\n  \"network.ingress.basic_auth_env_var\": \"<string>\",\n  \"network.ingress.enable_sticky_session\": \"<boolean>\",\n  \"security.service_account_name\": \"<string>\",\n  \"hpa.cpu.average_utilization_percent\": \"<integer>\",\n  \"hpa.memory.average_utilization_percent\": \"<integer>\",\n  \"security.automount_service_account_token\": \"<boolean>\",\n  \"security.read_only_root_filesystem\": \"<boolean>\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "717400d4-3687-4c12-b7e6-f7326c2a433a",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "container",
+                    ":containerId",
+                    "advancedSettings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "containerId",
+                      "description": "(Required) Container ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"deployment.custom_domain_check_enabled\": \"<boolean>\",\n  \"deployment.termination_grace_period_seconds\": \"<integer>\",\n  \"deployment.affinity.node.required\": {\n    \"key_0\": \"<string>\"\n  },\n  \"deployment.antiaffinity.pod\": \"<string>\",\n  \"deployment.topology_spread.zone\": \"<string>\",\n  \"deployment.update_strategy.type\": \"<string>\",\n  \"deployment.update_strategy.rolling_update.max_unavailable_percent\": \"<integer>\",\n  \"deployment.update_strategy.rolling_update.max_surge_percent\": \"<integer>\",\n  \"network.ingress.proxy_body_size_mb\": \"<integer>\",\n  \"network.ingress.force_ssl_redirect\": \"<boolean>\",\n  \"network.ingress.enable_cors\": \"<boolean>\",\n  \"network.ingress.cors_allow_origin\": \"<string>\",\n  \"network.ingress.cors_allow_methods\": \"<string>\",\n  \"network.ingress.cors_allow_headers\": \"<string>\",\n  \"network.ingress.proxy_buffer_size_kb\": \"<integer>\",\n  \"network.ingress.keepalive_time_seconds\": \"<integer>\",\n  \"network.ingress.keepalive_timeout_seconds\": \"<integer>\",\n  \"network.ingress.send_timeout_seconds\": \"<integer>\",\n  \"network.ingress.proxy_connect_timeout_seconds\": \"<integer>\",\n  \"network.ingress.proxy_send_timeout_seconds\": \"<integer>\",\n  \"network.ingress.proxy_read_timeout_seconds\": \"<integer>\",\n  \"network.ingress.proxy_buffering\": \"<string>\",\n  \"network.ingress.proxy_request_buffering\": \"<string>\",\n  \"network.ingress.grpc_send_timeout_seconds\": \"<integer>\",\n  \"network.ingress.grpc_read_timeout_seconds\": \"<integer>\",\n  \"network.ingress.whitelist_source_range\": \"<string>\",\n  \"network.ingress.denylist_source_range\": \"<string>\",\n  \"network.ingress.extra_headers\": \"{\\\"X-Frame-Options\\\":\\\"DENY \\\",\\\"X-Content-Type-Options\\\":\\\"nosniff\\\"}\",\n  \"network.gateway_api.http_request_timeout_seconds\": \"<integer>\",\n  \"network.gateway_api.http_connection_idle_timeout_seconds\": \"<integer>\",\n  \"network.ingress.basic_auth_env_var\": \"<string>\",\n  \"network.ingress.enable_sticky_session\": \"<boolean>\",\n  \"security.service_account_name\": \"<string>\",\n  \"hpa.cpu.average_utilization_percent\": \"<integer>\",\n  \"hpa.memory.average_utilization_percent\": \"<integer>\",\n  \"security.automount_service_account_token\": \"<boolean>\",\n  \"security.read_only_root_filesystem\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "a74d9c37-3047-49ce-a744-a84810df1914",
+              "name": "Access token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "container",
+                    ":containerId",
+                    "advancedSettings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "containerId",
+                      "description": "(Required) Container ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"deployment.custom_domain_check_enabled\": \"<boolean>\",\n  \"deployment.termination_grace_period_seconds\": \"<integer>\",\n  \"deployment.affinity.node.required\": {\n    \"key_0\": \"<string>\"\n  },\n  \"deployment.antiaffinity.pod\": \"<string>\",\n  \"deployment.topology_spread.zone\": \"<string>\",\n  \"deployment.update_strategy.type\": \"<string>\",\n  \"deployment.update_strategy.rolling_update.max_unavailable_percent\": \"<integer>\",\n  \"deployment.update_strategy.rolling_update.max_surge_percent\": \"<integer>\",\n  \"network.ingress.proxy_body_size_mb\": \"<integer>\",\n  \"network.ingress.force_ssl_redirect\": \"<boolean>\",\n  \"network.ingress.enable_cors\": \"<boolean>\",\n  \"network.ingress.cors_allow_origin\": \"<string>\",\n  \"network.ingress.cors_allow_methods\": \"<string>\",\n  \"network.ingress.cors_allow_headers\": \"<string>\",\n  \"network.ingress.proxy_buffer_size_kb\": \"<integer>\",\n  \"network.ingress.keepalive_time_seconds\": \"<integer>\",\n  \"network.ingress.keepalive_timeout_seconds\": \"<integer>\",\n  \"network.ingress.send_timeout_seconds\": \"<integer>\",\n  \"network.ingress.proxy_connect_timeout_seconds\": \"<integer>\",\n  \"network.ingress.proxy_send_timeout_seconds\": \"<integer>\",\n  \"network.ingress.proxy_read_timeout_seconds\": \"<integer>\",\n  \"network.ingress.proxy_buffering\": \"<string>\",\n  \"network.ingress.proxy_request_buffering\": \"<string>\",\n  \"network.ingress.grpc_send_timeout_seconds\": \"<integer>\",\n  \"network.ingress.grpc_read_timeout_seconds\": \"<integer>\",\n  \"network.ingress.whitelist_source_range\": \"<string>\",\n  \"network.ingress.denylist_source_range\": \"<string>\",\n  \"network.ingress.extra_headers\": \"{\\\"X-Frame-Options\\\":\\\"DENY \\\",\\\"X-Content-Type-Options\\\":\\\"nosniff\\\"}\",\n  \"network.gateway_api.http_request_timeout_seconds\": \"<integer>\",\n  \"network.gateway_api.http_connection_idle_timeout_seconds\": \"<integer>\",\n  \"network.ingress.basic_auth_env_var\": \"<string>\",\n  \"network.ingress.enable_sticky_session\": \"<boolean>\",\n  \"security.service_account_name\": \"<string>\",\n  \"hpa.cpu.average_utilization_percent\": \"<integer>\",\n  \"hpa.memory.average_utilization_percent\": \"<integer>\",\n  \"security.automount_service_account_token\": \"<boolean>\",\n  \"security.read_only_root_filesystem\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "66353e4a-f448-4c7c-93b0-c315b343afe6",
+              "name": "Access forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "container",
+                    ":containerId",
+                    "advancedSettings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "containerId",
+                      "description": "(Required) Container ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"deployment.custom_domain_check_enabled\": \"<boolean>\",\n  \"deployment.termination_grace_period_seconds\": \"<integer>\",\n  \"deployment.affinity.node.required\": {\n    \"key_0\": \"<string>\"\n  },\n  \"deployment.antiaffinity.pod\": \"<string>\",\n  \"deployment.topology_spread.zone\": \"<string>\",\n  \"deployment.update_strategy.type\": \"<string>\",\n  \"deployment.update_strategy.rolling_update.max_unavailable_percent\": \"<integer>\",\n  \"deployment.update_strategy.rolling_update.max_surge_percent\": \"<integer>\",\n  \"network.ingress.proxy_body_size_mb\": \"<integer>\",\n  \"network.ingress.force_ssl_redirect\": \"<boolean>\",\n  \"network.ingress.enable_cors\": \"<boolean>\",\n  \"network.ingress.cors_allow_origin\": \"<string>\",\n  \"network.ingress.cors_allow_methods\": \"<string>\",\n  \"network.ingress.cors_allow_headers\": \"<string>\",\n  \"network.ingress.proxy_buffer_size_kb\": \"<integer>\",\n  \"network.ingress.keepalive_time_seconds\": \"<integer>\",\n  \"network.ingress.keepalive_timeout_seconds\": \"<integer>\",\n  \"network.ingress.send_timeout_seconds\": \"<integer>\",\n  \"network.ingress.proxy_connect_timeout_seconds\": \"<integer>\",\n  \"network.ingress.proxy_send_timeout_seconds\": \"<integer>\",\n  \"network.ingress.proxy_read_timeout_seconds\": \"<integer>\",\n  \"network.ingress.proxy_buffering\": \"<string>\",\n  \"network.ingress.proxy_request_buffering\": \"<string>\",\n  \"network.ingress.grpc_send_timeout_seconds\": \"<integer>\",\n  \"network.ingress.grpc_read_timeout_seconds\": \"<integer>\",\n  \"network.ingress.whitelist_source_range\": \"<string>\",\n  \"network.ingress.denylist_source_range\": \"<string>\",\n  \"network.ingress.extra_headers\": \"{\\\"X-Frame-Options\\\":\\\"DENY \\\",\\\"X-Content-Type-Options\\\":\\\"nosniff\\\"}\",\n  \"network.gateway_api.http_request_timeout_seconds\": \"<integer>\",\n  \"network.gateway_api.http_connection_idle_timeout_seconds\": \"<integer>\",\n  \"network.ingress.basic_auth_env_var\": \"<string>\",\n  \"network.ingress.enable_sticky_session\": \"<boolean>\",\n  \"security.service_account_name\": \"<string>\",\n  \"hpa.cpu.average_utilization_percent\": \"<integer>\",\n  \"hpa.memory.average_utilization_percent\": \"<integer>\",\n  \"security.automount_service_account_token\": \"<boolean>\",\n  \"security.read_only_root_filesystem\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "be68bba9-a998-4b32-af8e-a8f983223a6a",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "container",
+                    ":containerId",
+                    "advancedSettings"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "containerId",
+                      "description": "(Required) Container ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"deployment.custom_domain_check_enabled\": \"<boolean>\",\n  \"deployment.termination_grace_period_seconds\": \"<integer>\",\n  \"deployment.affinity.node.required\": {\n    \"key_0\": \"<string>\"\n  },\n  \"deployment.antiaffinity.pod\": \"<string>\",\n  \"deployment.topology_spread.zone\": \"<string>\",\n  \"deployment.update_strategy.type\": \"<string>\",\n  \"deployment.update_strategy.rolling_update.max_unavailable_percent\": \"<integer>\",\n  \"deployment.update_strategy.rolling_update.max_surge_percent\": \"<integer>\",\n  \"network.ingress.proxy_body_size_mb\": \"<integer>\",\n  \"network.ingress.force_ssl_redirect\": \"<boolean>\",\n  \"network.ingress.enable_cors\": \"<boolean>\",\n  \"network.ingress.cors_allow_origin\": \"<string>\",\n  \"network.ingress.cors_allow_methods\": \"<string>\",\n  \"network.ingress.cors_allow_headers\": \"<string>\",\n  \"network.ingress.proxy_buffer_size_kb\": \"<integer>\",\n  \"network.ingress.keepalive_time_seconds\": \"<integer>\",\n  \"network.ingress.keepalive_timeout_seconds\": \"<integer>\",\n  \"network.ingress.send_timeout_seconds\": \"<integer>\",\n  \"network.ingress.proxy_connect_timeout_seconds\": \"<integer>\",\n  \"network.ingress.proxy_send_timeout_seconds\": \"<integer>\",\n  \"network.ingress.proxy_read_timeout_seconds\": \"<integer>\",\n  \"network.ingress.proxy_buffering\": \"<string>\",\n  \"network.ingress.proxy_request_buffering\": \"<string>\",\n  \"network.ingress.grpc_send_timeout_seconds\": \"<integer>\",\n  \"network.ingress.grpc_read_timeout_seconds\": \"<integer>\",\n  \"network.ingress.whitelist_source_range\": \"<string>\",\n  \"network.ingress.denylist_source_range\": \"<string>\",\n  \"network.ingress.extra_headers\": \"{\\\"X-Frame-Options\\\":\\\"DENY \\\",\\\"X-Content-Type-Options\\\":\\\"nosniff\\\"}\",\n  \"network.gateway_api.http_request_timeout_seconds\": \"<integer>\",\n  \"network.gateway_api.http_connection_idle_timeout_seconds\": \"<integer>\",\n  \"network.ingress.basic_auth_env_var\": \"<string>\",\n  \"network.ingress.enable_sticky_session\": \"<boolean>\",\n  \"security.service_account_name\": \"<string>\",\n  \"hpa.cpu.average_utilization_percent\": \"<integer>\",\n  \"hpa.memory.average_utilization_percent\": \"<integer>\",\n  \"security.automount_service_account_token\": \"<boolean>\",\n  \"security.read_only_root_filesystem\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "05488bf0-a3c1-4a2c-8126-5e5f502b708d",
+          "name": "Get Container Network information",
+          "request": {
+            "name": "Get Container Network information",
+            "description": {
+              "content": "Get status of the container network settings.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "container",
+                ":containerId",
+                "network"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "containerId",
+                  "description": "(Required) Container ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "841be20f-8481-49ee-b349-8ef0f0a23a9a",
+              "name": "Network information",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "container",
+                    ":containerId",
+                    "network"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "containerId",
+                      "description": "(Required) Container ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"sticky_session\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "723a572d-4558-4b8a-9d26-2b491f8abe78",
+              "name": "Access token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "container",
+                    ":containerId",
+                    "network"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "containerId",
+                      "description": "(Required) Container ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "33eb27fc-2728-4fc6-b6fe-9f2573464cd0",
+              "name": "Access forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "container",
+                    ":containerId",
+                    "network"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "containerId",
+                      "description": "(Required) Container ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "39173104-6fef-4988-ad08-09a72cc2066a",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "container",
+                    ":containerId",
+                    "network"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "containerId",
+                      "description": "(Required) Container ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2c74a4c1-fea6-465e-b226-30d80cc4d922",
+          "name": "Edit Container Network",
+          "request": {
+            "name": "Edit Container Network",
+            "description": {
+              "content": "Edit the Network settings of the container.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "container",
+                ":containerId",
+                "network"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "containerId",
+                  "description": "(Required) Container ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sticky_session\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "0ed18749-dc5e-4e76-92b2-a2d78d0c39ee",
+              "name": "Updated container network setting",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "container",
+                    ":containerId",
+                    "network"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "containerId",
+                      "description": "(Required) Container ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sticky_session\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"sticky_session\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6061e9ae-4643-49f3-9d59-ecdb1222a9b9",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "container",
+                    ":containerId",
+                    "network"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "containerId",
+                      "description": "(Required) Container ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sticky_session\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "eacca7c4-c0e8-4dc1-8aa7-9ed52b9e739a",
+              "name": "Access token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "container",
+                    ":containerId",
+                    "network"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "containerId",
+                      "description": "(Required) Container ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sticky_session\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "40e55657-04f7-4240-9e92-f95474a36ed2",
+              "name": "Access forbidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "container",
+                    ":containerId",
+                    "network"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "containerId",
+                      "description": "(Required) Container ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sticky_session\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "0d8351c3-4e02-4991-a610-5509af984c3c",
+              "name": "Resource not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "container",
+                    ":containerId",
+                    "network"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "containerId",
+                      "description": "(Required) Container ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sticky_session\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.qovery.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "82af4052-e3b8-4ba6-96a4-29b7d82c15b6",
+    "name": "Qovery Account Info Container Configuration API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider.\n- ℹ️ The API is stable and still in development.\n\n\nContact Support:\n Name: Qovery Product Team\n Email: support+api+documentation@qovery.com",
+      "type": "text/plain"
+    }
+  }
+}

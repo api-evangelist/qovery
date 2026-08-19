@@ -1,0 +1,46 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Qovery Account Info Deployment Queue Actions API",
+    "version": "1.0.4"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Deployment Queue Actions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Cancel deployment request",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.qovery.com/deploymentQueue/:deploymentRequestId/cancelDeployment",
+            "params": [
+              {
+                "name": "deploymentRequestId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Cancel the a deployment request."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
