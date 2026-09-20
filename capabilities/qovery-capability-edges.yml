@@ -1,0 +1,476 @@
+slug: qovery
+provider: Qovery
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 47
+edges:
+- tag: Environment Secret
+  spec_file: qovery-environment-secret-api-openapi.yml
+  capability_id: BC-4210.60
+  capability_id_l1: BC-4210
+  capability_name: Configuration & Secrets Management
+  confidence: 0.9
+  evidence: POST /environment/{environmentId}/secret  createEnvironmentSecret  Add a secret to the environment
+  reason: Lifecycle of secrets consumed by services in an environment — plainly configuration & secrets
+    management.
+- tag: Environment Variable
+  spec_file: qovery-environment-variable-api-openapi.yml
+  capability_id: BC-4210.60
+  capability_id_l1: BC-4210
+  capability_name: Configuration & Secrets Management
+  confidence: 0.9
+  evidence: POST /environment/{environmentId}/environmentVariable  createEnvironmentEnvironmentVariable  Add
+    an environment variable to the environment
+  reason: Management of runtime configuration values (env vars, overrides, aliases) for deployed services
+    — configuration & secrets management.
+- tag: Container Secret
+  spec_file: qovery-container-secret-api-openapi.yml
+  capability_id: BC-4210.60
+  capability_id_l1: BC-4210
+  capability_name: Configuration & Secrets Management
+  confidence: 0.88
+  evidence: POST /container/{containerId}/secret "Add a secret to the container"; schemas SecretRequest,
+    SecretOverride, SecretAlias
+  reason: Explicit management of secrets consumed by deployed product services — Configuration & Secrets
+    Management.
+- tag: Application Actions
+  spec_file: qovery-application-actions-api-openapi.yml
+  capability_id: BC-4210.40
+  capability_id_l1: BC-4210
+  capability_name: Deployment Orchestration
+  confidence: 0.85
+  evidence: POST /application/{applicationId}/deploy 'Deploy application', 'redeployApplication', 'stopApplication',
+    DeployRequest
+  reason: Deploy/redeploy/stop/uninstall of applications to cloud environments is deployment orchestration
+    on an internal developer platform.
+- tag: Application Environment Variable
+  spec_file: qovery-application-environment-variable-api-openapi.yml
+  capability_id: BC-4210.60
+  capability_id_l1: BC-4210
+  capability_name: Configuration & Secrets Management
+  confidence: 0.85
+  evidence: POST /application/{applicationId}/environmentVariable 'Add an environment variable to the
+    application', schemas EnvironmentVariableAlias, EnvironmentVariableOverride
+  reason: Management of runtime configuration values (env vars, overrides, aliases) consumed by deployed
+    services is configuration & secrets management.
+- tag: Application Secret
+  spec_file: qovery-application-secret-api-openapi.yml
+  capability_id: BC-4210.60
+  capability_id_l1: BC-4210
+  capability_name: Configuration & Secrets Management
+  confidence: 0.85
+  evidence: POST /application/{applicationId}/secret  createApplicationSecret  Add a secret to the application
+  reason: CRUD over application secrets, overrides and aliases is squarely runtime configuration and secrets
+    management for deployed services.
+- tag: Container Actions
+  spec_file: qovery-container-actions-api-openapi.yml
+  capability_id: BC-4210.40
+  capability_id_l1: BC-4210
+  capability_name: Deployment Orchestration
+  confidence: 0.85
+  evidence: POST /container/{containerId}/deploy  deployContainer  Deploy container; redeployContainer  Redeploy
+    container
+  reason: Deploy, redeploy, stop, restart and uninstall of containers is directly deployment orchestration
+    of software changes to running environments.
+- tag: Container Environment Variable
+  spec_file: qovery-container-environment-variable-api-openapi.yml
+  capability_id: BC-4210.60
+  capability_id_l1: BC-4210
+  capability_name: Configuration & Secrets Management
+  confidence: 0.85
+  evidence: '"Add an environment variable to the container", "Create an environment variable override
+    at the container level", schemas EnvironmentVariableRequest, VariableImportRequest'
+  reason: Lifecycle of runtime configuration values consumed by deployed services — squarely Configuration
+    & Secrets Management.
+- tag: Deployment Stage Main Calls
+  spec_file: qovery-deployment-stage-main-calls-api-openapi.yml
+  capability_id: BC-4210.40
+  capability_id_l1: BC-4210
+  capability_name: Deployment Orchestration
+  confidence: 0.85
+  evidence: CreateEnvironmentDeploymentStage  Create environment deployment stage; AttachServiceToDeploymentStage  Attach
+    service to deployment stage; MoveBeforeDeploymentStage
+  reason: Defines and orders deployment stages and which services deploy in each — deployment orchestration.
+- tag: Environment Actions
+  spec_file: qovery-environment-actions-api-openapi.yml
+  capability_id: BC-4210.40
+  capability_id_l1: BC-4210
+  capability_name: Deployment Orchestration
+  confidence: 0.85
+  evidence: POST /environment/{environmentId}/deploy  deployEnvironment; POST /environment/{environmentId}/redeploy;
+    POST /environment/{environmentId}/service/deploy  deployAllServices
+  reason: Directly triggers deploy, redeploy, stop, uninstall and cancel of environments and their services
+    — deployment orchestration on an internal developer platform.
+- tag: Environments
+  spec_file: qovery-environments-api-openapi.yml
+  capability_id: BC-4210.20
+  capability_id_l1: BC-4210
+  capability_name: Environment Management
+  confidence: 0.85
+  evidence: POST /project/{projectId}/environment createEnvironment "Create an environment"; "enabling
+    developers to self-serve environments on AWS, GCP, and Azure"
+  reason: Operations create and list deployment environments in an internal developer platform — Environment
+    Management under Software Release & Deployment.
+- tag: Helm Actions
+  spec_file: qovery-helm-actions-api-openapi.yml
+  capability_id: BC-4210.40
+  capability_id_l1: BC-4210
+  capability_name: Deployment Orchestration
+  confidence: 0.85
+  evidence: POST /helm/{helmId}/deploy deployHelm "Deploy helm"; "Redeploy helm"; "Uninstall helm"
+  reason: Operations trigger deployment, redeployment and stop of Helm-packaged services — deployment
+    orchestration.
+- tag: Project Secret
+  spec_file: qovery-project-secret-api-openapi.yml
+  capability_id: BC-4210.60
+  capability_id_l1: BC-4210
+  capability_name: Configuration & Secrets Management
+  confidence: 0.85
+  evidence: createProjectSecret  Add a secret to the project; schemas SecretOverride, SecretAlias
+  reason: Lifecycle of secrets scoped to a project, with overrides and aliases, is squarely Configuration
+    & Secrets Management for product runtime services.
+- tag: Terraform Actions
+  spec_file: qovery-terraform-actions-api-openapi.yml
+  capability_id: BC-4210.40
+  capability_id_l1: BC-4210
+  capability_name: Deployment Orchestration
+  confidence: 0.85
+  evidence: POST /terraform/{terraformId}/deploy  deployTerraform; POST /terraform/{terraformId}/redeploy  redeployTerraform;
+    POST /terraform/{terraformId}/uninstall
+  reason: Operations trigger deploy/redeploy/uninstall of infrastructure-as-code services, i.e. orchestrating
+    delivery of changes to running environments.
+- tag: Job Secret
+  spec_file: qovery-job-secret-api-openapi.yml
+  capability_id: BC-4210.60
+  capability_id_l1: BC-4210
+  capability_name: Configuration & Secrets Management
+  confidence: 0.82
+  evidence: POST /job/{jobId}/secret  Add a secret to the job; schemas SecretOverride, SecretAlias
+  reason: Management of secrets consumed by deployed job services maps directly to configuration & secrets
+    management.
+- tag: Billing
+  spec_file: qovery-billing-api-openapi.yml
+  capability_id: BC-4250.30
+  capability_id_l1: BC-4250
+  capability_name: Invoicing & Statement Management
+  confidence: 0.8
+  evidence: GET /organization/{organizationId}/invoice  listOrganizationInvoice; getOrganizationCurrentCost  Get
+    organization current cost; changePlan  Change organization plan
+  reason: Operations cover invoices, billing info, credit codes, usage reports and plan changes for the
+    SaaS subscription — subscription billing, with invoicing the dominant surface.
+- tag: Job Actions
+  spec_file: qovery-job-actions-api-openapi.yml
+  capability_id: BC-4210.40
+  capability_id_l1: BC-4210
+  capability_name: Deployment Orchestration
+  confidence: 0.8
+  evidence: POST /job/{jobId}/deploy deployJob "Deploy job"; "Redeploy job"; "Clean a failed job"
+  reason: Triggers deploy/redeploy/stop of job workloads on the platform — deployment orchestration of
+    application services.
+- tag: Job Environment Variable
+  spec_file: qovery-job-environment-variable-api-openapi.yml
+  capability_id: BC-4210.60
+  capability_id_l1: BC-4210
+  capability_name: Configuration & Secrets Management
+  confidence: 0.8
+  evidence: POST /job/{jobId}/environmentVariable  Add an environment variable to the job; schemas EnvironmentVariableOverride,
+    EnvironmentVariableAlias
+  reason: CRUD plus override/alias of environment variables consumed by deployed services is squarely
+    runtime configuration management.
+- tag: Organization Custom Role
+  spec_file: qovery-organization-custom-role-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.8
+  evidence: createOrganizationCustomRole  Create an organization custom role; schemas OrganizationCustomRoleClusterPermission,
+    OrganizationCustomRoleProjectPermission
+  reason: CRUD over custom roles carrying explicit cluster and project permission grants is role-based
+    access control administration, i.e. Identity & Access Management.
+- tag: Project Environment Variable
+  spec_file: qovery-project-environment-variable-api-openapi.yml
+  capability_id: BC-4210.60
+  capability_id_l1: BC-4210
+  capability_name: Configuration & Secrets Management
+  confidence: 0.8
+  evidence: createProjectEnvironmentVariable  Add an environment variable to the project; createProjectEnvironmentVariableOverride
+  reason: Management of runtime configuration values (environment variables, overrides, aliases) consumed
+    by deployed services is Configuration & Secrets Management.
+- tag: Variable Main Calls
+  spec_file: qovery-variable-main-calls-api-openapi.yml
+  capability_id: BC-4210.60
+  capability_id_l1: BC-4210
+  capability_name: Configuration & Secrets Management
+  confidence: 0.8
+  evidence: POST /variable/import  importEnvironmentVariables  Import variables; schemas VariableOverride,
+    VariableAlias, APIVariableScopeEnum
+  reason: CRUD, aliasing and overriding of environment variables/secrets consumed by deployed services
+    — runtime configuration and secrets management.
+- tag: Alert Rules
+  spec_file: qovery-alert-rules-api-openapi.yml
+  capability_id: BC-4220.20
+  capability_id_l1: BC-4220
+  capability_name: Observability Management
+  confidence: 0.75
+  evidence: POST /alert-rules 'Create alert rule', schemas AlertRuleCondition, AlertSeverity, AlertTarget,
+    ServiceLightResponse
+  reason: Defining monitoring alert conditions and severities over deployed services is observability/monitoring
+    of the running platform, not financial-crime or business alerting.
+- tag: Application Logs
+  spec_file: qovery-application-logs-api-openapi.yml
+  capability_id: BC-4220.20
+  capability_id_l1: BC-4220
+  capability_name: Observability Management
+  confidence: 0.75
+  evidence: GET /application/{applicationId}/log 'List logs', schemas LogResponseList, Log
+  reason: Retrieval of application runtime logs is observability of the running service. Single generic
+    operation, so moderate confidence.
+- tag: Backups
+  spec_file: qovery-backups-api-openapi.yml
+  capability_id: BC-4220.60
+  capability_id_l1: BC-4220
+  capability_name: Disaster Recovery & Resilience
+  confidence: 0.75
+  evidence: POST /database/{databaseId}/backup  addBackupDatabase  Add a backup to the Database
+  reason: Database backup creation/listing/removal is backup-and-restore operations, i.e. disaster recovery
+    and resilience for the running service.
+- tag: Clusters
+  spec_file: qovery-clusters-api-openapi.yml
+  capability_id: BC-600.50
+  capability_id_l1: BC-600
+  capability_name: IT Infrastructure Management
+  confidence: 0.75
+  evidence: POST /organization/{organizationId}/cluster  createCluster  Create a cluster; GET .../kubeconfig  getClusterKubeconfig  Get
+    cluster kubeconfig
+  reason: Creating, editing and configuring Kubernetes clusters (kubeconfig, routing table, helm values)
+    is compute/cloud infrastructure management.
+- tag: Container Deployment History
+  spec_file: qovery-container-deployment-history-api-openapi.yml
+  capability_id: BC-4210.40
+  capability_id_l1: BC-4210
+  capability_name: Deployment Orchestration
+  confidence: 0.75
+  evidence: GET /container/{containerId}/deploymentHistory — "List container deployments"; schemas DeploymentHistoryService,
+    ServiceActionEnum, DeploymentHistoryAuditingData
+  reason: Read-only record of deployments of a container to environments — deployment execution/orchestration
+    history, not CI build or product engineering.
+- tag: Database Deployment History
+  spec_file: qovery-database-deployment-history-api-openapi.yml
+  capability_id: BC-4210.40
+  capability_id_l1: BC-4210
+  capability_name: Deployment Orchestration
+  confidence: 0.75
+  evidence: GET /database/{databaseId}/deploymentHistory  "List database deploys"; schemas DeploymentHistoryService,
+    DeploymentHistoryAuditingData
+  reason: Historical record of database service deployments performed by the platform — deployment execution
+    history rather than CI or product engineering.
+- tag: Deployment Queue Actions
+  spec_file: qovery-deployment-queue-actions-api-openapi.yml
+  capability_id: BC-4210.40
+  capability_id_l1: BC-4210
+  capability_name: Deployment Orchestration
+  confidence: 0.75
+  evidence: POST /deploymentQueue/{deploymentRequestId}/cancelDeployment  cancelDeploymentRequest  Cancel
+    deployment request
+  reason: Single operation controlling the deployment queue — cancelling a pending deployment — which
+    is deployment orchestration of software changes to environments.
+- tag: Environment Main Calls
+  spec_file: qovery-environment-main-calls-api-openapi.yml
+  capability_id: BC-4210.20
+  capability_id_l1: BC-4210
+  capability_name: Environment Management
+  confidence: 0.75
+  evidence: GET /environment/{environmentId}  getEnvironment  Get environment by ID; DELETE /environment/{environmentId}  deleteEnvironment  Delete
+    an environment
+  reason: CRUD and status inspection of developer/deployment environments — provisioning and stewardship
+    of environments on an internal developer platform.
+- tag: Organization Webhook
+  spec_file: qovery-organization-webhook-api-openapi.yml
+  capability_id: BC-4270.80
+  capability_id_l1: BC-4270
+  capability_name: Webhook & Event Subscription Management
+  confidence: 0.75
+  evidence: createOrganizationWebhook  Create an organization webhook; listWebhookEvent  List events of
+    a webhook; OrganizationWebhookEventEnum
+  reason: Lifecycle management of outbound webhook subscriptions and their event types maps directly to
+    the named Webhook & Event Subscription Management capability rather than being unmappable plumbing.
+- tag: Alert Receivers
+  spec_file: qovery-alert-receivers-api-openapi.yml
+  capability_id: BC-4220.30
+  capability_id_l1: BC-4220
+  capability_name: Incident Response Management
+  confidence: 0.7
+  evidence: POST /alert-receivers 'Create alert receiver', schemas SlackAlertReceiverCreationRequest,
+    EmailAlertReceiverCreationRequest
+  reason: Configuring email/Slack destinations for platform alerts is alert routing/notification for operational
+    response. Somewhat between observability and incident response; chose incident response notification
+    routing with moderate confidence.
+- tag: Application Configuration
+  spec_file: qovery-application-configuration-api-openapi.yml
+  capability_id: BC-4210.60
+  capability_id_l1: BC-4210
+  capability_name: Configuration & Secrets Management
+  confidence: 0.7
+  evidence: PUT /application/{applicationId}/advancedSettings 'Edit advanced settings', schema ApplicationAdvancedSettings,
+    ApplicationNetwork
+  reason: Editing runtime network and advanced settings of a deployed application is runtime configuration
+    management for product services.
+- tag: Application Deployment History
+  spec_file: qovery-application-deployment-history-api-openapi.yml
+  capability_id: BC-4210.40
+  capability_id_l1: BC-4210
+  capability_name: Deployment Orchestration
+  confidence: 0.7
+  evidence: GET /application/{applicationId}/deploymentHistory 'List application deploys', schemas DeploymentHistory,
+    DeploymentHistoryStatusEnum
+  reason: Audit/history of application deployments belongs to deployment orchestration on the developer
+    platform; it is a read-only view of deploy events.
+- tag: Application Main Calls
+  spec_file: qovery-application-main-calls-api-openapi.yml
+  capability_id: BC-4210.40
+  capability_id_l1: BC-4210
+  capability_name: Deployment Orchestration
+  confidence: 0.7
+  evidence: GET /application/{applicationId}/status  getApplicationStatus  Get application status; listApplicationCommit  List
+    last commits
+  reason: Qovery is an internal developer platform; these operations manage a deployed application unit
+    (status, links, commits) on cloud infrastructure. Best fits SaaS release/deployment orchestration
+    of application workloads; could also be read as IT Application Management, but the vendor context
+    is deployment tooling.
+- tag: ArgoCD
+  spec_file: qovery-argocd-api-openapi.yml
+  capability_id: BC-4210.40
+  capability_id_l1: BC-4210
+  capability_name: Deployment Orchestration
+  confidence: 0.7
+  evidence: POST /cluster/{clusterId}/argoCdConfig  saveArgoCdCredentials  Save ArgoCD credentials for
+    a cluster; getArgoCdApp  Get ArgoCD app by ID
+  reason: ArgoCD is a GitOps continuous-delivery tool; configuring its credentials and cluster mappings
+    supports deployment of changes to production clusters.
+- tag: Cloud Provider
+  spec_file: qovery-cloud-provider-api-openapi.yml
+  capability_id: BC-600.50
+  capability_id_l1: BC-600
+  capability_name: IT Infrastructure Management
+  confidence: 0.7
+  evidence: GET /aws/instanceType  listAWSInstanceType  List AWS available instance types; GET /scaleway/region  listScalewayRegions
+  reason: Read-only catalogues of cloud regions, instance types and managed database types are cloud infrastructure
+    metadata supporting compute/storage provisioning.
+- tag: Container Logs
+  spec_file: qovery-container-logs-api-openapi.yml
+  capability_id: BC-4220.20
+  capability_id_l1: BC-4220
+  capability_name: Observability Management
+  confidence: 0.7
+  evidence: GET /container/{containerId}/log  listContainerLog  "List logs"; schemas LogResponseList,
+    Log
+  reason: Retrieval of runtime logs from a deployed container makes the running service understandable
+    — observability. Thin surface (one operation) so moderate confidence.
+- tag: Database Actions
+  spec_file: qovery-database-actions-api-openapi.yml
+  capability_id: BC-4210.40
+  capability_id_l1: BC-4210
+  capability_name: Deployment Orchestration
+  confidence: 0.7
+  evidence: POST /database/{databaseId}/deploy  deployDatabase  "Deploy database"; "Stop database"; "Uninstall
+    database"
+  reason: Imperative deploy/stop/redeploy/uninstall actions that push a managed database service into
+    a running environment — deployment orchestration actions on the platform.
+- tag: Databases
+  spec_file: qovery-databases-api-openapi.yml
+  capability_id: BC-4210.20
+  capability_id_l1: BC-4210
+  capability_name: Environment Management
+  confidence: 0.7
+  evidence: GET /environment/{environmentId}/database  listDatabase  List environment databases; POST
+    /environment/{environmentId}/database  createDatabase  Create a database
+  reason: Provisioning managed database services inside developer environments on an internal developer
+    platform. Best fits environment management (non-production/dev environments provisioning) under Release
+    & Deployment; could also be read as IT Infrastructure Management, so confidence moderate.
+- tag: Environment
+  spec_file: qovery-environment-api-openapi.yml
+  capability_id: BC-4210.20
+  capability_id_l1: BC-4210
+  capability_name: Environment Management
+  confidence: 0.7
+  evidence: POST /environment/{environmentId}/checkDockerfile  Check dockerfile configuration is correct;
+    GET /environment/{environmentId}/link  listEnvironmentServicesLinks
+  reason: Validation of build/deploy source configuration (Dockerfile, helm repo, container image) within
+    an environment on a developer platform; environment management is the closest fit, though the operations
+    are validation helpers so confidence moderate.
+- tag: Environment Deployment History
+  spec_file: qovery-environment-deployment-history-api-openapi.yml
+  capability_id: BC-4210.40
+  capability_id_l1: BC-4210
+  capability_name: Deployment Orchestration
+  confidence: 0.7
+  evidence: GET /environment/{environmentId}/deploymentHistory  listEnvironmentDeploymentHistory  List
+    environment deployments
+  reason: Deployment history and build-runner usage reporting for environment deployments; supports deployment
+    orchestration record-keeping. Some ambiguity with release engineering, hence moderate confidence.
+- tag: Git repositories
+  spec_file: qovery-git-repositories-api-openapi.yml
+  capability_id: BC-4200.40
+  capability_id_l1: BC-4200
+  capability_name: Software Construction Management
+  confidence: 0.7
+  evidence: '"Get github repositories of the connected user", "Get github branches of the specified repository"'
+  reason: Surface exposes source-control repositories and branches (GitHub/GitLab/Bitbucket), i.e. source
+    control aspects of software construction. Somewhat plumbing-like (connection listing) so moderate
+    confidence.
+- tag: Helm Deployment History
+  spec_file: qovery-helm-deployment-history-api-openapi.yml
+  capability_id: BC-4210.40
+  capability_id_l1: BC-4210
+  capability_name: Deployment Orchestration
+  confidence: 0.7
+  evidence: GET /helm/{helmId}/deploymentHistory listHelmDeploymentHistory "List helm deployments"; schema
+    DeploymentHistoryAuditingData
+  reason: Read-only history of deployment executions of a service — evidence of deployment orchestration
+    record-keeping.
+- tag: Helm Main Calls
+  spec_file: qovery-helm-main-calls-api-openapi.yml
+  capability_id: BC-4210.40
+  capability_id_l1: BC-4210
+  capability_name: Deployment Orchestration
+  confidence: 0.7
+  evidence: GET /helm/{helmId} getHelm "Get helm by ID"; "Get helm status"; "Get helm kubernetes services"
+  reason: CRUD and status of Helm-based deployable services within the deployment platform; central deployment
+    artefact management.
+- tag: Helms
+  spec_file: qovery-helms-api-openapi.yml
+  capability_id: BC-4210.40
+  capability_id_l1: BC-4210
+  capability_name: Deployment Orchestration
+  confidence: 0.7
+  evidence: POST /environment/{environmentId}/helm createHelm "Create a helm"; "List all environment helm
+    statuses"; "Clone helm"
+  reason: Creation and lifecycle of Helm deployable services within environments on the deployment platform.
+- tag: Terraform Configuration
+  spec_file: qovery-terraform-configuration-api-openapi.yml
+  capability_id: BC-4210.60
+  capability_id_l1: BC-4210
+  capability_name: Configuration & Secrets Management
+  confidence: 0.7
+  evidence: GET /terraform/{terraformId}/advancedSettings  Get Advanced settings; schema TerraformAdvancedSettings
+  reason: Runtime configuration values for a deployed Terraform service; fits configuration management
+    within release/deployment, though generic.
+- tag: Terraform Deployment History
+  spec_file: qovery-terraform-deployment-history-api-openapi.yml
+  capability_id: BC-4210.40
+  capability_id_l1: BC-4210
+  capability_name: Deployment Orchestration
+  confidence: 0.7
+  evidence: GET /terraform/{terraformId}/deploymentHistoryV2  listTerraformDeploymentHistoryV2  List terraform
+    deployments; schema DeploymentHistoryServiceDetails
+  reason: Audit/history of deployment executions for a service — part of deployment orchestration record-keeping
+    rather than a separate capability.
