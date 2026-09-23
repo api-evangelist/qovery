@@ -1,12 +1,10 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
   version: 1.0.4
-  title: Qovery Account Info Environment Deployment History API
+  title: Qovery Environment Deployment History API
   description: '- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider.
 
-    - ℹ️ The API is stable and still in development.
-
-    '
+    - ℹ️ The API is stable and still in development.'
   contact:
     name: Qovery Product Team
     url: https://www.qovery.com
@@ -62,8 +60,9 @@ paths:
         name: pageSize
         description: The number of deployments to return in the current page
         schema:
-          type: number
-          nullable: true
+          type:
+          - number
+          - 'null'
           default: 20
       tags:
       - Environment Deployment History
@@ -84,7 +83,7 @@ paths:
         id: pqsu5pghhay1j
   /environment/{environmentId}/deploymentBuildUsageReport:
     post:
-      summary: Generate a Grafana snapshot report showing build runner pod usage for a specific deployment
+      summary: Generate a Grafana snapshot report showing build runner pod usage for a…
       description: Generate a Grafana snapshot report that shows the resource usage (CPU, memory) of build runner pods for a specific deployment execution. The report is publicly accessible for the specified duration.
       operationId: generateDeploymentBuildUsageReport
       parameters:
@@ -112,97 +111,69 @@ paths:
         '404':
           $ref: '#/components/responses/404'
 components:
+  parameters:
+    startId:
+      name: startId
+      in: query
+      description: Starting point after which to return results
+      required: false
+      schema:
+        type: string
+        format: uuid
+    environmentId:
+      name: environmentId
+      in: path
+      description: Environment ID
+      required: true
+      schema:
+        type: string
+        format: uuid
   schemas:
-    DeploymentHistoryEnvironmentPaginatedResponseListV2:
-      allOf:
-      - $ref: '#/components/schemas/PaginationData'
-      - type: object
-        properties:
-          results:
-            type: array
-            items:
-              $ref: '#/components/schemas/DeploymentHistoryEnvironmentV2'
-      x-stoplight:
-        id: 0anfgzdi689ht
-    DeploymentHistoryTriggerAction:
-      x-stoplight:
-        id: 1hzy6riqo7lq4
-      enum:
-      - DEPLOY
-      - DELETE
-      - RESTART
-      - STOP
-      - DEPLOY_DRY_RUN
-      - TERRAFORM_FORCE_UNLOCK
-      - TERRAFORM_MIGRATE_STATE
-      - DELETE_RESOURCES_ONLY
-      - UNKNOWN
-      - UNINSTALL
-    StageStatusEnum:
-      type: string
-      x-stoplight:
-        id: lv5pyjmui11rn
-      enum:
-      - QUEUED
-      - ONGOING
-      - DONE
-      - ERROR
-      - SKIPPED
-      - CANCELED
-    JobCronSchedule:
+    Base:
+      type: object
+      required:
+      - id
+      - created_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          readOnly: true
+          format: date-time
+        updated_at:
+          type: string
+          readOnly: true
+          format: date-time
+    DeploymentHistoryStage:
       type: object
       x-stoplight:
-        id: y5hby49m8v5zc
+        id: crvf2cbwrvxyh
       required:
-      - arguments
-      - scheduled_at
-      - timezone
+      - name
+      - status
+      - duration
+      - services
       properties:
-        arguments:
+        name:
+          type: string
+          x-stoplight:
+            id: e1fv4x2xo0wo0
+        status:
+          $ref: '#/components/schemas/StageStatusEnum'
+        duration:
+          type: string
+          x-stoplight:
+            id: mdqlsz36jtl4j
+          format: duration
+        services:
           type: array
+          x-stoplight:
+            id: sel4jtb8tbjwz
           items:
-            type: string
-        entrypoint:
-          type: string
-        scheduled_at:
-          type: string
-          x-stoplight:
-            id: a5x1s5kc53r1v
-        timezone:
-          type: string
-          x-stoplight:
-            id: btav5l3tp9w3l
-    OrganizationEventOrigin:
-      type: string
-      description: Origin of the organization event
-      enum:
-      - API
-      - CLI
-      - CONSOLE
-      - GIT
-      - QOVERY_INTERNAL
-      - TERRAFORM_PROVIDER
-      example: API
-    PaginationData:
-      type: object
-      required:
-      - page
-      - page_size
-      properties:
-        page:
-          type: number
-          example: 1
-        page_size:
-          type: number
-          example: 20
-    JobScheduleEvent:
-      type: string
-      enum:
-      - ON_START
-      - ON_STOP
-      - ON_DELETE
-      - CRON
-      description: "On which event the job is going to run.  \nON_START means when a deployment is requested for the environment  \nON_STOP means when a stop of the environment is requested  \nON_DELETE means when an environment delete is requested  \nCRON means at a scheduled interval\n"
+            $ref: '#/components/schemas/DeploymentHistoryService'
     DeploymentHistoryAuditingData:
       x-stoplight:
         id: 5oovmby4u1mxw
@@ -228,91 +199,79 @@ components:
             id: hf405wx2g73py
         origin:
           $ref: '#/components/schemas/OrganizationEventOrigin'
-    DeploymentHistoryApplication:
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - type: object
-        properties:
-          name:
-            type: string
-          commit:
-            $ref: '#/components/schemas/Commit'
-          status:
-            $ref: '#/components/schemas/StateEnum'
-    DeploymentHistoryEnvironmentPaginatedResponseList:
-      allOf:
-      - $ref: '#/components/schemas/PaginationData'
-      - type: object
-        properties:
-          results:
-            type: array
-            items:
-              $ref: '#/components/schemas/DeploymentHistoryEnvironment'
-    ServiceTypeEnum:
+    StateEnum:
       type: string
+      enum:
+      - BUILDING
+      - BUILD_ERROR
+      - CANCELED
+      - CANCELING
+      - DELETED
+      - DELETE_ERROR
+      - DELETE_QUEUED
+      - DELETING
+      - DEPLOYED
+      - DEPLOYING
+      - DEPLOYMENT_ERROR
+      - DEPLOYMENT_QUEUED
+      - EXECUTING
+      - QUEUED
+      - READY
+      - RECAP
+      - RESTARTED
+      - RESTARTING
+      - RESTART_ERROR
+      - RESTART_QUEUED
+      - STOPPED
+      - STOPPING
+      - STOP_ERROR
+      - STOP_QUEUED
+      - UNAVAILABLE
+      - WAITING_DELETING
+      - WAITING_RESTARTING
+      - WAITING_RUNNING
+      - WAITING_STOPPING
+    DeploymentHistoryTriggerAction:
       x-stoplight:
-        id: d66063cd29913
-      description: type of the service (application, database, job, ...)
+        id: 1hzy6riqo7lq4
       enum:
-      - APPLICATION
-      - DATABASE
-      - CONTAINER
-      - JOB
-      - HELM
-      - TERRAFORM
-      - ARGOCD_APP
-    DeploymentHistoryJobResponse:
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - type: object
-        properties:
-          name:
-            type: string
-            description: name of the job
-          status:
-            $ref: '#/components/schemas/StateEnum'
-          image_name:
-            type: string
-          tag:
-            type: string
-          commit:
-            $ref: '#/components/schemas/Commit'
-          schedule:
-            type: object
-            properties:
-              event:
-                $ref: '#/components/schemas/JobScheduleEvent'
-              schedule_at:
-                type: string
-                format: cron
-                nullable: true
-                description: 'Can only be set if the event is CRON.
-
-                  Represent the cron format for the job schedule without seconds.
-
-                  For example: `* * * * *` represent the cron to launch the job every minute.
-
-                  See https://crontab.guru/ to WISIWIG interface.
-
-                  Timezone is UTC
-
-                  '
-          arguments:
-            type: array
-            items:
-              type: string
-          entrypoint:
-            type: string
-    ServiceSubActionEnum:
-      type: string
-      default: NONE
-      enum:
-      - NONE
-      - TERRAFORM_PLAN_ONLY
-      - TERRAFORM_PLAN_AND_APPLY
-      - TERRAFORM_DESTROY
-      - TERRAFORM_FORCE_UNLOCK_STATE
+      - DEPLOY
+      - DELETE
+      - RESTART
+      - STOP
+      - DEPLOY_DRY_RUN
+      - TERRAFORM_FORCE_UNLOCK
       - TERRAFORM_MIGRATE_STATE
+      - DELETE_RESOURCES_ONLY
+      - UNKNOWN
+      - UNINSTALL
+    JobScheduleEvent:
+      type: string
+      enum:
+      - ON_START
+      - ON_STOP
+      - ON_DELETE
+      - CRON
+      description: "On which event the job is going to run.  \nON_START means when a deployment is requested for the environment  \nON_STOP means when a stop of the environment is requested  \nON_DELETE means when an environment delete is requested  \nCRON means at a scheduled interval\n"
+    DeploymentBuildUsageReportRequest:
+      type: object
+      x-stoplight:
+        id: deployment-build-usage-report-request
+      required:
+      - execution_id
+      - report_expiration_in_seconds
+      properties:
+        execution_id:
+          type: string
+          description: The deployment execution ID (format environment_id-version)
+          x-stoplight:
+            id: build-report-execution-id
+        report_expiration_in_seconds:
+          type: integer
+          description: The number of seconds the report will be publicly available
+          example: 86400
+          x-stoplight:
+            id: build-report-expiration
     DeploymentHistoryEnvironmentV2:
       x-stoplight:
         id: j6o3qzzhhu0me
@@ -362,56 +321,6 @@ components:
             $ref: '#/components/schemas/DeploymentHistoryStage'
         action_status:
           $ref: '#/components/schemas/DeploymentHistoryActionStatus'
-    JobLifecyleSchedule:
-      type: object
-      x-stoplight:
-        id: nbir5gxiux1ei
-      required:
-      - arguments
-      properties:
-        arguments:
-          type: array
-          x-stoplight:
-            id: wj3fkami4h2b7
-          items:
-            x-stoplight:
-              id: 4a4sqxpll8vlc
-            type: string
-        entrypoint:
-          type: string
-          x-stoplight:
-            id: 951clotz2i2na
-    DeploymentBuildUsageReportRequest:
-      type: object
-      x-stoplight:
-        id: deployment-build-usage-report-request
-      required:
-      - execution_id
-      - report_expiration_in_seconds
-      properties:
-        execution_id:
-          type: string
-          description: The deployment execution ID (format environment_id-version)
-          x-stoplight:
-            id: build-report-execution-id
-        report_expiration_in_seconds:
-          type: integer
-          description: The number of seconds the report will be publicly available
-          example: 86400
-          x-stoplight:
-            id: build-report-expiration
-    DeploymentHistoryActionStatus:
-      title: DeploymentHistoryActionStatus
-      x-stoplight:
-        id: qppeluzk1hor1
-      enum:
-      - QUEUED
-      - ONGOING
-      - SUCCESS
-      - ERROR
-      - CANCELED
-      - CANCELING
-      - NEVER
     DeploymentHistoryService:
       type: object
       x-stoplight:
@@ -466,6 +375,70 @@ components:
           x-stoplight:
             id: adofwhd0bgwuw
           format: duration
+    ServiceSubActionEnum:
+      type: string
+      default: NONE
+      enum:
+      - NONE
+      - TERRAFORM_PLAN_ONLY
+      - TERRAFORM_PLAN_AND_APPLY
+      - TERRAFORM_DESTROY
+      - TERRAFORM_FORCE_UNLOCK_STATE
+      - TERRAFORM_MIGRATE_STATE
+    Commit:
+      type:
+      - object
+      - 'null'
+      required:
+      - git_commit_id
+      - created_at
+      - author_name
+      - message
+      - tag
+      properties:
+        created_at:
+          type: string
+          format: date-time
+        git_commit_id:
+          type: string
+        tag:
+          type: string
+          example: v2.1.1
+        message:
+          type: string
+        author_name:
+          type: string
+        author_avatar_url:
+          type: string
+        commit_page_url:
+          type: string
+    ServiceActionEnum:
+      type: string
+      enum:
+      - DEPLOY
+      - DELETE
+      - RESTART
+      - STOP
+      - UNKNOWN
+    JobLifecycleTypeEnum:
+      title: JobLifecycleTypeEnum
+      x-stoplight:
+        id: tz1t23a291l51
+      enum:
+      - GENERIC
+      - TERRAFORM
+      - CLOUDFORMATION
+    OrganizationEventOrigin:
+      type: string
+      description: Origin of the organization event
+      enum:
+      - API
+      - CLI
+      - CONSOLE
+      - GIT
+      - QOVERY_INTERNAL
+      - TERRAFORM_PROVIDER
+      example: API
     DeploymentHistoryHelmResponse:
       allOf:
       - $ref: '#/components/schemas/Base'
@@ -479,22 +452,92 @@ components:
           commit:
             $ref: '#/components/schemas/Commit'
           repository:
-            type: object
-            nullable: true
+            type:
+            - object
+            - 'null'
             description: If the chart source if from a repository, the chart name and its version
             properties:
               chart_name:
                 type: string
               chart_version:
                 type: string
-    ServiceActionEnum:
-      type: string
-      enum:
-      - DEPLOY
-      - DELETE
-      - RESTART
-      - STOP
-      - UNKNOWN
+    DeploymentHistoryEnvironmentPaginatedResponseListV2:
+      allOf:
+      - $ref: '#/components/schemas/PaginationData'
+      - type: object
+        properties:
+          results:
+            type: array
+            items:
+              $ref: '#/components/schemas/DeploymentHistoryEnvironmentV2'
+      x-stoplight:
+        id: 0anfgzdi689ht
+    DeploymentHistoryApplication:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        properties:
+          name:
+            type: string
+          commit:
+            $ref: '#/components/schemas/Commit'
+          status:
+            $ref: '#/components/schemas/StateEnum'
+    PaginationData:
+      type: object
+      required:
+      - page
+      - page_size
+      properties:
+        page:
+          type: number
+          example: 1
+        page_size:
+          type: number
+          example: 20
+    DeploymentHistoryJobResponse:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        properties:
+          name:
+            type: string
+            description: name of the job
+          status:
+            $ref: '#/components/schemas/StateEnum'
+          image_name:
+            type: string
+          tag:
+            type: string
+          commit:
+            $ref: '#/components/schemas/Commit'
+          schedule:
+            type: object
+            properties:
+              event:
+                $ref: '#/components/schemas/JobScheduleEvent'
+              schedule_at:
+                type:
+                - string
+                - 'null'
+                format: cron
+                description: 'Can only be set if the event is CRON.
+
+                  Represent the cron format for the job schedule without seconds.
+
+                  For example: `* * * * *` represent the cron to launch the job every minute.
+
+                  See https://crontab.guru/ to WISIWIG interface.
+
+                  Timezone is UTC
+
+                  '
+          arguments:
+            type: array
+            items:
+              type: string
+          entrypoint:
+            type: string
     DeploymentHistoryEnvironment:
       allOf:
       - $ref: '#/components/schemas/Base'
@@ -526,111 +569,6 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/DeploymentHistoryHelmResponse'
-    DeploymentHistoryContainer:
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - type: object
-        properties:
-          name:
-            type: string
-            description: name of the container
-          status:
-            $ref: '#/components/schemas/StateEnum'
-          image_name:
-            type: string
-          tag:
-            type: string
-          arguments:
-            type: array
-            items:
-              type: string
-          entrypoint:
-            type: string
-    DeploymentHistoryStage:
-      type: object
-      x-stoplight:
-        id: crvf2cbwrvxyh
-      required:
-      - name
-      - status
-      - duration
-      - services
-      properties:
-        name:
-          type: string
-          x-stoplight:
-            id: e1fv4x2xo0wo0
-        status:
-          $ref: '#/components/schemas/StageStatusEnum'
-        duration:
-          type: string
-          x-stoplight:
-            id: mdqlsz36jtl4j
-          format: duration
-        services:
-          type: array
-          x-stoplight:
-            id: sel4jtb8tbjwz
-          items:
-            $ref: '#/components/schemas/DeploymentHistoryService'
-    StateEnum:
-      type: string
-      enum:
-      - BUILDING
-      - BUILD_ERROR
-      - CANCELED
-      - CANCELING
-      - DELETED
-      - DELETE_ERROR
-      - DELETE_QUEUED
-      - DELETING
-      - DEPLOYED
-      - DEPLOYING
-      - DEPLOYMENT_ERROR
-      - DEPLOYMENT_QUEUED
-      - EXECUTING
-      - QUEUED
-      - READY
-      - RECAP
-      - RESTARTED
-      - RESTARTING
-      - RESTART_ERROR
-      - RESTART_QUEUED
-      - STOPPED
-      - STOPPING
-      - STOP_ERROR
-      - STOP_QUEUED
-      - UNAVAILABLE
-      - WAITING_DELETING
-      - WAITING_RESTARTING
-      - WAITING_RUNNING
-      - WAITING_STOPPING
-    Commit:
-      type: object
-      nullable: true
-      required:
-      - git_commit_id
-      - created_at
-      - author_name
-      - message
-      - tag
-      properties:
-        created_at:
-          type: string
-          format: date-time
-        git_commit_id:
-          type: string
-        tag:
-          type: string
-          example: v2.1.1
-        message:
-          type: string
-        author_name:
-          type: string
-        author_avatar_url:
-          type: string
-        commit_page_url:
-          type: string
     DeploymentHistoryServiceDetails:
       x-stoplight:
         id: vx9hzryfyv7sb
@@ -696,8 +634,9 @@ components:
             - CRON
             - LIFECYCLE
           build_pod_name:
-            type: string
-            nullable: true
+            type:
+            - string
+            - 'null'
             description: The build pod name prefix. Only set for jobs with a git source (Docker build). Null for container-source jobs.
       - description: HelmDeploymentHistoryDetails
         type: object
@@ -712,24 +651,137 @@ components:
               chart_version:
                 type: string
       type: object
-    DeploymentHistoryDatabase:
+    DeploymentHistoryEnvironmentPaginatedResponseList:
+      allOf:
+      - $ref: '#/components/schemas/PaginationData'
+      - type: object
+        properties:
+          results:
+            type: array
+            items:
+              $ref: '#/components/schemas/DeploymentHistoryEnvironment'
+    StageStatusEnum:
+      type: string
+      x-stoplight:
+        id: lv5pyjmui11rn
+      enum:
+      - QUEUED
+      - ONGOING
+      - DONE
+      - ERROR
+      - SKIPPED
+      - CANCELED
+    JobLifecyleSchedule:
+      type: object
+      x-stoplight:
+        id: nbir5gxiux1ei
+      required:
+      - arguments
+      properties:
+        arguments:
+          type: array
+          x-stoplight:
+            id: wj3fkami4h2b7
+          items:
+            x-stoplight:
+              id: 4a4sqxpll8vlc
+            type: string
+        entrypoint:
+          type: string
+          x-stoplight:
+            id: 951clotz2i2na
+    ServiceActionStatusEnum:
+      type: string
+      enum:
+      - QUEUED
+      - ONGOING
+      - SUCCESS
+      - ERROR
+      - EXECUTING
+      - CANCELED
+      - CANCELING
+      - NEVER
+    StatusDetails:
+      type: object
+      required:
+      - action
+      - status
+      - sub_action
+      properties:
+        action:
+          $ref: '#/components/schemas/ServiceActionEnum'
+        status:
+          $ref: '#/components/schemas/ServiceActionStatusEnum'
+        sub_action:
+          $ref: '#/components/schemas/ServiceSubActionEnum'
+    DeploymentHistoryActionStatus:
+      title: DeploymentHistoryActionStatus
+      x-stoplight:
+        id: qppeluzk1hor1
+      enum:
+      - QUEUED
+      - ONGOING
+      - SUCCESS
+      - ERROR
+      - CANCELED
+      - CANCELING
+      - NEVER
+    ServiceTypeEnum:
+      type: string
+      x-stoplight:
+        id: d66063cd29913
+      description: type of the service (application, database, job, ...)
+      enum:
+      - APPLICATION
+      - DATABASE
+      - CONTAINER
+      - JOB
+      - HELM
+      - TERRAFORM
+      - ARGOCD_APP
+    DeploymentHistoryContainer:
       allOf:
       - $ref: '#/components/schemas/Base'
       - type: object
         properties:
           name:
             type: string
-            description: name of the service
+            description: name of the container
           status:
             $ref: '#/components/schemas/StateEnum'
-    JobLifecycleTypeEnum:
-      title: JobLifecycleTypeEnum
+          image_name:
+            type: string
+          tag:
+            type: string
+          arguments:
+            type: array
+            items:
+              type: string
+          entrypoint:
+            type: string
+    JobCronSchedule:
+      type: object
       x-stoplight:
-        id: tz1t23a291l51
-      enum:
-      - GENERIC
-      - TERRAFORM
-      - CLOUDFORMATION
+        id: y5hby49m8v5zc
+      required:
+      - arguments
+      - scheduled_at
+      - timezone
+      properties:
+        arguments:
+          type: array
+          items:
+            type: string
+        entrypoint:
+          type: string
+        scheduled_at:
+          type: string
+          x-stoplight:
+            id: a5x1s5kc53r1v
+        timezone:
+          type: string
+          x-stoplight:
+            id: btav5l3tp9w3l
     DeploymentBuildUsageReportResponse:
       type: object
       x-stoplight:
@@ -745,74 +797,25 @@ components:
           description: The URL to pro-actively delete the report before it expires
           x-stoplight:
             id: build-report-delete-url
-    ServiceActionStatusEnum:
-      type: string
-      enum:
-      - QUEUED
-      - ONGOING
-      - SUCCESS
-      - ERROR
-      - EXECUTING
-      - CANCELED
-      - CANCELING
-      - NEVER
-    Base:
-      type: object
-      required:
-      - id
-      - created_at
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        created_at:
-          type: string
-          readOnly: true
-          format: date-time
-        updated_at:
-          type: string
-          readOnly: true
-          format: date-time
-    StatusDetails:
-      type: object
-      required:
-      - action
-      - status
-      - sub_action
-      properties:
-        action:
-          $ref: '#/components/schemas/ServiceActionEnum'
-        status:
-          $ref: '#/components/schemas/ServiceActionStatusEnum'
-        sub_action:
-          $ref: '#/components/schemas/ServiceSubActionEnum'
-  parameters:
-    environmentId:
-      name: environmentId
-      in: path
-      description: Environment ID
-      required: true
-      schema:
-        type: string
-        format: uuid
-    startId:
-      name: startId
-      in: query
-      description: Starting point after which to return results
-      required: false
-      schema:
-        type: string
-        format: uuid
+    DeploymentHistoryDatabase:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        properties:
+          name:
+            type: string
+            description: name of the service
+          status:
+            $ref: '#/components/schemas/StateEnum'
   responses:
-    '400':
-      description: Bad request
-    '403':
-      description: Access forbidden
     '404':
       description: Resource not found
     '401':
       description: Access token is missing or invalid
+    '400':
+      description: Bad request
+    '403':
+      description: Access forbidden
   securitySchemes:
     bearerAuth:
       type: http

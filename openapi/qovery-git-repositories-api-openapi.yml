@@ -1,12 +1,10 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
   version: 1.0.4
-  title: Qovery Account Info Git repositories API
+  title: Qovery Git repositories API
   description: '- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider.
 
-    - ℹ️ The API is stable and still in development.
-
-    '
+    - ℹ️ The API is stable and still in development.'
   contact:
     name: Qovery Product Team
     url: https://www.qovery.com
@@ -29,9 +27,7 @@ paths:
 
         This endpoint is used when creating Terraform services to help users browse
 
-        and select the appropriate root path.
-
-        '
+        and select the appropriate root path.'
       operationId: listDirectoriesFromGitRepository
       parameters:
       - $ref: '#/components/parameters/organizationId'
@@ -198,6 +194,13 @@ paths:
           $ref: '#/components/responses/401'
 components:
   schemas:
+    GitRepositoryResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/GitRepository'
     GitRepository:
       type: object
       required:
@@ -218,14 +221,13 @@ components:
           example: master
         is_private:
           type: boolean
-    GitRepositoryBranch:
+    GitRepositoryBranchResponseList:
       type: object
-      required:
-      - name
       properties:
-        name:
-          type: string
-          example: main
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/GitRepositoryBranch'
     GitAuthProviderResponseList:
       type: object
       properties:
@@ -233,35 +235,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/GitAuthProvider'
-    GitRepositoryResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/GitRepository'
-    GitProviderEnum:
-      type: string
-      enum:
-      - BITBUCKET
-      - GITHUB
-      - GITLAB
-    GitAuthProvider:
-      type: object
-      required:
-      - name
-      - owner
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-          example: GITHUB
-        owner:
-          type: string
-          example: John Doe
-        use_bot:
-          type: boolean
     ApplicationGitRepositoryRequest:
       type: object
       required:
@@ -287,26 +260,50 @@ components:
           default: /
           description: indicates the root path of the application.
         git_token_id:
-          type: string
+          type:
+          - string
+          - 'null'
           format: uuid
           description: The git token id on Qovery side
-          nullable: true
         provider:
           $ref: '#/components/schemas/GitProviderEnum'
-    GitRepositoryBranchResponseList:
+    GitAuthProvider:
       type: object
+      required:
+      - name
+      - owner
       properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/GitRepositoryBranch'
+        id:
+          type: string
+        name:
+          type: string
+          example: GITHUB
+        owner:
+          type: string
+          example: John Doe
+        use_bot:
+          type: boolean
+    GitProviderEnum:
+      type: string
+      enum:
+      - BITBUCKET
+      - GITHUB
+      - GITLAB
+    GitRepositoryBranch:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          example: main
   responses:
     '404':
       description: Resource not found
-    '403':
-      description: Access forbidden
     '400':
       description: Bad request
+    '403':
+      description: Access forbidden
     '401':
       description: Access token is missing or invalid
   parameters:

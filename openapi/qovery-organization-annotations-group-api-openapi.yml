@@ -1,12 +1,10 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
   version: 1.0.4
-  title: Qovery Account Info Organization Annotations Group API
+  title: Qovery Organization Annotations Group API
   description: '- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider.
 
-    - ℹ️ The API is stable and still in development.
-
-    '
+    - ℹ️ The API is stable and still in development.'
   contact:
     name: Qovery Product Team
     url: https://www.qovery.com
@@ -25,7 +23,6 @@ paths:
   /organization/{organizationId}/annotationsGroups:
     get:
       summary: List organization annotations group
-      description: List organization annotations group
       operationId: listOrganizationAnnotationsGroup
       parameters:
       - $ref: '#/components/parameters/organizationId'
@@ -49,7 +46,6 @@ paths:
           $ref: '#/components/responses/404'
     post:
       summary: Create an organization annotations group
-      description: Create an organization annotations group
       operationId: createOrganizationAnnotationsGroup
       parameters:
       - $ref: '#/components/parameters/organizationId'
@@ -76,7 +72,6 @@ paths:
   /organization/{organizationId}/annotationsGroups/{annotationsGroupId}:
     get:
       summary: Get organization annotations group
-      description: Get organization annotations group
       operationId: getOrganizationAnnotationsGroup
       parameters:
       - $ref: '#/components/parameters/organizationId'
@@ -98,7 +93,6 @@ paths:
           $ref: '#/components/responses/404'
     put:
       summary: Edit organization annotations group
-      description: Edit organization annotations group
       operationId: editOrganizationAnnotationsGroup
       parameters:
       - $ref: '#/components/parameters/organizationId'
@@ -125,7 +119,6 @@ paths:
           $ref: '#/components/responses/404'
     delete:
       summary: Delete organization annotations group
-      description: Delete organization annotations group
       operationId: deleteOrganizationAnnotationsGroup
       parameters:
       - $ref: '#/components/parameters/organizationId'
@@ -144,7 +137,6 @@ paths:
   /organization/{organizationId}/annotationsGroups/{annotationsGroupId}/associatedItems:
     get:
       summary: Get organization annotations group associated items
-      description: Get organization annotations group associated items
       operationId: getOrganizationAnnotationsGroupAssociatedItems
       parameters:
       - $ref: '#/components/parameters/organizationId'
@@ -165,112 +157,7 @@ paths:
         '404':
           $ref: '#/components/responses/404'
 components:
-  parameters:
-    annotationsGroupId:
-      name: annotationsGroupId
-      in: path
-      description: Organization annotations group ID
-      required: true
-      schema:
-        type: string
-        format: uuid
-    organizationId:
-      name: organizationId
-      in: path
-      description: Organization ID
-      required: true
-      schema:
-        type: string
-        format: uuid
   schemas:
-    OrganizationAnnotationsGroupEnrichedResponse:
-      title: OrganizationAnnotationsGroupEnrichedResponse
-      x-stoplight:
-        id: edjpmiyq8n5nt
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - type: object
-        x-stoplight:
-          id: 2auhw8xgz67rj
-        required:
-        - name
-        - annotations
-        - scopes
-        properties:
-          name:
-            type: string
-            x-stoplight:
-              id: pjys12dlmqw9c
-          annotations:
-            type: array
-            x-stoplight:
-              id: 4yn29zdqeb0og
-            items:
-              $ref: '#/components/schemas/Annotation'
-          scopes:
-            x-stoplight:
-              id: h8qu8e8yp5dh3
-            type: array
-            items:
-              $ref: '#/components/schemas/OrganizationAnnotationsGroupScopeEnum'
-          associated_items_count:
-            type: integer
-            x-stoplight:
-              id: q71gum8nqmj8p
-    Annotation:
-      type: object
-      required:
-      - key
-      - value
-      properties:
-        key:
-          type: string
-        value:
-          type: string
-    AnnotationsGroupAssociatedItemType:
-      type: string
-      description: Annotations Group Associated Item Type
-      enum:
-      - APPLICATION
-      - DATABASE
-      - CONTAINER
-      - LIFECYCLE
-      - ENVIRONMENT
-      - CLUSTER
-      - CRON
-    OrganizationAnnotationsGroupResponse:
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - type: object
-        required:
-        - name
-        - annotations
-        - scopes
-        properties:
-          name:
-            type: string
-          annotations:
-            type: array
-            items:
-              $ref: '#/components/schemas/Annotation'
-          scopes:
-            type: array
-            items:
-              $ref: '#/components/schemas/OrganizationAnnotationsGroupScopeEnum'
-    OrganizationAnnotationsGroupScopeEnum:
-      type: string
-      description: Annotations Group Scope
-      enum:
-      - DEPLOYMENTS
-      - STATEFUL_SETS
-      - SERVICES
-      - INGRESS
-      - GATEWAY_API_ROUTES
-      - HPA
-      - PODS
-      - SECRETS
-      - JOBS
-      - CRON_JOBS
     OrganizationAnnotationsGroupAssociatedItemsResponseList:
       type: object
       properties:
@@ -323,13 +210,6 @@ components:
           type: string
           readOnly: true
           format: date-time
-    OrganizationAnnotationsGroupEnrichedResponseList:
-      title: OrganizationAnnotationsGroupEnrichedResponseList
-      x-stoplight:
-        id: 2tbiuqncqaqaw
-      type: array
-      items:
-        $ref: '#/components/schemas/OrganizationAnnotationsGroupEnrichedResponse'
     OrganizationAnnotationsGroupCreateRequest:
       type: object
       required:
@@ -348,17 +228,129 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/OrganizationAnnotationsGroupScopeEnum'
+    OrganizationAnnotationsGroupEnrichedResponseList:
+      title: OrganizationAnnotationsGroupEnrichedResponseList
+      x-stoplight:
+        id: 2tbiuqncqaqaw
+      type: array
+      items:
+        $ref: '#/components/schemas/OrganizationAnnotationsGroupEnrichedResponse'
+    AnnotationsGroupAssociatedItemType:
+      type: string
+      description: Annotations Group Associated Item Type
+      enum:
+      - APPLICATION
+      - DATABASE
+      - CONTAINER
+      - LIFECYCLE
+      - ENVIRONMENT
+      - CLUSTER
+      - CRON
+    OrganizationAnnotationsGroupResponse:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        required:
+        - name
+        - annotations
+        - scopes
+        properties:
+          name:
+            type: string
+          annotations:
+            type: array
+            items:
+              $ref: '#/components/schemas/Annotation'
+          scopes:
+            type: array
+            items:
+              $ref: '#/components/schemas/OrganizationAnnotationsGroupScopeEnum'
+    OrganizationAnnotationsGroupEnrichedResponse:
+      title: OrganizationAnnotationsGroupEnrichedResponse
+      x-stoplight:
+        id: edjpmiyq8n5nt
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        x-stoplight:
+          id: 2auhw8xgz67rj
+        required:
+        - name
+        - annotations
+        - scopes
+        properties:
+          name:
+            type: string
+            x-stoplight:
+              id: pjys12dlmqw9c
+          annotations:
+            type: array
+            x-stoplight:
+              id: 4yn29zdqeb0og
+            items:
+              $ref: '#/components/schemas/Annotation'
+          scopes:
+            x-stoplight:
+              id: h8qu8e8yp5dh3
+            type: array
+            items:
+              $ref: '#/components/schemas/OrganizationAnnotationsGroupScopeEnum'
+          associated_items_count:
+            type: integer
+            x-stoplight:
+              id: q71gum8nqmj8p
+    OrganizationAnnotationsGroupScopeEnum:
+      type: string
+      description: Annotations Group Scope
+      enum:
+      - DEPLOYMENTS
+      - STATEFUL_SETS
+      - SERVICES
+      - INGRESS
+      - GATEWAY_API_ROUTES
+      - HPA
+      - PODS
+      - SECRETS
+      - JOBS
+      - CRON_JOBS
+    Annotation:
+      type: object
+      required:
+      - key
+      - value
+      properties:
+        key:
+          type: string
+        value:
+          type: string
   responses:
-    '403':
-      description: Access forbidden
-    '204':
-      description: no content
     '404':
       description: Resource not found
     '400':
       description: Bad request
+    '403':
+      description: Access forbidden
+    '204':
+      description: no content
     '401':
       description: Access token is missing or invalid
+  parameters:
+    annotationsGroupId:
+      name: annotationsGroupId
+      in: path
+      description: Organization annotations group ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+    organizationId:
+      name: organizationId
+      in: path
+      description: Organization ID
+      required: true
+      schema:
+        type: string
+        format: uuid
   securitySchemes:
     bearerAuth:
       type: http

@@ -1,12 +1,10 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
   version: 1.0.4
-  title: Qovery Account Info Organization Cluster Lock API
+  title: Qovery Organization Cluster Lock API
   description: '- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider.
 
-    - ℹ️ The API is stable and still in development.
-
-    '
+    - ℹ️ The API is stable and still in development.'
   contact:
     name: Qovery Product Team
     url: https://www.qovery.com
@@ -52,6 +50,18 @@ paths:
         id: 3n7iq6cr6xx43
 components:
   schemas:
+    ClusterLockList:
+      title: ClusterLockList
+      x-stoplight:
+        id: 87swuavftz0gk
+      type: object
+      properties:
+        results:
+          type: array
+          x-stoplight:
+            id: xpi2ooy1zclay
+          items:
+            $ref: '#/components/schemas/ClusterLock'
     ClusterLock:
       title: ClusterLock
       x-stoplight:
@@ -85,18 +95,6 @@ components:
           type: string
           x-stoplight:
             id: 92n5bq5he0utp
-    ClusterLockList:
-      title: ClusterLockList
-      x-stoplight:
-        id: 87swuavftz0gk
-      type: object
-      properties:
-        results:
-          type: array
-          x-stoplight:
-            id: xpi2ooy1zclay
-          items:
-            $ref: '#/components/schemas/ClusterLock'
   securitySchemes:
     bearerAuth:
       type: http

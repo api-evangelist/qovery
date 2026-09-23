@@ -1,12 +1,10 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
   version: 1.0.4
-  title: Qovery Account Info Service Main Calls API
+  title: Qovery Service Main Calls API
   description: '- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider.
 
-    - ℹ️ The API is stable and still in development.
-
-    '
+    - ℹ️ The API is stable and still in development.'
   contact:
     name: Qovery Product Team
     url: https://www.qovery.com
@@ -57,9 +55,7 @@ paths:
 
         - If webhook is already correctly configured, returns current status
 
-        Works with GitHub, GitLab, and Bitbucket repositories.
-
-        '
+        Works with GitHub, GitLab, and Bitbucket repositories.'
       operationId: syncServiceGitWebhook
       parameters:
       - $ref: '#/components/parameters/serviceId'
@@ -85,15 +81,13 @@ paths:
         '429':
           description: Git provider rate limit exceeded
 components:
-  parameters:
-    serviceId:
-      name: serviceId
-      in: path
-      description: Service ID of an application/job/container/database
-      required: true
-      schema:
-        type: string
-        format: uuid
+  responses:
+    '404':
+      description: Resource not found
+    '403':
+      description: Access forbidden
+    '401':
+      description: Access token is missing or invalid
   schemas:
     GitWebhookStatusResponse:
       type: object
@@ -131,13 +125,15 @@ components:
           items:
             type: string
           description: List of required events that are missing from the webhook configuration (only present when status is MISCONFIGURED)
-  responses:
-    '403':
-      description: Access forbidden
-    '404':
-      description: Resource not found
-    '401':
-      description: Access token is missing or invalid
+  parameters:
+    serviceId:
+      name: serviceId
+      in: path
+      description: Service ID of an application/job/container/database
+      required: true
+      schema:
+        type: string
+        format: uuid
   securitySchemes:
     bearerAuth:
       type: http

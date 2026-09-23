@@ -1,12 +1,10 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
   version: 1.0.4
-  title: Qovery Account Info Helm Repositories API
+  title: Qovery Helm Repositories API
   description: '- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider.
 
-    - ℹ️ The API is stable and still in development.
-
-    '
+    - ℹ️ The API is stable and still in development.'
   contact:
     name: Qovery Product Team
     url: https://www.qovery.com
@@ -182,29 +180,83 @@ paths:
           $ref: '#/components/responses/404'
 components:
   schemas:
-    AvailableHelmRepositoryResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/AvailableHelmRepositoryResponse'
-    HelmVersionResponse:
-      type: object
-      properties:
-        chart_name:
-          type: string
-        versions:
-          type: array
-          items:
+    HelmRepositoryResponse:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        required:
+        - name
+        properties:
+          name:
             type: string
-    HelmRepositoryResponseList:
+          kind:
+            $ref: '#/components/schemas/HelmRepositoryKindEnum'
+          description:
+            type: string
+          url:
+            type: string
+            description: URL of the helm repository
+          skip_tls_verification:
+            type: boolean
+            description: Bypass tls certificate verification when connecting to repository
+          associated_services_count:
+            type: integer
+            x-stoplight:
+              id: 287g4iunwmf2d
+            description: The number of services using this helm repository
+          config:
+            type: object
+            x-stoplight:
+              id: 224az7um9x51z
+            properties:
+              username:
+                type: string
+                x-stoplight:
+                  id: 6xxbs3971acz5
+              region:
+                type: string
+                x-stoplight:
+                  id: pvi5oq9omlae8
+              access_key_id:
+                type: string
+                x-stoplight:
+                  id: 9tdfunoniwzed
+              role_arn:
+                type: string
+              scaleway_access_key:
+                type: string
+                x-stoplight:
+                  id: pyfdpz1vk4qq1
+              scaleway_project_id:
+                type: string
+                x-stoplight:
+                  id: kbrcr9377ly0q
+              azure_tenant_id:
+                type: string
+                x-stoplight:
+                  id: yd92ly1zmep1u
+              azure_subscription_id:
+                type: string
+                x-stoplight:
+                  id: rs3gk07qe1oy1
+    Base:
       type: object
+      required:
+      - id
+      - created_at
       properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/HelmRepositoryResponse'
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          readOnly: true
+          format: date-time
+        updated_at:
+          type: string
+          readOnly: true
+          format: date-time
     HelmVersionResponseList:
       type: object
       properties:
@@ -212,6 +264,13 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/HelmVersionResponse'
+    HelmRepositoryResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/HelmRepositoryResponse'
     HelmRepositoryRequest:
       type: object
       required:
@@ -281,65 +340,13 @@ components:
             role_arn:
               type: string
               description: For ECR, you can either set a static access_key or use a role arn that we are going to assume
-    HelmRepositoryResponse:
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - type: object
-        required:
-        - name
-        properties:
-          name:
-            type: string
-          kind:
-            $ref: '#/components/schemas/HelmRepositoryKindEnum'
-          description:
-            type: string
-          url:
-            type: string
-            description: URL of the helm repository
-          skip_tls_verification:
-            type: boolean
-            description: Bypass tls certificate verification when connecting to repository
-          associated_services_count:
-            type: integer
-            x-stoplight:
-              id: 287g4iunwmf2d
-            description: The number of services using this helm repository
-          config:
-            type: object
-            x-stoplight:
-              id: 224az7um9x51z
-            properties:
-              username:
-                type: string
-                x-stoplight:
-                  id: 6xxbs3971acz5
-              region:
-                type: string
-                x-stoplight:
-                  id: pvi5oq9omlae8
-              access_key_id:
-                type: string
-                x-stoplight:
-                  id: 9tdfunoniwzed
-              role_arn:
-                type: string
-              scaleway_access_key:
-                type: string
-                x-stoplight:
-                  id: pyfdpz1vk4qq1
-              scaleway_project_id:
-                type: string
-                x-stoplight:
-                  id: kbrcr9377ly0q
-              azure_tenant_id:
-                type: string
-                x-stoplight:
-                  id: yd92ly1zmep1u
-              azure_subscription_id:
-                type: string
-                x-stoplight:
-                  id: rs3gk07qe1oy1
+    AvailableHelmRepositoryResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/AvailableHelmRepositoryResponse'
     AvailableHelmRepositoryResponse:
       type: object
       required:
@@ -354,24 +361,6 @@ components:
           additionalProperties: true
         is_mandatory:
           type: boolean
-    Base:
-      type: object
-      required:
-      - id
-      - created_at
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        created_at:
-          type: string
-          readOnly: true
-          format: date-time
-        updated_at:
-          type: string
-          readOnly: true
-          format: date-time
     HelmRepositoryKindEnum:
       type: string
       enum:
@@ -384,24 +373,27 @@ components:
       - OCI_GITHUB_CR
       - OCI_GITLAB_CR
       description: The type of your helm repository
+    HelmVersionResponse:
+      type: object
+      properties:
+        chart_name:
+          type: string
+        versions:
+          type: array
+          items:
+            type: string
   responses:
-    '404':
-      description: Resource not found
     204-deletion:
       description: The resource was deleted successfully
-    '403':
-      description: Access forbidden
+    '404':
+      description: Resource not found
     '400':
       description: Bad request
+    '403':
+      description: Access forbidden
     '401':
       description: Access token is missing or invalid
   parameters:
-    chartName:
-      name: chartName
-      in: query
-      description: Helm chart name to filter the result on
-      schema:
-        type: string
     helmRepositoryId:
       name: helmRepositoryId
       in: path
@@ -410,6 +402,12 @@ components:
       schema:
         type: string
         format: uuid
+    chartName:
+      name: chartName
+      in: query
+      description: Helm chart name to filter the result on
+      schema:
+        type: string
     organizationId:
       name: organizationId
       in: path

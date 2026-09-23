@@ -1,12 +1,10 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
   version: 1.0.4
-  title: Qovery Account Info Projects API
+  title: Qovery Projects API
   description: '- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider.
 
-    - ℹ️ The API is stable and still in development.
-
-    '
+    - ℹ️ The API is stable and still in development.'
   contact:
     name: Qovery Product Team
     url: https://www.qovery.com
@@ -74,7 +72,7 @@ paths:
           description: Project name within the organization is already taken
   /organization/{organizationId}/project/stats:
     get:
-      summary: List total number of services and environments for each project of the organization
+      summary: List total number of services and environments for each project of the…
       description: Returns a list of project ids, and for each its total numberof services and environments
       operationId: getOrganizationProjectStats
       parameters:
@@ -96,68 +94,13 @@ paths:
           $ref: '#/components/responses/404'
 components:
   schemas:
-    ServiceTotalNumber:
-      type: object
-      required:
-      - number
-      properties:
-        service_total_number:
-          type: number
-    ReferenceObject:
-      type: object
-      required:
-      - id
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-    ProjectStatsResponseList:
+    ProjectResponseList:
       type: object
       properties:
         results:
           type: array
           items:
-            $ref: '#/components/schemas/ProjectStats'
-    ProjectStats:
-      allOf:
-      - $ref: '#/components/schemas/ReferenceObject'
-      - $ref: '#/components/schemas/ServiceTotalNumber'
-      - $ref: '#/components/schemas/EnvironmentTotalNumber'
-    EnvironmentTotalNumber:
-      type: object
-      required:
-      - number
-      properties:
-        environment_total_number:
-          type: number
-    ProjectRequest:
-      type: object
-      required:
-      - name
-      properties:
-        name:
-          type: string
-          description: name is case insensitive
-        description:
-          type: string
-    Project:
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - type: object
-        required:
-        - name
-        - organization
-        - associated_environments_count
-        properties:
-          name:
-            type: string
-          description:
-            type: string
-          associated_environments_count:
-            type: integer
-          organization:
-            $ref: '#/components/schemas/ReferenceObject'
+            $ref: '#/components/schemas/Project'
     Base:
       type: object
       required:
@@ -176,20 +119,75 @@ components:
           type: string
           readOnly: true
           format: date-time
-    ProjectResponseList:
+    ProjectStatsResponseList:
       type: object
       properties:
         results:
           type: array
           items:
-            $ref: '#/components/schemas/Project'
+            $ref: '#/components/schemas/ProjectStats'
+    ProjectStats:
+      allOf:
+      - $ref: '#/components/schemas/ReferenceObject'
+      - $ref: '#/components/schemas/ServiceTotalNumber'
+      - $ref: '#/components/schemas/EnvironmentTotalNumber'
+    Project:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        required:
+        - name
+        - organization
+        - associated_environments_count
+        properties:
+          name:
+            type: string
+          description:
+            type: string
+          associated_environments_count:
+            type: integer
+          organization:
+            $ref: '#/components/schemas/ReferenceObject'
+    EnvironmentTotalNumber:
+      type: object
+      required:
+      - number
+      properties:
+        environment_total_number:
+          type: number
+    ProjectRequest:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          description: name is case insensitive
+        description:
+          type: string
+    ReferenceObject:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+    ServiceTotalNumber:
+      type: object
+      required:
+      - number
+      properties:
+        service_total_number:
+          type: number
   responses:
-    '403':
-      description: Access forbidden
     '404':
       description: Resource not found
     '400':
       description: Bad request
+    '403':
+      description: Access forbidden
     '401':
       description: Access token is missing or invalid
   parameters:

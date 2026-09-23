@@ -1,12 +1,10 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
   version: 1.0.4
-  title: Qovery Account Info Alert Rules API
+  title: Qovery Alert Rules API
   description: '- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider.
 
-    - ℹ️ The API is stable and still in development.
-
-    '
+    - ℹ️ The API is stable and still in development.'
   contact:
     name: Qovery Product Team
     url: https://www.qovery.com
@@ -144,20 +142,87 @@ paths:
       description: Retrieve all alert rules for a specific organization
 components:
   schemas:
-    AlertTargetType:
-      title: AlertTargetType
+    AlertRuleConditionKind:
+      title: AlertRuleConditionKind
       x-stoplight:
-        id: y45ivkwhr7wb4
+        id: 275ykwbxqzr24
       enum:
-      - ' CLUSTER'
-      - ENVIRONMENT
-      - APPLICATION
-      - CONTAINER
-      - JOB
-      - CRONJOB
-      - HELM
-      - TERRAFORM
-      description: The target of an alert
+      - CUSTOM
+      - BUILT
+    Base:
+      type: object
+      required:
+      - id
+      - created_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          readOnly: true
+          format: date-time
+        updated_at:
+          type: string
+          readOnly: true
+          format: date-time
+    AlertRuleConditionOperator:
+      title: AlertRuleConditionOperator
+      x-stoplight:
+        id: hpxq0ysquqnts
+      enum:
+      - NONE
+      - ABOVE
+      - BELOW
+      - ABOVE_OR_EQUAL
+      - BELOW_OR_EQUAL
+      - EQUAL
+    GhostAlertRuleResponse:
+      title: GhostAlertRuleResponse
+      x-stoplight:
+        id: ghost_alert_rule_response
+      description: Response for ghost alerts that exist in Prometheus but have been deleted from the database
+      allOf:
+      - $ref: '#/components/schemas/AlertRuleResponseBase'
+      - type: object
+        properties:
+          target:
+            allOf:
+            - $ref: '#/components/schemas/AlertTarget'
+            - {}
+            description: May be null if target info couldn't be extracted from Prometheus
+          starts_at:
+            type:
+            - string
+            - 'null'
+            x-stoplight:
+              id: ghost_starts_at
+            description: When the ghost alert started firing
+            format: date-time
+    AlertRuleCondition:
+      title: AlertRuleCondition
+      x-stoplight:
+        id: x5o1gdqlpoyei
+      type: object
+      required:
+      - kind
+      - promql
+      properties:
+        kind:
+          $ref: '#/components/schemas/AlertRuleConditionKind'
+        operator:
+          $ref: '#/components/schemas/AlertRuleConditionOperator'
+        threshold:
+          type: number
+          x-stoplight:
+            id: ua0w1t89vrl0b
+        function:
+          $ref: '#/components/schemas/AlertRuleConditionFunction'
+        promql:
+          type: string
+          x-stoplight:
+            id: 6xaesnuka2c2q
     AlertRuleResponse:
       title: AlertRuleResponse
       x-stoplight:
@@ -243,92 +308,6 @@ components:
               id: 9r76f8pipu6y5
             description: when the alert starts firing
             format: date-time
-    GhostAlertRuleResponse:
-      title: GhostAlertRuleResponse
-      x-stoplight:
-        id: ghost_alert_rule_response
-      description: Response for ghost alerts that exist in Prometheus but have been deleted from the database
-      allOf:
-      - $ref: '#/components/schemas/AlertRuleResponseBase'
-      - type: object
-        properties:
-          target:
-            allOf:
-            - $ref: '#/components/schemas/AlertTarget'
-            - nullable: true
-            description: May be null if target info couldn't be extracted from Prometheus
-          starts_at:
-            type: string
-            x-stoplight:
-              id: ghost_starts_at
-            description: When the ghost alert started firing
-            format: date-time
-            nullable: true
-    AlertRuleConditionKind:
-      title: AlertRuleConditionKind
-      x-stoplight:
-        id: 275ykwbxqzr24
-      enum:
-      - CUSTOM
-      - BUILT
-    AlertRuleCondition:
-      title: AlertRuleCondition
-      x-stoplight:
-        id: x5o1gdqlpoyei
-      type: object
-      required:
-      - kind
-      - promql
-      properties:
-        kind:
-          $ref: '#/components/schemas/AlertRuleConditionKind'
-        operator:
-          $ref: '#/components/schemas/AlertRuleConditionOperator'
-        threshold:
-          type: number
-          x-stoplight:
-            id: ua0w1t89vrl0b
-        function:
-          $ref: '#/components/schemas/AlertRuleConditionFunction'
-        promql:
-          type: string
-          x-stoplight:
-            id: 6xaesnuka2c2q
-    ServiceTypeEnum:
-      type: string
-      x-stoplight:
-        id: d66063cd29913
-      description: type of the service (application, database, job, ...)
-      enum:
-      - APPLICATION
-      - DATABASE
-      - CONTAINER
-      - JOB
-      - HELM
-      - TERRAFORM
-      - ARGOCD_APP
-    AlertRuleConditionFunction:
-      title: AlertRuleConditionFunction
-      x-stoplight:
-        id: 7tp2xk2ehojvz
-      enum:
-      - NONE
-      - AVG
-      - MAX
-      - MIN
-      - SUM
-      - COUNT
-    AlertRuleConditionOperator:
-      title: AlertRuleConditionOperator
-      x-stoplight:
-        id: hpxq0ysquqnts
-      enum:
-      - NONE
-      - ABOVE
-      - BELOW
-      - ABOVE_OR_EQUAL
-      - BELOW_OR_EQUAL
-      - EQUAL
     ServiceLightResponse:
       title: ServiceLightResponse
       x-stoplight:
@@ -395,6 +374,113 @@ components:
           enum:
           - CRON
           - LIFECYCLE
+    AlertRuleSource:
+      title: AlertRuleSource
+      x-stoplight:
+        id: alert_rule_source_enum
+      description: 'Source of the alert rule:
+
+        - MANAGED: Alert rule created and managed through the Qovery API
+
+        - GHOST: Alert rule that exists in Prometheus but has been deleted from the database'
+      enum:
+      - MANAGED
+      - GHOST
+    AlertRuleEditRequest:
+      title: AlertRuleEditRequest
+      x-stoplight:
+        id: 6914x54u4sgg0
+      type: object
+      required:
+      - name
+      - description
+      - tag
+      - condition
+      - for_duration
+      - severity
+      - enabled
+      - alert_receiver_ids
+      - presentation
+      properties:
+        name:
+          type: string
+          x-stoplight:
+            id: 7zbib93n861tt
+          description: Name of the alert rule
+        description:
+          type: string
+          x-stoplight:
+            id: 2xpgzz03za6jo
+          description: Description of what the alert monitors
+        tag:
+          type: string
+          x-stoplight:
+            id: p754eq1nh7gqp
+        condition:
+          $ref: '#/components/schemas/AlertRuleCondition'
+        for_duration:
+          type: string
+          x-stoplight:
+            id: auoq20czr9ouh
+          format: duration
+          description: Duration the condition must be true before firing (ISO-8601 duration format)
+        severity:
+          $ref: '#/components/schemas/AlertSeverity'
+        enabled:
+          type: boolean
+          x-stoplight:
+            id: uayodiines5vd
+          description: Whether the alert rule is enabled
+        alert_receiver_ids:
+          type: array
+          x-stoplight:
+            id: n42yd3ffbfzdq
+          description: List of alert receiver IDs to send notifications to
+          minItems: 1
+          items:
+            x-stoplight:
+              id: xt3qvn76g9znl
+            type: string
+            format: uuid
+        presentation:
+          $ref: '#/components/schemas/AlertPresentation'
+    AlertRuleState:
+      title: AlertRuleState
+      x-stoplight:
+        id: 05u4rv9rrfvcp
+      enum:
+      - UNDEPLOYED
+      - OK
+      - TRIGGERED
+      - PENDING_NOTIFICATION
+      - NOTIFIED
+      - SUPPRESSED
+      - UNROUTED
+    AlertRuleResponseBase:
+      title: AlertRuleResponseBase
+      x-stoplight:
+        id: alert_rule_response_base
+      description: Base schema for alert rule responses with discriminator
+      type: object
+      required:
+      - source
+      - name
+      - state
+      properties:
+        source:
+          $ref: '#/components/schemas/AlertRuleSource'
+        name:
+          type: string
+          x-stoplight:
+            id: base_name_prop
+          description: Name of the alert rule
+        state:
+          $ref: '#/components/schemas/AlertRuleState'
+      discriminator:
+        propertyName: source
+        mapping:
+          MANAGED: '#/components/schemas/AlertRuleResponse'
+          GHOST: '#/components/schemas/GhostAlertRuleResponse'
     AlertRuleList:
       title: AlertRuleList
       x-stoplight:
@@ -416,18 +502,72 @@ components:
               mapping:
                 MANAGED: '#/components/schemas/AlertRuleResponse'
                 GHOST: '#/components/schemas/GhostAlertRuleResponse'
-    AlertRuleSource:
-      title: AlertRuleSource
+    AlertRuleConditionFunction:
+      title: AlertRuleConditionFunction
       x-stoplight:
-        id: alert_rule_source_enum
-      description: 'Source of the alert rule:
-
-        - MANAGED: Alert rule created and managed through the Qovery API
-
-        - GHOST: Alert rule that exists in Prometheus but has been deleted from the database'
+        id: 7tp2xk2ehojvz
       enum:
-      - MANAGED
-      - GHOST
+      - NONE
+      - AVG
+      - MAX
+      - MIN
+      - SUM
+      - COUNT
+    AlertPresentation:
+      title: AlertPresentation
+      x-stoplight:
+        id: csg2krsbv2i40
+      type: object
+      properties:
+        summary:
+          type:
+          - string
+          - 'null'
+          x-stoplight:
+            id: 4q8s7z1uu8kvm
+        runbook_url:
+          type:
+          - string
+          - 'null'
+          x-stoplight:
+            id: fe7wk13airhnu
+          description: URL to runbook with remediation steps
+          format: uri
+    AlertPresentationResponse:
+      title: AlertPresentationResponse
+      x-stoplight:
+        id: dx514vxebudw0
+      type: object
+      properties:
+        summary:
+          type:
+          - string
+          - 'null'
+          x-stoplight:
+            id: z5t89ub093022
+          description: ' Alert summary template'
+        runbook_url:
+          type:
+          - string
+          - 'null'
+          x-stoplight:
+            id: kf94o17fes7zl
+          description: URL to runbook with remediation steps
+          format: uri
+    AlertTargetType:
+      title: AlertTargetType
+      x-stoplight:
+        id: y45ivkwhr7wb4
+      enum:
+      - ' CLUSTER'
+      - ENVIRONMENT
+      - APPLICATION
+      - CONTAINER
+      - JOB
+      - CRONJOB
+      - HELM
+      - TERRAFORM
+      description: The target of an alert
     AlertTarget:
       title: AlertTarget
       x-stoplight:
@@ -447,6 +587,16 @@ components:
         service:
           $ref: '#/components/schemas/ServiceLightResponse'
           description: Service details when target_type is APPLICATION, CONTAINER, JOB, CRONJOB, HELM or TERRAFORM
+    AlertSeverity:
+      title: AlertSeverity
+      x-stoplight:
+        id: 74rrc7nvxpc30
+      description: "Alert severity level:\n        - LOW: Minor issues or informational alerts that don't require immediate attention. Can be addressed during normal business hours.\n        - MEDIUM: Moderate issues that should be investigated soon but don't impact critical services. May cause degraded performance or minor service disruption.\n        - HIGH: Serious issues affecting service quality or availability. Requires prompt attention and resolution within hours.\n        - CRITICAL: Critical issue requiring immediate action. Service outage, data loss risk, or severe performance degradation affecting users."
+      enum:
+      - LOW
+      - MEDIUM
+      - HIGH
+      - CRITICAL
     AlertRuleCreationRequest:
       title: AlertRuleCreationRequest
       x-stoplight:
@@ -524,166 +674,28 @@ components:
             format: uuid
         target:
           $ref: '#/components/schemas/AlertTarget'
-    AlertPresentationResponse:
-      title: AlertPresentationResponse
+    ServiceTypeEnum:
+      type: string
       x-stoplight:
-        id: dx514vxebudw0
-      type: object
-      properties:
-        summary:
-          type: string
-          x-stoplight:
-            id: z5t89ub093022
-          description: ' Alert summary template'
-          nullable: true
-        runbook_url:
-          type: string
-          x-stoplight:
-            id: kf94o17fes7zl
-          description: URL to runbook with remediation steps
-          format: uri
-          nullable: true
-    AlertRuleState:
-      title: AlertRuleState
-      x-stoplight:
-        id: 05u4rv9rrfvcp
+        id: d66063cd29913
+      description: type of the service (application, database, job, ...)
       enum:
-      - UNDEPLOYED
-      - OK
-      - TRIGGERED
-      - PENDING_NOTIFICATION
-      - NOTIFIED
-      - SUPPRESSED
-      - UNROUTED
-    AlertSeverity:
-      title: AlertSeverity
-      x-stoplight:
-        id: 74rrc7nvxpc30
-      description: "Alert severity level:\n        - LOW: Minor issues or informational alerts that don't require immediate attention. Can be addressed during normal business hours.\n        - MEDIUM: Moderate issues that should be investigated soon but don't impact critical services. May cause degraded performance or minor service disruption.\n        - HIGH: Serious issues affecting service quality or availability. Requires prompt attention and resolution within hours.\n        - CRITICAL: Critical issue requiring immediate action. Service outage, data loss risk, or severe performance degradation affecting users."
-      enum:
-      - LOW
-      - MEDIUM
-      - HIGH
-      - CRITICAL
-    AlertRuleResponseBase:
-      title: AlertRuleResponseBase
-      x-stoplight:
-        id: alert_rule_response_base
-      description: Base schema for alert rule responses with discriminator
-      type: object
-      required:
-      - source
-      - name
-      - state
-      properties:
-        source:
-          $ref: '#/components/schemas/AlertRuleSource'
-        name:
-          type: string
-          x-stoplight:
-            id: base_name_prop
-          description: Name of the alert rule
-        state:
-          $ref: '#/components/schemas/AlertRuleState'
-      discriminator:
-        propertyName: source
-        mapping:
-          MANAGED: '#/components/schemas/AlertRuleResponse'
-          GHOST: '#/components/schemas/GhostAlertRuleResponse'
-    AlertPresentation:
-      title: AlertPresentation
-      x-stoplight:
-        id: csg2krsbv2i40
-      type: object
-      properties:
-        summary:
-          type: string
-          x-stoplight:
-            id: 4q8s7z1uu8kvm
-          nullable: true
-        runbook_url:
-          type: string
-          x-stoplight:
-            id: fe7wk13airhnu
-          description: URL to runbook with remediation steps
-          format: uri
-          nullable: true
-    AlertRuleEditRequest:
-      title: AlertRuleEditRequest
-      x-stoplight:
-        id: 6914x54u4sgg0
-      type: object
-      required:
-      - name
-      - description
-      - tag
-      - condition
-      - for_duration
-      - severity
-      - enabled
-      - alert_receiver_ids
-      - presentation
-      properties:
-        name:
-          type: string
-          x-stoplight:
-            id: 7zbib93n861tt
-          description: Name of the alert rule
-        description:
-          type: string
-          x-stoplight:
-            id: 2xpgzz03za6jo
-          description: Description of what the alert monitors
-        tag:
-          type: string
-          x-stoplight:
-            id: p754eq1nh7gqp
-        condition:
-          $ref: '#/components/schemas/AlertRuleCondition'
-        for_duration:
-          type: string
-          x-stoplight:
-            id: auoq20czr9ouh
-          format: duration
-          description: Duration the condition must be true before firing (ISO-8601 duration format)
-        severity:
-          $ref: '#/components/schemas/AlertSeverity'
-        enabled:
-          type: boolean
-          x-stoplight:
-            id: uayodiines5vd
-          description: Whether the alert rule is enabled
-        alert_receiver_ids:
-          type: array
-          x-stoplight:
-            id: n42yd3ffbfzdq
-          description: List of alert receiver IDs to send notifications to
-          minItems: 1
-          items:
-            x-stoplight:
-              id: xt3qvn76g9znl
-            type: string
-            format: uuid
-        presentation:
-          $ref: '#/components/schemas/AlertPresentation'
-    Base:
-      type: object
-      required:
-      - id
-      - created_at
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        created_at:
-          type: string
-          readOnly: true
-          format: date-time
-        updated_at:
-          type: string
-          readOnly: true
-          format: date-time
+      - APPLICATION
+      - DATABASE
+      - CONTAINER
+      - JOB
+      - HELM
+      - TERRAFORM
+      - ARGOCD_APP
+  responses:
+    '404':
+      description: Resource not found
+    '401':
+      description: Access token is missing or invalid
+    '400':
+      description: Bad request
+    '403':
+      description: Access forbidden
   parameters:
     alertRuleId:
       name: alertRuleId
@@ -701,15 +713,6 @@ components:
       schema:
         type: string
         format: uuid
-  responses:
-    '400':
-      description: Bad request
-    '403':
-      description: Access forbidden
-    '404':
-      description: Resource not found
-    '401':
-      description: Access token is missing or invalid
   securitySchemes:
     bearerAuth:
       type: http

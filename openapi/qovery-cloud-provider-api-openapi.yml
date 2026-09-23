@@ -1,12 +1,10 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
   version: 1.0.4
-  title: Qovery Account Info Cloud Provider API
+  title: Qovery Cloud Provider API
   description: '- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider.
 
-    - ℹ️ The API is stable and still in development.
-
-    '
+    - ℹ️ The API is stable and still in development.'
   contact:
     name: Qovery Product Team
     url: https://www.qovery.com
@@ -426,163 +424,6 @@ paths:
         id: gjin553b2f7mz
 components:
   schemas:
-    ClusterFeatureKarpenterParameters:
-      title: ClusterFeatureKarpenterParameters
-      x-stoplight:
-        id: fzprvq41bcge1
-      type: object
-      required:
-      - spot_enabled
-      - disk_size_in_gib
-      - default_service_architecture
-      - qovery_node_pools
-      properties:
-        spot_enabled:
-          type: boolean
-          x-stoplight:
-            id: fuolcs5q8ncp8
-        disk_size_in_gib:
-          type: integer
-        disk_iops:
-          type: integer
-          minimum: 3000
-          maximum: 16000
-          example: 7800
-          description: Unit is operation/seconds. The disk IOPS to be used for the node configuration
-        disk_throughput:
-          type: integer
-          x-stoplight:
-            id: nwpjqw3bf7px0
-          minimum: 125
-          maximum: 1000
-          example: 255
-          description: Unit is in MB/s. The disk throughput to be used for the node configuration
-        default_service_architecture:
-          $ref: '#/components/schemas/CpuArchitectureEnum'
-        qovery_node_pools:
-          $ref: '#/components/schemas/KarpenterNodePool'
-    ManagedDatabaseTypeResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/ManagedDatabaseTypeResponse'
-    CloudProvider:
-      type: object
-      properties:
-        short_name:
-          type: string
-        name:
-          type: string
-        logo_url:
-          type: string
-        regions:
-          type: array
-          items:
-            $ref: '#/components/schemas/ClusterRegion'
-    ClusterFeatureAwsExistingVpcResponse:
-      type: object
-      required:
-      - type
-      - value
-      properties:
-        type:
-          $ref: '#/components/schemas/ClusterFeatureResponseTypeEnum'
-        value:
-          $ref: '#/components/schemas/ClusterFeatureAwsExistingVpc'
-    KarpenterNodePoolLimits:
-      title: KarpenterNodePoolLimits
-      type: object
-      required:
-      - enabled
-      - max_cpu_in_vcpu
-      - max_memory_in_gibibytes
-      - max_gpu
-      properties:
-        enabled:
-          type: boolean
-          default: false
-          nullable: false
-        max_cpu_in_vcpu:
-          type: integer
-          description: 'CPU limit that will be applied for the node pool (in vCPU unit: 1 vCPU = 1000 millicores)'
-        max_memory_in_gibibytes:
-          type: integer
-          description: 'Memory limit that will be applied for the node pool (in Gibibytes unit: 1Gi = 1024 mebibytes)'
-        max_gpu:
-          type: integer
-          x-stoplight:
-            id: fn3k34ck5abe4
-          default: 0
-          example: 10
-          minimum: 0
-          description: GPU limit that will be applied for the node pool
-    ClusterRegion:
-      type: object
-      required:
-      - name
-      - country_code
-      - country
-      - city
-      properties:
-        name:
-          type: string
-        country_code:
-          type: string
-        country:
-          type: string
-        city:
-          type: string
-        zones:
-          type: array
-          description: List of availability zones supported by this region
-          items:
-            type: string
-          example:
-          - '1'
-          - '2'
-          - '3'
-    ClusterFeatureBooleanResponse:
-      type: object
-      required:
-      - type
-      - value
-      properties:
-        type:
-          $ref: '#/components/schemas/ClusterFeatureResponseTypeEnum'
-        value:
-          type: boolean
-    KarpenterNodePool:
-      title: KarpenterNodePool
-      x-stoplight:
-        id: q8vks57rql8x1
-      type: object
-      required:
-      - requirements
-      properties:
-        requirements:
-          x-stoplight:
-            id: pkowctfxv7q77
-          type: array
-          items:
-            $ref: '#/components/schemas/KarpenterNodePoolRequirement'
-        stable_override:
-          $ref: '#/components/schemas/KarpenterStableNodePoolOverride'
-        default_override:
-          $ref: '#/components/schemas/KarpenterDefaultNodePoolOverride'
-        gpu_override:
-          $ref: '#/components/schemas/KarpenterGpuNodePoolOverride'
-        cronjob_override:
-          $ref: '#/components/schemas/KarpenterCronjobNodePoolOverride'
-    ClusterFeatureResponseTypeEnum:
-      type: string
-      enum:
-      - STRING
-      - BOOLEAN
-      - AWS_USER_PROVIDED_NETWORK
-      - GCP_USER_PROVIDED_NETWORK
-      - KARPENTER
     ClusterFeatureAwsExistingVpc:
       type: object
       required:
@@ -606,73 +447,85 @@ components:
           items:
             type: string
         documentdb_subnets_zone_a_ids:
-          type: array
-          nullable: true
+          type:
+          - array
+          - 'null'
           items:
             type: string
         documentdb_subnets_zone_b_ids:
-          type: array
-          nullable: true
+          type:
+          - array
+          - 'null'
           items:
             type: string
         documentdb_subnets_zone_c_ids:
-          type: array
-          nullable: true
+          type:
+          - array
+          - 'null'
           items:
             type: string
         elasticache_subnets_zone_a_ids:
-          type: array
-          nullable: true
+          type:
+          - array
+          - 'null'
           items:
             type: string
         elasticache_subnets_zone_b_ids:
-          type: array
-          nullable: true
+          type:
+          - array
+          - 'null'
           items:
             type: string
         elasticache_subnets_zone_c_ids:
-          type: array
-          nullable: true
+          type:
+          - array
+          - 'null'
           items:
             type: string
         rds_subnets_zone_a_ids:
-          type: array
-          nullable: true
+          type:
+          - array
+          - 'null'
           items:
             type: string
         rds_subnets_zone_b_ids:
-          type: array
-          nullable: true
+          type:
+          - array
+          - 'null'
           items:
             type: string
         rds_subnets_zone_c_ids:
-          type: array
-          nullable: true
+          type:
+          - array
+          - 'null'
           items:
             type: string
         eks_karpenter_fargate_subnets_zone_a_ids:
-          type: array
+          type:
+          - array
+          - 'null'
           x-stoplight:
             id: 8rttrya00wmkr
-          nullable: true
           items:
             x-stoplight:
               id: rtxx96v011irr
             type: string
         eks_karpenter_fargate_subnets_zone_b_ids:
-          type: array
+          type:
+          - array
+          - 'null'
           x-stoplight:
             id: xnbtr8676culs
-          nullable: true
           items:
             x-stoplight:
               id: 1w592qk4spodn
             type: string
         eks_karpenter_fargate_subnets_zone_c_ids:
-          type: array
+          type:
+          - array
+          - 'null'
           x-stoplight:
             id: st5domzqqkcoh
-          nullable: true
           items:
             x-stoplight:
               id: xyjjh50ckrzee
@@ -680,181 +533,6 @@ components:
         eks_create_nodes_in_private_subnet:
           type: boolean
           default: true
-    ManagedDatabaseInstanceTypeResponse:
-      type: object
-      required:
-      - name
-      properties:
-        name:
-          type: string
-          example: db.t3.medium
-    ClusterFeatureKarpenterParametersResponse:
-      title: ClusterFeatureKarpenterParametersResponse
-      x-stoplight:
-        id: q33tdlz4ychh5
-      type: object
-      required:
-      - type
-      - value
-      properties:
-        type:
-          $ref: '#/components/schemas/ClusterFeatureResponseTypeEnum'
-        value:
-          $ref: '#/components/schemas/ClusterFeatureKarpenterParameters'
-    KarpenterNodePoolRequirementOperator:
-      title: KarpenterNodePoolRequirementOperator
-      x-stoplight:
-        id: wkzlvifywpa0t
-      enum:
-      - In
-    WeekdayEnum:
-      type: string
-      enum:
-      - MONDAY
-      - TUESDAY
-      - WEDNESDAY
-      - THURSDAY
-      - FRIDAY
-      - SATURDAY
-      - SUNDAY
-      example: MONDAY
-    ClusterInstanceGpuInfo:
-      title: ClusterInstanceGpuInfo
-      x-stoplight:
-        id: dfdp50z2mr1cs
-      type: object
-      properties:
-        count:
-          type: integer
-          x-stoplight:
-            id: hbl5jxfcth747
-          description: The number of GPUs included in the instance.
-        name:
-          type: string
-          x-stoplight:
-            id: pregmt5l22afi
-          description: The model name of the GPU.
-        manufacturer:
-          type: string
-          x-stoplight:
-            id: a0e1rvah0xfms
-          description: The manufacturer of the GPUs in the instance.
-        memory_in_mib:
-          type: string
-          x-stoplight:
-            id: 20yjj7h8sjtdu
-          description: The total GPU memory available.
-    CloudProviderResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/CloudProvider'
-    ClusterFeatureResponse:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        title:
-          type: string
-          nullable: false
-        description:
-          type: string
-          nullable: true
-        cost_per_month_in_cents:
-          type: integer
-          example: 9900
-          deprecated: true
-          nullable: true
-        cost_per_month:
-          type: number
-          example: 99
-          deprecated: true
-          nullable: true
-        currency_code:
-          type: string
-          example: USD
-          deprecated: true
-          nullable: true
-        is_cloud_provider_paying_feature:
-          type: boolean
-          nullable: false
-          example: true
-        cloud_provider_feature_documentation:
-          type: string
-          example: https://cloud.provider.doc/feature
-          nullable: true
-        is_qovery_paying_feature:
-          type: boolean
-          nullable: false
-          example: true
-        qovery_feature_documentation:
-          type: string
-          example: https://qovery.doc/feature
-          nullable: true
-        value_type:
-          type: string
-          nullable: false
-          enum:
-          - BOOLEAN
-        value_object:
-          nullable: true
-          oneOf:
-          - $ref: '#/components/schemas/ClusterFeatureStringResponse'
-          - $ref: '#/components/schemas/ClusterFeatureBooleanResponse'
-          - $ref: '#/components/schemas/ClusterFeatureAwsExistingVpcResponse'
-          - $ref: '#/components/schemas/ClusterFeatureGcpExistingVpcResponse'
-          - $ref: '#/components/schemas/ClusterFeatureKarpenterParametersResponse'
-          discriminator:
-            propertyName: type
-            mapping:
-              STRING: '#/components/schemas/ClusterFeatureStringResponse'
-              BOOLEAN: '#/components/schemas/ClusterFeatureBooleanResponse'
-              AWS_USER_PROVIDED_NETWORK: '#/components/schemas/ClusterFeatureAwsExistingVpcResponse'
-              GCP_USER_PROVIDED_NETWORK: '#/components/schemas/ClusterFeatureGcpExistingVpcResponse'
-              KARPENTER: '#/components/schemas/ClusterFeatureKarpenterParametersResponse'
-        is_value_updatable:
-          type: boolean
-          default: false
-        accepted_values:
-          type: array
-          items:
-            oneOf:
-            - type: string
-            - type: boolean
-    KarpenterCronjobNodePoolOverride:
-      title: KarpenterCronjobNodePoolOverride
-      type: object
-      properties:
-        consolidation:
-          $ref: '#/components/schemas/KarpenterNodePoolConsolidation'
-        limits:
-          $ref: '#/components/schemas/KarpenterNodePoolLimits'
-        consolidate_after:
-          type: string
-          description: 'Time to wait before consolidating empty or underutilized nodes (e.g., 1m, 10m, 1h). Maximum: 24h'
-          example: 30s
-          pattern: ^\d+(s|m|h)$
-    ClusterFeatureGcpExistingVpcResponse:
-      type: object
-      required:
-      - type
-      - value
-      properties:
-        type:
-          $ref: '#/components/schemas/ClusterFeatureResponseTypeEnum'
-        value:
-          $ref: '#/components/schemas/ClusterFeatureGcpExistingVpc'
-    ManagedDatabaseTypeResponse:
-      type: object
-      required:
-      - name
-      properties:
-        name:
-          type: string
-          example: MYSQL
     KarpenterGpuNodePoolOverride:
       title: KarpenterGpuNodePoolOverride
       x-stoplight:
@@ -904,6 +582,120 @@ components:
           description: 'Time to wait before consolidating empty or underutilized nodes (e.g., 1m, 10m, 1h). Maximum: 24h'
           example: 30s
           pattern: ^\d+(s|m|h)$
+    KarpenterNodePool:
+      title: KarpenterNodePool
+      x-stoplight:
+        id: q8vks57rql8x1
+      type: object
+      required:
+      - requirements
+      properties:
+        requirements:
+          x-stoplight:
+            id: pkowctfxv7q77
+          type: array
+          items:
+            $ref: '#/components/schemas/KarpenterNodePoolRequirement'
+        stable_override:
+          $ref: '#/components/schemas/KarpenterStableNodePoolOverride'
+        default_override:
+          $ref: '#/components/schemas/KarpenterDefaultNodePoolOverride'
+        gpu_override:
+          $ref: '#/components/schemas/KarpenterGpuNodePoolOverride'
+        cronjob_override:
+          $ref: '#/components/schemas/KarpenterCronjobNodePoolOverride'
+    KarpenterNodePoolRequirementKey:
+      title: KarpenterNodePoolRequirementKey
+      x-stoplight:
+        id: eancn656efy06
+      enum:
+      - InstanceFamily
+      - InstanceSize
+      - Arch
+      - SkuFamily
+      - SkuVersion
+    ClusterFeatureGcpExistingVpc:
+      type: object
+      required:
+      - vpc_name
+      properties:
+        vpc_name:
+          type: string
+        vpc_project_id:
+          type:
+          - string
+          - 'null'
+        subnetwork_name:
+          type:
+          - string
+          - 'null'
+        ip_range_services_name:
+          type:
+          - string
+          - 'null'
+        ip_range_pods_name:
+          type:
+          - string
+          - 'null'
+        additional_ip_range_pods_names:
+          type: array
+          items:
+            type: string
+    KarpenterNodePoolRequirement:
+      title: KarpenterNodePoolRequirement
+      x-stoplight:
+        id: 4ebed64emvn09
+      type: object
+      required:
+      - key
+      - operator
+      - values
+      properties:
+        key:
+          $ref: '#/components/schemas/KarpenterNodePoolRequirementKey'
+        operator:
+          $ref: '#/components/schemas/KarpenterNodePoolRequirementOperator'
+        values:
+          type: array
+          x-stoplight:
+            id: qf036o7tch5ed
+          items:
+            x-stoplight:
+              id: 02kz5mierypik
+            type: string
+    KarpenterNodePoolLimits:
+      title: KarpenterNodePoolLimits
+      type: object
+      required:
+      - enabled
+      - max_cpu_in_vcpu
+      - max_memory_in_gibibytes
+      - max_gpu
+      properties:
+        enabled:
+          type: boolean
+          default: false
+        max_cpu_in_vcpu:
+          type: integer
+          description: 'CPU limit that will be applied for the node pool (in vCPU unit: 1 vCPU = 1000 millicores)'
+        max_memory_in_gibibytes:
+          type: integer
+          description: 'Memory limit that will be applied for the node pool (in Gibibytes unit: 1Gi = 1024 mebibytes)'
+        max_gpu:
+          type: integer
+          x-stoplight:
+            id: fn3k34ck5abe4
+          default: 0
+          example: 10
+          minimum: 0
+          description: GPU limit that will be applied for the node pool
+    ManagedDatabaseInstanceTypeResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ManagedDatabaseInstanceTypeResponse'
     CpuArchitectureEnum:
       title: CpuArchitectureEnum
       x-stoplight:
@@ -911,6 +703,235 @@ components:
       enum:
       - AMD64
       - ARM64
+    WeekdayEnum:
+      type: string
+      enum:
+      - MONDAY
+      - TUESDAY
+      - WEDNESDAY
+      - THURSDAY
+      - FRIDAY
+      - SATURDAY
+      - SUNDAY
+      example: MONDAY
+    ClusterRegion:
+      type: object
+      required:
+      - name
+      - country_code
+      - country
+      - city
+      properties:
+        name:
+          type: string
+        country_code:
+          type: string
+        country:
+          type: string
+        city:
+          type: string
+        zones:
+          type: array
+          description: List of availability zones supported by this region
+          items:
+            type: string
+          example:
+          - '1'
+          - '2'
+          - '3'
+    ClusterFeatureKarpenterParameters:
+      title: ClusterFeatureKarpenterParameters
+      x-stoplight:
+        id: fzprvq41bcge1
+      type: object
+      required:
+      - spot_enabled
+      - disk_size_in_gib
+      - default_service_architecture
+      - qovery_node_pools
+      properties:
+        spot_enabled:
+          type: boolean
+          x-stoplight:
+            id: fuolcs5q8ncp8
+        disk_size_in_gib:
+          type: integer
+        disk_iops:
+          type: integer
+          minimum: 3000
+          maximum: 16000
+          example: 7800
+          description: Unit is operation/seconds. The disk IOPS to be used for the node configuration
+        disk_throughput:
+          type: integer
+          x-stoplight:
+            id: nwpjqw3bf7px0
+          minimum: 125
+          maximum: 1000
+          example: 255
+          description: Unit is in MB/s. The disk throughput to be used for the node configuration
+        default_service_architecture:
+          $ref: '#/components/schemas/CpuArchitectureEnum'
+        qovery_node_pools:
+          $ref: '#/components/schemas/KarpenterNodePool'
+    ClusterFeatureStringResponse:
+      type: object
+      required:
+      - type
+      - value
+      properties:
+        type:
+          $ref: '#/components/schemas/ClusterFeatureResponseTypeEnum'
+        value:
+          type: string
+    ClusterInstanceAttributes:
+      title: ClusterInstanceAttributes
+      x-stoplight:
+        id: nxbpo7v2ecz72
+      type: object
+      properties:
+        instance_category:
+          type: string
+          x-stoplight:
+            id: epo9cqt13zoqp
+          description: The category of the instance.
+        instance_generation:
+          type: integer
+          x-stoplight:
+            id: 274hjvkvlycxp
+          description: The generation of the instance.
+        instance_family:
+          type: string
+          x-stoplight:
+            id: ixmy1d0nokjh5
+          description: The family or series of the instance.
+        instance_size:
+          type: string
+          x-stoplight:
+            id: dmnfjmvowgd0a
+          description: Specifies the size of the instance within its family.
+        meets_resource_reqs:
+          type: boolean
+          x-stoplight:
+            id: 8gytpdzm751we
+          description: The instance has sufficient resources to be chosen as a standalone instance in a cluster.
+    ClusterFeatureResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        description:
+          type:
+          - string
+          - 'null'
+        cost_per_month_in_cents:
+          type:
+          - integer
+          - 'null'
+          example: 9900
+          deprecated: true
+        cost_per_month:
+          type:
+          - number
+          - 'null'
+          example: 99
+          deprecated: true
+        currency_code:
+          type:
+          - string
+          - 'null'
+          example: USD
+          deprecated: true
+        is_cloud_provider_paying_feature:
+          type: boolean
+          example: true
+        cloud_provider_feature_documentation:
+          type:
+          - string
+          - 'null'
+          example: https://cloud.provider.doc/feature
+        is_qovery_paying_feature:
+          type: boolean
+          example: true
+        qovery_feature_documentation:
+          type:
+          - string
+          - 'null'
+          example: https://qovery.doc/feature
+        value_type:
+          type: string
+          enum:
+          - BOOLEAN
+        value_object:
+          oneOf:
+          - $ref: '#/components/schemas/ClusterFeatureStringResponse'
+          - $ref: '#/components/schemas/ClusterFeatureBooleanResponse'
+          - $ref: '#/components/schemas/ClusterFeatureAwsExistingVpcResponse'
+          - $ref: '#/components/schemas/ClusterFeatureGcpExistingVpcResponse'
+          - $ref: '#/components/schemas/ClusterFeatureKarpenterParametersResponse'
+          discriminator:
+            propertyName: type
+            mapping:
+              STRING: '#/components/schemas/ClusterFeatureStringResponse'
+              BOOLEAN: '#/components/schemas/ClusterFeatureBooleanResponse'
+              AWS_USER_PROVIDED_NETWORK: '#/components/schemas/ClusterFeatureAwsExistingVpcResponse'
+              GCP_USER_PROVIDED_NETWORK: '#/components/schemas/ClusterFeatureGcpExistingVpcResponse'
+              KARPENTER: '#/components/schemas/ClusterFeatureKarpenterParametersResponse'
+        is_value_updatable:
+          type: boolean
+          default: false
+        accepted_values:
+          type: array
+          items:
+            oneOf:
+            - type: string
+            - type: boolean
+    ClusterInstanceGpuInfo:
+      title: ClusterInstanceGpuInfo
+      x-stoplight:
+        id: dfdp50z2mr1cs
+      type: object
+      properties:
+        count:
+          type: integer
+          x-stoplight:
+            id: hbl5jxfcth747
+          description: The number of GPUs included in the instance.
+        name:
+          type: string
+          x-stoplight:
+            id: pregmt5l22afi
+          description: The model name of the GPU.
+        manufacturer:
+          type: string
+          x-stoplight:
+            id: a0e1rvah0xfms
+          description: The manufacturer of the GPUs in the instance.
+        memory_in_mib:
+          type: string
+          x-stoplight:
+            id: 20yjj7h8sjtdu
+          description: The total GPU memory available.
+    ClusterFeatureGcpExistingVpcResponse:
+      type: object
+      required:
+      - type
+      - value
+      properties:
+        type:
+          $ref: '#/components/schemas/ClusterFeatureResponseTypeEnum'
+        value:
+          $ref: '#/components/schemas/ClusterFeatureGcpExistingVpc'
+    CloudProviderResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/CloudProvider'
     KarpenterStableNodePoolOverride:
       title: KarpenterStableNodePoolOverride
       type: object
@@ -924,47 +945,116 @@ components:
           description: 'Time to wait before consolidating empty or underutilized nodes (e.g., 1m, 10m, 1h). Maximum: 24h'
           example: 30s
           pattern: ^\d+(s|m|h)$
-    KarpenterDefaultNodePoolOverride:
-      title: KarpenterDefaultNodePoolOverride
-      type: object
-      properties:
-        limits:
-          $ref: '#/components/schemas/KarpenterNodePoolLimits'
-        consolidate_after:
-          type: string
-          description: 'Time to wait before consolidating empty or underutilized nodes (e.g., 1m, 10m, 1h). Maximum: 24h'
-          example: 1m
-          pattern: ^\d+(s|m|h)$
-    ClusterFeatureGcpExistingVpc:
+    ClusterFeatureResponseTypeEnum:
+      type: string
+      enum:
+      - STRING
+      - BOOLEAN
+      - AWS_USER_PROVIDED_NETWORK
+      - GCP_USER_PROVIDED_NETWORK
+      - KARPENTER
+    ManagedDatabaseInstanceTypeResponse:
       type: object
       required:
-      - vpc_name
+      - name
       properties:
-        vpc_name:
+        name:
           type: string
-        vpc_project_id:
-          type: string
-          nullable: true
-        subnetwork_name:
-          type: string
-          nullable: true
-        ip_range_services_name:
-          type: string
-          nullable: true
-        ip_range_pods_name:
-          type: string
-          nullable: true
-        additional_ip_range_pods_names:
-          type: array
-          items:
-            type: string
-    ManagedDatabaseInstanceTypeResponseList:
+          example: db.t3.medium
+    ClusterFeatureAwsExistingVpcResponse:
+      type: object
+      required:
+      - type
+      - value
+      properties:
+        type:
+          $ref: '#/components/schemas/ClusterFeatureResponseTypeEnum'
+        value:
+          $ref: '#/components/schemas/ClusterFeatureAwsExistingVpc'
+    ManagedDatabaseTypeResponseList:
       type: object
       properties:
         results:
           type: array
           items:
-            $ref: '#/components/schemas/ManagedDatabaseInstanceTypeResponse'
+            $ref: '#/components/schemas/ManagedDatabaseTypeResponse'
+    ClusterRegionResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClusterRegion'
+    CloudProvider:
+      type: object
+      properties:
+        short_name:
+          type: string
+        name:
+          type: string
+        logo_url:
+          type: string
+        regions:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClusterRegion'
+    KarpenterCronjobNodePoolOverride:
+      title: KarpenterCronjobNodePoolOverride
+      type: object
+      properties:
+        consolidation:
+          $ref: '#/components/schemas/KarpenterNodePoolConsolidation'
+        limits:
+          $ref: '#/components/schemas/KarpenterNodePoolLimits'
+        consolidate_after:
+          type: string
+          description: 'Time to wait before consolidating empty or underutilized nodes (e.g., 1m, 10m, 1h). Maximum: 24h'
+          example: 30s
+          pattern: ^\d+(s|m|h)$
+    ClusterFeatureResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClusterFeatureResponse'
+    KarpenterNodePoolRequirementOperator:
+      title: KarpenterNodePoolRequirementOperator
+      x-stoplight:
+        id: wkzlvifywpa0t
+      enum:
+      - In
+    ClusterFeatureKarpenterParametersResponse:
+      title: ClusterFeatureKarpenterParametersResponse
+      x-stoplight:
+        id: q33tdlz4ychh5
+      type: object
+      required:
+      - type
+      - value
+      properties:
+        type:
+          $ref: '#/components/schemas/ClusterFeatureResponseTypeEnum'
+        value:
+          $ref: '#/components/schemas/ClusterFeatureKarpenterParameters'
+    ManagedDatabaseTypeResponse:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          example: MYSQL
+    ClusterFeatureBooleanResponse:
+      type: object
+      required:
+      - type
+      - value
+      properties:
+        type:
+          $ref: '#/components/schemas/ClusterFeatureResponseTypeEnum'
+        value:
+          type: boolean
     ClusterInstanceTypeResponseList:
       type: object
       properties:
@@ -1005,62 +1095,6 @@ components:
                 $ref: '#/components/schemas/ClusterInstanceGpuInfo'
               attributes:
                 $ref: '#/components/schemas/ClusterInstanceAttributes'
-    ClusterFeatureStringResponse:
-      type: object
-      required:
-      - type
-      - value
-      properties:
-        type:
-          $ref: '#/components/schemas/ClusterFeatureResponseTypeEnum'
-        value:
-          type: string
-    ClusterFeatureResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/ClusterFeatureResponse'
-    KarpenterNodePoolRequirement:
-      title: KarpenterNodePoolRequirement
-      x-stoplight:
-        id: 4ebed64emvn09
-      type: object
-      required:
-      - key
-      - operator
-      - values
-      properties:
-        key:
-          $ref: '#/components/schemas/KarpenterNodePoolRequirementKey'
-        operator:
-          $ref: '#/components/schemas/KarpenterNodePoolRequirementOperator'
-        values:
-          type: array
-          x-stoplight:
-            id: qf036o7tch5ed
-          items:
-            x-stoplight:
-              id: 02kz5mierypik
-            type: string
-    ClusterRegionResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/ClusterRegion'
-    KarpenterNodePoolRequirementKey:
-      title: KarpenterNodePoolRequirementKey
-      x-stoplight:
-        id: eancn656efy06
-      enum:
-      - InstanceFamily
-      - InstanceSize
-      - Arch
-      - SkuFamily
-      - SkuVersion
     KarpenterNodePoolConsolidation:
       title: KarpenterNodePoolConsolidation
       type: object
@@ -1073,10 +1107,8 @@ components:
         enabled:
           type: boolean
           default: false
-          nullable: false
         days:
           type: array
-          nullable: false
           items:
             $ref: '#/components/schemas/WeekdayEnum'
         start_time:
@@ -1087,7 +1119,6 @@ components:
             '
           type: string
           example: PT22:30
-          nullable: false
         duration:
           description: 'The duration during the consolidation will be active.
 
@@ -1096,47 +1127,18 @@ components:
             '
           type: string
           example: PT2H45M
-          nullable: false
-    ClusterInstanceAttributes:
-      title: ClusterInstanceAttributes
-      x-stoplight:
-        id: nxbpo7v2ecz72
+    KarpenterDefaultNodePoolOverride:
+      title: KarpenterDefaultNodePoolOverride
       type: object
       properties:
-        instance_category:
+        limits:
+          $ref: '#/components/schemas/KarpenterNodePoolLimits'
+        consolidate_after:
           type: string
-          x-stoplight:
-            id: epo9cqt13zoqp
-          description: The category of the instance.
-        instance_generation:
-          type: integer
-          x-stoplight:
-            id: 274hjvkvlycxp
-          description: The generation of the instance.
-        instance_family:
-          type: string
-          x-stoplight:
-            id: ixmy1d0nokjh5
-          description: The family or series of the instance.
-        instance_size:
-          type: string
-          x-stoplight:
-            id: dmnfjmvowgd0a
-          description: Specifies the size of the instance within its family.
-        meets_resource_reqs:
-          type: boolean
-          x-stoplight:
-            id: 8gytpdzm751we
-          description: The instance has sufficient resources to be chosen as a standalone instance in a cluster.
+          description: 'Time to wait before consolidating empty or underutilized nodes (e.g., 1m, 10m, 1h). Maximum: 24h'
+          example: 1m
+          pattern: ^\d+(s|m|h)$
   parameters:
-    region:
-      name: region
-      in: path
-      description: region name
-      required: true
-      schema:
-        type: string
-        example: us-east-2
     databaseType:
       name: databaseType
       in: path
@@ -1145,13 +1147,21 @@ components:
       schema:
         type: string
         example: MYSQL
+    region:
+      name: region
+      in: path
+      description: region name
+      required: true
+      schema:
+        type: string
+        example: us-east-2
   responses:
+    '404':
+      description: Resource not found
     '401':
       description: Access token is missing or invalid
     '403':
       description: Access forbidden
-    '404':
-      description: Resource not found
   securitySchemes:
     bearerAuth:
       type: http

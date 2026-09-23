@@ -1,12 +1,10 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
   version: 1.0.4
-  title: Qovery Account Info Members API
+  title: Qovery Members API
   description: '- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider.
 
-    - ℹ️ The API is stable and still in development.
-
-    '
+    - ℹ️ The API is stable and still in development.'
   contact:
     name: Qovery Product Team
     url: https://www.qovery.com
@@ -45,7 +43,6 @@ paths:
           $ref: '#/components/responses/404'
     put:
       summary: Edit an organization member role
-      description: Edit an organization member role
       operationId: editOrganizationMemberRole
       parameters:
       - $ref: '#/components/parameters/organizationId'
@@ -233,96 +230,29 @@ paths:
         '404':
           $ref: '#/components/responses/404'
 components:
+  parameters:
+    inviteId:
+      name: inviteId
+      in: path
+      description: Invite ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+    organizationId:
+      name: organizationId
+      in: path
+      description: Organization ID
+      required: true
+      schema:
+        type: string
+        format: uuid
   schemas:
-    InviteMemberResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/InviteMember'
-    MemberRoleUpdateRequest:
-      type: object
-      required:
-      - user_id
-      - role_id
-      properties:
-        user_id:
-          type: string
-          description: specify the git provider user id
-        role_id:
-          type: string
-          format: uuid
     InviteStatusEnum:
       type: string
       enum:
       - EXPIRED
       - PENDING
-    InviteMemberRequest:
-      type: object
-      required:
-      - email
-      properties:
-        email:
-          type: string
-        role:
-          $ref: '#/components/schemas/InviteMemberRoleEnum'
-        role_id:
-          type: string
-          format: uuid
-          description: the target role to attribute to the new member
-    TransferOwnershipRequest:
-      type: object
-      required:
-      - user_id
-      properties:
-        user_id:
-          type: string
-          format: uuid
-    InviteMemberRoleEnum:
-      type: string
-      description: deprecated
-      enum:
-      - ADMIN
-      - DEVELOPER
-      - OWNER
-      - VIEWER
-    Member:
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - type: object
-        required:
-        - email
-        properties:
-          name:
-            type: string
-          nickname:
-            type: string
-          email:
-            type: string
-            format: email
-          profile_picture_url:
-            type: string
-            format: uri
-          last_activity_at:
-            type: string
-            format: date-time
-            description: last time the user was connected
-          role:
-            $ref: '#/components/schemas/InviteMemberRoleEnum'
-          role_name:
-            type: string
-            description: the role linked to the user
-          role_id:
-            type: string
-            format: uuid
-    MemberResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/Member'
     Base:
       type: object
       required:
@@ -341,6 +271,13 @@ components:
           type: string
           readOnly: true
           format: date-time
+    MemberResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Member'
     InviteMember:
       allOf:
       - $ref: '#/components/schemas/Base'
@@ -374,36 +311,96 @@ components:
             format: uuid
           role_name:
             type: string
+    TransferOwnershipRequest:
+      type: object
+      required:
+      - user_id
+      properties:
+        user_id:
+          type: string
+          format: uuid
+    InviteMemberRoleEnum:
+      type: string
+      description: deprecated
+      enum:
+      - ADMIN
+      - DEVELOPER
+      - OWNER
+      - VIEWER
+    InviteMemberRequest:
+      type: object
+      required:
+      - email
+      properties:
+        email:
+          type: string
+        role:
+          $ref: '#/components/schemas/InviteMemberRoleEnum'
+        role_id:
+          type: string
+          format: uuid
+          description: the target role to attribute to the new member
+    InviteMemberResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/InviteMember'
+    MemberRoleUpdateRequest:
+      type: object
+      required:
+      - user_id
+      - role_id
+      properties:
+        user_id:
+          type: string
+          description: specify the git provider user id
+        role_id:
+          type: string
+          format: uuid
+    Member:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        required:
+        - email
+        properties:
+          name:
+            type: string
+          nickname:
+            type: string
+          email:
+            type: string
+            format: email
+          profile_picture_url:
+            type: string
+            format: uri
+          last_activity_at:
+            type: string
+            format: date-time
+            description: last time the user was connected
+          role:
+            $ref: '#/components/schemas/InviteMemberRoleEnum'
+          role_name:
+            type: string
+            description: the role linked to the user
+          role_id:
+            type: string
+            format: uuid
   responses:
-    204-deletion:
-      description: The resource was deleted successfully
-    '403':
-      description: Access forbidden
-    '204':
-      description: no content
     '404':
       description: Resource not found
+    204-deletion:
+      description: The resource was deleted successfully
     '400':
       description: Bad request
+    '204':
+      description: no content
     '401':
       description: Access token is missing or invalid
-  parameters:
-    inviteId:
-      name: inviteId
-      in: path
-      description: Invite ID
-      required: true
-      schema:
-        type: string
-        format: uuid
-    organizationId:
-      name: organizationId
-      in: path
-      description: Organization ID
-      required: true
-      schema:
-        type: string
-        format: uuid
+    '403':
+      description: Access forbidden
   securitySchemes:
     bearerAuth:
       type: http

@@ -1,12 +1,10 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
   version: 1.0.4
-  title: Qovery Account Info Project Main Calls API
+  title: Qovery Project Main Calls API
   description: '- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider.
 
-    - ℹ️ The API is stable and still in development.
-
-    '
+    - ℹ️ The API is stable and still in development.'
   contact:
     name: Qovery Product Team
     url: https://www.qovery.com
@@ -92,42 +90,6 @@ paths:
           $ref: '#/components/responses/404'
 components:
   schemas:
-    ReferenceObject:
-      type: object
-      required:
-      - id
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-    ProjectRequest:
-      type: object
-      required:
-      - name
-      properties:
-        name:
-          type: string
-          description: name is case insensitive
-        description:
-          type: string
-    Project:
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - type: object
-        required:
-        - name
-        - organization
-        - associated_environments_count
-        properties:
-          name:
-            type: string
-          description:
-            type: string
-          associated_environments_count:
-            type: integer
-          organization:
-            $ref: '#/components/schemas/ReferenceObject'
     Base:
       type: object
       required:
@@ -146,15 +108,51 @@ components:
           type: string
           readOnly: true
           format: date-time
+    Project:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        required:
+        - name
+        - organization
+        - associated_environments_count
+        properties:
+          name:
+            type: string
+          description:
+            type: string
+          associated_environments_count:
+            type: integer
+          organization:
+            $ref: '#/components/schemas/ReferenceObject'
+    ProjectRequest:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          description: name is case insensitive
+        description:
+          type: string
+    ReferenceObject:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
   responses:
-    204-deletion:
-      description: The resource was deleted successfully
-    '403':
-      description: Access forbidden
     '404':
       description: Resource not found
+    204-deletion:
+      description: The resource was deleted successfully
     '400':
       description: Bad request
+    '403':
+      description: Access forbidden
     '401':
       description: Access token is missing or invalid
   parameters:

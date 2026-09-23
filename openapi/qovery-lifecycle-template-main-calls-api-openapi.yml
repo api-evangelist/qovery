@@ -1,12 +1,10 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
   version: 1.0.4
-  title: Qovery Account Info Lifecycle Template Main Calls API
+  title: Qovery Lifecycle Template Main Calls API
   description: '- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider.
 
-    - ℹ️ The API is stable and still in development.
-
-    '
+    - ℹ️ The API is stable and still in development.'
   contact:
     name: Qovery Product Team
     url: https://www.qovery.com
@@ -82,15 +80,48 @@ paths:
         '404':
           $ref: '#/components/responses/404'
 components:
+  responses:
+    '404':
+      description: Resource not found
+    '403':
+      description: Access forbidden
+    '401':
+      description: Access token is missing or invalid
   schemas:
-    CloudProviderEnum:
-      type: string
-      enum:
-      - AWS
-      - SCW
-      - GCP
-      - ON_PREMISE
-      - AZURE
+    LifecycleTemplateListResponse:
+      title: LifecycleTemplateListResponse
+      x-stoplight:
+        id: xors8ncf4ky35
+      type: object
+      required:
+      - results
+      properties:
+        results:
+          type: array
+          x-stoplight:
+            id: 7641tagxo4zpi
+          items:
+            x-stoplight:
+              id: uozhvuyd6pdmu
+            type: object
+            required:
+            - id
+            - name
+            - description
+            properties:
+              id:
+                type: string
+                x-stoplight:
+                  id: qwkicuwqfvcw4
+                format: uuid
+              name:
+                type: string
+                x-stoplight:
+                  id: eec0zks0ju8mm
+              description:
+                type: string
+                x-stoplight:
+                  id: yg0unyqcvyzcn
     LifecycleTemplateResponse:
       title: LifecycleTemplateResponse
       x-stoplight:
@@ -239,47 +270,14 @@ components:
           x-stoplight:
             id: 0xkypu9qkowv3
           description: Dockerfile of the template
-    LifecycleTemplateListResponse:
-      title: LifecycleTemplateListResponse
-      x-stoplight:
-        id: xors8ncf4ky35
-      type: object
-      required:
-      - results
-      properties:
-        results:
-          type: array
-          x-stoplight:
-            id: 7641tagxo4zpi
-          items:
-            x-stoplight:
-              id: uozhvuyd6pdmu
-            type: object
-            required:
-            - id
-            - name
-            - description
-            properties:
-              id:
-                type: string
-                x-stoplight:
-                  id: qwkicuwqfvcw4
-                format: uuid
-              name:
-                type: string
-                x-stoplight:
-                  id: eec0zks0ju8mm
-              description:
-                type: string
-                x-stoplight:
-                  id: yg0unyqcvyzcn
-  responses:
-    '403':
-      description: Access forbidden
-    '404':
-      description: Resource not found
-    '401':
-      description: Access token is missing or invalid
+    CloudProviderEnum:
+      type: string
+      enum:
+      - AWS
+      - SCW
+      - GCP
+      - ON_PREMISE
+      - AZURE
   securitySchemes:
     bearerAuth:
       type: http

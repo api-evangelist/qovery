@@ -1,12 +1,10 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
   version: 1.0.4
-  title: Qovery Account Info Organization Webhook API
+  title: Qovery Organization Webhook API
   description: '- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider.
 
-    - ℹ️ The API is stable and still in development.
-
-    '
+    - ℹ️ The API is stable and still in development.'
   contact:
     name: Qovery Product Team
     url: https://www.qovery.com
@@ -25,7 +23,6 @@ paths:
   /organization/{organizationId}/webhook:
     get:
       summary: List organization webhooks
-      description: List organization webhooks
       operationId: listOrganizationWebHooks
       parameters:
       - $ref: '#/components/parameters/organizationId'
@@ -98,7 +95,6 @@ paths:
   /organization/{organizationId}/webhook/{webhookId}:
     get:
       summary: Get an Organization webhook
-      description: Get an Organization webhook
       operationId: getOrganizationWebhook
       parameters:
       - $ref: '#/components/parameters/organizationId'
@@ -120,7 +116,6 @@ paths:
           $ref: '#/components/responses/404'
     put:
       summary: Edit an organization webhook
-      description: Edit an organization webhook
       operationId: editOrganizationWebhook
       parameters:
       - $ref: '#/components/parameters/organizationId'
@@ -149,7 +144,6 @@ paths:
           $ref: '#/components/responses/404'
     delete:
       summary: Delete organization webhook
-      description: Delete organization webhook
       operationId: deleteOrganizationWebhook
       parameters:
       - $ref: '#/components/parameters/organizationId'
@@ -167,14 +161,63 @@ paths:
           $ref: '#/components/responses/404'
 components:
   schemas:
-    EnvironmentModeEnum:
-      type: string
-      enum:
-      - DEVELOPMENT
-      - PREVIEW
-      - PRODUCTION
-      - STAGING
-      example: PRODUCTION
+    Base:
+      type: object
+      required:
+      - id
+      - created_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          readOnly: true
+          format: date-time
+        updated_at:
+          type: string
+          readOnly: true
+          format: date-time
+    OrganizationWebhookResponse:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        properties:
+          kind:
+            $ref: '#/components/schemas/OrganizationWebhookKindEnum'
+          target_url:
+            type: string
+            description: 'Set the public HTTP or HTTPS endpoint that will receive the specified events.
+
+              The target URL must starts with `http://` or `https://`
+
+              '
+          target_secret_set:
+            type: boolean
+          description:
+            type: string
+          enabled:
+            type: boolean
+            description: Turn on or off your endpoint.
+          events:
+            type: array
+            items:
+              $ref: '#/components/schemas/OrganizationWebhookEventEnum'
+          project_names_filter:
+            type: array
+            description: "Specify the project names you want to filter to. \nThis webhook will be triggered only if the event is coming from the specified Project IDs.\nNotes: 1. Wildcard is accepted E.g. `product*`. 2. Name is case insensitive.\n"
+            items:
+              type: string
+          environment_types_filter:
+            type: array
+            description: 'Specify the environment modes you want to filter to.
+
+              This webhook will be triggered only if the event is coming from an environment with the specified mode.
+
+              '
+            items:
+              $ref: '#/components/schemas/EnvironmentModeEnum'
     OrganizationWebhookCreateResponse:
       allOf:
       - $ref: '#/components/schemas/Base'
@@ -214,13 +257,6 @@ components:
               '
             items:
               $ref: '#/components/schemas/EnvironmentModeEnum'
-    OrganizationWebhookResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/OrganizationWebhookResponse'
     OrganizationWebhookCreateRequest:
       type: object
       required:
@@ -274,6 +310,20 @@ components:
       - STANDARD
       - SLACK
       example: STANDARD
+    WebhookEventResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/WebhookEventResponse'
+    OrganizationWebhookResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrganizationWebhookResponse'
     OrganizationWebhookEventEnum:
       type: string
       description: 'Events to subscribe to and send to the `target_url`.
@@ -292,45 +342,14 @@ components:
       - DEPLOYMENT_CANCELLED
       - DEPLOYMENT_FAILURE
       - DEPLOYMENT_SUCCESSFUL
-    OrganizationWebhookResponse:
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - type: object
-        properties:
-          kind:
-            $ref: '#/components/schemas/OrganizationWebhookKindEnum'
-          target_url:
-            type: string
-            description: 'Set the public HTTP or HTTPS endpoint that will receive the specified events.
-
-              The target URL must starts with `http://` or `https://`
-
-              '
-          target_secret_set:
-            type: boolean
-          description:
-            type: string
-          enabled:
-            type: boolean
-            description: Turn on or off your endpoint.
-          events:
-            type: array
-            items:
-              $ref: '#/components/schemas/OrganizationWebhookEventEnum'
-          project_names_filter:
-            type: array
-            description: "Specify the project names you want to filter to. \nThis webhook will be triggered only if the event is coming from the specified Project IDs.\nNotes: 1. Wildcard is accepted E.g. `product*`. 2. Name is case insensitive.\n"
-            items:
-              type: string
-          environment_types_filter:
-            type: array
-            description: 'Specify the environment modes you want to filter to.
-
-              This webhook will be triggered only if the event is coming from an environment with the specified mode.
-
-              '
-            items:
-              $ref: '#/components/schemas/EnvironmentModeEnum'
+    EnvironmentModeEnum:
+      type: string
+      enum:
+      - DEVELOPMENT
+      - PREVIEW
+      - PRODUCTION
+      - STAGING
+      example: PRODUCTION
     WebhookEventResponse:
       type: object
       required:
@@ -367,43 +386,19 @@ components:
           format: int32
           description: HTTP status code returned by the webhook target
         target_response_body:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
           description: Response body from the webhook target
-    WebhookEventResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/WebhookEventResponse'
-    Base:
-      type: object
-      required:
-      - id
-      - created_at
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        created_at:
-          type: string
-          readOnly: true
-          format: date-time
-        updated_at:
-          type: string
-          readOnly: true
-          format: date-time
   responses:
-    '400':
-      description: Bad request
-    '403':
-      description: Access forbidden
-    '204':
-      description: no content
     '404':
       description: Resource not found
+    '400':
+      description: Bad request
+    '204':
+      description: no content
+    '403':
+      description: Access forbidden
     '401':
       description: Access token is missing or invalid
   parameters:

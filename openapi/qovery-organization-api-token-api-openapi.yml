@@ -1,12 +1,10 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
   version: 1.0.4
-  title: Qovery Account Info Organization Api Token API
+  title: Qovery Organization Api Token API
   description: '- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider.
 
-    - ℹ️ The API is stable and still in development.
-
-    '
+    - ℹ️ The API is stable and still in development.'
   contact:
     name: Qovery Product Team
     url: https://www.qovery.com
@@ -25,7 +23,6 @@ paths:
   /organization/{organizationId}/apiToken:
     get:
       summary: List organization api tokens
-      description: List organization api tokens
       operationId: listOrganizationApiTokens
       parameters:
       - $ref: '#/components/parameters/organizationId'
@@ -89,7 +86,6 @@ paths:
   /organization/{organizationId}/apiToken/{apiTokenId}:
     delete:
       summary: Delete organization api token
-      description: Delete organization api token
       operationId: deleteOrganizationApiToken
       parameters:
       - $ref: '#/components/parameters/organizationId'
@@ -113,57 +109,10 @@ paths:
           $ref: '#/components/responses/404'
 components:
   schemas:
-    OrganizationApiToken:
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - type: object
-        properties:
-          name:
-            type: string
-          description:
-            type: string
-          role_name:
-            type: string
-          role_id:
-            type: string
-            format: uuid
-    OrganizationApiTokenCreateRequest:
-      type: object
-      required:
-      - name
-      - role_id
-      properties:
-        name:
-          type: string
-        description:
-          type: string
-        scope:
-          $ref: '#/components/schemas/OrganizationApiTokenScope'
-        role_id:
-          type: string
-          format: uuid
-          nullable: true
-          description: the roleId provided by the "List organization custom roles" endpoint.
-    OrganizationApiTokenCreate:
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - type: object
-        properties:
-          name:
-            type: string
-          description:
-            type: string
-          token:
-            type: string
-            description: the generated token to send in 'Authorization' header prefixed by 'Token '
-          role_name:
-            type: string
-          role_id:
-            type: string
-            format: uuid
     OrganizationApiTokenScope:
-      type: string
-      nullable: true
+      type:
+      - string
+      - 'null'
       description: deprecated
       enum:
       - ADMIN
@@ -185,6 +134,24 @@ components:
           type: string
           readOnly: true
           format: date-time
+    OrganizationApiTokenCreateRequest:
+      type: object
+      required:
+      - name
+      - role_id
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        scope:
+          $ref: '#/components/schemas/OrganizationApiTokenScope'
+        role_id:
+          type:
+          - string
+          - 'null'
+          format: uuid
+          description: the roleId provided by the "List organization custom roles" endpoint.
     OrganizationApiTokenResponseList:
       type: object
       properties:
@@ -192,15 +159,46 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/OrganizationApiToken'
+    OrganizationApiTokenCreate:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        properties:
+          name:
+            type: string
+          description:
+            type: string
+          token:
+            type: string
+            description: the generated token to send in 'Authorization' header prefixed by 'Token '
+          role_name:
+            type: string
+          role_id:
+            type: string
+            format: uuid
+    OrganizationApiToken:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        properties:
+          name:
+            type: string
+          description:
+            type: string
+          role_name:
+            type: string
+          role_id:
+            type: string
+            format: uuid
   responses:
-    '403':
-      description: Access forbidden
-    '204':
-      description: no content
     '404':
       description: Resource not found
     '400':
       description: Bad request
+    '403':
+      description: Access forbidden
+    '204':
+      description: no content
     '401':
       description: Access token is missing or invalid
   parameters:

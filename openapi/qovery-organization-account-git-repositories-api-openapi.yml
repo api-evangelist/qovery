@@ -1,12 +1,10 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
   version: 1.0.4
-  title: Qovery Account Info Organization Account Git Repositories API
+  title: Qovery Organization Account Git Repositories API
   description: '- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider.
 
-    - ℹ️ The API is stable and still in development.
-
-    '
+    - ℹ️ The API is stable and still in development.'
   contact:
     name: Qovery Product Team
     url: https://www.qovery.com
@@ -194,6 +192,13 @@ paths:
           $ref: '#/components/responses/401'
 components:
   schemas:
+    GitRepositoryResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/GitRepository'
     GitRepository:
       type: object
       required:
@@ -214,14 +219,13 @@ components:
           example: master
         is_private:
           type: boolean
-    GitRepositoryBranch:
+    GitRepositoryBranchResponseList:
       type: object
-      required:
-      - name
       properties:
-        name:
-          type: string
-          example: main
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/GitRepositoryBranch'
     GitAuthProviderResponseList:
       type: object
       properties:
@@ -229,13 +233,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/GitAuthProvider'
-    GitRepositoryResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/GitRepository'
     GitAuthProvider:
       type: object
       required:
@@ -252,13 +249,17 @@ components:
           example: John Doe
         use_bot:
           type: boolean
-    GitRepositoryBranchResponseList:
+    GitRepositoryBranch:
       type: object
+      required:
+      - name
       properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/GitRepositoryBranch'
+        name:
+          type: string
+          example: main
+  responses:
+    '401':
+      description: Access token is missing or invalid
   parameters:
     organizationId:
       name: organizationId
@@ -268,9 +269,6 @@ components:
       schema:
         type: string
         format: uuid
-  responses:
-    '401':
-      description: Access token is missing or invalid
   securitySchemes:
     bearerAuth:
       type: http

@@ -1,12 +1,10 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
   version: 1.0.4
-  title: Qovery Account Info Container Registries API
+  title: Qovery Container Registries API
   description: '- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider.
 
-    - ℹ️ The API is stable and still in development.
-
-    '
+    - ℹ️ The API is stable and still in development.'
   contact:
     name: Qovery Product Team
     url: https://www.qovery.com
@@ -182,63 +180,46 @@ paths:
         '404':
           $ref: '#/components/responses/404'
 components:
-  responses:
-    '404':
-      description: Resource not found
-    204-deletion:
-      description: The resource was deleted successfully
-    '403':
-      description: Access forbidden
-    '400':
-      description: Bad request
-    '401':
-      description: Access token is missing or invalid
-  parameters:
-    searchImageName:
-      name: search
-      in: query
-      required: false
-      description: partial container image name to search
-      schema:
-        type: string
-    containerRegistryId:
-      name: containerRegistryId
-      in: path
-      description: Container Registry ID
-      required: true
-      schema:
-        type: string
-        format: uuid
-    imageName:
-      name: imageName
-      in: query
-      required: false
-      description: container image name
-      schema:
-        type: string
-    organizationId:
-      name: organizationId
-      in: path
-      description: Organization ID
-      required: true
-      schema:
-        type: string
-        format: uuid
   schemas:
-    ContainerVersionResponseList:
+    AvailableContainerRegistryResponse:
+      type: object
+      required:
+      - kind
+      - required_config
+      - is_mandatory
+      properties:
+        kind:
+          $ref: '#/components/schemas/ContainerRegistryKindEnum'
+        required_config:
+          type: object
+          additionalProperties: true
+        is_mandatory:
+          type: boolean
+    Base:
+      type: object
+      required:
+      - id
+      - created_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          readOnly: true
+          format: date-time
+        updated_at:
+          type: string
+          readOnly: true
+          format: date-time
+    AvailableContainerRegistryResponseList:
       type: object
       properties:
         results:
           type: array
           items:
-            $ref: '#/components/schemas/ContainerVersionResponse'
-    ContainerRegistryResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/ContainerRegistryResponse'
+            $ref: '#/components/schemas/AvailableContainerRegistryResponse'
     ContainerRegistryKindEnum:
       type: string
       enum:
@@ -254,22 +235,6 @@ components:
       - GCP_ARTIFACT_REGISTRY
       - AZURE_CR
       description: The type of your container registry
-    ContainerVersionResponse:
-      type: object
-      properties:
-        image_name:
-          type: string
-        versions:
-          type: array
-          items:
-            type: string
-    AvailableContainerRegistryResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/AvailableContainerRegistryResponse'
     ContainerRegistryRequest:
       type: object
       required:
@@ -365,6 +330,13 @@ components:
               x-stoplight:
                 id: eaqm4swmqt9ty
               description: Required if kind is `AZURE_CR`.
+    ContainerRegistryResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContainerRegistryResponse'
     ContainerRegistryResponse:
       allOf:
       - $ref: '#/components/schemas/Base'
@@ -444,38 +416,64 @@ components:
                 type: string
                 x-stoplight:
                   id: 2soynl0stz0lh
-    AvailableContainerRegistryResponse:
+    ContainerVersionResponse:
       type: object
-      required:
-      - kind
-      - required_config
-      - is_mandatory
       properties:
-        kind:
-          $ref: '#/components/schemas/ContainerRegistryKindEnum'
-        required_config:
-          type: object
-          additionalProperties: true
-        is_mandatory:
-          type: boolean
-    Base:
+        image_name:
+          type: string
+        versions:
+          type: array
+          items:
+            type: string
+    ContainerVersionResponseList:
       type: object
-      required:
-      - id
-      - created_at
       properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        created_at:
-          type: string
-          readOnly: true
-          format: date-time
-        updated_at:
-          type: string
-          readOnly: true
-          format: date-time
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContainerVersionResponse'
+  parameters:
+    containerRegistryId:
+      name: containerRegistryId
+      in: path
+      description: Container Registry ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+    searchImageName:
+      name: search
+      in: query
+      required: false
+      description: partial container image name to search
+      schema:
+        type: string
+    imageName:
+      name: imageName
+      in: query
+      required: false
+      description: container image name
+      schema:
+        type: string
+    organizationId:
+      name: organizationId
+      in: path
+      description: Organization ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+  responses:
+    '404':
+      description: Resource not found
+    204-deletion:
+      description: The resource was deleted successfully
+    '400':
+      description: Bad request
+    '403':
+      description: Access forbidden
+    '401':
+      description: Access token is missing or invalid
   securitySchemes:
     bearerAuth:
       type: http

@@ -1,12 +1,10 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
   version: 1.0.4
-  title: Qovery Account Info Application Configuration API
+  title: Qovery Application Configuration API
   description: '- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider.
 
-    - ℹ️ The API is stable and still in development.
-
-    '
+    - ℹ️ The API is stable and still in development.'
   contact:
     name: Qovery Product Team
     url: https://www.qovery.com
@@ -77,9 +75,7 @@ paths:
       summary: Get advanced settings
       description: 'Get list and values of the advanced settings of the application.
 
-        Default values for each setting are available in [our documentation](https://hub.qovery.com/docs/using-qovery/configuration/advanced-settings/)
-
-        '
+        Default values for each setting are available in our documentation'
       operationId: getAdvancedSettings
       parameters:
       - $ref: '#/components/parameters/applicationId'
@@ -128,7 +124,7 @@ paths:
           $ref: '#/components/responses/404'
 components:
   schemas:
-    ApplicationNetworkRequest:
+    ApplicationNetwork:
       type: object
       properties:
         sticky_session:
@@ -139,7 +135,7 @@ components:
 
             '
           default: false
-    ApplicationNetwork:
+    ApplicationNetworkRequest:
       type: object
       properties:
         sticky_session:
@@ -304,21 +300,24 @@ components:
           description: Allows to define response headers
           example: '{"X-Frame-Options":"DENY ","X-Content-Type-Options":"nosniff"}'
         network.gateway_api.http_request_timeout_seconds:
-          type: integer
-          nullable: true
+          type:
+          - integer
+          - 'null'
           minimum: 0
           description: Sets a timeout (in seconds) for requests proxied through the Gateway API route.
         network.gateway_api.http_connection_idle_timeout_seconds:
-          type: integer
-          nullable: true
+          type:
+          - integer
+          - 'null'
           minimum: 0
           description: Sets the idle timeout (in seconds) for HTTP connections proxied through the Gateway API route.
         hpa.cpu.average_utilization_percent:
           type: integer
           description: Percentage value of cpu usage at which point pods should scale up.
         hpa.memory.average_utilization_percent:
-          type: integer
-          nullable: true
+          type:
+          - integer
+          - 'null'
           description: Percentage value of memory usage at which point pods should scale up.
         security.service_account_name:
           type: string
@@ -336,12 +335,12 @@ components:
 
             '
   responses:
-    '403':
-      description: Access forbidden
     '404':
       description: Resource not found
     '400':
       description: Bad request
+    '403':
+      description: Access forbidden
     '401':
       description: Access token is missing or invalid
   parameters:

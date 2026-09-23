@@ -1,12 +1,10 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
   version: 1.0.4
-  title: Qovery Account Info Job Deployment Restriction API
+  title: Qovery Job Deployment Restriction API
   description: '- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider.
 
-    - ℹ️ The API is stable and still in development.
-
-    '
+    - ℹ️ The API is stable and still in development.'
   contact:
     name: Qovery Product Team
     url: https://www.qovery.com
@@ -25,7 +23,6 @@ paths:
   /job/{jobId}/deploymentRestriction:
     get:
       summary: Get job deployment restrictions
-      description: Get job deployment restrictions
       operationId: getJobDeploymentRestrictions
       parameters:
       - $ref: '#/components/parameters/jobId'
@@ -46,7 +43,6 @@ paths:
           $ref: '#/components/responses/404'
     post:
       summary: Create a job deployment restriction
-      description: Create a job deployment restriction
       operationId: createJobDeploymentRestriction
       parameters:
       - $ref: '#/components/parameters/jobId'
@@ -75,7 +71,6 @@ paths:
   /job/{jobId}/deploymentRestriction/{deploymentRestrictionId}:
     put:
       summary: Edit a job deployment restriction
-      description: Edit a job deployment restriction
       operationId: editJobDeploymentRestriction
       parameters:
       - $ref: '#/components/parameters/jobId'
@@ -104,7 +99,6 @@ paths:
           $ref: '#/components/responses/404'
     delete:
       summary: Delete a job deployment restriction
-      description: Delete a job deployment restriction
       operationId: deleteJobDeploymentRestriction
       parameters:
       - $ref: '#/components/parameters/jobId'
@@ -122,39 +116,6 @@ paths:
           $ref: '#/components/responses/404'
 components:
   schemas:
-    JobDeploymentRestrictionResponse:
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - $ref: '#/components/schemas/JobDeploymentRestrictionRequest'
-    JobDeploymentRestrictionResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/JobDeploymentRestrictionResponse'
-    JobDeploymentRestrictionRequest:
-      type: object
-      required:
-      - mode
-      - type
-      - value
-      properties:
-        mode:
-          $ref: '#/components/schemas/DeploymentRestrictionModeEnum'
-        type:
-          $ref: '#/components/schemas/DeploymentRestrictionTypeEnum'
-        value:
-          type: string
-          description: For `PATH` restrictions, the value must not start with `/`
-          example: job1/src/
-    DeploymentRestrictionModeEnum:
-      type: string
-      description: Match mode will rebuild app only if specified items are updated. Exclude mode will not rebuild app if specified items are updated.
-      enum:
-      - EXCLUDE
-      - MATCH
-      example: MATCH
     Base:
       type: object
       required:
@@ -173,20 +134,53 @@ components:
           type: string
           readOnly: true
           format: date-time
+    JobDeploymentRestrictionResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/JobDeploymentRestrictionResponse'
+    DeploymentRestrictionModeEnum:
+      type: string
+      description: Match mode will rebuild app only if specified items are updated. Exclude mode will not rebuild app if specified items are updated.
+      enum:
+      - EXCLUDE
+      - MATCH
+      example: MATCH
+    JobDeploymentRestrictionRequest:
+      type: object
+      required:
+      - mode
+      - type
+      - value
+      properties:
+        mode:
+          $ref: '#/components/schemas/DeploymentRestrictionModeEnum'
+        type:
+          $ref: '#/components/schemas/DeploymentRestrictionTypeEnum'
+        value:
+          type: string
+          description: For `PATH` restrictions, the value must not start with `/`
+          example: job1/src/
+    JobDeploymentRestrictionResponse:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - $ref: '#/components/schemas/JobDeploymentRestrictionRequest'
     DeploymentRestrictionTypeEnum:
       type: string
       enum:
       - PATH
       example: PATH
   responses:
-    204-deletion:
-      description: The resource was deleted successfully
-    '403':
-      description: Access forbidden
     '404':
       description: Resource not found
+    204-deletion:
+      description: The resource was deleted successfully
     '400':
       description: Bad request
+    '403':
+      description: Access forbidden
     '401':
       description: Access token is missing or invalid
   parameters:

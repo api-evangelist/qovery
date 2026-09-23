@@ -1,12 +1,10 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
   version: 1.0.4
-  title: Qovery Account Info Project Deployment Rule API
+  title: Qovery Project Deployment Rule API
   description: '- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider.
 
-    - ℹ️ The API is stable and still in development.
-
-    '
+    - ℹ️ The API is stable and still in development.'
   contact:
     name: Qovery Product Team
     url: https://www.qovery.com
@@ -25,7 +23,6 @@ paths:
   /project/{projectId}/deploymentRule:
     get:
       summary: List project deployment rules
-      description: List project deployment rules
       operationId: listProjectDeploymentRules
       parameters:
       - $ref: '#/components/parameters/projectId'
@@ -46,7 +43,6 @@ paths:
           $ref: '#/components/responses/404'
     post:
       summary: Create a deployment rule
-      description: Create a deployment rule
       operationId: createDeploymentRule
       parameters:
       - $ref: '#/components/parameters/projectId'
@@ -75,7 +71,6 @@ paths:
   /project/{projectId}/deploymentRule/{deploymentRuleId}:
     get:
       summary: Get a project deployment rule
-      description: Get a project deployment rule
       operationId: getProjectDeploymentRule
       parameters:
       - $ref: '#/components/parameters/projectId'
@@ -97,7 +92,6 @@ paths:
           $ref: '#/components/responses/404'
     put:
       summary: Edit a project deployment rule
-      description: Edit a project deployment rule
       operationId: editProjectDeployemtnRule
       parameters:
       - $ref: '#/components/parameters/projectId'
@@ -126,7 +120,6 @@ paths:
           $ref: '#/components/responses/404'
     delete:
       summary: Delete a project deployment rule
-      description: Delete a project deployment rule
       operationId: deleteProjectDeploymentRule
       parameters:
       - $ref: '#/components/parameters/projectId'
@@ -145,7 +138,6 @@ paths:
   /project/{projectId}/deploymentRule/order:
     put:
       summary: Update deployment rules priority order
-      description: Update deployment rules priority order
       operationId: updateDeploymentRulesPriorityOrder
       parameters:
       - $ref: '#/components/parameters/projectId'
@@ -169,35 +161,24 @@ paths:
           $ref: '#/components/responses/404'
 components:
   schemas:
-    EnvironmentModeEnum:
-      type: string
-      enum:
-      - DEVELOPMENT
-      - PREVIEW
-      - PRODUCTION
-      - STAGING
-      example: PRODUCTION
-    WeekdayEnum:
-      type: string
-      enum:
-      - MONDAY
-      - TUESDAY
-      - WEDNESDAY
-      - THURSDAY
-      - FRIDAY
-      - SATURDAY
-      - SUNDAY
-      example: MONDAY
-    ProjectDeploymentRule:
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - $ref: '#/components/schemas/ProjectDeploymentRuleRequest'
-      - type: object
-        properties:
-          priority_index:
-            type: integer
-            description: used to select the first deployment rule to match new created environments
-            nullable: false
+    Base:
+      type: object
+      required:
+      - id
+      - created_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          readOnly: true
+          format: date-time
+        updated_at:
+          type: string
+          readOnly: true
+          format: date-time
     ProjectDeploymentRulesPriorityOrderRequest:
       type: object
       properties:
@@ -207,6 +188,15 @@ components:
             type: string
             format: uuid
             description: project deployment rule id
+    ProjectDeploymentRule:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - $ref: '#/components/schemas/ProjectDeploymentRuleRequest'
+      - type: object
+        properties:
+          priority_index:
+            type: integer
+            description: used to select the first deployment rule to match new created environments
     ProjectDeploymentRuleResponseList:
       type: object
       properties:
@@ -231,8 +221,9 @@ components:
           description: name is case insensitive
           example: project-rule
         description:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
           example: description project rule
         mode:
           $ref: '#/components/schemas/EnvironmentModeEnum'
@@ -261,48 +252,49 @@ components:
           type: string
           default: ''
           description: wildcard pattern composed of '?' and/or '*' used to target new created environments
-    Base:
-      type: object
-      required:
-      - id
-      - created_at
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        created_at:
-          type: string
-          readOnly: true
-          format: date-time
-        updated_at:
-          type: string
-          readOnly: true
-          format: date-time
+    WeekdayEnum:
+      type: string
+      enum:
+      - MONDAY
+      - TUESDAY
+      - WEDNESDAY
+      - THURSDAY
+      - FRIDAY
+      - SATURDAY
+      - SUNDAY
+      example: MONDAY
+    EnvironmentModeEnum:
+      type: string
+      enum:
+      - DEVELOPMENT
+      - PREVIEW
+      - PRODUCTION
+      - STAGING
+      example: PRODUCTION
   responses:
-    204-deletion:
-      description: The resource was deleted successfully
-    '403':
-      description: Access forbidden
     '404':
       description: Resource not found
+    204-deletion:
+      description: The resource was deleted successfully
     '400':
       description: Bad request
+    '403':
+      description: Access forbidden
     '401':
       description: Access token is missing or invalid
   parameters:
-    deploymentRuleId:
-      name: deploymentRuleId
-      in: path
-      description: Deployment Rule ID
-      required: true
-      schema:
-        type: string
-        format: uuid
     projectId:
       name: projectId
       in: path
       description: Project ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+    deploymentRuleId:
+      name: deploymentRuleId
+      in: path
+      description: Deployment Rule ID
       required: true
       schema:
         type: string

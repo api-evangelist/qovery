@@ -1,12 +1,10 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
   version: 1.0.4
-  title: Qovery Account Info Database Application API
+  title: Qovery Database Application API
   description: '- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider.
 
-    - ℹ️ The API is stable and still in development.
-
-    '
+    - ℹ️ The API is stable and still in development.'
   contact:
     name: Qovery Product Team
     url: https://www.qovery.com
@@ -45,7 +43,7 @@ paths:
           $ref: '#/components/responses/404'
   /database/{databaseId}/application/{targetApplicationId}:
     delete:
-      summary: 'Remove an application from this database '
+      summary: Remove an application from this database
       operationId: removeApplicationFromDatabase
       parameters:
       - $ref: '#/components/parameters/databaseId'
@@ -63,25 +61,32 @@ paths:
           $ref: '#/components/responses/404'
 components:
   schemas:
-    ReferenceObject:
+    Base:
       type: object
       required:
       - id
+      - created_at
       properties:
         id:
           type: string
           format: uuid
           readOnly: true
-    ServicePortResponseList:
-      type: array
-      items:
-        $ref: '#/components/schemas/ServicePort'
-    GitProviderEnum:
+        created_at:
+          type: string
+          readOnly: true
+          format: date-time
+        updated_at:
+          type: string
+          readOnly: true
+          format: date-time
+    BuildModeEnum:
       type: string
       enum:
-      - BITBUCKET
-      - GITHUB
-      - GITLAB
+      - DOCKER
+      description: '`DOCKER` requires `dockerfile_path`
+
+        '
+      default: DOCKER
     ServiceStorage:
       type: object
       properties:
@@ -107,20 +112,190 @@ components:
               mount_point:
                 type: string
                 example: /mnt/images
-    OrganizationAnnotationsGroupScopeEnum:
+    OrganizationLabelsGroupResponseList:
+      type: array
+      items:
+        $ref: '#/components/schemas/OrganizationLabelsGroupResponse'
+      title: ''
+    KedaScalerResponse:
+      title: KedaScalerResponse
+      x-stoplight:
+        id: gaaqg32ivl48h
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        x-stoplight:
+          id: 74tt3hgf95nfe
+        required:
+        - scaler_type
+        - enabled
+        - role
+        properties:
+          scaler_type:
+            type: string
+            x-stoplight:
+              id: 1ckp76ziimkg4
+          enabled:
+            type: boolean
+            x-stoplight:
+              id: 0dnjwnlkuj3kp
+          role:
+            $ref: '#/components/schemas/KedaScalerRole'
+          config_json:
+            type:
+            - object
+            - 'null'
+          config_yaml:
+            type:
+            - string
+            - 'null'
+          trigger_authentication:
+            $ref: '#/components/schemas/KedaTriggerAuthenticationResponse'
+    AutoscalingMode:
+      title: AutoscalingMode
+      x-stoplight:
+        id: vmgo27882mrl3
       type: string
-      description: Annotations Group Scope
       enum:
-      - DEPLOYMENTS
-      - STATEFUL_SETS
-      - SERVICES
-      - INGRESS
-      - GATEWAY_API_ROUTES
-      - HPA
-      - PODS
-      - SECRETS
-      - JOBS
-      - CRON_JOBS
+      - KEDA
+    PortProtocolEnum:
+      type: string
+      default: HTTP
+      enum:
+      - HTTP
+      - GRPC
+      - TCP
+      - UDP
+    Label:
+      type: object
+      required:
+      - key
+      - value
+      - propagate_to_cloud_provider
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+        propagate_to_cloud_provider:
+          type: boolean
+    ApplicationGitRepository:
+      type: object
+      required:
+      - provider
+      - owner
+      - name
+      - url
+      properties:
+        has_access:
+          type: boolean
+        provider:
+          $ref: '#/components/schemas/GitProviderEnum'
+        owner:
+          type: string
+          example: John Doe
+        url:
+          type: string
+          format: uri
+        name:
+          type: string
+          description: repository name
+          example: simple-node-app
+        branch:
+          type: string
+        root_path:
+          type: string
+        deployed_commit_id:
+          type: string
+          description: Git commit ID corresponding to the deployed version of the app
+        deployed_commit_date:
+          type: string
+          readOnly: true
+          format: date-time
+          description: Git commit date corresponding to the deployed version of the app
+        deployed_commit_contributor:
+          type: string
+          description: Git commit user corresponding to the deployed version of the app
+        deployed_commit_tag:
+          type: string
+          example: v1.0.1
+        git_token_id:
+          type:
+          - string
+          - 'null'
+        git_token_name:
+          type:
+          - string
+          - 'null'
+      title: ''
+    ServicePort:
+      type: object
+      required:
+      - id
+      - internal_port
+      - publicly_accessible
+      - protocol
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        internal_port:
+          type: integer
+          example: 8080
+          description: The listening port of your service.
+        external_port:
+          type: integer
+          example: 8080
+          description: The exposed port for your service. This is optional. If not set a default port will be used.
+        publicly_accessible:
+          type: boolean
+          description: Expose the port to the world
+        is_default:
+          type: boolean
+          description: is the default port to use for domain
+        protocol:
+          $ref: '#/components/schemas/PortProtocolEnum'
+        public_path:
+          type: string
+          description: "Indicate the path or regex that must match for traffic to be accepted on your service\ni.e: /api/ will only accept http calls that start with /api/ \nOnly valid for publicly_accessible HTTP or GRPC ports."
+        public_path_rewrite:
+          type: string
+          description: "Indicate the new path that will be used to reach your service after replacement\ni.e: public_path -> /(.*)  public_path_rewrite -> /api/$1 will append /api/ on all externaly requested url when reaching the service \nexternal/use url -> example.com/foobar  -> url seen by the service -> example.com/api/foobar\nOnly valid for publicly_accessible HTTP or GRPC ports."
+    Annotation:
+      type: object
+      required:
+      - key
+      - value
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+    StorageTypeEnum:
+      type: string
+      enum:
+      - FAST_SSD
+    OrganizationLabelsGroupResponse:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        required:
+        - name
+        - labels
+        properties:
+          name:
+            type: string
+          labels:
+            type: array
+            items:
+              $ref: '#/components/schemas/Label'
+      title: ''
+    ServicePortResponseList:
+      type: array
+      items:
+        $ref: '#/components/schemas/ServicePort'
     KedaAutoscalingResponse:
       title: KedaAutoscalingResponse
       x-stoplight:
@@ -162,14 +337,136 @@ components:
             items:
               $ref: '#/components/schemas/KedaScalerResponse'
       description: ''
-    BuildModeEnum:
+    OrganizationAnnotationsGroupScopeEnum:
       type: string
+      description: Annotations Group Scope
       enum:
-      - DOCKER
-      description: '`DOCKER` requires `dockerfile_path`
-
-        '
-      default: DOCKER
+      - DEPLOYMENTS
+      - STATEFUL_SETS
+      - SERVICES
+      - INGRESS
+      - GATEWAY_API_ROUTES
+      - HPA
+      - PODS
+      - SECRETS
+      - JOBS
+      - CRON_JOBS
+    AutoscalingPolicyResponse:
+      title: AutoscalingPolicyResponse
+      x-stoplight:
+        id: mjawsx6obi237
+      oneOf:
+      - $ref: '#/components/schemas/KedaAutoscalingResponse'
+      discriminator:
+        propertyName: mode
+        mapping:
+          KEDA: '#/components/schemas/KedaAutoscalingResponse'
+    KedaTriggerAuthenticationResponse:
+      title: KedaTriggerAuthenticationResponse
+      x-stoplight:
+        id: 7mm4a4sk9jhz3
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        x-stoplight:
+          id: ssejnexbsra11
+        required:
+        - organization_id
+        - name
+        properties:
+          organization_id:
+            type: string
+            x-stoplight:
+              id: akxa3zctvjj5h
+          name:
+            type: string
+            x-stoplight:
+              id: gpvwed95xygk1
+          config_yaml:
+            type: string
+            x-stoplight:
+              id: r5lmrzakyk9o6
+            description: ' Optional raw KEDA TriggerAuthentication YAML configuration.'
+    Probe:
+      type:
+      - object
+      - 'null'
+      properties:
+        type:
+          type: object
+          properties:
+            tcp:
+              type:
+              - object
+              - 'null'
+              properties:
+                port:
+                  type: integer
+                host:
+                  type:
+                  - string
+                  - 'null'
+                  default: null
+            http:
+              type:
+              - object
+              - 'null'
+              properties:
+                path:
+                  type: string
+                  default: /
+                scheme:
+                  type: string
+                  default: HTTP
+                port:
+                  type: integer
+            exec:
+              type:
+              - object
+              - 'null'
+              description: Execute a command inside the container. The probe succeeds if the command exits with status code 0.
+              properties:
+                command:
+                  type: array
+                  description: 'Command to execute inside the container, specified as an array of strings. The first element is the executable, followed by its arguments. Example: ["sh", "-c", "test -f /tmp/healthy"]'
+                  example:
+                  - sh
+                  - -c
+                  - test -f /tmp/healthy
+                  items:
+                    type: string
+                  minItems: 1
+            grpc:
+              type:
+              - object
+              - 'null'
+              properties:
+                service:
+                  type:
+                  - string
+                  - 'null'
+                  default: null
+                port:
+                  type: integer
+        initial_delay_seconds:
+          type: integer
+          default: 30
+        period_seconds:
+          type: integer
+          default: 10
+        timeout_seconds:
+          type: integer
+          default: 5
+        success_threshold:
+          type: integer
+          default: 1
+        failure_threshold:
+          type: integer
+          default: 9
+    OrganizationAnnotationsGroupResponseList:
+      type: array
+      items:
+        $ref: '#/components/schemas/OrganizationAnnotationsGroupResponse'
     Application:
       allOf:
       - $ref: '#/components/schemas/Base'
@@ -209,9 +506,10 @@ components:
           build_mode:
             $ref: '#/components/schemas/BuildModeEnum'
           dockerfile_path:
-            type: string
+            type:
+            - string
+            - 'null'
             description: The path of the associated Dockerfile. Only if you are using build_mode = DOCKER
-            nullable: true
           cpu:
             type: integer
             description: unit is millicores (m). 1000m = 1 cpu
@@ -274,13 +572,21 @@ components:
           service_type:
             $ref: '#/components/schemas/ServiceTypeEnum'
           docker_target_build_stage:
-            type: string
+            type:
+            - string
+            - 'null'
             x-stoplight:
               id: tdxdfoyowutcx
             description: The target build stage in the Dockerfile to build
-            nullable: true
           autoscaling:
             $ref: '#/components/schemas/AutoscalingPolicyResponse'
+    ApplicationResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Application'
     KedaScalerRole:
       title: KedaScalerRole
       x-stoplight:
@@ -289,80 +595,21 @@ components:
       enum:
       - PRIMARY
       - SAFETY
-    OrganizationLabelsGroupResponse:
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - type: object
-        required:
-        - name
-        - labels
-        properties:
-          name:
-            type: string
-          labels:
-            type: array
-            items:
-              $ref: '#/components/schemas/Label'
-      title: ''
-    ApplicationGitRepository:
+    ReferenceObject:
       type: object
       required:
-      - provider
-      - owner
-      - name
-      - url
+      - id
       properties:
-        has_access:
-          type: boolean
-        provider:
-          $ref: '#/components/schemas/GitProviderEnum'
-        owner:
+        id:
           type: string
-          example: John Doe
-        url:
-          type: string
-          format: uri
-        name:
-          type: string
-          description: repository name
-          example: simple-node-app
-        branch:
-          type: string
-        root_path:
-          type: string
-        deployed_commit_id:
-          type: string
-          description: Git commit ID corresponding to the deployed version of the app
-        deployed_commit_date:
-          type: string
+          format: uuid
           readOnly: true
-          format: date-time
-          description: Git commit date corresponding to the deployed version of the app
-        deployed_commit_contributor:
-          type: string
-          description: Git commit user corresponding to the deployed version of the app
-        deployed_commit_tag:
-          type: string
-          example: v1.0.1
-        git_token_id:
-          type: string
-          nullable: true
-        git_token_name:
-          type: string
-          nullable: true
-      title: ''
-    StorageTypeEnum:
+    GitProviderEnum:
       type: string
       enum:
-      - FAST_SSD
-    Healthcheck:
-      type: object
-      nullable: false
-      properties:
-        readiness_probe:
-          $ref: '#/components/schemas/Probe'
-        liveness_probe:
-          $ref: '#/components/schemas/Probe'
+      - BITBUCKET
+      - GITHUB
+      - GITLAB
     ServiceTypeEnum:
       type: string
       x-stoplight:
@@ -376,6 +623,13 @@ components:
       - HELM
       - TERRAFORM
       - ARGOCD_APP
+    Healthcheck:
+      type: object
+      properties:
+        readiness_probe:
+          $ref: '#/components/schemas/Probe'
+        liveness_probe:
+          $ref: '#/components/schemas/Probe'
     OrganizationAnnotationsGroupResponse:
       allOf:
       - $ref: '#/components/schemas/Base'
@@ -395,259 +649,15 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/OrganizationAnnotationsGroupScopeEnum'
-    Label:
-      type: object
-      required:
-      - key
-      - value
-      - propagate_to_cloud_provider
-      properties:
-        key:
-          type: string
-        value:
-          type: string
-        propagate_to_cloud_provider:
-          type: boolean
-    Probe:
-      type: object
-      nullable: true
-      properties:
-        type:
-          type: object
-          properties:
-            tcp:
-              type: object
-              nullable: true
-              properties:
-                port:
-                  type: integer
-                host:
-                  type: string
-                  default: null
-                  nullable: true
-            http:
-              type: object
-              nullable: true
-              properties:
-                path:
-                  type: string
-                  default: /
-                scheme:
-                  type: string
-                  default: HTTP
-                port:
-                  type: integer
-            exec:
-              type: object
-              nullable: true
-              description: Execute a command inside the container. The probe succeeds if the command exits with status code 0.
-              properties:
-                command:
-                  type: array
-                  description: 'Command to execute inside the container, specified as an array of strings. The first element is the executable, followed by its arguments. Example: ["sh", "-c", "test -f /tmp/healthy"]'
-                  example:
-                  - sh
-                  - -c
-                  - test -f /tmp/healthy
-                  items:
-                    type: string
-                  minItems: 1
-            grpc:
-              type: object
-              nullable: true
-              properties:
-                service:
-                  type: string
-                  nullable: true
-                  default: null
-                port:
-                  type: integer
-        initial_delay_seconds:
-          type: integer
-          default: 30
-        period_seconds:
-          type: integer
-          default: 10
-        timeout_seconds:
-          type: integer
-          default: 5
-        success_threshold:
-          type: integer
-          default: 1
-        failure_threshold:
-          type: integer
-          default: 9
-    ApplicationResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/Application'
-    PortProtocolEnum:
-      type: string
-      default: HTTP
-      enum:
-      - HTTP
-      - GRPC
-      - TCP
-      - UDP
-    KedaTriggerAuthenticationResponse:
-      title: KedaTriggerAuthenticationResponse
-      x-stoplight:
-        id: 7mm4a4sk9jhz3
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - type: object
-        x-stoplight:
-          id: ssejnexbsra11
-        required:
-        - organization_id
-        - name
-        properties:
-          organization_id:
-            type: string
-            x-stoplight:
-              id: akxa3zctvjj5h
-          name:
-            type: string
-            x-stoplight:
-              id: gpvwed95xygk1
-          config_yaml:
-            type: string
-            x-stoplight:
-              id: r5lmrzakyk9o6
-            description: ' Optional raw KEDA TriggerAuthentication YAML configuration.'
-    OrganizationLabelsGroupResponseList:
-      type: array
-      items:
-        $ref: '#/components/schemas/OrganizationLabelsGroupResponse'
-      title: ''
-    Annotation:
-      type: object
-      required:
-      - key
-      - value
-      properties:
-        key:
-          type: string
-        value:
-          type: string
-    AutoscalingPolicyResponse:
-      title: AutoscalingPolicyResponse
-      x-stoplight:
-        id: mjawsx6obi237
-      oneOf:
-      - $ref: '#/components/schemas/KedaAutoscalingResponse'
-      discriminator:
-        propertyName: mode
-        mapping:
-          KEDA: '#/components/schemas/KedaAutoscalingResponse'
-    KedaScalerResponse:
-      title: KedaScalerResponse
-      x-stoplight:
-        id: gaaqg32ivl48h
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - type: object
-        x-stoplight:
-          id: 74tt3hgf95nfe
-        required:
-        - scaler_type
-        - enabled
-        - role
-        properties:
-          scaler_type:
-            type: string
-            x-stoplight:
-              id: 1ckp76ziimkg4
-          enabled:
-            type: boolean
-            x-stoplight:
-              id: 0dnjwnlkuj3kp
-          role:
-            $ref: '#/components/schemas/KedaScalerRole'
-          config_json:
-            type: object
-            nullable: true
-          config_yaml:
-            type: string
-            nullable: true
-          trigger_authentication:
-            $ref: '#/components/schemas/KedaTriggerAuthenticationResponse'
-    AutoscalingMode:
-      title: AutoscalingMode
-      x-stoplight:
-        id: vmgo27882mrl3
-      type: string
-      enum:
-      - KEDA
-    ServicePort:
-      type: object
-      required:
-      - id
-      - internal_port
-      - publicly_accessible
-      - protocol
-      properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          type: string
-        internal_port:
-          type: integer
-          example: 8080
-          description: The listening port of your service.
-        external_port:
-          type: integer
-          example: 8080
-          description: The exposed port for your service. This is optional. If not set a default port will be used.
-        publicly_accessible:
-          type: boolean
-          description: Expose the port to the world
-        is_default:
-          type: boolean
-          description: is the default port to use for domain
-        protocol:
-          $ref: '#/components/schemas/PortProtocolEnum'
-        public_path:
-          type: string
-          description: "Indicate the path or regex that must match for traffic to be accepted on your service\ni.e: /api/ will only accept http calls that start with /api/ \nOnly valid for publicly_accessible HTTP or GRPC ports."
-        public_path_rewrite:
-          type: string
-          description: "Indicate the new path that will be used to reach your service after replacement\ni.e: public_path -> /(.*)  public_path_rewrite -> /api/$1 will append /api/ on all externaly requested url when reaching the service \nexternal/use url -> example.com/foobar  -> url seen by the service -> example.com/api/foobar\nOnly valid for publicly_accessible HTTP or GRPC ports."
-    OrganizationAnnotationsGroupResponseList:
-      type: array
-      items:
-        $ref: '#/components/schemas/OrganizationAnnotationsGroupResponse'
-    Base:
-      type: object
-      required:
-      - id
-      - created_at
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        created_at:
-          type: string
-          readOnly: true
-          format: date-time
-        updated_at:
-          type: string
-          readOnly: true
-          format: date-time
   responses:
     '204':
       description: no content
-    '403':
-      description: Access forbidden
     '404':
       description: Resource not found
     '401':
       description: Access token is missing or invalid
+    '403':
+      description: Access forbidden
   parameters:
     databaseId:
       name: databaseId

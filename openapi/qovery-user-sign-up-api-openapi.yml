@@ -1,12 +1,10 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
   version: 1.0.4
-  title: Qovery Account Info User Sign Up API
+  title: Qovery User Sign Up API
   description: '- Qovery is the fastest way to deploy your full-stack apps on any Cloud provider.
 
-    - ℹ️ The API is stable and still in development.
-
-    '
+    - ℹ️ The API is stable and still in development.'
   contact:
     name: Qovery Product Team
     url: https://www.qovery.com
@@ -66,12 +64,36 @@ paths:
           $ref: '#/components/responses/404'
 components:
   schemas:
-    TypeOfUseEnum:
+    Base:
+      type: object
+      required:
+      - id
+      - created_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          readOnly: true
+          format: date-time
+        updated_at:
+          type: string
+          readOnly: true
+          format: date-time
+    CompanySizeEnum:
       type: string
       enum:
-      - PERSONAL
-      - SCHOOL
-      - WORK
+      - 1-10
+      - 11-50
+      - 51-200
+      - 201-500
+      - 500+
+    SignUp:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - $ref: '#/components/schemas/SignUpRequest'
     SignUpRequest:
       type: object
       required:
@@ -92,65 +114,48 @@ components:
         qovery_usage:
           type: string
         company_name:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
         company_size:
           $ref: '#/components/schemas/CompanySizeEnum'
         user_role:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
         qovery_usage_other:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
         user_questions:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
         current_step:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
         dx_auth:
-          type: boolean
-          nullable: true
+          type:
+          - boolean
+          - 'null'
         infrastructure_hosting:
-          type: string
-          nullable: true
-    SignUp:
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - $ref: '#/components/schemas/SignUpRequest'
-    CompanySizeEnum:
+          type:
+          - string
+          - 'null'
+    TypeOfUseEnum:
       type: string
       enum:
-      - 1-10
-      - 11-50
-      - 51-200
-      - 201-500
-      - 500+
-    Base:
-      type: object
-      required:
-      - id
-      - created_at
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        created_at:
-          type: string
-          readOnly: true
-          format: date-time
-        updated_at:
-          type: string
-          readOnly: true
-          format: date-time
+      - PERSONAL
+      - SCHOOL
+      - WORK
   responses:
-    '403':
-      description: Access forbidden
     '404':
       description: Resource not found
     '400':
       description: Bad request
+    '403':
+      description: Access forbidden
     '401':
       description: Access token is missing or invalid
   securitySchemes:
