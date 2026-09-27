@@ -164,14 +164,30 @@ paths:
           description: Operation is in progress
 components:
   schemas:
-    ServiceActionEnum:
+    StatusDetails:
+      type: object
+      required:
+      - action
+      - status
+      - sub_action
+      properties:
+        action:
+          $ref: '#/components/schemas/ServiceActionEnum'
+        status:
+          $ref: '#/components/schemas/ServiceActionStatusEnum'
+        sub_action:
+          $ref: '#/components/schemas/ServiceSubActionEnum'
+    ServiceActionStatusEnum:
       type: string
       enum:
-      - DEPLOY
-      - DELETE
-      - RESTART
-      - STOP
-      - UNKNOWN
+      - QUEUED
+      - ONGOING
+      - SUCCESS
+      - ERROR
+      - EXECUTING
+      - CANCELED
+      - CANCELING
+      - NEVER
     StateEnum:
       type: string
       enum:
@@ -204,14 +220,44 @@ components:
       - WAITING_RESTARTING
       - WAITING_RUNNING
       - WAITING_STOPPING
-    DeployRequest:
+    ServiceStepMetrics:
       type: object
       required:
-      - git_commit_id
+      - total_duration_sec
+      - total_computing_duration_sec
+      - details
       properties:
-        git_commit_id:
-          type: string
-          description: Commit ID to deploy
+        total_duration_sec:
+          description: The total duration in seconds of the service deployment or null if the deployment is not completed.
+          type:
+          - integer
+          - 'null'
+        total_computing_duration_sec:
+          description: The total duration in seconds of the service deployment without queuing steps.
+          type: integer
+        details:
+          description: A list of metrics for deployment steps of the service.
+          type: array
+          items:
+            $ref: '#/components/schemas/ServiceStepMetric'
+    StepMetricStatusEnum:
+      type: string
+      enum:
+      - SUCCESS
+      - ERROR
+      - CANCEL
+      - SKIP
+      description: 'The status of completion for the step:
+
+        - SUCCESS: The step completed successfully.
+
+        - ERROR: The step completed with an error.
+
+        - CANCEL: The step was canceled.
+
+        - SKIP: The step was skipped because it was not necessary.
+
+        '
     Status:
       type: object
       required:
@@ -254,36 +300,6 @@ components:
           type: integer
           x-stoplight:
             id: crku532vt3v4p
-    ServiceActionStatusEnum:
-      type: string
-      enum:
-      - QUEUED
-      - ONGOING
-      - SUCCESS
-      - ERROR
-      - EXECUTING
-      - CANCELED
-      - CANCELING
-      - NEVER
-    ServiceDeploymentStatusEnum:
-      type: string
-      enum:
-      - NEVER_DEPLOYED
-      - OUT_OF_DATE
-      - UP_TO_DATE
-    StatusDetails:
-      type: object
-      required:
-      - action
-      - status
-      - sub_action
-      properties:
-        action:
-          $ref: '#/components/schemas/ServiceActionEnum'
-        status:
-          $ref: '#/components/schemas/ServiceActionStatusEnum'
-        sub_action:
-          $ref: '#/components/schemas/ServiceSubActionEnum'
     ServiceSubActionEnum:
       type: string
       default: NONE
@@ -304,6 +320,14 @@ components:
         duration_sec:
           description: The duration of the step in seconds.
           type: integer
+    DeployRequest:
+      type: object
+      required:
+      - git_commit_id
+      properties:
+        git_commit_id:
+          type: string
+          description: Commit ID to deploy
     ServiceStepMetricNameEnum:
       type: string
       enum:
@@ -317,51 +341,27 @@ components:
       - MIRROR_IMAGE
       - EXECUTING
       description: "The name of the deployment step at the service level:\n- REGISTRY_CREATE_REPOSITORY: The step to create the repository in the registry.\n- GIT_CLONE: The step to clone the source code repository. \n- BUILD_QUEUEING: The queuing time preceding the actual building step.\n- BUILD: The step to build the source code.\n- DEPLOYMENT_QUEUEING: The queuing time preceding the actual deployment step.\n- DEPLOYMENT: The step to deploy the service. \n- ROUTER_DEPLOYMENT: The step to deploy the router. \n- MIRROR_IMAGE: The step to mirror the image to the private registry.\n- EXECUTING: The step to execute a job or terraform apply.\n"
-    StepMetricStatusEnum:
+    ServiceActionEnum:
       type: string
       enum:
-      - SUCCESS
-      - ERROR
-      - CANCEL
-      - SKIP
-      description: 'The status of completion for the step:
-
-        - SUCCESS: The step completed successfully.
-
-        - ERROR: The step completed with an error.
-
-        - CANCEL: The step was canceled.
-
-        - SKIP: The step was skipped because it was not necessary.
-
-        '
-    ServiceStepMetrics:
-      type: object
-      required:
-      - total_duration_sec
-      - total_computing_duration_sec
-      - details
-      properties:
-        total_duration_sec:
-          description: The total duration in seconds of the service deployment or null if the deployment is not completed.
-          type:
-          - integer
-          - 'null'
-        total_computing_duration_sec:
-          description: The total duration in seconds of the service deployment without queuing steps.
-          type: integer
-        details:
-          description: A list of metrics for deployment steps of the service.
-          type: array
-          items:
-            $ref: '#/components/schemas/ServiceStepMetric'
+      - DEPLOY
+      - DELETE
+      - RESTART
+      - STOP
+      - UNKNOWN
+    ServiceDeploymentStatusEnum:
+      type: string
+      enum:
+      - NEVER_DEPLOYED
+      - OUT_OF_DATE
+      - UP_TO_DATE
   responses:
-    '404':
-      description: Resource not found
     '400':
       description: Bad request
     '403':
       description: Access forbidden
+    '404':
+      description: Resource not found
     '401':
       description: Access token is missing or invalid
   parameters:

@@ -53,6 +53,19 @@ paths:
         id: cji3h6qjunupa
 components:
   schemas:
+    IngressDeploymentStatusResponse:
+      title: IngressDeploymentStatusResponse
+      x-stoplight:
+        id: uebtvs1ouszf2
+      type: object
+      properties:
+        routerId:
+          type: string
+          x-stoplight:
+            id: e507c0na5om2i
+          format: uuid
+        status:
+          $ref: '#/components/schemas/StateEnum'
     StateEnum:
       type: string
       enum:
@@ -85,19 +98,6 @@ components:
       - WAITING_RESTARTING
       - WAITING_RUNNING
       - WAITING_STOPPING
-    IngressDeploymentStatusResponse:
-      title: IngressDeploymentStatusResponse
-      x-stoplight:
-        id: uebtvs1ouszf2
-      type: object
-      properties:
-        routerId:
-          type: string
-          x-stoplight:
-            id: e507c0na5om2i
-          format: uuid
-        status:
-          $ref: '#/components/schemas/StateEnum'
   securitySchemes:
     bearerAuth:
       type: http

@@ -116,31 +116,6 @@ paths:
           $ref: '#/components/responses/404'
 components:
   schemas:
-    Base:
-      type: object
-      required:
-      - id
-      - created_at
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        created_at:
-          type: string
-          readOnly: true
-          format: date-time
-        updated_at:
-          type: string
-          readOnly: true
-          format: date-time
-    DeploymentRestrictionModeEnum:
-      type: string
-      description: Match mode will rebuild app only if specified items are updated. Exclude mode will not rebuild app if specified items are updated.
-      enum:
-      - EXCLUDE
-      - MATCH
-      example: MATCH
     HelmDeploymentRestrictionRequest:
       type: object
       required:
@@ -163,39 +138,64 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/HelmDeploymentRestrictionResponse'
-    HelmDeploymentRestrictionResponse:
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - $ref: '#/components/schemas/HelmDeploymentRestrictionRequest'
+    Base:
+      type: object
+      required:
+      - id
+      - created_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          readOnly: true
+          format: date-time
+        updated_at:
+          type: string
+          readOnly: true
+          format: date-time
     DeploymentRestrictionTypeEnum:
       type: string
       enum:
       - PATH
       example: PATH
+    DeploymentRestrictionModeEnum:
+      type: string
+      description: Match mode will rebuild app only if specified items are updated. Exclude mode will not rebuild app if specified items are updated.
+      enum:
+      - EXCLUDE
+      - MATCH
+      example: MATCH
+    HelmDeploymentRestrictionResponse:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - $ref: '#/components/schemas/HelmDeploymentRestrictionRequest'
   responses:
-    '404':
-      description: Resource not found
     204-deletion:
       description: The resource was deleted successfully
     '400':
       description: Bad request
     '403':
       description: Access forbidden
+    '404':
+      description: Resource not found
     '401':
       description: Access token is missing or invalid
   parameters:
-    helmId:
-      name: helmId
-      in: path
-      description: Helm ID
-      required: true
-      schema:
-        type: string
-        format: uuid
     deploymentRestrictionId:
       name: deploymentRestrictionId
       in: path
       description: Deployment Restriction ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+    helmId:
+      name: helmId
+      in: path
+      description: Helm ID
       required: true
       schema:
         type: string

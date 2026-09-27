@@ -144,121 +144,49 @@ paths:
           description: Operation is in progress
 components:
   schemas:
-    Base:
+    CloneServiceRequest:
       type: object
       required:
-      - id
-      - created_at
+      - name
+      - environment_id
       properties:
-        id:
+        name:
+          type: string
+        environment_id:
           type: string
           format: uuid
-          readOnly: true
-        created_at:
-          type: string
-          readOnly: true
-          format: date-time
-        updated_at:
-          type: string
-          readOnly: true
-          format: date-time
-    DatabaseModeEnum:
-      type: string
-      enum:
-      - CONTAINER
-      - MANAGED
-    DatabaseConfiguration:
-      type: object
-      properties:
-        database_type:
-          $ref: '#/components/schemas/DatabaseTypeEnum'
-        version:
-          type: array
-          items:
-            $ref: '#/components/schemas/DatabaseVersionMode'
-    ServiceLabelRequest:
+    StatusDetails:
       type: object
       required:
-      - id
+      - action
+      - status
+      - sub_action
       properties:
-        id:
-          type: string
-          format: uuid
-    DatabaseTypeEnum:
-      type: string
-      enum:
-      - MONGODB
-      - MYSQL
-      - POSTGRESQL
-      - REDIS
-    Status:
-      type: object
-      required:
-      - id
-      - state
-      - service_deployment_status
-      - status_details
-      - is_part_last_deployment
-      - deployment_requests_count
-      - deployment_request_id
-      properties:
-        id:
-          type: string
-          format: uuid
-        state:
-          $ref: '#/components/schemas/StateEnum'
-        service_deployment_status:
-          $ref: '#/components/schemas/ServiceDeploymentStatusEnum'
-        last_deployment_date:
-          type: string
-          format: date-time
-        is_part_last_deployment:
-          type: boolean
-        steps:
-          $ref: '#/components/schemas/ServiceStepMetrics'
-        execution_id:
-          type: string
-          x-stoplight:
-            id: 3o9tz4272s2ct
-        status_details:
-          $ref: '#/components/schemas/StatusDetails'
-        deployment_request_id:
-          type:
-          - string
-          - 'null'
-          x-stoplight:
-            id: bepixrb7tyzme
-          format: uuid
-        deployment_requests_count:
-          type: integer
-          x-stoplight:
-            id: crku532vt3v4p
-    OrganizationLabelsGroupResponseList:
-      type: array
-      items:
-        $ref: '#/components/schemas/OrganizationLabelsGroupResponse'
+        action:
+          $ref: '#/components/schemas/ServiceActionEnum'
+        status:
+          $ref: '#/components/schemas/ServiceActionStatusEnum'
+        sub_action:
+          $ref: '#/components/schemas/ServiceSubActionEnum'
+    OrganizationLabelsGroupResponse:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        required:
+        - name
+        - labels
+        properties:
+          name:
+            type: string
+          labels:
+            type: array
+            items:
+              $ref: '#/components/schemas/Label'
       title: ''
-    ServiceAnnotationRequest:
-      type: object
-      required:
-      - id
-      properties:
-        id:
-          type: string
-          format: uuid
-    ServiceStepMetricNameEnum:
-      type: string
-      enum:
-      - REGISTRY_CREATE_REPOSITORY
-      - GIT_CLONE
-      - BUILD_QUEUEING
-      - BUILD
-      - DEPLOYMENT_QUEUEING
-      - DEPLOYMENT
-      - ROUTER_DEPLOYMENT
-      - MIRROR_IMAGE
-      - EXECUTING
-      description: "The name of the deployment step at the service level:\n- REGISTRY_CREATE_REPOSITORY: The step to create the repository in the registry.\n- GIT_CLONE: The step to clone the source code repository. \n- BUILD_QUEUEING: The queuing time preceding the actual building step.\n- BUILD: The step to build the source code.\n- DEPLOYMENT_QUEUEING: The queuing time preceding the actual deployment step.\n- DEPLOYMENT: The step to deploy the service. \n- ROUTER_DEPLOYMENT: The step to deploy the router. \n- MIRROR_IMAGE: The step to mirror the image to the private registry.\n- EXECUTING: The step to execute a job or terraform apply.\n"
+    ReferenceObjectStatus:
+      allOf:
+      - $ref: '#/components/schemas/ReferenceObject'
+      - $ref: '#/components/schemas/Status'
     StateEnum:
       type: string
       enum:
@@ -291,80 +219,56 @@ components:
       - WAITING_RESTARTING
       - WAITING_RUNNING
       - WAITING_STOPPING
-    ServiceStepMetrics:
+    ServiceLabelRequest:
       type: object
       required:
-      - total_duration_sec
-      - total_computing_duration_sec
-      - details
+      - id
       properties:
-        total_duration_sec:
-          description: The total duration in seconds of the service deployment or null if the deployment is not completed.
-          type:
-          - integer
-          - 'null'
-        total_computing_duration_sec:
-          description: The total duration in seconds of the service deployment without queuing steps.
-          type: integer
-        details:
-          description: A list of metrics for deployment steps of the service.
-          type: array
-          items:
-            $ref: '#/components/schemas/ServiceStepMetric'
-    DatabaseConfigurationResponseList:
+        id:
+          type: string
+          format: uuid
+    DatabaseModeEnum:
+      type: string
+      enum:
+      - CONTAINER
+      - MANAGED
+    DatabaseResponseList:
       type: object
       properties:
         results:
           type: array
           items:
-            $ref: '#/components/schemas/DatabaseConfiguration'
-    ServiceDeploymentStatusEnum:
-      type: string
-      enum:
-      - NEVER_DEPLOYED
-      - OUT_OF_DATE
-      - UP_TO_DATE
-    Label:
+            $ref: '#/components/schemas/Database'
+    ServiceAnnotationRequest:
       type: object
       required:
-      - key
-      - value
-      - propagate_to_cloud_provider
+      - id
       properties:
-        key:
+        id:
           type: string
-        value:
-          type: string
-        propagate_to_cloud_provider:
-          type: boolean
-    ServiceSubActionEnum:
-      type: string
-      default: NONE
-      enum:
-      - NONE
-      - TERRAFORM_PLAN_ONLY
-      - TERRAFORM_PLAN_AND_APPLY
-      - TERRAFORM_DESTROY
-      - TERRAFORM_FORCE_UNLOCK_STATE
-      - TERRAFORM_MIGRATE_STATE
-    Annotation:
-      type: object
-      required:
-      - key
-      - value
-      properties:
-        key:
-          type: string
-        value:
-          type: string
-    ServiceActionEnum:
+          format: uuid
+    ServiceLabelsRequestList:
+      type: array
+      items:
+        $ref: '#/components/schemas/ServiceLabelRequest'
+    StepMetricStatusEnum:
       type: string
       enum:
-      - DEPLOY
-      - DELETE
-      - RESTART
-      - STOP
-      - UNKNOWN
+      - SUCCESS
+      - ERROR
+      - CANCEL
+      - SKIP
+      description: 'The status of completion for the step:
+
+        - SUCCESS: The step completed successfully.
+
+        - ERROR: The step completed with an error.
+
+        - CANCEL: The step was canceled.
+
+        - SKIP: The step was skipped because it was not necessary.
+
+        '
     Database:
       allOf:
       - $ref: '#/components/schemas/Base'
@@ -415,43 +319,52 @@ components:
             description: Icon URI representing the database.
           service_type:
             $ref: '#/components/schemas/ServiceTypeEnum'
-    OrganizationLabelsGroupResponse:
+    ReferenceObjectStatusResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReferenceObjectStatus'
+    Label:
+      type: object
+      required:
+      - key
+      - value
+      - propagate_to_cloud_provider
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+        propagate_to_cloud_provider:
+          type: boolean
+    OrganizationAnnotationsGroupResponse:
       allOf:
       - $ref: '#/components/schemas/Base'
       - type: object
         required:
         - name
-        - labels
+        - annotations
+        - scopes
         properties:
           name:
             type: string
-          labels:
+          annotations:
             type: array
             items:
-              $ref: '#/components/schemas/Label'
-      title: ''
-    ReferenceObjectStatus:
-      allOf:
-      - $ref: '#/components/schemas/ReferenceObject'
-      - $ref: '#/components/schemas/Status'
-    DatabaseVersionMode:
-      type: object
-      properties:
-        name:
-          type: string
-          example: '10.1'
-        supported_mode:
-          $ref: '#/components/schemas/DatabaseModeEnum'
-    ServiceStepMetric:
-      type: object
-      properties:
-        step_name:
-          $ref: '#/components/schemas/ServiceStepMetricNameEnum'
-        status:
-          $ref: '#/components/schemas/StepMetricStatusEnum'
-        duration_sec:
-          description: The duration of the step in seconds.
-          type: integer
+              $ref: '#/components/schemas/Annotation'
+          scopes:
+            type: array
+            items:
+              $ref: '#/components/schemas/OrganizationAnnotationsGroupScopeEnum'
+    DatabaseTypeEnum:
+      type: string
+      enum:
+      - MONGODB
+      - MYSQL
+      - POSTGRESQL
+      - REDIS
     OrganizationAnnotationsGroupScopeEnum:
       type: string
       description: Annotations Group Scope
@@ -466,63 +379,57 @@ components:
       - SECRETS
       - JOBS
       - CRON_JOBS
-    ReferenceObjectStatusResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/ReferenceObjectStatus'
-    ServiceAnnotationsRequestList:
-      type: array
-      items:
-        $ref: '#/components/schemas/ServiceAnnotationRequest'
-    StepMetricStatusEnum:
+    ServiceStepMetricNameEnum:
       type: string
       enum:
-      - SUCCESS
-      - ERROR
-      - CANCEL
-      - SKIP
-      description: 'The status of completion for the step:
-
-        - SUCCESS: The step completed successfully.
-
-        - ERROR: The step completed with an error.
-
-        - CANCEL: The step was canceled.
-
-        - SKIP: The step was skipped because it was not necessary.
-
-        '
-    DatabaseResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/Database'
-    DatabaseAccessibilityEnum:
-      type: string
-      default: PRIVATE
-      enum:
-      - PRIVATE
-      - PUBLIC
-    OrganizationAnnotationsGroupResponseList:
-      type: array
-      items:
-        $ref: '#/components/schemas/OrganizationAnnotationsGroupResponse'
-    CloneServiceRequest:
+      - REGISTRY_CREATE_REPOSITORY
+      - GIT_CLONE
+      - BUILD_QUEUEING
+      - BUILD
+      - DEPLOYMENT_QUEUEING
+      - DEPLOYMENT
+      - ROUTER_DEPLOYMENT
+      - MIRROR_IMAGE
+      - EXECUTING
+      description: "The name of the deployment step at the service level:\n- REGISTRY_CREATE_REPOSITORY: The step to create the repository in the registry.\n- GIT_CLONE: The step to clone the source code repository. \n- BUILD_QUEUEING: The queuing time preceding the actual building step.\n- BUILD: The step to build the source code.\n- DEPLOYMENT_QUEUEING: The queuing time preceding the actual deployment step.\n- DEPLOYMENT: The step to deploy the service. \n- ROUTER_DEPLOYMENT: The step to deploy the router. \n- MIRROR_IMAGE: The step to mirror the image to the private registry.\n- EXECUTING: The step to execute a job or terraform apply.\n"
+    Annotation:
       type: object
       required:
-      - name
-      - environment_id
+      - key
+      - value
       properties:
-        name:
+        key:
           type: string
-        environment_id:
+        value:
           type: string
-          format: uuid
+    ServiceActionEnum:
+      type: string
+      enum:
+      - DEPLOY
+      - DELETE
+      - RESTART
+      - STOP
+      - UNKNOWN
+    ServiceTypeEnum:
+      type: string
+      x-stoplight:
+        id: d66063cd29913
+      description: type of the service (application, database, job, ...)
+      enum:
+      - APPLICATION
+      - DATABASE
+      - CONTAINER
+      - JOB
+      - HELM
+      - TERRAFORM
+      - ARGOCD_APP
+    DatabaseConfigurationResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/DatabaseConfiguration'
     ReferenceObject:
       type: object
       required:
@@ -586,6 +493,73 @@ components:
           description: Icon URI representing the database.
           x-stoplight:
             id: ls6yevnhskd5y
+    DatabaseConfiguration:
+      type: object
+      properties:
+        database_type:
+          $ref: '#/components/schemas/DatabaseTypeEnum'
+        version:
+          type: array
+          items:
+            $ref: '#/components/schemas/DatabaseVersionMode'
+    ServiceAnnotationsRequestList:
+      type: array
+      items:
+        $ref: '#/components/schemas/ServiceAnnotationRequest'
+    Status:
+      type: object
+      required:
+      - id
+      - state
+      - service_deployment_status
+      - status_details
+      - is_part_last_deployment
+      - deployment_requests_count
+      - deployment_request_id
+      properties:
+        id:
+          type: string
+          format: uuid
+        state:
+          $ref: '#/components/schemas/StateEnum'
+        service_deployment_status:
+          $ref: '#/components/schemas/ServiceDeploymentStatusEnum'
+        last_deployment_date:
+          type: string
+          format: date-time
+        is_part_last_deployment:
+          type: boolean
+        steps:
+          $ref: '#/components/schemas/ServiceStepMetrics'
+        execution_id:
+          type: string
+          x-stoplight:
+            id: 3o9tz4272s2ct
+        status_details:
+          $ref: '#/components/schemas/StatusDetails'
+        deployment_request_id:
+          type:
+          - string
+          - 'null'
+          x-stoplight:
+            id: bepixrb7tyzme
+          format: uuid
+        deployment_requests_count:
+          type: integer
+          x-stoplight:
+            id: crku532vt3v4p
+    DatabaseAccessibilityEnum:
+      type: string
+      default: PRIVATE
+      enum:
+      - PRIVATE
+      - PUBLIC
+    ServiceDeploymentStatusEnum:
+      type: string
+      enum:
+      - NEVER_DEPLOYED
+      - OUT_OF_DATE
+      - UP_TO_DATE
     ServiceActionStatusEnum:
       type: string
       enum:
@@ -597,64 +571,91 @@ components:
       - CANCELED
       - CANCELING
       - NEVER
-    StatusDetails:
+    DatabaseVersionMode:
+      type: object
+      properties:
+        name:
+          type: string
+          example: '10.1'
+        supported_mode:
+          $ref: '#/components/schemas/DatabaseModeEnum'
+    Base:
       type: object
       required:
-      - action
-      - status
-      - sub_action
+      - id
+      - created_at
       properties:
-        action:
-          $ref: '#/components/schemas/ServiceActionEnum'
-        status:
-          $ref: '#/components/schemas/ServiceActionStatusEnum'
-        sub_action:
-          $ref: '#/components/schemas/ServiceSubActionEnum'
-    ServiceTypeEnum:
-      type: string
-      x-stoplight:
-        id: d66063cd29913
-      description: type of the service (application, database, job, ...)
-      enum:
-      - APPLICATION
-      - DATABASE
-      - CONTAINER
-      - JOB
-      - HELM
-      - TERRAFORM
-      - ARGOCD_APP
-    ServiceLabelsRequestList:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          readOnly: true
+          format: date-time
+        updated_at:
+          type: string
+          readOnly: true
+          format: date-time
+    OrganizationAnnotationsGroupResponseList:
       type: array
       items:
-        $ref: '#/components/schemas/ServiceLabelRequest'
-    OrganizationAnnotationsGroupResponse:
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - type: object
-        required:
-        - name
-        - annotations
-        - scopes
-        properties:
-          name:
-            type: string
-          annotations:
-            type: array
-            items:
-              $ref: '#/components/schemas/Annotation'
-          scopes:
-            type: array
-            items:
-              $ref: '#/components/schemas/OrganizationAnnotationsGroupScopeEnum'
+        $ref: '#/components/schemas/OrganizationAnnotationsGroupResponse'
+    OrganizationLabelsGroupResponseList:
+      type: array
+      items:
+        $ref: '#/components/schemas/OrganizationLabelsGroupResponse'
+      title: ''
+    ServiceStepMetric:
+      type: object
+      properties:
+        step_name:
+          $ref: '#/components/schemas/ServiceStepMetricNameEnum'
+        status:
+          $ref: '#/components/schemas/StepMetricStatusEnum'
+        duration_sec:
+          description: The duration of the step in seconds.
+          type: integer
+    ServiceSubActionEnum:
+      type: string
+      default: NONE
+      enum:
+      - NONE
+      - TERRAFORM_PLAN_ONLY
+      - TERRAFORM_PLAN_AND_APPLY
+      - TERRAFORM_DESTROY
+      - TERRAFORM_FORCE_UNLOCK_STATE
+      - TERRAFORM_MIGRATE_STATE
+    ServiceStepMetrics:
+      type: object
+      required:
+      - total_duration_sec
+      - total_computing_duration_sec
+      - details
+      properties:
+        total_duration_sec:
+          description: The total duration in seconds of the service deployment or null if the deployment is not completed.
+          type:
+          - integer
+          - 'null'
+        total_computing_duration_sec:
+          description: The total duration in seconds of the service deployment without queuing steps.
+          type: integer
+        details:
+          description: A list of metrics for deployment steps of the service.
+          type: array
+          items:
+            $ref: '#/components/schemas/ServiceStepMetric'
+  responses:
+    '400':
+      description: Bad request
+    '401':
+      description: Access token is missing or invalid
+    '403':
+      description: Access forbidden
+    '404':
+      description: Resource not found
   parameters:
-    databaseId:
-      name: databaseId
-      in: path
-      description: Database ID
-      required: true
-      schema:
-        type: string
-        format: uuid
     environmentId:
       name: environmentId
       in: path
@@ -663,15 +664,14 @@ components:
       schema:
         type: string
         format: uuid
-  responses:
-    '404':
-      description: Resource not found
-    '401':
-      description: Access token is missing or invalid
-    '400':
-      description: Bad request
-    '403':
-      description: Access forbidden
+    databaseId:
+      name: databaseId
+      in: path
+      description: Database ID
+      required: true
+      schema:
+        type: string
+        format: uuid
   securitySchemes:
     bearerAuth:
       type: http

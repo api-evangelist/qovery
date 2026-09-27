@@ -160,25 +160,18 @@ paths:
         '404':
           $ref: '#/components/responses/404'
 components:
+  responses:
+    '204':
+      description: no content
+    '400':
+      description: Bad request
+    '403':
+      description: Access forbidden
+    '404':
+      description: Resource not found
+    '401':
+      description: Access token is missing or invalid
   schemas:
-    Base:
-      type: object
-      required:
-      - id
-      - created_at
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        created_at:
-          type: string
-          readOnly: true
-          format: date-time
-        updated_at:
-          type: string
-          readOnly: true
-          format: date-time
     OrganizationWebhookResponse:
       allOf:
       - $ref: '#/components/schemas/Base'
@@ -218,6 +211,111 @@ components:
               '
             items:
               $ref: '#/components/schemas/EnvironmentModeEnum'
+    OrganizationWebhookKindEnum:
+      type: string
+      description: Define the type of the webhook. `SLACK` is a special webhook type to push notifications directly to slack. The `target_url` must be a Slack compatible endpoint.
+      enum:
+      - STANDARD
+      - SLACK
+      example: STANDARD
+    OrganizationWebhookEventEnum:
+      type: string
+      description: 'Events to subscribe to and send to the `target_url`.
+
+        - `DEPLOYMENT_STARTED` send an event when a deployment is started and going to be executed
+
+        - `DEPLOYMENT_CANCELLED` send an event when a deployment is cancelled
+
+        - `DEPLOYMENT_FAILURE` send an event when a deployment failed
+
+        - `DEPLOYMENT_SUCCESSFUL` send an event when a deployment is successful
+
+        '
+      enum:
+      - DEPLOYMENT_STARTED
+      - DEPLOYMENT_CANCELLED
+      - DEPLOYMENT_FAILURE
+      - DEPLOYMENT_SUCCESSFUL
+    Base:
+      type: object
+      required:
+      - id
+      - created_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          readOnly: true
+          format: date-time
+        updated_at:
+          type: string
+          readOnly: true
+          format: date-time
+    EnvironmentModeEnum:
+      type: string
+      enum:
+      - DEVELOPMENT
+      - PREVIEW
+      - PRODUCTION
+      - STAGING
+      example: PRODUCTION
+    OrganizationWebhookResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrganizationWebhookResponse'
+    WebhookEventResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/WebhookEventResponse'
+    WebhookEventResponse:
+      type: object
+      required:
+      - id
+      - created_at
+      - kind
+      - matched_event
+      - target_url_used
+      - request
+      - target_response_status_code
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when the webhook event was created
+        kind:
+          $ref: '#/components/schemas/OrganizationWebhookKindEnum'
+        matched_event:
+          $ref: '#/components/schemas/OrganizationWebhookEventEnum'
+        target_url_used:
+          type: string
+          format: uri
+          description: The webhook target URL that was invoked
+        request:
+          type: object
+          additionalProperties: true
+          description: The request payload sent to the webhook
+        target_response_status_code:
+          type: integer
+          format: int32
+          description: HTTP status code returned by the webhook target
+        target_response_body:
+          type:
+          - string
+          - 'null'
+          description: Response body from the webhook target
     OrganizationWebhookCreateResponse:
       allOf:
       - $ref: '#/components/schemas/Base'
@@ -303,104 +401,6 @@ components:
             '
           items:
             $ref: '#/components/schemas/EnvironmentModeEnum'
-    OrganizationWebhookKindEnum:
-      type: string
-      description: Define the type of the webhook. `SLACK` is a special webhook type to push notifications directly to slack. The `target_url` must be a Slack compatible endpoint.
-      enum:
-      - STANDARD
-      - SLACK
-      example: STANDARD
-    WebhookEventResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/WebhookEventResponse'
-    OrganizationWebhookResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/OrganizationWebhookResponse'
-    OrganizationWebhookEventEnum:
-      type: string
-      description: 'Events to subscribe to and send to the `target_url`.
-
-        - `DEPLOYMENT_STARTED` send an event when a deployment is started and going to be executed
-
-        - `DEPLOYMENT_CANCELLED` send an event when a deployment is cancelled
-
-        - `DEPLOYMENT_FAILURE` send an event when a deployment failed
-
-        - `DEPLOYMENT_SUCCESSFUL` send an event when a deployment is successful
-
-        '
-      enum:
-      - DEPLOYMENT_STARTED
-      - DEPLOYMENT_CANCELLED
-      - DEPLOYMENT_FAILURE
-      - DEPLOYMENT_SUCCESSFUL
-    EnvironmentModeEnum:
-      type: string
-      enum:
-      - DEVELOPMENT
-      - PREVIEW
-      - PRODUCTION
-      - STAGING
-      example: PRODUCTION
-    WebhookEventResponse:
-      type: object
-      required:
-      - id
-      - created_at
-      - kind
-      - matched_event
-      - target_url_used
-      - request
-      - target_response_status_code
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Unique identifier
-        created_at:
-          type: string
-          format: date-time
-          description: Timestamp when the webhook event was created
-        kind:
-          $ref: '#/components/schemas/OrganizationWebhookKindEnum'
-        matched_event:
-          $ref: '#/components/schemas/OrganizationWebhookEventEnum'
-        target_url_used:
-          type: string
-          format: uri
-          description: The webhook target URL that was invoked
-        request:
-          type: object
-          additionalProperties: true
-          description: The request payload sent to the webhook
-        target_response_status_code:
-          type: integer
-          format: int32
-          description: HTTP status code returned by the webhook target
-        target_response_body:
-          type:
-          - string
-          - 'null'
-          description: Response body from the webhook target
-  responses:
-    '404':
-      description: Resource not found
-    '400':
-      description: Bad request
-    '204':
-      description: no content
-    '403':
-      description: Access forbidden
-    '401':
-      description: Access token is missing or invalid
   parameters:
     webhookId:
       name: webhookId

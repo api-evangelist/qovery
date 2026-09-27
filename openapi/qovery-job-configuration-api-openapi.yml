@@ -74,23 +74,14 @@ paths:
           $ref: '#/components/responses/404'
 components:
   responses:
-    '404':
-      description: Resource not found
     '400':
       description: Bad request
     '403':
       description: Access forbidden
+    '404':
+      description: Resource not found
     '401':
       description: Access token is missing or invalid
-  parameters:
-    jobId:
-      name: jobId
-      in: path
-      description: Job ID
-      required: true
-      schema:
-        type: string
-        format: uuid
   schemas:
     JobAdvancedSettings:
       type: object
@@ -140,6 +131,15 @@ components:
           description: 'Mounts the container''s root filesystem as read-only
 
             '
+  parameters:
+    jobId:
+      name: jobId
+      in: path
+      description: Job ID
+      required: true
+      schema:
+        type: string
+        format: uuid
   securitySchemes:
     bearerAuth:
       type: http

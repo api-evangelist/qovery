@@ -192,6 +192,37 @@ paths:
           $ref: '#/components/responses/401'
 components:
   schemas:
+    GitRepositoryBranchResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/GitRepositoryBranch'
+    GitRepositoryBranch:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          example: main
+    GitAuthProvider:
+      type: object
+      required:
+      - name
+      - owner
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+          example: GITHUB
+        owner:
+          type: string
+          example: John Doe
+        use_bot:
+          type: boolean
     GitRepositoryResponseList:
       type: object
       properties:
@@ -199,6 +230,13 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/GitRepository'
+    GitAuthProviderResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/GitAuthProvider'
     GitRepository:
       type: object
       required:
@@ -219,47 +257,6 @@ components:
           example: master
         is_private:
           type: boolean
-    GitRepositoryBranchResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/GitRepositoryBranch'
-    GitAuthProviderResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/GitAuthProvider'
-    GitAuthProvider:
-      type: object
-      required:
-      - name
-      - owner
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-          example: GITHUB
-        owner:
-          type: string
-          example: John Doe
-        use_bot:
-          type: boolean
-    GitRepositoryBranch:
-      type: object
-      required:
-      - name
-      properties:
-        name:
-          type: string
-          example: main
-  responses:
-    '401':
-      description: Access token is missing or invalid
   parameters:
     organizationId:
       name: organizationId
@@ -269,6 +266,9 @@ components:
       schema:
         type: string
         format: uuid
+  responses:
+    '401':
+      description: Access token is missing or invalid
   securitySchemes:
     bearerAuth:
       type: http

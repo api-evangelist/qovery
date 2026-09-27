@@ -64,6 +64,12 @@ paths:
           $ref: '#/components/responses/404'
 components:
   schemas:
+    TypeOfUseEnum:
+      type: string
+      enum:
+      - PERSONAL
+      - SCHOOL
+      - WORK
     Base:
       type: object
       required:
@@ -143,19 +149,13 @@ components:
           type:
           - string
           - 'null'
-    TypeOfUseEnum:
-      type: string
-      enum:
-      - PERSONAL
-      - SCHOOL
-      - WORK
   responses:
-    '404':
-      description: Resource not found
     '400':
       description: Bad request
     '403':
       description: Access forbidden
+    '404':
+      description: Resource not found
     '401':
       description: Access token is missing or invalid
   securitySchemes:

@@ -91,21 +91,13 @@ paths:
           $ref: '#/components/responses/404'
 components:
   responses:
-    '404':
-      description: Resource not found
-    '403':
-      description: Access forbidden
     '401':
       description: Access token is missing or invalid
+    '403':
+      description: Access forbidden
+    '404':
+      description: Resource not found
   schemas:
-    EnterpriseConnectionResponseList:
-      title: EnterpriseConnectionResponseList
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/EnterpriseConnectionDto'
     EnterpriseConnectionDto:
       title: EnterpriseConnectionDto
       type: object
@@ -144,14 +136,15 @@ components:
             type: array
             items:
               type: string
+    EnterpriseConnectionResponseList:
+      title: EnterpriseConnectionResponseList
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/EnterpriseConnectionDto'
   parameters:
-    connectionName:
-      name: connectionName
-      in: path
-      required: true
-      description: The name of the Organization's Enterprise Connection
-      schema:
-        type: string
     organizationId:
       name: organizationId
       in: path
@@ -160,6 +153,13 @@ components:
       schema:
         type: string
         format: uuid
+    connectionName:
+      name: connectionName
+      in: path
+      required: true
+      description: The name of the Organization's Enterprise Connection
+      schema:
+        type: string
   securitySchemes:
     bearerAuth:
       type: http

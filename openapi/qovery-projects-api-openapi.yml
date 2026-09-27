@@ -94,13 +94,15 @@ paths:
           $ref: '#/components/responses/404'
 components:
   schemas:
-    ProjectResponseList:
+    ReferenceObject:
       type: object
+      required:
+      - id
       properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/Project'
+        id:
+          type: string
+          format: uuid
+          readOnly: true
     Base:
       type: object
       required:
@@ -119,18 +121,13 @@ components:
           type: string
           readOnly: true
           format: date-time
-    ProjectStatsResponseList:
+    ProjectResponseList:
       type: object
       properties:
         results:
           type: array
           items:
-            $ref: '#/components/schemas/ProjectStats'
-    ProjectStats:
-      allOf:
-      - $ref: '#/components/schemas/ReferenceObject'
-      - $ref: '#/components/schemas/ServiceTotalNumber'
-      - $ref: '#/components/schemas/EnvironmentTotalNumber'
+            $ref: '#/components/schemas/Project'
     Project:
       allOf:
       - $ref: '#/components/schemas/Base'
@@ -165,15 +162,11 @@ components:
           description: name is case insensitive
         description:
           type: string
-    ReferenceObject:
-      type: object
-      required:
-      - id
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
+    ProjectStats:
+      allOf:
+      - $ref: '#/components/schemas/ReferenceObject'
+      - $ref: '#/components/schemas/ServiceTotalNumber'
+      - $ref: '#/components/schemas/EnvironmentTotalNumber'
     ServiceTotalNumber:
       type: object
       required:
@@ -181,13 +174,20 @@ components:
       properties:
         service_total_number:
           type: number
+    ProjectStatsResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProjectStats'
   responses:
-    '404':
-      description: Resource not found
     '400':
       description: Bad request
     '403':
       description: Access forbidden
+    '404':
+      description: Resource not found
     '401':
       description: Access token is missing or invalid
   parameters:

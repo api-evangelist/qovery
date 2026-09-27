@@ -157,7 +157,64 @@ paths:
         '404':
           $ref: '#/components/responses/404'
 components:
+  responses:
+    '204':
+      description: no content
+    '400':
+      description: Bad request
+    '403':
+      description: Access forbidden
+    '404':
+      description: Resource not found
+    '401':
+      description: Access token is missing or invalid
   schemas:
+    Label:
+      type: object
+      required:
+      - key
+      - value
+      - propagate_to_cloud_provider
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+        propagate_to_cloud_provider:
+          type: boolean
+    OrganizationLabelsGroupResponse:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        required:
+        - name
+        - labels
+        properties:
+          name:
+            type: string
+          labels:
+            type: array
+            items:
+              $ref: '#/components/schemas/Label'
+      title: ''
+    Base:
+      type: object
+      required:
+      - id
+      - created_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          readOnly: true
+          format: date-time
+        updated_at:
+          type: string
+          readOnly: true
+          format: date-time
     OrganizationLabelsGroupAssociatedItemsResponseList:
       type: object
       properties:
@@ -192,63 +249,6 @@ components:
                 type: string
               item_type:
                 $ref: '#/components/schemas/LabelsGroupAssociatedItemType'
-    LabelsGroupAssociatedItemType:
-      type: string
-      description: Labels Group Associated Item Type
-      enum:
-      - APPLICATION
-      - DATABASE
-      - CONTAINER
-      - LIFECYCLE
-      - ENVIRONMENT
-      - CLUSTER
-      - CRON
-    Base:
-      type: object
-      required:
-      - id
-      - created_at
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        created_at:
-          type: string
-          readOnly: true
-          format: date-time
-        updated_at:
-          type: string
-          readOnly: true
-          format: date-time
-    OrganizationLabelsGroupResponse:
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - type: object
-        required:
-        - name
-        - labels
-        properties:
-          name:
-            type: string
-          labels:
-            type: array
-            items:
-              $ref: '#/components/schemas/Label'
-      title: ''
-    Label:
-      type: object
-      required:
-      - key
-      - value
-      - propagate_to_cloud_provider
-      properties:
-        key:
-          type: string
-        value:
-          type: string
-        propagate_to_cloud_provider:
-          type: boolean
     OrganizationLabelsGroupEnrichedResponse:
       title: OrganizationLabelsGroupEnrichedResponse
       allOf:
@@ -266,11 +266,6 @@ components:
               $ref: '#/components/schemas/Label'
           associated_items_count:
             type: integer
-    OrganizationLabelsGroupEnrichedResponseList:
-      title: OrganizationLabelsGroupEnrichedResponseList
-      type: array
-      items:
-        $ref: '#/components/schemas/OrganizationLabelsGroupEnrichedResponse'
     OrganizationLabelsGroupCreateRequest:
       type: object
       required:
@@ -284,17 +279,22 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Label'
-  responses:
-    '404':
-      description: Resource not found
-    '400':
-      description: Bad request
-    '401':
-      description: Access token is missing or invalid
-    '204':
-      description: no content
-    '403':
-      description: Access forbidden
+    OrganizationLabelsGroupEnrichedResponseList:
+      title: OrganizationLabelsGroupEnrichedResponseList
+      type: array
+      items:
+        $ref: '#/components/schemas/OrganizationLabelsGroupEnrichedResponse'
+    LabelsGroupAssociatedItemType:
+      type: string
+      description: Labels Group Associated Item Type
+      enum:
+      - APPLICATION
+      - DATABASE
+      - CONTAINER
+      - LIFECYCLE
+      - ENVIRONMENT
+      - CLUSTER
+      - CRON
   parameters:
     labelsGroupId:
       name: labelsGroupId

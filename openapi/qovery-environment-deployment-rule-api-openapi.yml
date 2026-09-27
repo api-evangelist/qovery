@@ -72,24 +72,17 @@ paths:
           $ref: '#/components/responses/404'
 components:
   schemas:
-    Base:
-      type: object
-      required:
-      - id
-      - created_at
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        created_at:
-          type: string
-          readOnly: true
-          format: date-time
-        updated_at:
-          type: string
-          readOnly: true
-          format: date-time
+    WeekdayEnum:
+      type: string
+      enum:
+      - MONDAY
+      - TUESDAY
+      - WEDNESDAY
+      - THURSDAY
+      - FRIDAY
+      - SATURDAY
+      - SUNDAY
+      example: MONDAY
     EnvironmentDeploymentRuleEditRequest:
       type: object
       required:
@@ -122,6 +115,24 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/WeekdayEnum'
+    Base:
+      type: object
+      required:
+      - id
+      - created_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          readOnly: true
+          format: date-time
+        updated_at:
+          type: string
+          readOnly: true
+          format: date-time
     EnvironmentDeploymentRule:
       allOf:
       - $ref: '#/components/schemas/Base'
@@ -156,39 +167,28 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/WeekdayEnum'
-    WeekdayEnum:
-      type: string
-      enum:
-      - MONDAY
-      - TUESDAY
-      - WEDNESDAY
-      - THURSDAY
-      - FRIDAY
-      - SATURDAY
-      - SUNDAY
-      example: MONDAY
   responses:
-    '404':
-      description: Resource not found
     '400':
       description: Bad request
     '403':
       description: Access forbidden
+    '404':
+      description: Resource not found
     '401':
       description: Access token is missing or invalid
   parameters:
-    environmentId:
-      name: environmentId
-      in: path
-      description: Environment ID
-      required: true
-      schema:
-        type: string
-        format: uuid
     deploymentRuleId:
       name: deploymentRuleId
       in: path
       description: Deployment Rule ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+    environmentId:
+      name: environmentId
+      in: path
+      description: Environment ID
       required: true
       schema:
         type: string

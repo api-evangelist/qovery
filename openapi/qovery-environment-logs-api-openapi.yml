@@ -69,21 +69,7 @@ paths:
         '404':
           $ref: '#/components/responses/404'
 components:
-  responses:
-    '404':
-      description: Resource not found
-    '403':
-      description: Access forbidden
-    '401':
-      description: Access token is missing or invalid
   schemas:
-    EnvironmentLogResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/EnvironmentLog'
     EnvironmentLogsResponseList:
       type: array
       items:
@@ -142,6 +128,13 @@ components:
       - PAUSE_ERROR
       - PAUSE_IN_PROGRESS
       - WAITING
+    EnvironmentLogResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/EnvironmentLog'
     EnvironmentLogTypeEnum:
       type: string
       enum:
@@ -225,6 +218,13 @@ components:
               type: string
             full_details:
               type: string
+  responses:
+    '403':
+      description: Access forbidden
+    '404':
+      description: Resource not found
+    '401':
+      description: Access token is missing or invalid
   parameters:
     environmentId:
       name: environmentId

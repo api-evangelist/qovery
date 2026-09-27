@@ -157,6 +157,17 @@ paths:
         '404':
           $ref: '#/components/responses/404'
 components:
+  responses:
+    '204':
+      description: no content
+    '400':
+      description: Bad request
+    '403':
+      description: Access forbidden
+    '404':
+      description: Resource not found
+    '401':
+      description: Access token is missing or invalid
   schemas:
     OrganizationAnnotationsGroupAssociatedItemsResponseList:
       type: object
@@ -192,49 +203,6 @@ components:
                 type: string
               item_type:
                 $ref: '#/components/schemas/AnnotationsGroupAssociatedItemType'
-    Base:
-      type: object
-      required:
-      - id
-      - created_at
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        created_at:
-          type: string
-          readOnly: true
-          format: date-time
-        updated_at:
-          type: string
-          readOnly: true
-          format: date-time
-    OrganizationAnnotationsGroupCreateRequest:
-      type: object
-      required:
-      - name
-      - annotations
-      - scopes
-      properties:
-        name:
-          type: string
-          description: name of the annotations group
-        annotations:
-          type: array
-          items:
-            $ref: '#/components/schemas/Annotation'
-        scopes:
-          type: array
-          items:
-            $ref: '#/components/schemas/OrganizationAnnotationsGroupScopeEnum'
-    OrganizationAnnotationsGroupEnrichedResponseList:
-      title: OrganizationAnnotationsGroupEnrichedResponseList
-      x-stoplight:
-        id: 2tbiuqncqaqaw
-      type: array
-      items:
-        $ref: '#/components/schemas/OrganizationAnnotationsGroupEnrichedResponse'
     AnnotationsGroupAssociatedItemType:
       type: string
       description: Annotations Group Associated Item Type
@@ -246,6 +214,13 @@ components:
       - ENVIRONMENT
       - CLUSTER
       - CRON
+    OrganizationAnnotationsGroupEnrichedResponseList:
+      title: OrganizationAnnotationsGroupEnrichedResponseList
+      x-stoplight:
+        id: 2tbiuqncqaqaw
+      type: array
+      items:
+        $ref: '#/components/schemas/OrganizationAnnotationsGroupEnrichedResponse'
     OrganizationAnnotationsGroupResponse:
       allOf:
       - $ref: '#/components/schemas/Base'
@@ -265,6 +240,38 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/OrganizationAnnotationsGroupScopeEnum'
+    Base:
+      type: object
+      required:
+      - id
+      - created_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          readOnly: true
+          format: date-time
+        updated_at:
+          type: string
+          readOnly: true
+          format: date-time
+    OrganizationAnnotationsGroupScopeEnum:
+      type: string
+      description: Annotations Group Scope
+      enum:
+      - DEPLOYMENTS
+      - STATEFUL_SETS
+      - SERVICES
+      - INGRESS
+      - GATEWAY_API_ROUTES
+      - HPA
+      - PODS
+      - SECRETS
+      - JOBS
+      - CRON_JOBS
     OrganizationAnnotationsGroupEnrichedResponse:
       title: OrganizationAnnotationsGroupEnrichedResponse
       x-stoplight:
@@ -299,20 +306,6 @@ components:
             type: integer
             x-stoplight:
               id: q71gum8nqmj8p
-    OrganizationAnnotationsGroupScopeEnum:
-      type: string
-      description: Annotations Group Scope
-      enum:
-      - DEPLOYMENTS
-      - STATEFUL_SETS
-      - SERVICES
-      - INGRESS
-      - GATEWAY_API_ROUTES
-      - HPA
-      - PODS
-      - SECRETS
-      - JOBS
-      - CRON_JOBS
     Annotation:
       type: object
       required:
@@ -323,30 +316,37 @@ components:
           type: string
         value:
           type: string
-  responses:
-    '404':
-      description: Resource not found
-    '400':
-      description: Bad request
-    '403':
-      description: Access forbidden
-    '204':
-      description: no content
-    '401':
-      description: Access token is missing or invalid
+    OrganizationAnnotationsGroupCreateRequest:
+      type: object
+      required:
+      - name
+      - annotations
+      - scopes
+      properties:
+        name:
+          type: string
+          description: name of the annotations group
+        annotations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Annotation'
+        scopes:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrganizationAnnotationsGroupScopeEnum'
   parameters:
-    annotationsGroupId:
-      name: annotationsGroupId
-      in: path
-      description: Organization annotations group ID
-      required: true
-      schema:
-        type: string
-        format: uuid
     organizationId:
       name: organizationId
       in: path
       description: Organization ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+    annotationsGroupId:
+      name: annotationsGroupId
+      in: path
+      description: Organization annotations group ID
       required: true
       schema:
         type: string

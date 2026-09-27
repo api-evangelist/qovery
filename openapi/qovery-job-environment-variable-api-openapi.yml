@@ -237,24 +237,37 @@ paths:
           $ref: '#/components/responses/404'
 components:
   schemas:
-    Base:
+    APIVariableTypeEnum:
+      type: string
+      description: 'type of the environment variable (VALUE, FILE, ALIAS, OVERRIDE or BUIT_IN)
+
+        '
+      enum:
+      - VALUE
+      - ALIAS
+      - OVERRIDE
+      - BUILT_IN
+      - FILE
+    Value:
       type: object
-      required:
-      - id
-      - created_at
+      title: EnvironmentVariableOverrideRequest
       properties:
-        id:
+        value:
           type: string
-          format: uuid
-          readOnly: true
-        created_at:
-          type: string
-          readOnly: true
-          format: date-time
-        updated_at:
-          type: string
-          readOnly: true
-          format: date-time
+        description:
+          type:
+          - string
+          - 'null'
+          x-stoplight:
+            id: ygzxe4xek3thk
+          maxLength: 255
+          description: optional variable description (255 characters maximum)
+        enable_interpolation_in_file:
+          type:
+          - boolean
+          - 'null'
+          x-stoplight:
+            id: ercieri1t6gqn
     EnvironmentVariableRequest:
       type: object
       required:
@@ -286,93 +299,6 @@ components:
           - 'null'
           x-stoplight:
             id: yzgx9eytturo9
-    Value:
-      type: object
-      title: EnvironmentVariableOverrideRequest
-      properties:
-        value:
-          type: string
-        description:
-          type:
-          - string
-          - 'null'
-          x-stoplight:
-            id: ygzxe4xek3thk
-          maxLength: 255
-          description: optional variable description (255 characters maximum)
-        enable_interpolation_in_file:
-          type:
-          - boolean
-          - 'null'
-          x-stoplight:
-            id: ercieri1t6gqn
-    VariableImport:
-      type: object
-      required:
-      - total_variables_to_import
-      - successful_imported_variables
-      properties:
-        total_variables_to_import:
-          type: number
-        successful_imported_variables:
-          type: array
-          items:
-            type: object
-            required:
-            - name
-            - scope
-            - is_secret
-            properties:
-              name:
-                type: string
-              value:
-                type: string
-                description: Optional if the variable is secret
-              scope:
-                $ref: '#/components/schemas/APIVariableScopeEnum'
-              is_secret:
-                type: boolean
-    EnvironmentVariableEditRequest:
-      type: object
-      required:
-      - key
-      properties:
-        key:
-          type: string
-          description: key is case sensitive
-        value:
-          type: string
-          description: value of the env variable.
-        mount_path:
-          type:
-          - string
-          - 'null'
-          x-stoplight:
-            id: dj004tdqp6pe7
-        description:
-          type:
-          - string
-          - 'null'
-          x-stoplight:
-            id: rf6wxepnkcoyv
-          maxLength: 255
-          description: optional variable description (255 characters maximum)
-        enable_interpolation_in_file:
-          type:
-          - boolean
-          - 'null'
-          x-stoplight:
-            id: bw41elfsxminc
-    LinkedServiceTypeEnum:
-      type: string
-      description: type of the service (application, database, job, gateway...)
-      enum:
-      - APPLICATION
-      - CONTAINER
-      - DATABASE
-      - JOB
-      - HELM
-      - TERRAFORM
     EnvironmentVariable:
       allOf:
       - $ref: '#/components/schemas/Base'
@@ -400,6 +326,66 @@ components:
           owned_by:
             type: string
             description: 'Entity that created/own the variable (i.e: Qovery, Doppler)'
+    APIVariableScopeEnum:
+      type: string
+      enum:
+      - APPLICATION
+      - BUILT_IN
+      - ENVIRONMENT
+      - PROJECT
+      - CONTAINER
+      - JOB
+      - HELM
+      - TERRAFORM
+    EnvironmentVariableOverride:
+      type: object
+      required:
+      - id
+      - key
+      - value
+      - mount_path
+      - scope
+      - variable_type
+      properties:
+        id:
+          type: string
+          format: uuid
+        key:
+          type: string
+        value:
+          type: string
+        mount_path:
+          type: string
+        scope:
+          $ref: '#/components/schemas/APIVariableScopeEnum'
+        variable_type:
+          $ref: '#/components/schemas/APIVariableTypeEnum'
+    VariableImport:
+      type: object
+      required:
+      - total_variables_to_import
+      - successful_imported_variables
+      properties:
+        total_variables_to_import:
+          type: number
+        successful_imported_variables:
+          type: array
+          items:
+            type: object
+            required:
+            - name
+            - scope
+            - is_secret
+            properties:
+              name:
+                type: string
+              value:
+                type: string
+                description: Optional if the variable is secret
+              scope:
+                $ref: '#/components/schemas/APIVariableScopeEnum'
+              is_secret:
+                type: boolean
     EnvironmentVariableAlias:
       type: object
       required:
@@ -424,17 +410,6 @@ components:
           $ref: '#/components/schemas/APIVariableScopeEnum'
         variable_type:
           $ref: '#/components/schemas/APIVariableTypeEnum'
-    APIVariableScopeEnum:
-      type: string
-      enum:
-      - APPLICATION
-      - BUILT_IN
-      - ENVIRONMENT
-      - PROJECT
-      - CONTAINER
-      - JOB
-      - HELM
-      - TERRAFORM
     VariableImportRequest:
       type: object
       required:
@@ -484,17 +459,55 @@ components:
           - 'null'
           x-stoplight:
             id: alajw1h9vgr9e
-    APIVariableTypeEnum:
-      type: string
-      description: 'type of the environment variable (VALUE, FILE, ALIAS, OVERRIDE or BUIT_IN)
-
-        '
-      enum:
-      - VALUE
-      - ALIAS
-      - OVERRIDE
-      - BUILT_IN
-      - FILE
+    Base:
+      type: object
+      required:
+      - id
+      - created_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          readOnly: true
+          format: date-time
+        updated_at:
+          type: string
+          readOnly: true
+          format: date-time
+    EnvironmentVariableEditRequest:
+      type: object
+      required:
+      - key
+      properties:
+        key:
+          type: string
+          description: key is case sensitive
+        value:
+          type: string
+          description: value of the env variable.
+        mount_path:
+          type:
+          - string
+          - 'null'
+          x-stoplight:
+            id: dj004tdqp6pe7
+        description:
+          type:
+          - string
+          - 'null'
+          x-stoplight:
+            id: rf6wxepnkcoyv
+          maxLength: 255
+          description: optional variable description (255 characters maximum)
+        enable_interpolation_in_file:
+          type:
+          - boolean
+          - 'null'
+          x-stoplight:
+            id: bw41elfsxminc
     EnvironmentVariableResponseList:
       type: object
       properties:
@@ -502,53 +515,40 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/EnvironmentVariable'
-    EnvironmentVariableOverride:
-      type: object
-      required:
-      - id
-      - key
-      - value
-      - mount_path
-      - scope
-      - variable_type
-      properties:
-        id:
-          type: string
-          format: uuid
-        key:
-          type: string
-        value:
-          type: string
-        mount_path:
-          type: string
-        scope:
-          $ref: '#/components/schemas/APIVariableScopeEnum'
-        variable_type:
-          $ref: '#/components/schemas/APIVariableTypeEnum'
+    LinkedServiceTypeEnum:
+      type: string
+      description: type of the service (application, database, job, gateway...)
+      enum:
+      - APPLICATION
+      - CONTAINER
+      - DATABASE
+      - JOB
+      - HELM
+      - TERRAFORM
   responses:
+    '400':
+      description: Bad request
+    '403':
+      description: Access forbidden
     '404':
       description: Resource not found
     204-deletion:
       description: The resource was deleted successfully
     '401':
       description: Access token is missing or invalid
-    '400':
-      description: Bad request
-    '403':
-      description: Access forbidden
   parameters:
-    jobId:
-      name: jobId
-      in: path
-      description: Job ID
-      required: true
-      schema:
-        type: string
-        format: uuid
     environmentVariableId:
       name: environmentVariableId
       in: path
       description: Environment Variable ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+    jobId:
+      name: jobId
+      in: path
+      description: Job ID
       required: true
       schema:
         type: string

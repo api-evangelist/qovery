@@ -89,50 +89,107 @@ paths:
         '404':
           $ref: '#/components/responses/404'
 components:
-  parameters:
-    startId:
-      name: startId
-      in: query
-      description: Starting point after which to return results
-      required: false
-      schema:
-        type: string
-        format: uuid
-    databaseId:
-      name: databaseId
-      in: path
-      description: Database ID
-      required: true
-      schema:
-        type: string
-        format: uuid
-    backupId:
-      name: backupId
-      in: path
-      description: Database Backup ID
-      required: true
-      schema:
-        type: string
-        format: uuid
   schemas:
-    Base:
+    StatusDetails:
       type: object
       required:
-      - id
-      - created_at
+      - action
+      - status
+      - sub_action
       properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        created_at:
-          type: string
-          readOnly: true
-          format: date-time
-        updated_at:
-          type: string
-          readOnly: true
-          format: date-time
+        action:
+          $ref: '#/components/schemas/ServiceActionEnum'
+        status:
+          $ref: '#/components/schemas/ServiceActionStatusEnum'
+        sub_action:
+          $ref: '#/components/schemas/ServiceSubActionEnum'
+    StateEnum:
+      type: string
+      enum:
+      - BUILDING
+      - BUILD_ERROR
+      - CANCELED
+      - CANCELING
+      - DELETED
+      - DELETE_ERROR
+      - DELETE_QUEUED
+      - DELETING
+      - DEPLOYED
+      - DEPLOYING
+      - DEPLOYMENT_ERROR
+      - DEPLOYMENT_QUEUED
+      - EXECUTING
+      - QUEUED
+      - READY
+      - RECAP
+      - RESTARTED
+      - RESTARTING
+      - RESTART_ERROR
+      - RESTART_QUEUED
+      - STOPPED
+      - STOPPING
+      - STOP_ERROR
+      - STOP_QUEUED
+      - UNAVAILABLE
+      - WAITING_DELETING
+      - WAITING_RESTARTING
+      - WAITING_RUNNING
+      - WAITING_STOPPING
+    PaginationData:
+      type: object
+      required:
+      - page
+      - page_size
+      properties:
+        page:
+          type: number
+          example: 1
+        page_size:
+          type: number
+          example: 20
+    StepMetricStatusEnum:
+      type: string
+      enum:
+      - SUCCESS
+      - ERROR
+      - CANCEL
+      - SKIP
+      description: 'The status of completion for the step:
+
+        - SUCCESS: The step completed successfully.
+
+        - ERROR: The step completed with an error.
+
+        - CANCEL: The step was canceled.
+
+        - SKIP: The step was skipped because it was not necessary.
+
+        '
+    BackupPaginatedResponseList:
+      allOf:
+      - $ref: '#/components/schemas/PaginationData'
+      - $ref: '#/components/schemas/BackupResponseList'
+    ServiceStepMetricNameEnum:
+      type: string
+      enum:
+      - REGISTRY_CREATE_REPOSITORY
+      - GIT_CLONE
+      - BUILD_QUEUEING
+      - BUILD
+      - DEPLOYMENT_QUEUEING
+      - DEPLOYMENT
+      - ROUTER_DEPLOYMENT
+      - MIRROR_IMAGE
+      - EXECUTING
+      description: "The name of the deployment step at the service level:\n- REGISTRY_CREATE_REPOSITORY: The step to create the repository in the registry.\n- GIT_CLONE: The step to clone the source code repository. \n- BUILD_QUEUEING: The queuing time preceding the actual building step.\n- BUILD: The step to build the source code.\n- DEPLOYMENT_QUEUEING: The queuing time preceding the actual deployment step.\n- DEPLOYMENT: The step to deploy the service. \n- ROUTER_DEPLOYMENT: The step to deploy the router. \n- MIRROR_IMAGE: The step to mirror the image to the private registry.\n- EXECUTING: The step to execute a job or terraform apply.\n"
+    ServiceActionEnum:
+      type: string
+      enum:
+      - DEPLOY
+      - DELETE
+      - RESTART
+      - STOP
+      - UNKNOWN
     Status:
       type: object
       required:
@@ -175,55 +232,86 @@ components:
           type: integer
           x-stoplight:
             id: crku532vt3v4p
-    BackupPaginatedResponseList:
+    Backup:
       allOf:
-      - $ref: '#/components/schemas/PaginationData'
-      - $ref: '#/components/schemas/BackupResponseList'
-    ServiceStepMetricNameEnum:
+      - $ref: '#/components/schemas/Base'
+      - $ref: '#/components/schemas/BackupRequest'
+      - type: object
+        properties:
+          status:
+            $ref: '#/components/schemas/Status'
+    ServiceDeploymentStatusEnum:
       type: string
       enum:
-      - REGISTRY_CREATE_REPOSITORY
-      - GIT_CLONE
-      - BUILD_QUEUEING
-      - BUILD
-      - DEPLOYMENT_QUEUEING
-      - DEPLOYMENT
-      - ROUTER_DEPLOYMENT
-      - MIRROR_IMAGE
+      - NEVER_DEPLOYED
+      - OUT_OF_DATE
+      - UP_TO_DATE
+    BackupRequest:
+      type: object
+      required:
+      - name
+      - message
+      properties:
+        name:
+          type: string
+        message:
+          type: string
+    ServiceActionStatusEnum:
+      type: string
+      enum:
+      - QUEUED
+      - ONGOING
+      - SUCCESS
+      - ERROR
       - EXECUTING
-      description: "The name of the deployment step at the service level:\n- REGISTRY_CREATE_REPOSITORY: The step to create the repository in the registry.\n- GIT_CLONE: The step to clone the source code repository. \n- BUILD_QUEUEING: The queuing time preceding the actual building step.\n- BUILD: The step to build the source code.\n- DEPLOYMENT_QUEUEING: The queuing time preceding the actual deployment step.\n- DEPLOYMENT: The step to deploy the service. \n- ROUTER_DEPLOYMENT: The step to deploy the router. \n- MIRROR_IMAGE: The step to mirror the image to the private registry.\n- EXECUTING: The step to execute a job or terraform apply.\n"
-    StateEnum:
-      type: string
-      enum:
-      - BUILDING
-      - BUILD_ERROR
       - CANCELED
       - CANCELING
-      - DELETED
-      - DELETE_ERROR
-      - DELETE_QUEUED
-      - DELETING
-      - DEPLOYED
-      - DEPLOYING
-      - DEPLOYMENT_ERROR
-      - DEPLOYMENT_QUEUED
-      - EXECUTING
-      - QUEUED
-      - READY
-      - RECAP
-      - RESTARTED
-      - RESTARTING
-      - RESTART_ERROR
-      - RESTART_QUEUED
-      - STOPPED
-      - STOPPING
-      - STOP_ERROR
-      - STOP_QUEUED
-      - UNAVAILABLE
-      - WAITING_DELETING
-      - WAITING_RESTARTING
-      - WAITING_RUNNING
-      - WAITING_STOPPING
+      - NEVER
+    Base:
+      type: object
+      required:
+      - id
+      - created_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          readOnly: true
+          format: date-time
+        updated_at:
+          type: string
+          readOnly: true
+          format: date-time
+    BackupResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Backup'
+    ServiceStepMetric:
+      type: object
+      properties:
+        step_name:
+          $ref: '#/components/schemas/ServiceStepMetricNameEnum'
+        status:
+          $ref: '#/components/schemas/StepMetricStatusEnum'
+        duration_sec:
+          description: The duration of the step in seconds.
+          type: integer
+    ServiceSubActionEnum:
+      type: string
+      default: NONE
+      enum:
+      - NONE
+      - TERRAFORM_PLAN_ONLY
+      - TERRAFORM_PLAN_AND_APPLY
+      - TERRAFORM_DESTROY
+      - TERRAFORM_FORCE_UNLOCK_STATE
+      - TERRAFORM_MIGRATE_STATE
     ServiceStepMetrics:
       type: object
       required:
@@ -244,130 +332,42 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ServiceStepMetric'
-    BackupResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/Backup'
-    BackupRequest:
-      type: object
-      required:
-      - name
-      - message
-      properties:
-        name:
-          type: string
-        message:
-          type: string
-    ServiceDeploymentStatusEnum:
-      type: string
-      enum:
-      - NEVER_DEPLOYED
-      - OUT_OF_DATE
-      - UP_TO_DATE
-    ServiceActionEnum:
-      type: string
-      enum:
-      - DEPLOY
-      - DELETE
-      - RESTART
-      - STOP
-      - UNKNOWN
-    Backup:
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - $ref: '#/components/schemas/BackupRequest'
-      - type: object
-        properties:
-          status:
-            $ref: '#/components/schemas/Status'
-    ServiceStepMetric:
-      type: object
-      properties:
-        step_name:
-          $ref: '#/components/schemas/ServiceStepMetricNameEnum'
-        status:
-          $ref: '#/components/schemas/StepMetricStatusEnum'
-        duration_sec:
-          description: The duration of the step in seconds.
-          type: integer
-    StepMetricStatusEnum:
-      type: string
-      enum:
-      - SUCCESS
-      - ERROR
-      - CANCEL
-      - SKIP
-      description: 'The status of completion for the step:
-
-        - SUCCESS: The step completed successfully.
-
-        - ERROR: The step completed with an error.
-
-        - CANCEL: The step was canceled.
-
-        - SKIP: The step was skipped because it was not necessary.
-
-        '
-    PaginationData:
-      type: object
-      required:
-      - page
-      - page_size
-      properties:
-        page:
-          type: number
-          example: 1
-        page_size:
-          type: number
-          example: 20
-    ServiceActionStatusEnum:
-      type: string
-      enum:
-      - QUEUED
-      - ONGOING
-      - SUCCESS
-      - ERROR
-      - EXECUTING
-      - CANCELED
-      - CANCELING
-      - NEVER
-    StatusDetails:
-      type: object
-      required:
-      - action
-      - status
-      - sub_action
-      properties:
-        action:
-          $ref: '#/components/schemas/ServiceActionEnum'
-        status:
-          $ref: '#/components/schemas/ServiceActionStatusEnum'
-        sub_action:
-          $ref: '#/components/schemas/ServiceSubActionEnum'
-    ServiceSubActionEnum:
-      type: string
-      default: NONE
-      enum:
-      - NONE
-      - TERRAFORM_PLAN_ONLY
-      - TERRAFORM_PLAN_AND_APPLY
-      - TERRAFORM_DESTROY
-      - TERRAFORM_FORCE_UNLOCK_STATE
-      - TERRAFORM_MIGRATE_STATE
+  parameters:
+    startId:
+      name: startId
+      in: query
+      description: Starting point after which to return results
+      required: false
+      schema:
+        type: string
+        format: uuid
+    databaseId:
+      name: databaseId
+      in: path
+      description: Database ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+    backupId:
+      name: backupId
+      in: path
+      description: Database Backup ID
+      required: true
+      schema:
+        type: string
+        format: uuid
   responses:
     '204':
       description: no content
-    '404':
-      description: Resource not found
-    '401':
-      description: Access token is missing or invalid
     '400':
       description: Bad request
     '403':
       description: Access forbidden
+    '404':
+      description: Resource not found
+    '401':
+      description: Access token is missing or invalid
   securitySchemes:
     bearerAuth:
       type: http

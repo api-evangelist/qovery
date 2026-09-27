@@ -115,7 +115,25 @@ paths:
         '404':
           $ref: '#/components/responses/404'
 components:
+  responses:
+    204-deletion:
+      description: The resource was deleted successfully
+    '400':
+      description: Bad request
+    '403':
+      description: Access forbidden
+    '404':
+      description: Resource not found
+    '401':
+      description: Access token is missing or invalid
   schemas:
+    ApplicationDeploymentRestrictionResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApplicationDeploymentRestriction'
     ApplicationDeploymentRestriction:
       allOf:
       - $ref: '#/components/schemas/Base'
@@ -138,20 +156,6 @@ components:
           type: string
           readOnly: true
           format: date-time
-    DeploymentRestrictionModeEnum:
-      type: string
-      description: Match mode will rebuild app only if specified items are updated. Exclude mode will not rebuild app if specified items are updated.
-      enum:
-      - EXCLUDE
-      - MATCH
-      example: MATCH
-    ApplicationDeploymentRestrictionResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApplicationDeploymentRestriction'
     ApplicationDeploymentRestrictionRequest:
       type: object
       required:
@@ -172,30 +176,26 @@ components:
       enum:
       - PATH
       example: PATH
-  responses:
-    '404':
-      description: Resource not found
-    204-deletion:
-      description: The resource was deleted successfully
-    '400':
-      description: Bad request
-    '403':
-      description: Access forbidden
-    '401':
-      description: Access token is missing or invalid
+    DeploymentRestrictionModeEnum:
+      type: string
+      description: Match mode will rebuild app only if specified items are updated. Exclude mode will not rebuild app if specified items are updated.
+      enum:
+      - EXCLUDE
+      - MATCH
+      example: MATCH
   parameters:
-    applicationId:
-      name: applicationId
-      in: path
-      description: Application ID
-      required: true
-      schema:
-        type: string
-        format: uuid
     deploymentRestrictionId:
       name: deploymentRestrictionId
       in: path
       description: Deployment Restriction ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+    applicationId:
+      name: applicationId
+      in: path
+      description: Application ID
       required: true
       schema:
         type: string

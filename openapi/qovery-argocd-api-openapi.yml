@@ -200,24 +200,34 @@ paths:
           $ref: '#/components/responses/404'
 components:
   schemas:
-    Base:
+    ArgoCdInstanceMappingResponseList:
       type: object
       required:
-      - id
-      - created_at
+      - results
       properties:
-        id:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ArgoCdInstanceMappingResponse'
+    ArgoCdUnlinkedClusterDetails:
+      type: object
+      required:
+      - argocd_cluster_url
+      - argocd_cluster_name
+      - applications_count
+      properties:
+        argocd_cluster_url:
           type: string
-          format: uuid
-          readOnly: true
-        created_at:
+          description: ArgoCD destination cluster URL for this stale mapping
+          example: https://old-cluster.example.com
+        argocd_cluster_name:
           type: string
-          readOnly: true
-          format: date-time
-        updated_at:
-          type: string
-          readOnly: true
-          format: date-time
+          description: ArgoCD cluster name (currently same as URL; will use ArgoCD alias in future)
+          example: https://old-cluster.example.com
+        applications_count:
+          type: integer
+          description: Number of ArgoCD applications targeting this destination
+          example: 0
     ArgoCdInstanceMappingResponse:
       type: object
       required:
@@ -265,47 +275,41 @@ components:
           description: ArgoCD clusters detected but mapping is missing
           items:
             $ref: '#/components/schemas/ArgoCdUnlinkedClusterDetails'
-    KubernetesEnum:
-      type: string
-      enum:
-      - MANAGED
-      - SELF_MANAGED
-      - PARTIALLY_MANAGED
-      default: MANAGED
-    ArgoCdCredentialsResponse:
+    ArgoCdLinkedClusterDetails:
       type: object
       required:
-      - id
-      - cluster_id
-      - argocd_url
-      - argocd_token
-      - created_at
-      - updated_at
+      - argocd_cluster_url
+      - argocd_cluster_name
+      - qovery_cluster_id
+      - qovery_cluster_name
+      - qovery_cluster_cloud_provider
+      - qovery_cluster_type
+      - applications_count
       properties:
-        id:
+        argocd_cluster_url:
+          type: string
+          description: ArgoCD destination cluster URL
+          example: https://kubernetes.default.svc
+        argocd_cluster_name:
+          type: string
+          description: ArgoCD cluster name (currently same as URL; will use ArgoCD alias in future)
+          example: https://kubernetes.default.svc
+        qovery_cluster_id:
           type: string
           format: uuid
-        cluster_id:
+          description: ID of the Qovery cluster this destination is mapped to
+        qovery_cluster_name:
           type: string
-          format: uuid
-        argocd_url:
-          type: string
-          example: https://argocd.example.com
-        argocd_token:
-          type: string
-          description: Always returned as REDACTED
-          example: REDACTED
-        last_checked_at:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        created_at:
-          type: string
-          format: date-time
-        updated_at:
-          type: string
-          format: date-time
+          description: Display name of the mapped Qovery cluster
+          example: My EKS Cluster
+        qovery_cluster_cloud_provider:
+          $ref: '#/components/schemas/CloudVendorEnum'
+        qovery_cluster_type:
+          $ref: '#/components/schemas/KubernetesEnum'
+        applications_count:
+          type: integer
+          description: Number of ArgoCD applications targeting this destination
+          example: 4
     ArgoCdDestinationClusterMappingResponse:
       type: object
       required:
@@ -324,6 +328,19 @@ components:
           - string
           - 'null'
           format: uuid
+    ServiceTypeEnum:
+      type: string
+      x-stoplight:
+        id: d66063cd29913
+      description: type of the service (application, database, job, ...)
+      enum:
+      - APPLICATION
+      - DATABASE
+      - CONTAINER
+      - JOB
+      - HELM
+      - TERRAFORM
+      - ARGOCD_APP
     ArgoCdDestinationClusterMappingRequest:
       type: object
       required:
@@ -385,6 +402,26 @@ components:
             - string
             - 'null'
       description: An ArgoCD service
+    KubernetesEnum:
+      type: string
+      enum:
+      - MANAGED
+      - SELF_MANAGED
+      - PARTIALLY_MANAGED
+      default: MANAGED
+    ArgoCdCredentialsRequest:
+      type: object
+      required:
+      - argocd_url
+      - argocd_token
+      properties:
+        argocd_url:
+          type: string
+          description: The URL of the ArgoCD instance (e.g. https://argocd.example.com)
+          example: https://argocd.example.com
+        argocd_token:
+          type: string
+          description: ArgoCD API authentication token
     CloudVendorEnum:
       type: string
       enum:
@@ -399,28 +436,58 @@ components:
       - ORACLE
       - IBM
       - ON_PREMISE
-    ArgoCdCredentialsRequest:
+    ArgoCdCredentialsResponse:
       type: object
       required:
+      - id
+      - cluster_id
       - argocd_url
       - argocd_token
+      - created_at
+      - updated_at
       properties:
+        id:
+          type: string
+          format: uuid
+        cluster_id:
+          type: string
+          format: uuid
         argocd_url:
           type: string
-          description: The URL of the ArgoCD instance (e.g. https://argocd.example.com)
           example: https://argocd.example.com
         argocd_token:
           type: string
-          description: ArgoCD API authentication token
-    ArgoCdInstanceMappingResponseList:
+          description: Always returned as REDACTED
+          example: REDACTED
+        last_checked_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    Base:
       type: object
       required:
-      - results
+      - id
+      - created_at
       properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/ArgoCdInstanceMappingResponse'
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          readOnly: true
+          format: date-time
+        updated_at:
+          type: string
+          readOnly: true
+          format: date-time
     ArgoCdConnectionStatusEnum:
       type: string
       description: Connection status of an ArgoCD instance
@@ -428,41 +495,6 @@ components:
       - connected
       - error
       example: connected
-    ArgoCdLinkedClusterDetails:
-      type: object
-      required:
-      - argocd_cluster_url
-      - argocd_cluster_name
-      - qovery_cluster_id
-      - qovery_cluster_name
-      - qovery_cluster_cloud_provider
-      - qovery_cluster_type
-      - applications_count
-      properties:
-        argocd_cluster_url:
-          type: string
-          description: ArgoCD destination cluster URL
-          example: https://kubernetes.default.svc
-        argocd_cluster_name:
-          type: string
-          description: ArgoCD cluster name (currently same as URL; will use ArgoCD alias in future)
-          example: https://kubernetes.default.svc
-        qovery_cluster_id:
-          type: string
-          format: uuid
-          description: ID of the Qovery cluster this destination is mapped to
-        qovery_cluster_name:
-          type: string
-          description: Display name of the mapped Qovery cluster
-          example: My EKS Cluster
-        qovery_cluster_cloud_provider:
-          $ref: '#/components/schemas/CloudVendorEnum'
-        qovery_cluster_type:
-          $ref: '#/components/schemas/KubernetesEnum'
-        applications_count:
-          type: integer
-          description: Number of ArgoCD applications targeting this destination
-          example: 4
     ArgoCdConnectionCheckResponse:
       type: object
       required:
@@ -482,51 +514,20 @@ components:
           - unreachable
           - insufficient_permissions
           example: authentication_failed
-    ArgoCdUnlinkedClusterDetails:
-      type: object
-      required:
-      - argocd_cluster_url
-      - argocd_cluster_name
-      - applications_count
-      properties:
-        argocd_cluster_url:
-          type: string
-          description: ArgoCD destination cluster URL for this stale mapping
-          example: https://old-cluster.example.com
-        argocd_cluster_name:
-          type: string
-          description: ArgoCD cluster name (currently same as URL; will use ArgoCD alias in future)
-          example: https://old-cluster.example.com
-        applications_count:
-          type: integer
-          description: Number of ArgoCD applications targeting this destination
-          example: 0
-    ServiceTypeEnum:
-      type: string
-      x-stoplight:
-        id: d66063cd29913
-      description: type of the service (application, database, job, ...)
-      enum:
-      - APPLICATION
-      - DATABASE
-      - CONTAINER
-      - JOB
-      - HELM
-      - TERRAFORM
-      - ARGOCD_APP
+  responses:
+    '400':
+      description: Bad request
+    '403':
+      description: Access forbidden
+    '404':
+      description: Resource not found
+    '401':
+      description: Access token is missing or invalid
   parameters:
     argocdAppId:
       name: argocdAppId
       in: path
       description: ArgoCD App ID
-      required: true
-      schema:
-        type: string
-        format: uuid
-    organizationId:
-      name: organizationId
-      in: path
-      description: Organization ID
       required: true
       schema:
         type: string
@@ -539,15 +540,14 @@ components:
       schema:
         type: string
         format: uuid
-  responses:
-    '404':
-      description: Resource not found
-    '401':
-      description: Access token is missing or invalid
-    '400':
-      description: Bad request
-    '403':
-      description: Access forbidden
+    organizationId:
+      name: organizationId
+      in: path
+      description: Organization ID
+      required: true
+      schema:
+        type: string
+        format: uuid
   securitySchemes:
     bearerAuth:
       type: http

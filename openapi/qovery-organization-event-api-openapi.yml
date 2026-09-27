@@ -202,77 +202,6 @@ components:
       - QOVERY_INTERNAL
       - TERRAFORM_PROVIDER
       example: API
-    OrganizationEventResponse:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        timestamp:
-          type: string
-          format: date-time
-        event_type:
-          $ref: '#/components/schemas/OrganizationEventType'
-        target_id:
-          type:
-          - string
-          - 'null'
-          format: uuid
-        target_name:
-          type: string
-        target_type:
-          $ref: '#/components/schemas/OrganizationEventTargetType'
-        sub_target_type:
-          $ref: '#/components/schemas/OrganizationEventSubTargetType'
-        change:
-          type: string
-        origin:
-          $ref: '#/components/schemas/OrganizationEventOrigin'
-        triggered_by:
-          type: string
-        project_id:
-          type:
-          - string
-          - 'null'
-          format: uuid
-        project_name:
-          type: string
-        environment_id:
-          type:
-          - string
-          - 'null'
-          format: uuid
-        environment_name:
-          type: string
-        user_agent:
-          type:
-          - string
-          - 'null'
-        original_change:
-          type:
-          - string
-          - 'null'
-      description: ''
-      title: ''
-    OrganizationEventTargetLevel:
-      type: string
-      description: The target level to fetch
-      enum:
-      - PROJECT
-      - ENVIRONMENT
-    OrganizationEventTargetResponseList:
-      type: object
-      properties:
-        targets:
-          type: array
-          items:
-            type: object
-            properties:
-              id:
-                type: string
-                format: uuid
-              name:
-                type: string
     OrganizationEventTargetType:
       type: string
       description: Type of the organization event
@@ -294,6 +223,25 @@ components:
       - TERRAFORM
       example: APPLICATION
       title: ''
+    OrganizationEventTargetLevel:
+      type: string
+      description: The target level to fetch
+      enum:
+      - PROJECT
+      - ENVIRONMENT
+    OrganizationEventTargetResponseList:
+      type: object
+      properties:
+        targets:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              name:
+                type: string
     OrganizationEventSubTargetType:
       type:
       - string
@@ -392,6 +340,58 @@ components:
       - LOCK
       - UNLOCK
       example: CREATE
+    OrganizationEventResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        timestamp:
+          type: string
+          format: date-time
+        event_type:
+          $ref: '#/components/schemas/OrganizationEventType'
+        target_id:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        target_name:
+          type: string
+        target_type:
+          $ref: '#/components/schemas/OrganizationEventTargetType'
+        sub_target_type:
+          $ref: '#/components/schemas/OrganizationEventSubTargetType'
+        change:
+          type: string
+        origin:
+          $ref: '#/components/schemas/OrganizationEventOrigin'
+        triggered_by:
+          type: string
+        project_id:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        project_name:
+          type: string
+        environment_id:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        environment_name:
+          type: string
+        user_agent:
+          type:
+          - string
+          - 'null'
+        original_change:
+          type:
+          - string
+          - 'null'
+      description: ''
+      title: ''
     OrganizationEventResponseList:
       type: object
       properties:
@@ -412,10 +412,10 @@ components:
           items:
             $ref: '#/components/schemas/OrganizationEventResponse'
   responses:
-    '404':
-      description: Resource not found
     '403':
       description: Access forbidden
+    '404':
+      description: Resource not found
     '401':
       description: Access token is missing or invalid
   parameters:

@@ -160,7 +160,53 @@ paths:
         '404':
           $ref: '#/components/responses/404'
 components:
+  responses:
+    204-deletion:
+      description: The resource was deleted successfully
+    '400':
+      description: Bad request
+    '403':
+      description: Access forbidden
+    '404':
+      description: Resource not found
+    '401':
+      description: Access token is missing or invalid
+  parameters:
+    projectId:
+      name: projectId
+      in: path
+      description: Project ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+    deploymentRuleId:
+      name: deploymentRuleId
+      in: path
+      description: Deployment Rule ID
+      required: true
+      schema:
+        type: string
+        format: uuid
   schemas:
+    WeekdayEnum:
+      type: string
+      enum:
+      - MONDAY
+      - TUESDAY
+      - WEDNESDAY
+      - THURSDAY
+      - FRIDAY
+      - SATURDAY
+      - SUNDAY
+      example: MONDAY
+    ProjectDeploymentRuleResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProjectDeploymentRule'
     Base:
       type: object
       required:
@@ -179,6 +225,14 @@ components:
           type: string
           readOnly: true
           format: date-time
+    EnvironmentModeEnum:
+      type: string
+      enum:
+      - DEVELOPMENT
+      - PREVIEW
+      - PRODUCTION
+      - STAGING
+      example: PRODUCTION
     ProjectDeploymentRulesPriorityOrderRequest:
       type: object
       properties:
@@ -197,13 +251,6 @@ components:
           priority_index:
             type: integer
             description: used to select the first deployment rule to match new created environments
-    ProjectDeploymentRuleResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/ProjectDeploymentRule'
     ProjectDeploymentRuleRequest:
       type: object
       required:
@@ -252,53 +299,6 @@ components:
           type: string
           default: ''
           description: wildcard pattern composed of '?' and/or '*' used to target new created environments
-    WeekdayEnum:
-      type: string
-      enum:
-      - MONDAY
-      - TUESDAY
-      - WEDNESDAY
-      - THURSDAY
-      - FRIDAY
-      - SATURDAY
-      - SUNDAY
-      example: MONDAY
-    EnvironmentModeEnum:
-      type: string
-      enum:
-      - DEVELOPMENT
-      - PREVIEW
-      - PRODUCTION
-      - STAGING
-      example: PRODUCTION
-  responses:
-    '404':
-      description: Resource not found
-    204-deletion:
-      description: The resource was deleted successfully
-    '400':
-      description: Bad request
-    '403':
-      description: Access forbidden
-    '401':
-      description: Access token is missing or invalid
-  parameters:
-    projectId:
-      name: projectId
-      in: path
-      description: Project ID
-      required: true
-      schema:
-        type: string
-        format: uuid
-    deploymentRuleId:
-      name: deploymentRuleId
-      in: path
-      description: Deployment Rule ID
-      required: true
-      schema:
-        type: string
-        format: uuid
   securitySchemes:
     bearerAuth:
       type: http

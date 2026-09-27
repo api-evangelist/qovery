@@ -194,13 +194,19 @@ paths:
           $ref: '#/components/responses/401'
 components:
   schemas:
-    GitRepositoryResponseList:
+    GitRepositoryBranchResponseList:
       type: object
       properties:
         results:
           type: array
           items:
-            $ref: '#/components/schemas/GitRepository'
+            $ref: '#/components/schemas/GitRepositoryBranch'
+    GitProviderEnum:
+      type: string
+      enum:
+      - BITBUCKET
+      - GITHUB
+      - GITLAB
     GitRepository:
       type: object
       required:
@@ -221,20 +227,30 @@ components:
           example: master
         is_private:
           type: boolean
-    GitRepositoryBranchResponseList:
+    GitRepositoryBranch:
       type: object
+      required:
+      - name
       properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/GitRepositoryBranch'
-    GitAuthProviderResponseList:
+        name:
+          type: string
+          example: main
+    GitAuthProvider:
       type: object
+      required:
+      - name
+      - owner
       properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/GitAuthProvider'
+        id:
+          type: string
+        name:
+          type: string
+          example: GITHUB
+        owner:
+          type: string
+          example: John Doe
+        use_bot:
+          type: boolean
     ApplicationGitRepositoryRequest:
       type: object
       required:
@@ -267,43 +283,27 @@ components:
           description: The git token id on Qovery side
         provider:
           $ref: '#/components/schemas/GitProviderEnum'
-    GitAuthProvider:
+    GitRepositoryResponseList:
       type: object
-      required:
-      - name
-      - owner
       properties:
-        id:
-          type: string
-        name:
-          type: string
-          example: GITHUB
-        owner:
-          type: string
-          example: John Doe
-        use_bot:
-          type: boolean
-    GitProviderEnum:
-      type: string
-      enum:
-      - BITBUCKET
-      - GITHUB
-      - GITLAB
-    GitRepositoryBranch:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/GitRepository'
+    GitAuthProviderResponseList:
       type: object
-      required:
-      - name
       properties:
-        name:
-          type: string
-          example: main
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/GitAuthProvider'
   responses:
-    '404':
-      description: Resource not found
     '400':
       description: Bad request
     '403':
       description: Access forbidden
+    '404':
+      description: Resource not found
     '401':
       description: Access token is missing or invalid
   parameters:

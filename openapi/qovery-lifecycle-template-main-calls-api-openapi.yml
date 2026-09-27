@@ -80,48 +80,7 @@ paths:
         '404':
           $ref: '#/components/responses/404'
 components:
-  responses:
-    '404':
-      description: Resource not found
-    '403':
-      description: Access forbidden
-    '401':
-      description: Access token is missing or invalid
   schemas:
-    LifecycleTemplateListResponse:
-      title: LifecycleTemplateListResponse
-      x-stoplight:
-        id: xors8ncf4ky35
-      type: object
-      required:
-      - results
-      properties:
-        results:
-          type: array
-          x-stoplight:
-            id: 7641tagxo4zpi
-          items:
-            x-stoplight:
-              id: uozhvuyd6pdmu
-            type: object
-            required:
-            - id
-            - name
-            - description
-            properties:
-              id:
-                type: string
-                x-stoplight:
-                  id: qwkicuwqfvcw4
-                format: uuid
-              name:
-                type: string
-                x-stoplight:
-                  id: eec0zks0ju8mm
-              description:
-                type: string
-                x-stoplight:
-                  id: yg0unyqcvyzcn
     LifecycleTemplateResponse:
       title: LifecycleTemplateResponse
       x-stoplight:
@@ -278,6 +237,47 @@ components:
       - GCP
       - ON_PREMISE
       - AZURE
+    LifecycleTemplateListResponse:
+      title: LifecycleTemplateListResponse
+      x-stoplight:
+        id: xors8ncf4ky35
+      type: object
+      required:
+      - results
+      properties:
+        results:
+          type: array
+          x-stoplight:
+            id: 7641tagxo4zpi
+          items:
+            x-stoplight:
+              id: uozhvuyd6pdmu
+            type: object
+            required:
+            - id
+            - name
+            - description
+            properties:
+              id:
+                type: string
+                x-stoplight:
+                  id: qwkicuwqfvcw4
+                format: uuid
+              name:
+                type: string
+                x-stoplight:
+                  id: eec0zks0ju8mm
+              description:
+                type: string
+                x-stoplight:
+                  id: yg0unyqcvyzcn
+  responses:
+    '403':
+      description: Access forbidden
+    '404':
+      description: Resource not found
+    '401':
+      description: Access token is missing or invalid
   securitySchemes:
     bearerAuth:
       type: http

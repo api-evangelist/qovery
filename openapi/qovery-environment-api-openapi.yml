@@ -181,20 +181,20 @@ paths:
       description: List services links of an environment
 components:
   schemas:
-    ContainerImageCheckResponse:
-      type: object
-    GitFileCheckRequest:
+    ContainerImageCheckRequest:
       type: object
       required:
-      - git_repository
-      - files
+      - registry_d
+      - image_name
+      - tag
       properties:
-        git_repository:
-          $ref: '#/components/schemas/HelmGitRepositoryRequest'
-        files:
-          type: array
-          items:
-            type: string
+        registry_id:
+          type: string
+          format: uuid
+        image_name:
+          type: string
+        tag:
+          type: string
     StateEnum:
       type: string
       enum:
@@ -227,78 +227,38 @@ components:
       - WAITING_RESTARTING
       - WAITING_RUNNING
       - WAITING_STOPPING
-    ApplicationGitRepositoryRequest:
+    EnvDeploymentStatus:
+      title: EnvDeploymentStatus
+      x-stoplight:
+        id: 3t1ibpp18xhmy
+      type: object
+      properties:
+        deployment_request_id:
+          type: string
+          x-stoplight:
+            id: moe7npwga4pwm
+          format: uuid
+        environment_id:
+          type: string
+          x-stoplight:
+            id: t6sa9u90dayva
+          format: uuid
+        status:
+          $ref: '#/components/schemas/StateEnum'
+    GitFileCheckRequest:
       type: object
       required:
-      - url
-      - owner
-      - name
-      - provider
+      - git_repository
+      - files
       properties:
-        url:
-          type: string
-          description: application git repository URL
-          example: https://github.com/Qovery/simple-node-app
-        branch:
-          type: string
-          description: 'Name of the branch to use. This is optional
-
-            If not specified, then the branch used is the `main` or `master` one
-
-            '
-          example: feat/text_xxx
-        root_path:
-          type: string
-          default: /
-          description: indicates the root path of the application.
-        git_token_id:
-          type:
-          - string
-          - 'null'
-          format: uuid
-          description: The git token id on Qovery side
-        provider:
-          $ref: '#/components/schemas/GitProviderEnum'
-    HelmGitRepositoryRequest:
-      type: object
-      required:
-      - provider
-      - owner
-      - name
-      - url
-      properties:
-        url:
-          type: string
-          description: application git repository URL
-          example: https://github.com/Qovery/simple-node-app
-        branch:
-          type: string
-          description: 'Name of the branch to use. This is optional
-
-            If not specified, then the branch used is the `main` or `master` one
-
-            '
-          example: feat/text_xxx
-        root_path:
-          type: string
-          default: /
-          description: indicates the root path of the application.
-        git_token_id:
-          type:
-          - string
-          - 'null'
-          format: uuid
-          description: The git token id on Qovery side
-      title: ''
-    GitFileCheckResponse:
-      type: object
-    LinkResponseList:
-      type: object
-      properties:
-        results:
+        git_repository:
+          $ref: '#/components/schemas/HelmGitRepositoryRequest'
+        files:
           type: array
           items:
-            $ref: '#/components/schemas/Link'
+            type: string
+    ContainerImageCheckResponse:
+      type: object
     Link:
       type: object
       required:
@@ -343,20 +303,50 @@ components:
             my-super-domain.com       => is_default = true, is_qovery = false
 
             '
-    ContainerImageCheckRequest:
+    HelmGitRepositoryRequest:
       type: object
       required:
-      - registry_d
-      - image_name
-      - tag
+      - provider
+      - owner
+      - name
+      - url
       properties:
-        registry_id:
+        url:
           type: string
+          description: application git repository URL
+          example: https://github.com/Qovery/simple-node-app
+        branch:
+          type: string
+          description: 'Name of the branch to use. This is optional
+
+            If not specified, then the branch used is the `main` or `master` one
+
+            '
+          example: feat/text_xxx
+        root_path:
+          type: string
+          default: /
+          description: indicates the root path of the application.
+        git_token_id:
+          type:
+          - string
+          - 'null'
           format: uuid
-        image_name:
+          description: The git token id on Qovery side
+      title: ''
+    DockerfileCheckRequest:
+      type: object
+      required:
+      - git_repository
+      - dockerfile_path
+      properties:
+        git_repository:
+          $ref: '#/components/schemas/ApplicationGitRepositoryRequest'
+        dockerfile_path:
           type: string
-        tag:
-          type: string
+          description: path of the dockerfile with root_path as base path
+    GitFileCheckResponse:
+      type: object
     DockerfileCheckResponse:
       type: object
       required:
@@ -375,50 +365,6 @@ components:
           type: array
           items:
             type: string
-    EnvDeploymentStatus:
-      title: EnvDeploymentStatus
-      x-stoplight:
-        id: 3t1ibpp18xhmy
-      type: object
-      properties:
-        deployment_request_id:
-          type: string
-          x-stoplight:
-            id: moe7npwga4pwm
-          format: uuid
-        environment_id:
-          type: string
-          x-stoplight:
-            id: t6sa9u90dayva
-          format: uuid
-        status:
-          $ref: '#/components/schemas/StateEnum'
-    DockerfileCheckRequest:
-      type: object
-      required:
-      - git_repository
-      - dockerfile_path
-      properties:
-        git_repository:
-          $ref: '#/components/schemas/ApplicationGitRepositoryRequest'
-        dockerfile_path:
-          type: string
-          description: path of the dockerfile with root_path as base path
-    HelmCheckRequest:
-      type: object
-      required:
-      - git_repository
-      properties:
-        git_repository:
-          $ref: '#/components/schemas/HelmGitRepositoryRequest'
-    HelmCheckResponse:
-      type: object
-    GitProviderEnum:
-      type: string
-      enum:
-      - BITBUCKET
-      - GITHUB
-      - GITLAB
     ServiceTypeEnum:
       type: string
       x-stoplight:
@@ -432,15 +378,69 @@ components:
       - HELM
       - TERRAFORM
       - ARGOCD_APP
+    HelmCheckRequest:
+      type: object
+      required:
+      - git_repository
+      properties:
+        git_repository:
+          $ref: '#/components/schemas/HelmGitRepositoryRequest'
+    GitProviderEnum:
+      type: string
+      enum:
+      - BITBUCKET
+      - GITHUB
+      - GITLAB
+    LinkResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Link'
+    ApplicationGitRepositoryRequest:
+      type: object
+      required:
+      - url
+      - owner
+      - name
+      - provider
+      properties:
+        url:
+          type: string
+          description: application git repository URL
+          example: https://github.com/Qovery/simple-node-app
+        branch:
+          type: string
+          description: 'Name of the branch to use. This is optional
+
+            If not specified, then the branch used is the `main` or `master` one
+
+            '
+          example: feat/text_xxx
+        root_path:
+          type: string
+          default: /
+          description: indicates the root path of the application.
+        git_token_id:
+          type:
+          - string
+          - 'null'
+          format: uuid
+          description: The git token id on Qovery side
+        provider:
+          $ref: '#/components/schemas/GitProviderEnum'
+    HelmCheckResponse:
+      type: object
   responses:
-    '404':
-      description: Resource not found
-    '401':
-      description: Access token is missing or invalid
     '400':
       description: Bad request
     '403':
       description: Access forbidden
+    '404':
+      description: Resource not found
+    '401':
+      description: Access token is missing or invalid
   parameters:
     environmentId:
       name: environmentId

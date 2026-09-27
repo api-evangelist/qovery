@@ -134,49 +134,67 @@ paths:
         '404':
           $ref: '#/components/responses/404'
 components:
-  parameters:
-    startId:
-      name: startId
-      in: query
-      description: Starting point after which to return results
-      required: false
-      schema:
-        type: string
-        format: uuid
-    jobId:
-      name: jobId
-      in: path
-      description: Job ID
-      required: true
-      schema:
-        type: string
-        format: uuid
-    gitCommitId:
-      name: gitCommitId
-      in: query
-      description: Git Commit ID
-      schema:
-        type: string
-        format: uuid
   schemas:
-    Base:
+    StatusDetails:
       type: object
       required:
-      - id
-      - created_at
+      - action
+      - status
+      - sub_action
       properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        created_at:
-          type: string
-          readOnly: true
-          format: date-time
-        updated_at:
-          type: string
-          readOnly: true
-          format: date-time
+        action:
+          $ref: '#/components/schemas/ServiceActionEnum'
+        status:
+          $ref: '#/components/schemas/ServiceActionStatusEnum'
+        sub_action:
+          $ref: '#/components/schemas/ServiceSubActionEnum'
+    OrganizationLabelsGroupResponse:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        required:
+        - name
+        - labels
+        properties:
+          name:
+            type: string
+          labels:
+            type: array
+            items:
+              $ref: '#/components/schemas/Label'
+      title: ''
+    StateEnum:
+      type: string
+      enum:
+      - BUILDING
+      - BUILD_ERROR
+      - CANCELED
+      - CANCELING
+      - DELETED
+      - DELETE_ERROR
+      - DELETE_QUEUED
+      - DELETING
+      - DEPLOYED
+      - DEPLOYING
+      - DEPLOYMENT_ERROR
+      - DEPLOYMENT_QUEUED
+      - EXECUTING
+      - QUEUED
+      - READY
+      - RECAP
+      - RESTARTED
+      - RESTARTING
+      - RESTART_ERROR
+      - RESTART_QUEUED
+      - STOPPED
+      - STOPPING
+      - STOP_ERROR
+      - STOP_QUEUED
+      - UNAVAILABLE
+      - WAITING_DELETING
+      - WAITING_RESTARTING
+      - WAITING_RUNNING
+      - WAITING_STOPPING
     ServiceLabelRequest:
       type: object
       required:
@@ -185,6 +203,390 @@ components:
         id:
           type: string
           format: uuid
+    JobTypeEnum:
+      type: string
+      description: type of job
+      enum:
+      - LIFECYCLE
+      - CRON
+    ServiceAnnotationRequest:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          type: string
+          format: uuid
+    Healthcheck:
+      type: object
+      properties:
+        readiness_probe:
+          $ref: '#/components/schemas/Probe'
+        liveness_probe:
+          $ref: '#/components/schemas/Probe'
+    ServiceLabelsRequestList:
+      type: array
+      items:
+        $ref: '#/components/schemas/ServiceLabelRequest'
+    StepMetricStatusEnum:
+      type: string
+      enum:
+      - SUCCESS
+      - ERROR
+      - CANCEL
+      - SKIP
+      description: 'The status of completion for the step:
+
+        - SUCCESS: The step completed successfully.
+
+        - ERROR: The step completed with an error.
+
+        - CANCEL: The step was canceled.
+
+        - SKIP: The step was skipped because it was not necessary.
+
+        '
+    Commit:
+      type:
+      - object
+      - 'null'
+      required:
+      - git_commit_id
+      - created_at
+      - author_name
+      - message
+      - tag
+      properties:
+        created_at:
+          type: string
+          format: date-time
+        git_commit_id:
+          type: string
+        tag:
+          type: string
+          example: v2.1.1
+        message:
+          type: string
+        author_name:
+          type: string
+        author_avatar_url:
+          type: string
+        commit_page_url:
+          type: string
+    ContainerRegistryProviderDetailsResponse:
+      type: object
+      required:
+      - id
+      - name
+      - url
+      - kind
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        url:
+          type: string
+          description: URL of the container registry
+        kind:
+          $ref: '#/components/schemas/ContainerRegistryKindEnum'
+    Label:
+      type: object
+      required:
+      - key
+      - value
+      - propagate_to_cloud_provider
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+        propagate_to_cloud_provider:
+          type: boolean
+    OrganizationAnnotationsGroupResponse:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        required:
+        - name
+        - annotations
+        - scopes
+        properties:
+          name:
+            type: string
+          annotations:
+            type: array
+            items:
+              $ref: '#/components/schemas/Annotation'
+          scopes:
+            type: array
+            items:
+              $ref: '#/components/schemas/OrganizationAnnotationsGroupScopeEnum'
+    ContainerSource:
+      type: object
+      required:
+      - image_name
+      - tag
+      - registry
+      properties:
+        image_name:
+          type: string
+          description: 'The image name pattern differs according to chosen container registry provider:
+
+            * `ECR`: `repository`
+
+            * `SCALEWAY_CR`: `namespace/image`
+
+            * `DOCKER_HUB`: `image` or `repository/image`
+
+            * `PUBLIC_ECR`: `registry_alias/repository`
+
+            '
+        tag:
+          type: string
+          description: tag of the image container
+        registry_id:
+          type: string
+          description: tag of the image container
+        registry:
+          $ref: '#/components/schemas/ContainerRegistryProviderDetailsResponse'
+    OrganizationAnnotationsGroupScopeEnum:
+      type: string
+      description: Annotations Group Scope
+      enum:
+      - DEPLOYMENTS
+      - STATEFUL_SETS
+      - SERVICES
+      - INGRESS
+      - GATEWAY_API_ROUTES
+      - HPA
+      - PODS
+      - SECRETS
+      - JOBS
+      - CRON_JOBS
+    ServiceStepMetricNameEnum:
+      type: string
+      enum:
+      - REGISTRY_CREATE_REPOSITORY
+      - GIT_CLONE
+      - BUILD_QUEUEING
+      - BUILD
+      - DEPLOYMENT_QUEUEING
+      - DEPLOYMENT
+      - ROUTER_DEPLOYMENT
+      - MIRROR_IMAGE
+      - EXECUTING
+      description: "The name of the deployment step at the service level:\n- REGISTRY_CREATE_REPOSITORY: The step to create the repository in the registry.\n- GIT_CLONE: The step to clone the source code repository. \n- BUILD_QUEUEING: The queuing time preceding the actual building step.\n- BUILD: The step to build the source code.\n- DEPLOYMENT_QUEUEING: The queuing time preceding the actual deployment step.\n- DEPLOYMENT: The step to deploy the service. \n- ROUTER_DEPLOYMENT: The step to deploy the router. \n- MIRROR_IMAGE: The step to mirror the image to the private registry.\n- EXECUTING: The step to execute a job or terraform apply.\n"
+    CronJobResponse:
+      allOf:
+      - $ref: '#/components/schemas/BaseJobResponse'
+      - type: object
+        required:
+        - job_type
+        - schedule
+        properties:
+          job_type:
+            $ref: '#/components/schemas/JobTypeEnum'
+          schedule:
+            type: object
+            required:
+            - cronjob
+            properties:
+              cronjob:
+                type: object
+                required:
+                - timezone
+                - scheduled_at
+                properties:
+                  arguments:
+                    type: array
+                    items:
+                      type: string
+                  entrypoint:
+                    type: string
+                    description: optional entrypoint when launching container
+                  timezone:
+                    type: string
+                    description: tz identifier at which the schedule at will be executed
+                  scheduled_at:
+                    type: string
+                    format: cron
+                    description: "Can only be set if the event is CRON.  \nRepresent the cron format for the job schedule without seconds.  \nFor example: `* * * * *` represent the cron to launch the job every minute.  \nSee https://crontab.guru/ to WISIWIG interface.  \nTimezone is UT\n"
+          annotations_groups:
+            $ref: '#/components/schemas/OrganizationAnnotationsGroupResponseList'
+          labels_groups:
+            $ref: '#/components/schemas/OrganizationLabelsGroupResponseList'
+    Annotation:
+      type: object
+      required:
+      - key
+      - value
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+    Probe:
+      type:
+      - object
+      - 'null'
+      properties:
+        type:
+          type: object
+          properties:
+            tcp:
+              type:
+              - object
+              - 'null'
+              properties:
+                port:
+                  type: integer
+                host:
+                  type:
+                  - string
+                  - 'null'
+                  default: null
+            http:
+              type:
+              - object
+              - 'null'
+              properties:
+                path:
+                  type: string
+                  default: /
+                scheme:
+                  type: string
+                  default: HTTP
+                port:
+                  type: integer
+            exec:
+              type:
+              - object
+              - 'null'
+              description: Execute a command inside the container. The probe succeeds if the command exits with status code 0.
+              properties:
+                command:
+                  type: array
+                  description: 'Command to execute inside the container, specified as an array of strings. The first element is the executable, followed by its arguments. Example: ["sh", "-c", "test -f /tmp/healthy"]'
+                  example:
+                  - sh
+                  - -c
+                  - test -f /tmp/healthy
+                  items:
+                    type: string
+                  minItems: 1
+            grpc:
+              type:
+              - object
+              - 'null'
+              properties:
+                service:
+                  type:
+                  - string
+                  - 'null'
+                  default: null
+                port:
+                  type: integer
+        initial_delay_seconds:
+          type: integer
+          default: 30
+        period_seconds:
+          type: integer
+          default: 10
+        timeout_seconds:
+          type: integer
+          default: 5
+        success_threshold:
+          type: integer
+          default: 1
+        failure_threshold:
+          type: integer
+          default: 9
+    ServiceTypeEnum:
+      type: string
+      x-stoplight:
+        id: d66063cd29913
+      description: type of the service (application, database, job, ...)
+      enum:
+      - APPLICATION
+      - DATABASE
+      - CONTAINER
+      - JOB
+      - HELM
+      - TERRAFORM
+      - ARGOCD_APP
+    ServiceActionEnum:
+      type: string
+      enum:
+      - DEPLOY
+      - DELETE
+      - RESTART
+      - STOP
+      - UNKNOWN
+    ReferenceObject:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+    LifecycleJobResponse:
+      allOf:
+      - $ref: '#/components/schemas/BaseJobResponse'
+      - type: object
+        required:
+        - job_type
+        - schedule
+        properties:
+          job_type:
+            $ref: '#/components/schemas/JobTypeEnum'
+          schedule:
+            type: object
+            properties:
+              on_start:
+                type: object
+                properties:
+                  arguments:
+                    type: array
+                    items:
+                      type: string
+                  entrypoint:
+                    type: string
+                    description: optional entrypoint when launching container
+              on_stop:
+                type: object
+                properties:
+                  arguments:
+                    type: array
+                    items:
+                      type: string
+                  entrypoint:
+                    type: string
+                    description: optional entrypoint when launching container
+              on_delete:
+                type: object
+                properties:
+                  arguments:
+                    type: array
+                    items:
+                      type: string
+                  entrypoint:
+                    type: string
+                    description: optional entrypoint when launching container
+              lifecycle_type:
+                $ref: '#/components/schemas/JobLifecycleTypeEnum'
+          annotations_groups:
+            $ref: '#/components/schemas/OrganizationAnnotationsGroupResponseList'
+          labels_groups:
+            $ref: '#/components/schemas/OrganizationLabelsGroupResponseList'
+      title: ''
+    ServiceAnnotationsRequestList:
+      type: array
+      items:
+        $ref: '#/components/schemas/ServiceAnnotationRequest'
     Status:
       type: object
       required:
@@ -227,6 +629,189 @@ components:
           type: integer
           x-stoplight:
             id: crku532vt3v4p
+    JobResponse:
+      oneOf:
+      - $ref: '#/components/schemas/LifecycleJobResponse'
+      - $ref: '#/components/schemas/CronJobResponse'
+      discriminator:
+        propertyName: job_type
+        mapping:
+          LIFECYCLE: '#/components/schemas/LifecycleJobResponse'
+          CRON: '#/components/schemas/CronJobResponse'
+    ApplicationGitRepository:
+      type: object
+      required:
+      - provider
+      - owner
+      - name
+      - url
+      properties:
+        has_access:
+          type: boolean
+        provider:
+          $ref: '#/components/schemas/GitProviderEnum'
+        owner:
+          type: string
+          example: John Doe
+        url:
+          type: string
+          format: uri
+        name:
+          type: string
+          description: repository name
+          example: simple-node-app
+        branch:
+          type: string
+        root_path:
+          type: string
+        deployed_commit_id:
+          type: string
+          description: Git commit ID corresponding to the deployed version of the app
+        deployed_commit_date:
+          type: string
+          readOnly: true
+          format: date-time
+          description: Git commit date corresponding to the deployed version of the app
+        deployed_commit_contributor:
+          type: string
+          description: Git commit user corresponding to the deployed version of the app
+        deployed_commit_tag:
+          type: string
+          example: v1.0.1
+        git_token_id:
+          type:
+          - string
+          - 'null'
+        git_token_name:
+          type:
+          - string
+          - 'null'
+      title: ''
+    ServiceDeploymentStatusEnum:
+      type: string
+      enum:
+      - NEVER_DEPLOYED
+      - OUT_OF_DATE
+      - UP_TO_DATE
+    BaseJobResponse:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        required:
+        - environment
+        - maximum_cpu
+        - maximum_memory
+        - maximum_gpu
+        - name
+        - cpu
+        - memory
+        - gpu
+        - auto_preview
+        - source
+        - healthchecks
+        - icon_uri
+        - service_type
+        properties:
+          environment:
+            $ref: '#/components/schemas/ReferenceObject'
+          maximum_cpu:
+            type: integer
+            description: Maximum cpu that can be allocated to the job based on organization cluster configuration. unit is millicores (m). 1000m = 1 cpu
+            example: 16000
+          maximum_memory:
+            type: integer
+            description: Maximum memory that can be allocated to the job based on organization cluster configuration. unit is MB. 1024 MB = 1GB
+            example: 16384
+          maximum_gpu:
+            type: integer
+            description: Maximum memory that can be allocated to the job based on organization cluster configuration. unit is MB. 1024 MB = 1GB
+            x-stoplight:
+              id: 7o0e6wrgnxgcc
+            minimum: 0
+            default: 0
+            example: 2
+          name:
+            type: string
+            description: name is case insensitive
+          description:
+            type: string
+          cpu:
+            type: integer
+            description: unit is millicores (m). 1000m = 1 cpu
+            example: 1250
+          memory:
+            type: integer
+            description: unit is MB. 1024 MB = 1GB
+            example: 1024
+          gpu:
+            type: integer
+            x-stoplight:
+              id: 50sj2wtkdypgg
+            default: 0
+            minimum: 0
+            example: 1
+          max_nb_restart:
+            type: integer
+            minimum: 0
+            description: 'Maximum number of restart allowed before the job is considered as failed
+
+              0 means that no restart/crash of the job is allowed
+
+              '
+          max_duration_seconds:
+            type: integer
+            minimum: 0
+            description: 'Maximum number of seconds allowed for the job to run before killing it and mark it as failed
+
+              '
+          auto_preview:
+            type: boolean
+            description: "Indicates if the 'environment preview option' is enabled for this container.  \nIf enabled, a preview environment will be automatically cloned when `/preview` endpoint is called.  \nIf not specified, it takes the value of the `auto_preview` property from the associated environment.\n"
+          port:
+            type:
+            - integer
+            - 'null'
+            minimum: 1
+            description: Port where to run readiness and liveliness probes checks. The port will not be exposed externally
+            default: null
+          source:
+            oneOf:
+            - required:
+              - image
+              properties:
+                image:
+                  $ref: '#/components/schemas/ContainerSource'
+              type: object
+            - required:
+              - docker
+              properties:
+                docker:
+                  $ref: '#/components/schemas/JobSourceDockerResponse'
+              type: object
+          healthchecks:
+            $ref: '#/components/schemas/Healthcheck'
+          auto_deploy:
+            type: boolean
+            description: "Specify if the job will be automatically updated after receiving a new image tag or a new commit according to the source type. \nThe new image tag shall be communicated via the \"Auto Deploy job\" endpoint https://api-doc.qovery.com/#tag/Jobs/operation/autoDeployJobEnvironments\n"
+          icon_uri:
+            type: string
+            format: uri
+            description: Icon URI representing the job.
+            x-stoplight:
+              id: p1secr7kxozsd
+          service_type:
+            $ref: '#/components/schemas/ServiceTypeEnum'
+    ServiceActionStatusEnum:
+      type: string
+      enum:
+      - QUEUED
+      - ONGOING
+      - SUCCESS
+      - ERROR
+      - EXECUTING
+      - CANCELED
+      - CANCELING
+      - NEVER
     JobRequest:
       allOf:
       - required:
@@ -396,114 +981,111 @@ components:
             x-stoplight:
               id: k3gangiisgxpc
       type: object
+    OrganizationAnnotationsGroupResponseList:
+      type: array
+      items:
+        $ref: '#/components/schemas/OrganizationAnnotationsGroupResponse'
+    Base:
+      type: object
+      required:
+      - id
+      - created_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          readOnly: true
+          format: date-time
+        updated_at:
+          type: string
+          readOnly: true
+          format: date-time
+    GitProviderEnum:
+      type: string
+      enum:
+      - BITBUCKET
+      - GITHUB
+      - GITLAB
     OrganizationLabelsGroupResponseList:
       type: array
       items:
         $ref: '#/components/schemas/OrganizationLabelsGroupResponse'
       title: ''
-    ServiceAnnotationRequest:
+    JobSourceDockerResponse:
+      title: JobSourceDockerResponse
+      x-stoplight:
+        id: s59m8wajnieny
       type: object
-      required:
-      - id
       properties:
-        id:
-          type: string
-          format: uuid
-    LifecycleJobResponse:
-      allOf:
-      - $ref: '#/components/schemas/BaseJobResponse'
-      - type: object
-        required:
-        - job_type
-        - schedule
-        properties:
-          job_type:
-            $ref: '#/components/schemas/JobTypeEnum'
-          schedule:
-            type: object
-            properties:
-              on_start:
-                type: object
-                properties:
-                  arguments:
-                    type: array
-                    items:
-                      type: string
-                  entrypoint:
-                    type: string
-                    description: optional entrypoint when launching container
-              on_stop:
-                type: object
-                properties:
-                  arguments:
-                    type: array
-                    items:
-                      type: string
-                  entrypoint:
-                    type: string
-                    description: optional entrypoint when launching container
-              on_delete:
-                type: object
-                properties:
-                  arguments:
-                    type: array
-                    items:
-                      type: string
-                  entrypoint:
-                    type: string
-                    description: optional entrypoint when launching container
-              lifecycle_type:
-                $ref: '#/components/schemas/JobLifecycleTypeEnum'
-          annotations_groups:
-            $ref: '#/components/schemas/OrganizationAnnotationsGroupResponseList'
-          labels_groups:
-            $ref: '#/components/schemas/OrganizationLabelsGroupResponseList'
-      title: ''
-    ServiceStepMetricNameEnum:
+        git_repository:
+          $ref: '#/components/schemas/ApplicationGitRepository'
+        dockerfile_path:
+          type:
+          - string
+          - 'null'
+          x-stoplight:
+            id: 72djyl4mjhxny
+          description: The path of the associated Dockerfile. Only if you are using build_mode = DOCKER
+        dockerfile_raw:
+          type:
+          - string
+          - 'null'
+          x-stoplight:
+            id: 7s4l0qg285y48
+          description: The content of your dockerfile if it is not stored inside your git repository
+        docker_target_build_stage:
+          type:
+          - string
+          - 'null'
+          x-stoplight:
+            id: 8o1faq3bgz92i
+          description: The target build stage in the Dockerfile to build
+    ContainerRegistryKindEnum:
       type: string
       enum:
-      - REGISTRY_CREATE_REPOSITORY
-      - GIT_CLONE
-      - BUILD_QUEUEING
-      - BUILD
-      - DEPLOYMENT_QUEUEING
-      - DEPLOYMENT
-      - ROUTER_DEPLOYMENT
-      - MIRROR_IMAGE
-      - EXECUTING
-      description: "The name of the deployment step at the service level:\n- REGISTRY_CREATE_REPOSITORY: The step to create the repository in the registry.\n- GIT_CLONE: The step to clone the source code repository. \n- BUILD_QUEUEING: The queuing time preceding the actual building step.\n- BUILD: The step to build the source code.\n- DEPLOYMENT_QUEUEING: The queuing time preceding the actual deployment step.\n- DEPLOYMENT: The step to deploy the service. \n- ROUTER_DEPLOYMENT: The step to deploy the router. \n- MIRROR_IMAGE: The step to mirror the image to the private registry.\n- EXECUTING: The step to execute a job or terraform apply.\n"
-    StateEnum:
+      - ECR
+      - SCALEWAY_CR
+      - DOCKER_HUB
+      - GITHUB_CR
+      - GITHUB_ENTERPRISE_CR
+      - GITLAB_CR
+      - PUBLIC_ECR
+      - DOCR
+      - GENERIC_CR
+      - GCP_ARTIFACT_REGISTRY
+      - AZURE_CR
+      description: The type of your container registry
+    ServiceSubActionEnum:
       type: string
+      default: NONE
       enum:
-      - BUILDING
-      - BUILD_ERROR
-      - CANCELED
-      - CANCELING
-      - DELETED
-      - DELETE_ERROR
-      - DELETE_QUEUED
-      - DELETING
-      - DEPLOYED
-      - DEPLOYING
-      - DEPLOYMENT_ERROR
-      - DEPLOYMENT_QUEUED
-      - EXECUTING
-      - QUEUED
-      - READY
-      - RECAP
-      - RESTARTED
-      - RESTARTING
-      - RESTART_ERROR
-      - RESTART_QUEUED
-      - STOPPED
-      - STOPPING
-      - STOP_ERROR
-      - STOP_QUEUED
-      - UNAVAILABLE
-      - WAITING_DELETING
-      - WAITING_RESTARTING
-      - WAITING_RUNNING
-      - WAITING_STOPPING
+      - NONE
+      - TERRAFORM_PLAN_ONLY
+      - TERRAFORM_PLAN_AND_APPLY
+      - TERRAFORM_DESTROY
+      - TERRAFORM_FORCE_UNLOCK_STATE
+      - TERRAFORM_MIGRATE_STATE
+    JobLifecycleTypeEnum:
+      title: JobLifecycleTypeEnum
+      x-stoplight:
+        id: tz1t23a291l51
+      enum:
+      - GENERIC
+      - TERRAFORM
+      - CLOUDFORMATION
+    ServiceStepMetric:
+      type: object
+      properties:
+        step_name:
+          $ref: '#/components/schemas/ServiceStepMetricNameEnum'
+        status:
+          $ref: '#/components/schemas/StepMetricStatusEnum'
+        duration_sec:
+          description: The duration of the step in seconds.
+          type: integer
     ApplicationGitRepositoryRequest:
       type: object
       required:
@@ -536,6 +1118,13 @@ components:
           description: The git token id on Qovery side
         provider:
           $ref: '#/components/schemas/GitProviderEnum'
+    CommitResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Commit'
     ServiceStepMetrics:
       type: object
       required:
@@ -556,630 +1145,41 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ServiceStepMetric'
-    JobTypeEnum:
-      type: string
-      description: type of job
-      enum:
-      - LIFECYCLE
-      - CRON
-    ServiceDeploymentStatusEnum:
-      type: string
-      enum:
-      - NEVER_DEPLOYED
-      - OUT_OF_DATE
-      - UP_TO_DATE
-    Label:
-      type: object
-      required:
-      - key
-      - value
-      - propagate_to_cloud_provider
-      properties:
-        key:
-          type: string
-        value:
-          type: string
-        propagate_to_cloud_provider:
-          type: boolean
-    ServiceSubActionEnum:
-      type: string
-      default: NONE
-      enum:
-      - NONE
-      - TERRAFORM_PLAN_ONLY
-      - TERRAFORM_PLAN_AND_APPLY
-      - TERRAFORM_DESTROY
-      - TERRAFORM_FORCE_UNLOCK_STATE
-      - TERRAFORM_MIGRATE_STATE
-    JobResponse:
-      oneOf:
-      - $ref: '#/components/schemas/LifecycleJobResponse'
-      - $ref: '#/components/schemas/CronJobResponse'
-      discriminator:
-        propertyName: job_type
-        mapping:
-          LIFECYCLE: '#/components/schemas/LifecycleJobResponse'
-          CRON: '#/components/schemas/CronJobResponse'
-    ApplicationGitRepository:
-      type: object
-      required:
-      - provider
-      - owner
-      - name
-      - url
-      properties:
-        has_access:
-          type: boolean
-        provider:
-          $ref: '#/components/schemas/GitProviderEnum'
-        owner:
-          type: string
-          example: John Doe
-        url:
-          type: string
-          format: uri
-        name:
-          type: string
-          description: repository name
-          example: simple-node-app
-        branch:
-          type: string
-        root_path:
-          type: string
-        deployed_commit_id:
-          type: string
-          description: Git commit ID corresponding to the deployed version of the app
-        deployed_commit_date:
-          type: string
-          readOnly: true
-          format: date-time
-          description: Git commit date corresponding to the deployed version of the app
-        deployed_commit_contributor:
-          type: string
-          description: Git commit user corresponding to the deployed version of the app
-        deployed_commit_tag:
-          type: string
-          example: v1.0.1
-        git_token_id:
-          type:
-          - string
-          - 'null'
-        git_token_name:
-          type:
-          - string
-          - 'null'
-      title: ''
-    Annotation:
-      type: object
-      required:
-      - key
-      - value
-      properties:
-        key:
-          type: string
-        value:
-          type: string
-    Commit:
-      type:
-      - object
-      - 'null'
-      required:
-      - git_commit_id
-      - created_at
-      - author_name
-      - message
-      - tag
-      properties:
-        created_at:
-          type: string
-          format: date-time
-        git_commit_id:
-          type: string
-        tag:
-          type: string
-          example: v2.1.1
-        message:
-          type: string
-        author_name:
-          type: string
-        author_avatar_url:
-          type: string
-        commit_page_url:
-          type: string
-    ContainerSource:
-      type: object
-      required:
-      - image_name
-      - tag
-      - registry
-      properties:
-        image_name:
-          type: string
-          description: 'The image name pattern differs according to chosen container registry provider:
-
-            * `ECR`: `repository`
-
-            * `SCALEWAY_CR`: `namespace/image`
-
-            * `DOCKER_HUB`: `image` or `repository/image`
-
-            * `PUBLIC_ECR`: `registry_alias/repository`
-
-            '
-        tag:
-          type: string
-          description: tag of the image container
-        registry_id:
-          type: string
-          description: tag of the image container
-        registry:
-          $ref: '#/components/schemas/ContainerRegistryProviderDetailsResponse'
-    CronJobResponse:
-      allOf:
-      - $ref: '#/components/schemas/BaseJobResponse'
-      - type: object
-        required:
-        - job_type
-        - schedule
-        properties:
-          job_type:
-            $ref: '#/components/schemas/JobTypeEnum'
-          schedule:
-            type: object
-            required:
-            - cronjob
-            properties:
-              cronjob:
-                type: object
-                required:
-                - timezone
-                - scheduled_at
-                properties:
-                  arguments:
-                    type: array
-                    items:
-                      type: string
-                  entrypoint:
-                    type: string
-                    description: optional entrypoint when launching container
-                  timezone:
-                    type: string
-                    description: tz identifier at which the schedule at will be executed
-                  scheduled_at:
-                    type: string
-                    format: cron
-                    description: "Can only be set if the event is CRON.  \nRepresent the cron format for the job schedule without seconds.  \nFor example: `* * * * *` represent the cron to launch the job every minute.  \nSee https://crontab.guru/ to WISIWIG interface.  \nTimezone is UT\n"
-          annotations_groups:
-            $ref: '#/components/schemas/OrganizationAnnotationsGroupResponseList'
-          labels_groups:
-            $ref: '#/components/schemas/OrganizationLabelsGroupResponseList'
-    ServiceActionEnum:
-      type: string
-      enum:
-      - DEPLOY
-      - DELETE
-      - RESTART
-      - STOP
-      - UNKNOWN
-    JobLifecycleTypeEnum:
-      title: JobLifecycleTypeEnum
-      x-stoplight:
-        id: tz1t23a291l51
-      enum:
-      - GENERIC
-      - TERRAFORM
-      - CLOUDFORMATION
-    OrganizationLabelsGroupResponse:
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - type: object
-        required:
-        - name
-        - labels
-        properties:
-          name:
-            type: string
-          labels:
-            type: array
-            items:
-              $ref: '#/components/schemas/Label'
-      title: ''
-    CommitResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/Commit'
-    OrganizationAnnotationsGroupScopeEnum:
-      type: string
-      description: Annotations Group Scope
-      enum:
-      - DEPLOYMENTS
-      - STATEFUL_SETS
-      - SERVICES
-      - INGRESS
-      - GATEWAY_API_ROUTES
-      - HPA
-      - PODS
-      - SECRETS
-      - JOBS
-      - CRON_JOBS
-    ContainerRegistryProviderDetailsResponse:
-      type: object
-      required:
-      - id
-      - name
-      - url
-      - kind
-      properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          type: string
-        url:
-          type: string
-          description: URL of the container registry
-        kind:
-          $ref: '#/components/schemas/ContainerRegistryKindEnum'
-    BaseJobResponse:
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - type: object
-        required:
-        - environment
-        - maximum_cpu
-        - maximum_memory
-        - maximum_gpu
-        - name
-        - cpu
-        - memory
-        - gpu
-        - auto_preview
-        - source
-        - healthchecks
-        - icon_uri
-        - service_type
-        properties:
-          environment:
-            $ref: '#/components/schemas/ReferenceObject'
-          maximum_cpu:
-            type: integer
-            description: Maximum cpu that can be allocated to the job based on organization cluster configuration. unit is millicores (m). 1000m = 1 cpu
-            example: 16000
-          maximum_memory:
-            type: integer
-            description: Maximum memory that can be allocated to the job based on organization cluster configuration. unit is MB. 1024 MB = 1GB
-            example: 16384
-          maximum_gpu:
-            type: integer
-            description: Maximum memory that can be allocated to the job based on organization cluster configuration. unit is MB. 1024 MB = 1GB
-            x-stoplight:
-              id: 7o0e6wrgnxgcc
-            minimum: 0
-            default: 0
-            example: 2
-          name:
-            type: string
-            description: name is case insensitive
-          description:
-            type: string
-          cpu:
-            type: integer
-            description: unit is millicores (m). 1000m = 1 cpu
-            example: 1250
-          memory:
-            type: integer
-            description: unit is MB. 1024 MB = 1GB
-            example: 1024
-          gpu:
-            type: integer
-            x-stoplight:
-              id: 50sj2wtkdypgg
-            default: 0
-            minimum: 0
-            example: 1
-          max_nb_restart:
-            type: integer
-            minimum: 0
-            description: 'Maximum number of restart allowed before the job is considered as failed
-
-              0 means that no restart/crash of the job is allowed
-
-              '
-          max_duration_seconds:
-            type: integer
-            minimum: 0
-            description: 'Maximum number of seconds allowed for the job to run before killing it and mark it as failed
-
-              '
-          auto_preview:
-            type: boolean
-            description: "Indicates if the 'environment preview option' is enabled for this container.  \nIf enabled, a preview environment will be automatically cloned when `/preview` endpoint is called.  \nIf not specified, it takes the value of the `auto_preview` property from the associated environment.\n"
-          port:
-            type:
-            - integer
-            - 'null'
-            minimum: 1
-            description: Port where to run readiness and liveliness probes checks. The port will not be exposed externally
-            default: null
-          source:
-            oneOf:
-            - required:
-              - image
-              properties:
-                image:
-                  $ref: '#/components/schemas/ContainerSource'
-              type: object
-            - required:
-              - docker
-              properties:
-                docker:
-                  $ref: '#/components/schemas/JobSourceDockerResponse'
-              type: object
-          healthchecks:
-            $ref: '#/components/schemas/Healthcheck'
-          auto_deploy:
-            type: boolean
-            description: "Specify if the job will be automatically updated after receiving a new image tag or a new commit according to the source type. \nThe new image tag shall be communicated via the \"Auto Deploy job\" endpoint https://api-doc.qovery.com/#tag/Jobs/operation/autoDeployJobEnvironments\n"
-          icon_uri:
-            type: string
-            format: uri
-            description: Icon URI representing the job.
-            x-stoplight:
-              id: p1secr7kxozsd
-          service_type:
-            $ref: '#/components/schemas/ServiceTypeEnum'
-    ServiceAnnotationsRequestList:
-      type: array
-      items:
-        $ref: '#/components/schemas/ServiceAnnotationRequest'
-    ServiceStepMetric:
-      type: object
-      properties:
-        step_name:
-          $ref: '#/components/schemas/ServiceStepMetricNameEnum'
-        status:
-          $ref: '#/components/schemas/StepMetricStatusEnum'
-        duration_sec:
-          description: The duration of the step in seconds.
-          type: integer
-    StepMetricStatusEnum:
-      type: string
-      enum:
-      - SUCCESS
-      - ERROR
-      - CANCEL
-      - SKIP
-      description: 'The status of completion for the step:
-
-        - SUCCESS: The step completed successfully.
-
-        - ERROR: The step completed with an error.
-
-        - CANCEL: The step was canceled.
-
-        - SKIP: The step was skipped because it was not necessary.
-
-        '
-    JobSourceDockerResponse:
-      title: JobSourceDockerResponse
-      x-stoplight:
-        id: s59m8wajnieny
-      type: object
-      properties:
-        git_repository:
-          $ref: '#/components/schemas/ApplicationGitRepository'
-        dockerfile_path:
-          type:
-          - string
-          - 'null'
-          x-stoplight:
-            id: 72djyl4mjhxny
-          description: The path of the associated Dockerfile. Only if you are using build_mode = DOCKER
-        dockerfile_raw:
-          type:
-          - string
-          - 'null'
-          x-stoplight:
-            id: 7s4l0qg285y48
-          description: The content of your dockerfile if it is not stored inside your git repository
-        docker_target_build_stage:
-          type:
-          - string
-          - 'null'
-          x-stoplight:
-            id: 8o1faq3bgz92i
-          description: The target build stage in the Dockerfile to build
-    OrganizationAnnotationsGroupResponseList:
-      type: array
-      items:
-        $ref: '#/components/schemas/OrganizationAnnotationsGroupResponse'
-    Probe:
-      type:
-      - object
-      - 'null'
-      properties:
-        type:
-          type: object
-          properties:
-            tcp:
-              type:
-              - object
-              - 'null'
-              properties:
-                port:
-                  type: integer
-                host:
-                  type:
-                  - string
-                  - 'null'
-                  default: null
-            http:
-              type:
-              - object
-              - 'null'
-              properties:
-                path:
-                  type: string
-                  default: /
-                scheme:
-                  type: string
-                  default: HTTP
-                port:
-                  type: integer
-            exec:
-              type:
-              - object
-              - 'null'
-              description: Execute a command inside the container. The probe succeeds if the command exits with status code 0.
-              properties:
-                command:
-                  type: array
-                  description: 'Command to execute inside the container, specified as an array of strings. The first element is the executable, followed by its arguments. Example: ["sh", "-c", "test -f /tmp/healthy"]'
-                  example:
-                  - sh
-                  - -c
-                  - test -f /tmp/healthy
-                  items:
-                    type: string
-                  minItems: 1
-            grpc:
-              type:
-              - object
-              - 'null'
-              properties:
-                service:
-                  type:
-                  - string
-                  - 'null'
-                  default: null
-                port:
-                  type: integer
-        initial_delay_seconds:
-          type: integer
-          default: 30
-        period_seconds:
-          type: integer
-          default: 10
-        timeout_seconds:
-          type: integer
-          default: 5
-        success_threshold:
-          type: integer
-          default: 1
-        failure_threshold:
-          type: integer
-          default: 9
-    ContainerRegistryKindEnum:
-      type: string
-      enum:
-      - ECR
-      - SCALEWAY_CR
-      - DOCKER_HUB
-      - GITHUB_CR
-      - GITHUB_ENTERPRISE_CR
-      - GITLAB_CR
-      - PUBLIC_ECR
-      - DOCR
-      - GENERIC_CR
-      - GCP_ARTIFACT_REGISTRY
-      - AZURE_CR
-      description: The type of your container registry
-    ReferenceObject:
-      type: object
-      required:
-      - id
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-    ServiceActionStatusEnum:
-      type: string
-      enum:
-      - QUEUED
-      - ONGOING
-      - SUCCESS
-      - ERROR
-      - EXECUTING
-      - CANCELED
-      - CANCELING
-      - NEVER
-    StatusDetails:
-      type: object
-      required:
-      - action
-      - status
-      - sub_action
-      properties:
-        action:
-          $ref: '#/components/schemas/ServiceActionEnum'
-        status:
-          $ref: '#/components/schemas/ServiceActionStatusEnum'
-        sub_action:
-          $ref: '#/components/schemas/ServiceSubActionEnum'
-    GitProviderEnum:
-      type: string
-      enum:
-      - BITBUCKET
-      - GITHUB
-      - GITLAB
-    ServiceTypeEnum:
-      type: string
-      x-stoplight:
-        id: d66063cd29913
-      description: type of the service (application, database, job, ...)
-      enum:
-      - APPLICATION
-      - DATABASE
-      - CONTAINER
-      - JOB
-      - HELM
-      - TERRAFORM
-      - ARGOCD_APP
-    ServiceLabelsRequestList:
-      type: array
-      items:
-        $ref: '#/components/schemas/ServiceLabelRequest'
-    Healthcheck:
-      type: object
-      properties:
-        readiness_probe:
-          $ref: '#/components/schemas/Probe'
-        liveness_probe:
-          $ref: '#/components/schemas/Probe'
-    OrganizationAnnotationsGroupResponse:
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - type: object
-        required:
-        - name
-        - annotations
-        - scopes
-        properties:
-          name:
-            type: string
-          annotations:
-            type: array
-            items:
-              $ref: '#/components/schemas/Annotation'
-          scopes:
-            type: array
-            items:
-              $ref: '#/components/schemas/OrganizationAnnotationsGroupScopeEnum'
+  parameters:
+    startId:
+      name: startId
+      in: query
+      description: Starting point after which to return results
+      required: false
+      schema:
+        type: string
+        format: uuid
+    gitCommitId:
+      name: gitCommitId
+      in: query
+      description: Git Commit ID
+      schema:
+        type: string
+        format: uuid
+    jobId:
+      name: jobId
+      in: path
+      description: Job ID
+      required: true
+      schema:
+        type: string
+        format: uuid
   responses:
+    '400':
+      description: Bad request
+    '403':
+      description: Access forbidden
     '404':
       description: Resource not found
     204-deletion:
       description: The resource was deleted successfully
     '401':
       description: Access token is missing or invalid
-    '400':
-      description: Bad request
-    '403':
-      description: Access forbidden
   securitySchemes:
     bearerAuth:
       type: http

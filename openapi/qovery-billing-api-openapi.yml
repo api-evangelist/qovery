@@ -395,79 +395,6 @@ paths:
           $ref: '#/components/responses/404'
 components:
   schemas:
-    Base:
-      type: object
-      required:
-      - id
-      - created_at
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        created_at:
-          type: string
-          readOnly: true
-          format: date-time
-        updated_at:
-          type: string
-          readOnly: true
-          format: date-time
-    CurrentCost:
-      type: object
-      properties:
-        plan:
-          $ref: '#/components/schemas/PlanEnum'
-        remaining_trial_day:
-          type: integer
-          description: number of days remaining before the end of the trial period
-        renewal_at:
-          type:
-          - string
-          - 'null'
-          description: date when the current plan will be renewed
-          readOnly: true
-          format: date-time
-        cost:
-          $ref: '#/components/schemas/Cost'
-    Invoice:
-      allOf:
-      - $ref: '#/components/schemas/Cost'
-      - type: object
-        required:
-        - id
-        - created_at
-        - status
-        - total_in_cents
-        - total
-        - currency_code
-        properties:
-          id:
-            type: string
-            format: uuid
-          created_at:
-            type: string
-            format: date-time
-          status:
-            $ref: '#/components/schemas/InvoiceStatusEnum'
-    CreditCardResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/CreditCard'
-    InvoiceResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/Invoice'
-    OrganizationCurrentCost:
-      allOf:
-      - $ref: '#/components/schemas/CurrentCost'
-      - type: object
     OrganizationBillingUsageReportResponse:
       type: object
       properties:
@@ -477,50 +404,16 @@ components:
         delete_report_url:
           description: The URL to delete the report. Use this URL to pro-actively delete the report before it expires
           type: string
-    BillingInfoRequest:
-      type: object
-      required:
-      - first_name
-      - last_name
-      - email
-      - address
-      - zip
-      - country_code
-      - city
-      properties:
-        first_name:
-          type: string
-          example: Forrest
-        last_name:
-          type: string
-          example: Gump
-        email:
-          type: string
-          format: email
-          example: forrest@gump.com
-          description: email used for billing, and to receive all invoices by email
-        address:
-          type: string
-          example: 21 Jenny Street
-        city:
-          type: string
-          example: Greenbow
-        zip:
-          type: string
-          example: '36744'
-        state:
-          type: string
-          example: Alabama
-          description: only for US
-        country_code:
-          type: string
-          description: ISO code of the country
-          example: US
-        company:
-          type: string
-          description: name of the company to bill
-        vat_number:
-          type: string
+    InvoiceStatusEnum:
+      type: string
+      enum:
+      - NOT_PAID
+      - PAID
+      - PAYMENT_DUE
+      - PENDING
+      - POSTED
+      - UNKNOWN
+      - VOIDED
     Link:
       type: object
       required:
@@ -565,37 +458,143 @@ components:
             my-super-domain.com       => is_default = true, is_qovery = false
 
             '
-    OrganizationChangePlanRequest:
-      type: object
-      properties:
-        plan:
-          type: string
-    Cost:
+    OrganizationRequest:
       type: object
       required:
-      - total_in_cents
-      - total
-      - currency_code
+      - name
+      - plan
       properties:
-        total_in_cents:
-          type: integer
-          example: 30000
-        total:
-          type: number
-          example: 300
-        currency_code:
+        name:
           type: string
-          example: USD
-    InvoiceStatusEnum:
+          description: name is case insensitive
+        description:
+          type:
+          - string
+          - 'null'
+        plan:
+          $ref: '#/components/schemas/PlanEnum'
+        website_url:
+          type:
+          - string
+          - 'null'
+        repository:
+          type:
+          - string
+          - 'null'
+        logo_url:
+          type:
+          - string
+          - 'null'
+        icon_url:
+          type:
+          - string
+          - 'null'
+        admin_emails:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+    InvoiceResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Invoice'
+    Organization:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - $ref: '#/components/schemas/OrganizationRequest'
+      - type: object
+        properties:
+          owner:
+            type: string
+            format: uuid
+            description: uuid of the user owning the organization
+          billing_deployment_restriction:
+            type:
+            - string
+            - 'null'
+            description: If set, indicates a billing-related restriction on the organization. 'NO_CREDIT_CARD' means the organization is on a free trial without a credit card — managed cluster creation and deployments on managed clusters are blocked, but demo cluster usage is allowed. Any other value blocks all deployments. null means no restriction.
+      - type: object
+        properties:
+          organization_plan:
+            type: object
+            properties:
+              plan:
+                $ref: '#/components/schemas/PlanEnum'
+              audit_logs_retention_in_days:
+                type: number
+                description: audit logs maximum period available in days
+    BillingInfoRequest:
+      type: object
+      required:
+      - first_name
+      - last_name
+      - email
+      - address
+      - zip
+      - country_code
+      - city
+      properties:
+        first_name:
+          type: string
+          example: Forrest
+        last_name:
+          type: string
+          example: Gump
+        email:
+          type: string
+          format: email
+          example: forrest@gump.com
+          description: email used for billing, and to receive all invoices by email
+        address:
+          type: string
+          example: 21 Jenny Street
+        city:
+          type: string
+          example: Greenbow
+        zip:
+          type: string
+          example: '36744'
+        state:
+          type: string
+          example: Alabama
+          description: only for US
+        country_code:
+          type: string
+          description: ISO code of the country
+          example: US
+        company:
+          type: string
+          description: name of the company to bill
+        vat_number:
+          type: string
+    ServiceTypeEnum:
       type: string
+      x-stoplight:
+        id: d66063cd29913
+      description: type of the service (application, database, job, ...)
       enum:
-      - NOT_PAID
-      - PAID
-      - PAYMENT_DUE
-      - PENDING
-      - POSTED
-      - UNKNOWN
-      - VOIDED
+      - APPLICATION
+      - DATABASE
+      - CONTAINER
+      - JOB
+      - HELM
+      - TERRAFORM
+      - ARGOCD_APP
+    OrganizationCurrentCost:
+      allOf:
+      - $ref: '#/components/schemas/CurrentCost'
+      - type: object
+    CreditCardResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/CreditCard'
     BillingInfo:
       type: object
       properties:
@@ -652,6 +651,33 @@ components:
           type:
           - string
           - 'null'
+    PlanEnum:
+      type: string
+      description: FREE, BUSINESS & PROFESSIONAL are deprecated. 2025 plans are the new plans available.
+      enum:
+      - FREE
+      - TEAM
+      - TEAM_YEARLY
+      - ENTERPRISE
+      - ENTERPRISE_YEARLY
+      - PROFESSIONAL
+      - BUSINESS
+      - USER_2025
+      - TEAM_2025
+      - BUSINESS_2025
+      - ENTERPRISE_2025
+    OrganizationChangePlanRequest:
+      type: object
+      properties:
+        plan:
+          type: string
+    BillingStatus:
+      type: object
+      properties:
+        is_valid:
+          type: boolean
+        message:
+          type: string
     OrganizationBillingUsageReportRequest:
       type: object
       required:
@@ -673,122 +699,24 @@ components:
           description: The number of seconds the report will be publicly available
           type: integer
           example: 3600
-    BillingStatus:
+    Base:
       type: object
-      properties:
-        is_valid:
-          type: boolean
-        message:
-          type: string
-    PlanEnum:
-      type: string
-      description: FREE, BUSINESS & PROFESSIONAL are deprecated. 2025 plans are the new plans available.
-      enum:
-      - FREE
-      - TEAM
-      - TEAM_YEARLY
-      - ENTERPRISE
-      - ENTERPRISE_YEARLY
-      - PROFESSIONAL
-      - BUSINESS
-      - USER_2025
-      - TEAM_2025
-      - BUSINESS_2025
-      - ENTERPRISE_2025
-    OrganizationCreditCodeRequest:
-      type: object
-      properties:
-        code:
-          type: string
-    Organization:
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - $ref: '#/components/schemas/OrganizationRequest'
-      - type: object
-        properties:
-          owner:
-            type: string
-            format: uuid
-            description: uuid of the user owning the organization
-          billing_deployment_restriction:
-            type:
-            - string
-            - 'null'
-            description: If set, indicates a billing-related restriction on the organization. 'NO_CREDIT_CARD' means the organization is on a free trial without a credit card — managed cluster creation and deployments on managed clusters are blocked, but demo cluster usage is allowed. Any other value blocks all deployments. null means no restriction.
-      - type: object
-        properties:
-          organization_plan:
-            type: object
-            properties:
-              plan:
-                $ref: '#/components/schemas/PlanEnum'
-              audit_logs_retention_in_days:
-                type: number
-                description: audit logs maximum period available in days
-    BillingExternalId:
-      type: object
+      required:
+      - id
+      - created_at
       properties:
         id:
           type: string
-    OrganizationRequest:
-      type: object
-      required:
-      - name
-      - plan
-      properties:
-        name:
+          format: uuid
+          readOnly: true
+        created_at:
           type: string
-          description: name is case insensitive
-        description:
-          type:
-          - string
-          - 'null'
-        plan:
-          $ref: '#/components/schemas/PlanEnum'
-        website_url:
-          type:
-          - string
-          - 'null'
-        repository:
-          type:
-          - string
-          - 'null'
-        logo_url:
-          type:
-          - string
-          - 'null'
-        icon_url:
-          type:
-          - string
-          - 'null'
-        admin_emails:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-    CostRange:
-      type: object
-      required:
-      - total_in_cents
-      - total
-      - currency_code
-      properties:
-        min_cost_in_cents:
-          type: integer
-          example: 15000
-        min_cost:
-          type: number
-          example: 150
-        max_cost_in_cents:
-          type: integer
-          example: 30000
-        max_cost:
-          type: number
-          example: 300
-        currency_code:
+          readOnly: true
+          format: date-time
+        updated_at:
           type: string
-          example: USD
+          readOnly: true
+          format: date-time
     CreditCard:
       type: object
       required:
@@ -819,19 +747,6 @@ components:
           type: boolean
         brand:
           type: string
-    ServiceTypeEnum:
-      type: string
-      x-stoplight:
-        id: d66063cd29913
-      description: type of the service (application, database, job, ...)
-      enum:
-      - APPLICATION
-      - DATABASE
-      - CONTAINER
-      - JOB
-      - HELM
-      - TERRAFORM
-      - ARGOCD_APP
     CreditCardRequest:
       type: object
       required:
@@ -855,22 +770,96 @@ components:
           - string
           - 'null'
           description: Token generated by payment solution platform.
-  responses:
-    '404':
-      description: Resource not found
-    204-deletion:
-      description: The resource was deleted successfully
-    '401':
-      description: Access token is missing or invalid
-    '400':
-      description: Bad request
-    '403':
-      description: Access forbidden
+    Invoice:
+      allOf:
+      - $ref: '#/components/schemas/Cost'
+      - type: object
+        required:
+        - id
+        - created_at
+        - status
+        - total_in_cents
+        - total
+        - currency_code
+        properties:
+          id:
+            type: string
+            format: uuid
+          created_at:
+            type: string
+            format: date-time
+          status:
+            $ref: '#/components/schemas/InvoiceStatusEnum'
+    OrganizationCreditCodeRequest:
+      type: object
+      properties:
+        code:
+          type: string
+    CurrentCost:
+      type: object
+      properties:
+        plan:
+          $ref: '#/components/schemas/PlanEnum'
+        remaining_trial_day:
+          type: integer
+          description: number of days remaining before the end of the trial period
+        renewal_at:
+          type:
+          - string
+          - 'null'
+          description: date when the current plan will be renewed
+          readOnly: true
+          format: date-time
+        cost:
+          $ref: '#/components/schemas/Cost'
+    BillingExternalId:
+      type: object
+      properties:
+        id:
+          type: string
+    Cost:
+      type: object
+      required:
+      - total_in_cents
+      - total
+      - currency_code
+      properties:
+        total_in_cents:
+          type: integer
+          example: 30000
+        total:
+          type: number
+          example: 300
+        currency_code:
+          type: string
+          example: USD
+    CostRange:
+      type: object
+      required:
+      - total_in_cents
+      - total
+      - currency_code
+      properties:
+        min_cost_in_cents:
+          type: integer
+          example: 15000
+        min_cost:
+          type: number
+          example: 150
+        max_cost_in_cents:
+          type: integer
+          example: 30000
+        max_cost:
+          type: number
+          example: 300
+        currency_code:
+          type: string
+          example: USD
   parameters:
-    organizationId:
-      name: organizationId
+    invoiceId:
+      name: invoiceId
       in: path
-      description: Organization ID
+      description: Invoice ID
       required: true
       schema:
         type: string
@@ -883,14 +872,6 @@ components:
       schema:
         type: string
         format: uuid
-    invoiceId:
-      name: invoiceId
-      in: path
-      description: Invoice ID
-      required: true
-      schema:
-        type: string
-        format: uuid
     creditCardId:
       name: creditCardId
       in: path
@@ -899,6 +880,25 @@ components:
       schema:
         type: string
         format: uuid
+    organizationId:
+      name: organizationId
+      in: path
+      description: Organization ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+  responses:
+    '400':
+      description: Bad request
+    '403':
+      description: Access forbidden
+    '404':
+      description: Resource not found
+    204-deletion:
+      description: The resource was deleted successfully
+    '401':
+      description: Access token is missing or invalid
   securitySchemes:
     bearerAuth:
       type: http

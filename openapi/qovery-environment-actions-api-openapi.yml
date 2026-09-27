@@ -395,79 +395,19 @@ paths:
                     format: uuid
 components:
   schemas:
-    Base:
+    StatusDetails:
       type: object
       required:
-      - id
-      - created_at
+      - action
+      - status
+      - sub_action
       properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        created_at:
-          type: string
-          readOnly: true
-          format: date-time
-        updated_at:
-          type: string
-          readOnly: true
-          format: date-time
-    Status:
-      type: object
-      required:
-      - id
-      - state
-      - service_deployment_status
-      - status_details
-      - is_part_last_deployment
-      - deployment_requests_count
-      - deployment_request_id
-      properties:
-        id:
-          type: string
-          format: uuid
-        state:
-          $ref: '#/components/schemas/StateEnum'
-        service_deployment_status:
-          $ref: '#/components/schemas/ServiceDeploymentStatusEnum'
-        last_deployment_date:
-          type: string
-          format: date-time
-        is_part_last_deployment:
-          type: boolean
-        steps:
-          $ref: '#/components/schemas/ServiceStepMetrics'
-        execution_id:
-          type: string
-          x-stoplight:
-            id: 3o9tz4272s2ct
-        status_details:
-          $ref: '#/components/schemas/StatusDetails'
-        deployment_request_id:
-          type:
-          - string
-          - 'null'
-          x-stoplight:
-            id: bepixrb7tyzme
-          format: uuid
-        deployment_requests_count:
-          type: integer
-          x-stoplight:
-            id: crku532vt3v4p
-    ServiceStepMetricNameEnum:
-      type: string
-      enum:
-      - REGISTRY_CREATE_REPOSITORY
-      - GIT_CLONE
-      - BUILD_QUEUEING
-      - BUILD
-      - DEPLOYMENT_QUEUEING
-      - DEPLOYMENT
-      - ROUTER_DEPLOYMENT
-      - MIRROR_IMAGE
-      - EXECUTING
-      description: "The name of the deployment step at the service level:\n- REGISTRY_CREATE_REPOSITORY: The step to create the repository in the registry.\n- GIT_CLONE: The step to clone the source code repository. \n- BUILD_QUEUEING: The queuing time preceding the actual building step.\n- BUILD: The step to build the source code.\n- DEPLOYMENT_QUEUEING: The queuing time preceding the actual deployment step.\n- DEPLOYMENT: The step to deploy the service. \n- ROUTER_DEPLOYMENT: The step to deploy the router. \n- MIRROR_IMAGE: The step to mirror the image to the private registry.\n- EXECUTING: The step to execute a job or terraform apply.\n"
+        action:
+          $ref: '#/components/schemas/ServiceActionEnum'
+        status:
+          $ref: '#/components/schemas/ServiceActionStatusEnum'
+        sub_action:
+          $ref: '#/components/schemas/ServiceSubActionEnum'
     StateEnum:
       type: string
       enum:
@@ -500,6 +440,71 @@ components:
       - WAITING_RESTARTING
       - WAITING_RUNNING
       - WAITING_STOPPING
+    StageStepMetrics:
+      type: object
+      properties:
+        stage_id:
+          type: string
+          format: uuid
+        total_duration_sec:
+          description: The total duration in seconds of the stage deployment or null if the deployment is not completed.
+          type:
+          - integer
+          - 'null'
+        details:
+          description: A list of metrics for deployment steps of the stage.
+          type: array
+          items:
+            $ref: '#/components/schemas/StageStepMetric'
+    RebootServicesRequest:
+      type: object
+      properties:
+        application_ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+        database_ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+        container_ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+    StageStepMetric:
+      type: object
+      properties:
+        stage_id:
+          type: string
+          format: uuid
+        step_name:
+          $ref: '#/components/schemas/StageStepMetricNameEnum'
+        status:
+          $ref: '#/components/schemas/StepMetricStatusEnum'
+        duration_sec:
+          description: The duration of the step in seconds.
+          type: integer
+    StepMetricStatusEnum:
+      type: string
+      enum:
+      - SUCCESS
+      - ERROR
+      - CANCEL
+      - SKIP
+      description: 'The status of completion for the step:
+
+        - SUCCESS: The step completed successfully.
+
+        - ERROR: The step completed with an error.
+
+        - CANCEL: The step was canceled.
+
+        - SKIP: The step was skipped because it was not necessary.
+
+        '
     EnvironmentServiceIdsAllRequest:
       type: object
       properties:
@@ -535,100 +540,33 @@ components:
             format: uuid
             x-stoplight:
               id: w1tqy39oq25pf
-    ServiceStepMetrics:
-      type: object
-      required:
-      - total_duration_sec
-      - total_computing_duration_sec
-      - details
-      properties:
-        total_duration_sec:
-          description: The total duration in seconds of the service deployment or null if the deployment is not completed.
-          type:
-          - integer
-          - 'null'
-        total_computing_duration_sec:
-          description: The total duration in seconds of the service deployment without queuing steps.
-          type: integer
-        details:
-          description: A list of metrics for deployment steps of the service.
-          type: array
-          items:
-            $ref: '#/components/schemas/ServiceStepMetric'
-    StageStepMetricNameEnum:
-      type: string
-      enum:
-      - TOTAL
-      - QUEUEING
-      - PROVISION_BUILDER
-      description: 'The name of the deployment step at the stage level:
-
-        - TOTAL: The total duration of the stage deployment.
-
-        - QUEUEING: The step preceding the actual stage deployment step.
-
-        - PROVISION_BUILDER: The step to provision builders before the actual build.
-
-        '
-    ServiceDeploymentStatusEnum:
-      type: string
+    EnvironmentDeploymentStatusEnum:
+      title: EnvironmentDeploymentStatusEnum
+      x-stoplight:
+        id: sbw3iw6yteyba
       enum:
       - NEVER_DEPLOYED
-      - OUT_OF_DATE
       - UP_TO_DATE
-    Environment:
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - type: object
-        required:
-        - name
-        - cloud_provider
-        - mode
-        - cluster_id
-        - project
-        - organization
-        properties:
-          name:
-            type: string
-            description: name is case insensitive
-          organization:
-            $ref: '#/components/schemas/ReferenceObject'
-          project:
-            $ref: '#/components/schemas/ReferenceObject'
-          last_updated_by:
-            type: string
-            format: uuid
-            description: uuid of the user that made the last update
-          cloud_provider:
-            type: object
-            properties:
-              provider:
-                type: string
-                example: aws
-              cluster:
-                type: string
-                example: us-east-2
-          mode:
-            $ref: '#/components/schemas/EnvironmentModeEnum'
-          cluster_id:
-            type: string
-            format: uuid
-          cluster_name:
-            type: string
-            format: string
-    StageStepMetric:
+      - OUT_OF_DATE
+    CloneEnvironmentRequest:
       type: object
+      required:
+      - name
       properties:
-        stage_id:
+        name:
+          type: string
+          description: name is case insensitive
+        cluster_id:
           type: string
           format: uuid
-        step_name:
-          $ref: '#/components/schemas/StageStepMetricNameEnum'
-        status:
-          $ref: '#/components/schemas/StepMetricStatusEnum'
-        duration_sec:
-          description: The duration of the step in seconds.
-          type: integer
+        mode:
+          $ref: '#/components/schemas/EnvironmentModeEnum'
+        apply_deployment_rule:
+          type: boolean
+          default: false
+        project_id:
+          type: string
+          format: uuid
     DeployAllRequest:
       type: object
       properties:
@@ -702,6 +640,99 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/TerraformDeployRequest'
+    Environment:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        required:
+        - name
+        - cloud_provider
+        - mode
+        - cluster_id
+        - project
+        - organization
+        properties:
+          name:
+            type: string
+            description: name is case insensitive
+          organization:
+            $ref: '#/components/schemas/ReferenceObject'
+          project:
+            $ref: '#/components/schemas/ReferenceObject'
+          last_updated_by:
+            type: string
+            format: uuid
+            description: uuid of the user that made the last update
+          cloud_provider:
+            type: object
+            properties:
+              provider:
+                type: string
+                example: aws
+              cluster:
+                type: string
+                example: us-east-2
+          mode:
+            $ref: '#/components/schemas/EnvironmentModeEnum'
+          cluster_id:
+            type: string
+            format: uuid
+          cluster_name:
+            type: string
+            format: string
+    ServiceStepMetricNameEnum:
+      type: string
+      enum:
+      - REGISTRY_CREATE_REPOSITORY
+      - GIT_CLONE
+      - BUILD_QUEUEING
+      - BUILD
+      - DEPLOYMENT_QUEUEING
+      - DEPLOYMENT
+      - ROUTER_DEPLOYMENT
+      - MIRROR_IMAGE
+      - EXECUTING
+      description: "The name of the deployment step at the service level:\n- REGISTRY_CREATE_REPOSITORY: The step to create the repository in the registry.\n- GIT_CLONE: The step to clone the source code repository. \n- BUILD_QUEUEING: The queuing time preceding the actual building step.\n- BUILD: The step to build the source code.\n- DEPLOYMENT_QUEUEING: The queuing time preceding the actual deployment step.\n- DEPLOYMENT: The step to deploy the service. \n- ROUTER_DEPLOYMENT: The step to deploy the router. \n- MIRROR_IMAGE: The step to mirror the image to the private registry.\n- EXECUTING: The step to execute a job or terraform apply.\n"
+    ServiceActionEnum:
+      type: string
+      enum:
+      - DEPLOY
+      - DELETE
+      - RESTART
+      - STOP
+      - UNKNOWN
+    ReferenceObject:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+    EnvironmentModeEnum:
+      type: string
+      enum:
+      - DEVELOPMENT
+      - PREVIEW
+      - PRODUCTION
+      - STAGING
+      example: PRODUCTION
+    StageStepMetricNameEnum:
+      type: string
+      enum:
+      - TOTAL
+      - QUEUEING
+      - PROVISION_BUILDER
+      description: 'The name of the deployment step at the stage level:
+
+        - TOTAL: The total duration of the stage deployment.
+
+        - QUEUEING: The step preceding the actual stage deployment step.
+
+        - PROVISION_BUILDER: The step to provision builders before the actual build.
+
+        '
     EnvironmentStatus:
       type: object
       required:
@@ -748,14 +779,104 @@ components:
           - 'null'
           items:
             $ref: '#/components/schemas/StageStepMetrics'
-    ServiceActionEnum:
+    Status:
+      type: object
+      required:
+      - id
+      - state
+      - service_deployment_status
+      - status_details
+      - is_part_last_deployment
+      - deployment_requests_count
+      - deployment_request_id
+      properties:
+        id:
+          type: string
+          format: uuid
+        state:
+          $ref: '#/components/schemas/StateEnum'
+        service_deployment_status:
+          $ref: '#/components/schemas/ServiceDeploymentStatusEnum'
+        last_deployment_date:
+          type: string
+          format: date-time
+        is_part_last_deployment:
+          type: boolean
+        steps:
+          $ref: '#/components/schemas/ServiceStepMetrics'
+        execution_id:
+          type: string
+          x-stoplight:
+            id: 3o9tz4272s2ct
+        status_details:
+          $ref: '#/components/schemas/StatusDetails'
+        deployment_request_id:
+          type:
+          - string
+          - 'null'
+          x-stoplight:
+            id: bepixrb7tyzme
+          format: uuid
+        deployment_requests_count:
+          type: integer
+          x-stoplight:
+            id: crku532vt3v4p
+    TerraformDeployRequest:
+      type: object
+      properties:
+        id:
+          type:
+          - string
+          - 'null'
+          format: uuid
+          description: Terraform service identifier
+        git_commit_id:
+          type: string
+          description: Commit to deploy for chart source.
+        action:
+          type:
+          - string
+          - 'null'
+          description: Terraform action to execute.
+          enum:
+          - PLAN
+          - FORCE_UNLOCK
+          - MIGRATE_STATE
+    ServiceDeploymentStatusEnum:
       type: string
       enum:
-      - DEPLOY
-      - DELETE
-      - RESTART
-      - STOP
-      - UNKNOWN
+      - NEVER_DEPLOYED
+      - OUT_OF_DATE
+      - UP_TO_DATE
+    ServiceActionStatusEnum:
+      type: string
+      enum:
+      - QUEUED
+      - ONGOING
+      - SUCCESS
+      - ERROR
+      - EXECUTING
+      - CANCELED
+      - CANCELING
+      - NEVER
+    Base:
+      type: object
+      required:
+      - id
+      - created_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          readOnly: true
+          format: date-time
+        updated_at:
+          type: string
+          readOnly: true
+          format: date-time
     EnvironmentStatusEventOriginEnum:
       type:
       - string
@@ -779,147 +900,6 @@ components:
         duration_sec:
           description: The duration of the step in seconds.
           type: integer
-    EnvironmentDeploymentStatusEnum:
-      title: EnvironmentDeploymentStatusEnum
-      x-stoplight:
-        id: sbw3iw6yteyba
-      enum:
-      - NEVER_DEPLOYED
-      - UP_TO_DATE
-      - OUT_OF_DATE
-    StepMetricStatusEnum:
-      type: string
-      enum:
-      - SUCCESS
-      - ERROR
-      - CANCEL
-      - SKIP
-      description: 'The status of completion for the step:
-
-        - SUCCESS: The step completed successfully.
-
-        - ERROR: The step completed with an error.
-
-        - CANCEL: The step was canceled.
-
-        - SKIP: The step was skipped because it was not necessary.
-
-        '
-    CloneEnvironmentRequest:
-      type: object
-      required:
-      - name
-      properties:
-        name:
-          type: string
-          description: name is case insensitive
-        cluster_id:
-          type: string
-          format: uuid
-        mode:
-          $ref: '#/components/schemas/EnvironmentModeEnum'
-        apply_deployment_rule:
-          type: boolean
-          default: false
-        project_id:
-          type: string
-          format: uuid
-    TerraformDeployRequest:
-      type: object
-      properties:
-        id:
-          type:
-          - string
-          - 'null'
-          format: uuid
-          description: Terraform service identifier
-        git_commit_id:
-          type: string
-          description: Commit to deploy for chart source.
-        action:
-          type:
-          - string
-          - 'null'
-          description: Terraform action to execute.
-          enum:
-          - PLAN
-          - FORCE_UNLOCK
-          - MIGRATE_STATE
-    RebootServicesRequest:
-      type: object
-      properties:
-        application_ids:
-          type: array
-          items:
-            type: string
-            format: uuid
-        database_ids:
-          type: array
-          items:
-            type: string
-            format: uuid
-        container_ids:
-          type: array
-          items:
-            type: string
-            format: uuid
-    ReferenceObject:
-      type: object
-      required:
-      - id
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-    ServiceActionStatusEnum:
-      type: string
-      enum:
-      - QUEUED
-      - ONGOING
-      - SUCCESS
-      - ERROR
-      - EXECUTING
-      - CANCELED
-      - CANCELING
-      - NEVER
-    StatusDetails:
-      type: object
-      required:
-      - action
-      - status
-      - sub_action
-      properties:
-        action:
-          $ref: '#/components/schemas/ServiceActionEnum'
-        status:
-          $ref: '#/components/schemas/ServiceActionStatusEnum'
-        sub_action:
-          $ref: '#/components/schemas/ServiceSubActionEnum'
-    StageStepMetrics:
-      type: object
-      properties:
-        stage_id:
-          type: string
-          format: uuid
-        total_duration_sec:
-          description: The total duration in seconds of the stage deployment or null if the deployment is not completed.
-          type:
-          - integer
-          - 'null'
-        details:
-          description: A list of metrics for deployment steps of the stage.
-          type: array
-          items:
-            $ref: '#/components/schemas/StageStepMetric'
-    EnvironmentModeEnum:
-      type: string
-      enum:
-      - DEVELOPMENT
-      - PREVIEW
-      - PRODUCTION
-      - STAGING
-      example: PRODUCTION
     ServiceSubActionEnum:
       type: string
       default: NONE
@@ -930,15 +910,35 @@ components:
       - TERRAFORM_DESTROY
       - TERRAFORM_FORCE_UNLOCK_STATE
       - TERRAFORM_MIGRATE_STATE
+    ServiceStepMetrics:
+      type: object
+      required:
+      - total_duration_sec
+      - total_computing_duration_sec
+      - details
+      properties:
+        total_duration_sec:
+          description: The total duration in seconds of the service deployment or null if the deployment is not completed.
+          type:
+          - integer
+          - 'null'
+        total_computing_duration_sec:
+          description: The total duration in seconds of the service deployment without queuing steps.
+          type: integer
+        details:
+          description: A list of metrics for deployment steps of the service.
+          type: array
+          items:
+            $ref: '#/components/schemas/ServiceStepMetric'
   responses:
-    '404':
-      description: Resource not found
-    '401':
-      description: Access token is missing or invalid
     '400':
       description: Bad request
     '403':
       description: Access forbidden
+    '404':
+      description: Resource not found
+    '401':
+      description: Access token is missing or invalid
   parameters:
     environmentId:
       name: environmentId
