@@ -256,100 +256,412 @@ paths:
         id: augmimjz30ix3
 components:
   schemas:
-    TerraformResponse:
+    ServiceActionEnum:
+      type: string
+      enum:
+      - DEPLOY
+      - DELETE
+      - RESTART
+      - STOP
+      - UNKNOWN
+    Probe:
+      type:
+      - object
+      - 'null'
+      properties:
+        type:
+          type: object
+          properties:
+            tcp:
+              type:
+              - object
+              - 'null'
+              properties:
+                port:
+                  type: integer
+                host:
+                  type:
+                  - string
+                  - 'null'
+                  default: null
+            http:
+              type:
+              - object
+              - 'null'
+              properties:
+                path:
+                  type: string
+                  default: /
+                scheme:
+                  type: string
+                  default: HTTP
+                port:
+                  type: integer
+            exec:
+              type:
+              - object
+              - 'null'
+              description: Execute a command inside the container. The probe succeeds if the command exits with status code 0.
+              properties:
+                command:
+                  type: array
+                  description: 'Command to execute inside the container, specified as an array of strings. The first element is the executable, followed by its arguments. Example: ["sh", "-c", "test -f /tmp/healthy"]'
+                  example:
+                  - sh
+                  - -c
+                  - test -f /tmp/healthy
+                  items:
+                    type: string
+                  minItems: 1
+            grpc:
+              type:
+              - object
+              - 'null'
+              properties:
+                service:
+                  type:
+                  - string
+                  - 'null'
+                  default: null
+                port:
+                  type: integer
+        initial_delay_seconds:
+          type: integer
+          default: 30
+        period_seconds:
+          type: integer
+          default: 10
+        timeout_seconds:
+          type: integer
+          default: 5
+        success_threshold:
+          type: integer
+          default: 1
+        failure_threshold:
+          type: integer
+          default: 9
+    ServiceActionStatusEnum:
+      type: string
+      enum:
+      - QUEUED
+      - ONGOING
+      - SUCCESS
+      - ERROR
+      - EXECUTING
+      - CANCELED
+      - CANCELING
+      - NEVER
+    StageStepMetricNameEnum:
+      type: string
+      enum:
+      - TOTAL
+      - QUEUEING
+      - PROVISION_BUILDER
+      description: 'The name of the deployment step at the stage level:
+
+        - TOTAL: The total duration of the stage deployment.
+
+        - QUEUEING: The step preceding the actual stage deployment step.
+
+        - PROVISION_BUILDER: The step to provision builders before the actual build.
+
+        '
+    OrganizationLabelsGroupResponseList:
+      type: array
+      items:
+        $ref: '#/components/schemas/OrganizationLabelsGroupResponse'
+      title: ''
+    ContainerRegistryKindEnum:
+      type: string
+      enum:
+      - ECR
+      - SCALEWAY_CR
+      - DOCKER_HUB
+      - GITHUB_CR
+      - GITHUB_ENTERPRISE_CR
+      - GITLAB_CR
+      - PUBLIC_ECR
+      - DOCR
+      - GENERIC_CR
+      - GCP_ARTIFACT_REGISTRY
+      - AZURE_CR
+      description: The type of your container registry
+    OrganizationAnnotationsGroupResponse:
       allOf:
       - $ref: '#/components/schemas/Base'
       - type: object
         required:
         - name
-        - timeout_sec
-        - auto_deploy
+        - annotations
+        - scopes
+        properties:
+          name:
+            type: string
+          annotations:
+            type: array
+            items:
+              $ref: '#/components/schemas/Annotation'
+          scopes:
+            type: array
+            items:
+              $ref: '#/components/schemas/OrganizationAnnotationsGroupScopeEnum'
+    KedaScalerRole:
+      title: KedaScalerRole
+      x-stoplight:
+        id: 1sl0mlxoqzr8w
+      type: string
+      enum:
+      - PRIMARY
+      - SAFETY
+    Environment:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        required:
+        - name
+        - cloud_provider
+        - mode
+        - cluster_id
+        - project
+        - organization
+        properties:
+          name:
+            type: string
+            description: name is case insensitive
+          organization:
+            $ref: '#/components/schemas/ReferenceObject'
+          project:
+            $ref: '#/components/schemas/ReferenceObject'
+          last_updated_by:
+            type: string
+            format: uuid
+            description: uuid of the user that made the last update
+          cloud_provider:
+            type: object
+            properties:
+              provider:
+                type: string
+                example: aws
+              cluster:
+                type: string
+                example: us-east-2
+          mode:
+            $ref: '#/components/schemas/EnvironmentModeEnum'
+          cluster_id:
+            type: string
+            format: uuid
+          cluster_name:
+            type: string
+            format: string
+    EnvironmentEditRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        mode:
+          $ref: '#/components/schemas/CreateEnvironmentModeEnum'
+    Healthcheck:
+      type: object
+      properties:
+        readiness_probe:
+          $ref: '#/components/schemas/Probe'
+        liveness_probe:
+          $ref: '#/components/schemas/Probe'
+    TerraformBackendKubernetes:
+      type: object
+      description: Kubernetes-specific backend configuration
+    ServiceSubActionEnum:
+      type: string
+      default: NONE
+      enum:
+      - NONE
+      - TERRAFORM_PLAN_ONLY
+      - TERRAFORM_PLAN_AND_APPLY
+      - TERRAFORM_DESTROY
+      - TERRAFORM_FORCE_UNLOCK_STATE
+      - TERRAFORM_MIGRATE_STATE
+    BaseJobResponse:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        required:
+        - environment
+        - maximum_cpu
+        - maximum_memory
+        - maximum_gpu
+        - name
+        - cpu
+        - memory
+        - gpu
+        - auto_preview
+        - source
+        - healthchecks
         - icon_uri
         - service_type
-        - terraform_variables_source
-        - engine
-        - backend
-        - provider_version
-        - job_resources
-        - environment
-        - use_cluster_credentials
-        - action_extra_arguments
         properties:
+          environment:
+            $ref: '#/components/schemas/ReferenceObject'
+          maximum_cpu:
+            type: integer
+            description: Maximum cpu that can be allocated to the job based on organization cluster configuration. unit is millicores (m). 1000m = 1 cpu
+            example: 16000
+          maximum_memory:
+            type: integer
+            description: Maximum memory that can be allocated to the job based on organization cluster configuration. unit is MB. 1024 MB = 1GB
+            example: 16384
+          maximum_gpu:
+            type: integer
+            description: Maximum memory that can be allocated to the job based on organization cluster configuration. unit is MB. 1024 MB = 1GB
+            x-stoplight:
+              id: 7o0e6wrgnxgcc
+            minimum: 0
+            default: 0
+            example: 2
           name:
             type: string
             description: name is case insensitive
           description:
             type: string
-          timeout_sec:
+          cpu:
+            type: integer
+            description: unit is millicores (m). 1000m = 1 cpu
+            example: 1250
+          memory:
+            type: integer
+            description: unit is MB. 1024 MB = 1GB
+            example: 1024
+          gpu:
+            type: integer
+            x-stoplight:
+              id: 50sj2wtkdypgg
+            default: 0
+            minimum: 0
+            example: 1
+          max_nb_restart:
             type: integer
             minimum: 0
-            default: 600
+            description: 'Maximum number of restart allowed before the job is considered as failed
+
+              0 means that no restart/crash of the job is allowed
+
+              '
+          max_duration_seconds:
+            type: integer
+            minimum: 0
+            description: 'Maximum number of seconds allowed for the job to run before killing it and mark it as failed
+
+              '
+          auto_preview:
+            type: boolean
+            description: "Indicates if the 'environment preview option' is enabled for this container.  \nIf enabled, a preview environment will be automatically cloned when `/preview` endpoint is called.  \nIf not specified, it takes the value of the `auto_preview` property from the associated environment.\n"
+          port:
+            type:
+            - integer
+            - 'null'
+            minimum: 1
+            description: Port where to run readiness and liveliness probes checks. The port will not be exposed externally
+            default: null
+          source:
+            oneOf:
+            - required:
+              - image
+              properties:
+                image:
+                  $ref: '#/components/schemas/ContainerSource'
+              type: object
+            - required:
+              - docker
+              properties:
+                docker:
+                  $ref: '#/components/schemas/JobSourceDockerResponse'
+              type: object
+          healthchecks:
+            $ref: '#/components/schemas/Healthcheck'
           auto_deploy:
             type: boolean
-          auto_deploy_config:
-            $ref: '#/components/schemas/TerraformAutoDeployConfig'
-          terraform_files_source:
-            x-stoplight:
-              id: abfhjb6q74upq
-            oneOf:
-            - $ref: '#/components/schemas/TerraformFilesSource'
+            description: "Specify if the job will be automatically updated after receiving a new image tag or a new commit according to the source type. \nThe new image tag shall be communicated via the \"Auto Deploy job\" endpoint https://api-doc.qovery.com/#tag/Jobs/operation/autoDeployJobEnvironments\n"
           icon_uri:
             type: string
             format: uri
-            description: Icon URI representing the terraform service.
+            description: Icon URI representing the job.
             x-stoplight:
-              id: i2pvbugqsldhe
+              id: p1secr7kxozsd
           service_type:
             $ref: '#/components/schemas/ServiceTypeEnum'
-          terraform_variables_source:
-            $ref: '#/components/schemas/TerraformVariablesSourceResponse'
-          engine:
-            $ref: '#/components/schemas/TerraformEngineEnum'
-          backend:
-            $ref: '#/components/schemas/TerraformBackend'
-          provider_version:
-            $ref: '#/components/schemas/TerraformProviderVersion'
-          job_resources:
-            $ref: '#/components/schemas/TerraformJobResourcesResponse'
-          environment:
-            $ref: '#/components/schemas/ReferenceObject'
-          use_cluster_credentials:
-            type: boolean
-            x-stoplight:
-              id: ixjejij08tgfo
-          action_extra_arguments:
-            type: object
-            x-stoplight:
-              id: rnkzwlf29dgb5
-            description: 'The key represent the action command name i.e: "plan"
+    HelmPortResponseWithServiceName:
+      allOf:
+      - $ref: '#/components/schemas/HelmPortResponseBase'
+      - type: object
+        required:
+        - service_name
+        properties:
+          service_name:
+            type: string
+    ContainerRegistryProviderDetailsResponse:
+      type: object
+      required:
+      - id
+      - name
+      - url
+      - kind
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        url:
+          type: string
+          description: URL of the container registry
+        kind:
+          $ref: '#/components/schemas/ContainerRegistryKindEnum'
+    TerraformBackend:
+      oneOf:
+      - type: object
+        required:
+        - kubernetes
+        properties:
+          kubernetes:
+            $ref: '#/components/schemas/TerraformBackendKubernetes'
+      - type: object
+        required:
+        - user_provided
+        properties:
+          user_provided:
+            $ref: '#/components/schemas/TerraformBackendUserProvided'
+      description: Configuration for Terraform backend - exactly one backend type must be specified
+    ServiceDeploymentStatusEnum:
+      type: string
+      enum:
+      - NEVER_DEPLOYED
+      - OUT_OF_DATE
+      - UP_TO_DATE
+    StepMetricStatusEnum:
+      type: string
+      enum:
+      - SUCCESS
+      - ERROR
+      - CANCEL
+      - SKIP
+      description: 'The status of completion for the step:
 
-              The value represent the extra arguments to pass to this command
+        - SUCCESS: The step completed successfully.
 
+        - ERROR: The step completed with an error.
 
-              i.e: {"apply", ["-lock=false"]} is going to prepend `-lock=false` to terraform apply commands'
-            additionalProperties:
-              x-stoplight:
-                id: 57b09dqz1jwra
-              type: array
-              items:
-                x-stoplight:
-                  id: 2mkmankga2thw
-                type: string
-          dockerfile_fragment:
-            description: 'Custom Dockerfile fragment to inject during build.
+        - CANCEL: The step was canceled.
 
-              When null, no custom fragment is injected.
+        - SKIP: The step was skipped because it was not necessary.
 
-              '
-            oneOf:
-            - $ref: '#/components/schemas/DockerfileFragmentFile'
-            - $ref: '#/components/schemas/DockerfileFragmentInline'
-            discriminator:
-              propertyName: type
-              mapping:
-                file: '#/components/schemas/DockerfileFragmentFile'
-                inline: '#/components/schemas/DockerfileFragmentInline'
-      description: A Terraform service
+        '
+    JobLifecycleTypeEnum:
+      title: JobLifecycleTypeEnum
+      x-stoplight:
+        id: tz1t23a291l51
+      enum:
+      - GENERIC
+      - TERRAFORM
+      - CLOUDFORMATION
     AutoscalingPolicyResponse:
       title: AutoscalingPolicyResponse
       x-stoplight:
@@ -360,138 +672,121 @@ components:
         propertyName: mode
         mapping:
           KEDA: '#/components/schemas/KedaAutoscalingResponse'
-    ServiceLabelRequest:
+    HelmSourceGitResponse:
+      title: HelmSourceGitResponse
+      x-stoplight:
+        id: lsxautcdafty6
       type: object
       required:
-      - id
+      - git_repository
       properties:
-        id:
+        git_repository:
+          $ref: '#/components/schemas/ApplicationGitRepository'
+    StageStepMetrics:
+      type: object
+      properties:
+        stage_id:
           type: string
           format: uuid
+        total_duration_sec:
+          description: The total duration in seconds of the stage deployment or null if the deployment is not completed.
+          type:
+          - integer
+          - 'null'
+        details:
+          description: A list of metrics for deployment steps of the stage.
+          type: array
+          items:
+            $ref: '#/components/schemas/StageStepMetric'
+    EnvironmentStatusesWithStages:
+      type: object
+      properties:
+        environment:
+          $ref: '#/components/schemas/EnvironmentStatus'
+        stages:
+          type: array
+          items:
+            $ref: '#/components/schemas/DeploymentStageWithServicesStatuses'
+        pre_check_stage:
+          type: object
+          x-stoplight:
+            id: l9y5i1bt4jmsk
+          properties:
+            status:
+              $ref: '#/components/schemas/StepMetricStatusEnum'
+            total_duration_sec:
+              type: integer
+              x-stoplight:
+                id: t6u28t17lth1l
     DatabaseModeEnum:
       type: string
       enum:
       - CONTAINER
       - MANAGED
-    ServiceAnnotationRequest:
-      type: object
-      required:
-      - id
-      properties:
-        id:
-          type: string
-          format: uuid
-    TerraformBackendUserProvided:
-      type: object
-      description: User-provided backend configuration
-    PortProtocolEnum:
-      type: string
-      default: HTTP
-      enum:
-      - HTTP
-      - GRPC
-      - TCP
-      - UDP
-    DockerfileFragmentFile:
-      title: DockerfileFragmentFile
-      type: object
-      description: Reference a Dockerfile fragment file from your Git repository.
-      required:
-      - type
-      - path
-      properties:
-        type:
-          type: string
-          enum:
-          - file
-          description: Fragment type discriminator
-        path:
-          type: string
-          description: Absolute path to the fragment file.
-          example: /infra/terraform/custom-build.dockerfile
-    OrganizationEventOrigin:
-      type: string
-      description: Origin of the organization event
-      enum:
-      - API
-      - CLI
-      - CONSOLE
-      - GIT
-      - QOVERY_INTERNAL
-      - TERRAFORM_PROVIDER
-      example: API
-    EnvironmentDeploymentStatusEnum:
-      title: EnvironmentDeploymentStatusEnum
+    TerraformJobResourcesResponse:
+      title: TerraformJobResourcesResponse
       x-stoplight:
-        id: sbw3iw6yteyba
-      enum:
-      - NEVER_DEPLOYED
-      - UP_TO_DATE
-      - OUT_OF_DATE
-    EnvironmentEditRequest:
+        id: xhswkmfwyerrv
       type: object
+      required:
+      - cpu_milli
+      - ram_mib
+      - gpu
+      - storage_gib
       properties:
-        name:
-          type: string
-        mode:
-          $ref: '#/components/schemas/CreateEnvironmentModeEnum'
-    OrganizationAnnotationsGroupScopeEnum:
-      type: string
-      description: Annotations Group Scope
-      enum:
-      - DEPLOYMENTS
-      - STATEFUL_SETS
-      - SERVICES
-      - INGRESS
-      - GATEWAY_API_ROUTES
-      - HPA
-      - PODS
-      - SECRETS
-      - JOBS
-      - CRON_JOBS
-    CronJobResponse:
+        cpu_milli:
+          type: integer
+          x-stoplight:
+            id: bg054290feb9c
+        ram_mib:
+          type: integer
+          x-stoplight:
+            id: f6dur44ah2bwe
+        gpu:
+          type: integer
+          x-stoplight:
+            id: y8lomc204l40z
+          default: 0
+          minimum: 0
+          example: 1
+        storage_gib:
+          type: integer
+          x-stoplight:
+            id: dsf78pwnvmqi8
+    KedaScalerResponse:
+      title: KedaScalerResponse
+      x-stoplight:
+        id: gaaqg32ivl48h
       allOf:
-      - $ref: '#/components/schemas/BaseJobResponse'
+      - $ref: '#/components/schemas/Base'
       - type: object
+        x-stoplight:
+          id: 74tt3hgf95nfe
         required:
-        - job_type
-        - schedule
+        - scaler_type
+        - enabled
+        - role
         properties:
-          job_type:
-            $ref: '#/components/schemas/JobTypeEnum'
-          schedule:
-            type: object
-            required:
-            - cronjob
-            properties:
-              cronjob:
-                type: object
-                required:
-                - timezone
-                - scheduled_at
-                properties:
-                  arguments:
-                    type: array
-                    items:
-                      type: string
-                  entrypoint:
-                    type: string
-                    description: optional entrypoint when launching container
-                  timezone:
-                    type: string
-                    description: tz identifier at which the schedule at will be executed
-                  scheduled_at:
-                    type: string
-                    format: cron
-                    description: "Can only be set if the event is CRON.  \nRepresent the cron format for the job schedule without seconds.  \nFor example: `* * * * *` represent the cron to launch the job every minute.  \nSee https://crontab.guru/ to WISIWIG interface.  \nTimezone is UT\n"
-          annotations_groups:
-            $ref: '#/components/schemas/OrganizationAnnotationsGroupResponseList'
-          labels_groups:
-            $ref: '#/components/schemas/OrganizationLabelsGroupResponseList'
-    ServicePortResponseList:
-      type: array
-      items:
-        $ref: '#/components/schemas/ServicePort'
+          scaler_type:
+            type: string
+            x-stoplight:
+              id: 1ckp76ziimkg4
+          enabled:
+            type: boolean
+            x-stoplight:
+              id: 0dnjwnlkuj3kp
+          role:
+            $ref: '#/components/schemas/KedaScalerRole'
+          config_json:
+            type:
+            - object
+            - 'null'
+          config_yaml:
+            type:
+            - string
+            - 'null'
+          trigger_authentication:
+            $ref: '#/components/schemas/KedaTriggerAuthenticationResponse'
     HelmPortResponseBase:
       type: object
       required:
@@ -522,126 +817,6 @@ components:
         is_default:
           type: boolean
           description: is the default port to use for domain
-    LifecycleJobResponse:
-      allOf:
-      - $ref: '#/components/schemas/BaseJobResponse'
-      - type: object
-        required:
-        - job_type
-        - schedule
-        properties:
-          job_type:
-            $ref: '#/components/schemas/JobTypeEnum'
-          schedule:
-            type: object
-            properties:
-              on_start:
-                type: object
-                properties:
-                  arguments:
-                    type: array
-                    items:
-                      type: string
-                  entrypoint:
-                    type: string
-                    description: optional entrypoint when launching container
-              on_stop:
-                type: object
-                properties:
-                  arguments:
-                    type: array
-                    items:
-                      type: string
-                  entrypoint:
-                    type: string
-                    description: optional entrypoint when launching container
-              on_delete:
-                type: object
-                properties:
-                  arguments:
-                    type: array
-                    items:
-                      type: string
-                  entrypoint:
-                    type: string
-                    description: optional entrypoint when launching container
-              lifecycle_type:
-                $ref: '#/components/schemas/JobLifecycleTypeEnum'
-          annotations_groups:
-            $ref: '#/components/schemas/OrganizationAnnotationsGroupResponseList'
-          labels_groups:
-            $ref: '#/components/schemas/OrganizationLabelsGroupResponseList'
-      title: ''
-    EnvironmentStatusesWithStages:
-      type: object
-      properties:
-        environment:
-          $ref: '#/components/schemas/EnvironmentStatus'
-        stages:
-          type: array
-          items:
-            $ref: '#/components/schemas/DeploymentStageWithServicesStatuses'
-        pre_check_stage:
-          type: object
-          x-stoplight:
-            id: l9y5i1bt4jmsk
-          properties:
-            status:
-              $ref: '#/components/schemas/StepMetricStatusEnum'
-            total_duration_sec:
-              type: integer
-              x-stoplight:
-                id: t6u28t17lth1l
-    StorageTypeEnum:
-      type: string
-      enum:
-      - FAST_SSD
-    EnvironmentStatus:
-      type: object
-      required:
-      - id
-      - state
-      - last_deployment_state
-      properties:
-        id:
-          type: string
-          format: uuid
-        state:
-          $ref: '#/components/schemas/StateEnum'
-        last_deployment_date:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        last_deployment_state:
-          $ref: '#/components/schemas/StateEnum'
-        last_deployment_id:
-          type:
-          - string
-          - 'null'
-        total_deployment_duration_in_seconds:
-          type:
-          - integer
-          - 'null'
-        origin:
-          $ref: '#/components/schemas/EnvironmentStatusEventOriginEnum'
-        triggered_by:
-          type:
-          - string
-          - 'null'
-        deployment_status:
-          $ref: '#/components/schemas/EnvironmentDeploymentStatusEnum'
-        deployment_request_id:
-          type:
-          - string
-          - 'null'
-          format: uuid
-        metrics:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/StageStepMetrics'
     ApplicationGitRepository:
       type: object
       required:
@@ -691,73 +866,47 @@ components:
           - string
           - 'null'
       title: ''
-    DatabaseAccessibilityEnum:
-      type: string
-      default: PRIVATE
-      enum:
-      - PRIVATE
-      - PUBLIC
-    TerraformJobResourcesResponse:
-      title: TerraformJobResourcesResponse
+    KedaAutoscalingResponse:
+      title: KedaAutoscalingResponse
       x-stoplight:
-        id: xhswkmfwyerrv
-      type: object
-      required:
-      - cpu_milli
-      - ram_mib
-      - gpu
-      - storage_gib
-      properties:
-        cpu_milli:
-          type: integer
-          x-stoplight:
-            id: bg054290feb9c
-        ram_mib:
-          type: integer
-          x-stoplight:
-            id: f6dur44ah2bwe
-        gpu:
-          type: integer
-          x-stoplight:
-            id: y8lomc204l40z
-          default: 0
-          minimum: 0
-          example: 1
-        storage_gib:
-          type: integer
-          x-stoplight:
-            id: dsf78pwnvmqi8
-    TerraformVariablesSourceResponse:
-      title: TerraformVariablesSourceResponse
-      x-stoplight:
-        id: 2lr1mv2b3y7xy
-      type: object
-      required:
-      - tf_var_file_paths
-      - tf_vars
-      properties:
-        tf_var_file_paths:
-          type: array
-          x-stoplight:
-            id: ua5d71it2yiu5
-          items:
-            x-stoplight:
-              id: qsy17gz9fl3n3
+        id: dgcb902szizvv
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        x-stoplight:
+          id: zjlwqohiiyuwf
+        required:
+        - service_id
+        - mode
+        - polling_interval_seconds
+        - cooldown_period_seconds
+        - scalers
+        properties:
+          service_id:
             type: string
-        tf_vars:
-          type: array
-          items:
-            $ref: '#/components/schemas/TerraformVarKeyValue'
-    ServiceStepMetric:
-      type: object
-      properties:
-        step_name:
-          $ref: '#/components/schemas/ServiceStepMetricNameEnum'
-        status:
-          $ref: '#/components/schemas/StepMetricStatusEnum'
-        duration_sec:
-          description: The duration of the step in seconds.
-          type: integer
+            x-stoplight:
+              id: j9bxhtiyyl0iv
+            format: uuid
+          mode:
+            $ref: '#/components/schemas/AutoscalingMode'
+          polling_interval_seconds:
+            type: integer
+            x-stoplight:
+              id: uone6zr48amok
+            format: int32
+          cooldown_period_seconds:
+            type: integer
+            x-stoplight:
+              id: j2dapmjjjiafj
+            format: int32
+          scalers:
+            type: array
+            x-stoplight:
+              id: oyhxgvwg36ixz
+            minItems: 1
+            items:
+              $ref: '#/components/schemas/KedaScalerResponse'
+      description: ''
     HelmPortResponseWithServiceSelectors:
       allOf:
       - $ref: '#/components/schemas/HelmPortResponseBase'
@@ -769,100 +918,56 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/KubernetesSelector'
-    HelmPortResponseWithServiceName:
+    Database:
       allOf:
-      - $ref: '#/components/schemas/HelmPortResponseBase'
+      - $ref: '#/components/schemas/Base'
+      - $ref: '#/components/schemas/DatabaseRequest'
       - type: object
         required:
-        - service_name
+        - environment
+        - icon_uri
+        - service_type
         properties:
-          service_name:
+          environment:
+            $ref: '#/components/schemas/ReferenceObject'
+          host:
             type: string
-    ServicePort:
-      type: object
-      required:
-      - id
-      - internal_port
-      - publicly_accessible
-      - protocol
-      properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          type: string
-        internal_port:
-          type: integer
-          example: 8080
-          description: The listening port of your service.
-        external_port:
-          type: integer
-          example: 8080
-          description: The exposed port for your service. This is optional. If not set a default port will be used.
-        publicly_accessible:
-          type: boolean
-          description: Expose the port to the world
-        is_default:
-          type: boolean
-          description: is the default port to use for domain
-        protocol:
-          $ref: '#/components/schemas/PortProtocolEnum'
-        public_path:
-          type: string
-          description: "Indicate the path or regex that must match for traffic to be accepted on your service\ni.e: /api/ will only accept http calls that start with /api/ \nOnly valid for publicly_accessible HTTP or GRPC ports."
-        public_path_rewrite:
-          type: string
-          description: "Indicate the new path that will be used to reach your service after replacement\ni.e: public_path -> /(.*)  public_path_rewrite -> /api/$1 will append /api/ on all externaly requested url when reaching the service \nexternal/use url -> example.com/foobar  -> url seen by the service -> example.com/api/foobar\nOnly valid for publicly_accessible HTTP or GRPC ports."
-    JobTypeEnum:
-      type: string
-      description: type of job
-      enum:
-      - LIFECYCLE
-      - CRON
-    Stage:
-      type: object
-      required:
-      - id
-      - name
-      - description
-      properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          type: string
-          description: stage name
-        steps:
-          $ref: '#/components/schemas/StageStepMetrics'
-        description:
-          type: string
-          x-stoplight:
-            id: gwpra9face692
-        status:
-          $ref: '#/components/schemas/StageStatusEnum'
-    TerraformProviderVersion:
-      title: TerraformProviderVersion
-      x-stoplight:
-        id: 1a1hkhvei2wjq
-      type: object
-      required:
-      - explicit_version
-      properties:
-        read_from_terraform_block:
-          type: boolean
-          x-stoplight:
-            id: p2dnmuifo0fki
-        explicit_version:
-          type: string
-          x-stoplight:
-            id: 611hxcvuy68lv
-    Healthcheck:
-      type: object
-      properties:
-        readiness_probe:
-          $ref: '#/components/schemas/Probe'
-        liveness_probe:
-          $ref: '#/components/schemas/Probe'
+          port:
+            type: integer
+            example: 5432
+          maximum_cpu:
+            type: integer
+            description: Maximum cpu that can be allocated to the database based on organization cluster configuration. unit is millicores (m). 1000m = 1 cpu
+            example: 1250
+          maximum_memory:
+            type: integer
+            description: Maximum memory that can be allocated to the database based on organization cluster configuration. unit is MB. 1024 MB = 1GB
+            example: 1024
+          disk_encrypted:
+            type: boolean
+            description: indicates if the database disk is encrypted or not
+          instance_type:
+            type: string
+            example: db.t3.medium
+            description: Database instance type to be used for this database. The list of values can be retrieved via the endpoint /{CloudProvider}/managedDatabase/instanceType/{region}/{dbType}. This field is null for container DB.
+          disk_type:
+            type:
+            - string
+            - 'null'
+            description: EBS disk type for the database. Only applicable for MANAGED mode (gp2 or gp3). Null for CONTAINER mode.
+            enum:
+            - gp2
+            - gp3
+          annotations_groups:
+            $ref: '#/components/schemas/OrganizationAnnotationsGroupResponseList'
+          labels_groups:
+            $ref: '#/components/schemas/OrganizationLabelsGroupResponseList'
+          icon_uri:
+            type: string
+            format: uri
+            description: Icon URI representing the database.
+          service_type:
+            $ref: '#/components/schemas/ServiceTypeEnum'
     StageStepMetric:
       type: object
       properties:
@@ -876,311 +981,6 @@ components:
         duration_sec:
           description: The duration of the step in seconds.
           type: integer
-    ContainerRegistryProviderDetailsResponse:
-      type: object
-      required:
-      - id
-      - name
-      - url
-      - kind
-      properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          type: string
-        url:
-          type: string
-          description: URL of the container registry
-        kind:
-          $ref: '#/components/schemas/ContainerRegistryKindEnum'
-    Label:
-      type: object
-      required:
-      - key
-      - value
-      - propagate_to_cloud_provider
-      properties:
-        key:
-          type: string
-        value:
-          type: string
-        propagate_to_cloud_provider:
-          type: boolean
-    EnvironmentStatuses:
-      type: object
-      required:
-      - environment
-      - containers
-      - applications
-      - jobs
-      - databases
-      - helms
-      - terraforms
-      properties:
-        environment:
-          $ref: '#/components/schemas/EnvironmentStatus'
-        applications:
-          type: array
-          items:
-            $ref: '#/components/schemas/Status'
-        containers:
-          type: array
-          items:
-            $ref: '#/components/schemas/Status'
-        jobs:
-          type: array
-          items:
-            $ref: '#/components/schemas/Status'
-        databases:
-          type: array
-          items:
-            $ref: '#/components/schemas/Status'
-        helms:
-          type: array
-          items:
-            $ref: '#/components/schemas/Status'
-        terraforms:
-          type: array
-          items:
-            $ref: '#/components/schemas/Status'
-    Application:
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - $ref: '#/components/schemas/ServiceStorage'
-      - type: object
-        required:
-        - environment
-        - name
-        - healthchecks
-        - icon_uri
-        - service_type
-        properties:
-          environment:
-            $ref: '#/components/schemas/ReferenceObject'
-          git_repository:
-            $ref: '#/components/schemas/ApplicationGitRepository'
-          maximum_cpu:
-            type: integer
-            description: Maximum cpu that can be allocated to the application based on organization cluster configuration. unit is millicores (m). 1000m = 1 cpu
-            example: 16000
-          maximum_memory:
-            type: integer
-            description: Maximum memory that can be allocated to the application based on organization cluster configuration. unit is MB. 1024 MB = 1GB
-            example: 16384
-          maximun_gpu:
-            type: integer
-            x-stoplight:
-              id: ho7l9maiyqe52
-            default: 0
-            minimum: 0
-          name:
-            type: string
-            description: name is case insensitive
-          description:
-            type: string
-            description: give a description to this application
-          build_mode:
-            $ref: '#/components/schemas/BuildModeEnum'
-          dockerfile_path:
-            type:
-            - string
-            - 'null'
-            description: The path of the associated Dockerfile. Only if you are using build_mode = DOCKER
-          cpu:
-            type: integer
-            description: unit is millicores (m). 1000m = 1 cpu
-            example: 1250
-          memory:
-            type: integer
-            description: unit is MB. 1024 MB = 1GB
-            example: 1024
-          gpu:
-            type: integer
-            x-stoplight:
-              id: 3n3pebmhkah3k
-            default: 0
-            minimum: 0
-          min_running_instances:
-            type: integer
-            minimum: 0
-            description: 'Minimum number of instances running. This resource auto-scale based on the CPU and Memory consumption.
-
-              Note: 0 means that there is no application running.
-
-              '
-            default: 1
-          max_running_instances:
-            type: integer
-            description: 'Maximum number of instances running. This resource auto-scale based on the CPU and Memory consumption.
-
-              Note: -1 means that there is no limit.
-
-              '
-            default: 1
-          healthchecks:
-            $ref: '#/components/schemas/Healthcheck'
-          auto_preview:
-            type: boolean
-            description: "Specify if the environment preview option is activated or not for this application.  \nIf activated, a preview environment will be automatically cloned at each pull request.  \nIf not specified, it takes the value of the `auto_preview` property from the associated environment.\n"
-            default: true
-          ports:
-            $ref: '#/components/schemas/ServicePortResponseList'
-          arguments:
-            type: array
-            items:
-              type: string
-          entrypoint:
-            type: string
-            description: optional entrypoint when launching container
-          auto_deploy:
-            type: boolean
-            description: Specify if the application will be automatically updated after receiving a new commit.
-          annotations_groups:
-            $ref: '#/components/schemas/OrganizationAnnotationsGroupResponseList'
-          labels_groups:
-            $ref: '#/components/schemas/OrganizationLabelsGroupResponseList'
-          icon_uri:
-            type: string
-            format: uri
-            description: Icon URI representing the application.
-            x-stoplight:
-              id: b8karc43pdxpu
-          service_type:
-            $ref: '#/components/schemas/ServiceTypeEnum'
-          docker_target_build_stage:
-            type:
-            - string
-            - 'null'
-            x-stoplight:
-              id: tdxdfoyowutcx
-            description: The target build stage in the Dockerfile to build
-          autoscaling:
-            $ref: '#/components/schemas/AutoscalingPolicyResponse'
-    ContainerSource:
-      type: object
-      required:
-      - image_name
-      - tag
-      - registry
-      properties:
-        image_name:
-          type: string
-          description: 'The image name pattern differs according to chosen container registry provider:
-
-            * `ECR`: `repository`
-
-            * `SCALEWAY_CR`: `namespace/image`
-
-            * `DOCKER_HUB`: `image` or `repository/image`
-
-            * `PUBLIC_ECR`: `registry_alias/repository`
-
-            '
-        tag:
-          type: string
-          description: tag of the image container
-        registry_id:
-          type: string
-          description: tag of the image container
-        registry:
-          $ref: '#/components/schemas/ContainerRegistryProviderDetailsResponse'
-    ServiceStorage:
-      type: object
-      properties:
-        storage:
-          type: array
-          items:
-            type: object
-            required:
-            - id
-            - type
-            - size
-            - mount_point
-            properties:
-              id:
-                type: string
-                format: uuid
-              type:
-                $ref: '#/components/schemas/StorageTypeEnum'
-              size:
-                type: integer
-                description: unit is GB
-                example: 16
-              mount_point:
-                type: string
-                example: /mnt/images
-    DatabaseTypeEnum:
-      type: string
-      enum:
-      - MONGODB
-      - MYSQL
-      - POSTGRESQL
-      - REDIS
-    TerraformEngineEnum:
-      enum:
-      - TERRAFORM
-      - OPEN_TOFU
-    CreateEnvironmentModeEnum:
-      type: string
-      enum:
-      - DEVELOPMENT
-      - PRODUCTION
-      - STAGING
-      example: PRODUCTION
-    TerraformAutoDeployConfig:
-      title: TerraformAutoDeployConfig
-      type: object
-      required:
-      - auto_deploy
-      - terraform_action
-      properties:
-        auto_deploy:
-          type: boolean
-        terraform_action:
-          type: string
-          description: "Action to force a specific Terraform behavior on autodeploy.\n`DEFAULT`: The action is resolved based on the deployment type:\n  - Start/Restart -> PLAN_AND_APPLY\n  - Delete -> DESTROY\n  - Pause -> PLAN_ONLY\n"
-          enum:
-          - DEFAULT
-          - PLAN
-          - NOOP
-    KedaScalerRole:
-      title: KedaScalerRole
-      x-stoplight:
-        id: 1sl0mlxoqzr8w
-      type: string
-      enum:
-      - PRIMARY
-      - SAFETY
-    JobResponse:
-      oneOf:
-      - $ref: '#/components/schemas/LifecycleJobResponse'
-      - $ref: '#/components/schemas/CronJobResponse'
-      discriminator:
-        propertyName: job_type
-        mapping:
-          LIFECYCLE: '#/components/schemas/LifecycleJobResponse'
-          CRON: '#/components/schemas/CronJobResponse'
-    DeploymentHistoryTriggerAction:
-      x-stoplight:
-        id: 1hzy6riqo7lq4
-      enum:
-      - DEPLOY
-      - DELETE
-      - RESTART
-      - STOP
-      - DEPLOY_DRY_RUN
-      - TERRAFORM_FORCE_UNLOCK
-      - TERRAFORM_MIGRATE_STATE
-      - DELETE_RESOURCES_ONLY
-      - UNKNOWN
-      - UNINSTALL
-    ServiceDeploymentStatusEnum:
-      type: string
-      enum:
-      - NEVER_DEPLOYED
-      - OUT_OF_DATE
-      - UP_TO_DATE
     HelmResponse:
       allOf:
       - $ref: '#/components/schemas/Base'
@@ -1320,48 +1120,90 @@ components:
               id: i2pvbugqsldhe
           service_type:
             $ref: '#/components/schemas/ServiceTypeEnum'
+    TerraformVariablesSourceResponse:
+      title: TerraformVariablesSourceResponse
+      x-stoplight:
+        id: 2lr1mv2b3y7xy
+      type: object
+      required:
+      - tf_var_file_paths
+      - tf_vars
+      properties:
+        tf_var_file_paths:
+          type: array
+          x-stoplight:
+            id: ua5d71it2yiu5
+          items:
+            x-stoplight:
+              id: qsy17gz9fl3n3
+            type: string
+        tf_vars:
+          type: array
+          items:
+            $ref: '#/components/schemas/TerraformVarKeyValue'
+    HelmPortProtocolEnum:
+      type: string
+      default: HTTP
+      enum:
+      - HTTP
+      - GRPC
+    StorageTypeEnum:
+      type: string
+      enum:
+      - FAST_SSD
+    TerraformEngineEnum:
+      enum:
+      - TERRAFORM
+      - OPEN_TOFU
+    ServiceStepMetricNameEnum:
+      type: string
+      enum:
+      - REGISTRY_CREATE_REPOSITORY
+      - GIT_CLONE
+      - BUILD_QUEUEING
+      - BUILD
+      - DEPLOYMENT_QUEUEING
+      - DEPLOYMENT
+      - ROUTER_DEPLOYMENT
+      - MIRROR_IMAGE
+      - EXECUTING
+      description: "The name of the deployment step at the service level:\n- REGISTRY_CREATE_REPOSITORY: The step to create the repository in the registry.\n- GIT_CLONE: The step to clone the source code repository. \n- BUILD_QUEUEING: The queuing time preceding the actual building step.\n- BUILD: The step to build the source code.\n- DEPLOYMENT_QUEUEING: The queuing time preceding the actual deployment step.\n- DEPLOYMENT: The step to deploy the service. \n- ROUTER_DEPLOYMENT: The step to deploy the router. \n- MIRROR_IMAGE: The step to mirror the image to the private registry.\n- EXECUTING: The step to execute a job or terraform apply.\n"
+    TerraformAutoDeployConfig:
+      title: TerraformAutoDeployConfig
+      type: object
+      required:
+      - auto_deploy
+      - terraform_action
+      properties:
+        auto_deploy:
+          type: boolean
+        terraform_action:
+          type: string
+          description: "Action to force a specific Terraform behavior on autodeploy.\n`DEFAULT`: The action is resolved based on the deployment type:\n  - Start/Restart -> PLAN_AND_APPLY\n  - Delete -> DESTROY\n  - Pause -> PLAN_ONLY\n"
+          enum:
+          - DEFAULT
+          - PLAN
+          - NOOP
+    OrganizationAnnotationsGroupScopeEnum:
+      type: string
+      description: Annotations Group Scope
+      enum:
+      - DEPLOYMENTS
+      - STATEFUL_SETS
+      - SERVICES
+      - INGRESS
+      - GATEWAY_API_ROUTES
+      - HPA
+      - PODS
+      - SECRETS
+      - JOBS
+      - CRON_JOBS
     GitProviderEnum:
       type: string
       enum:
       - BITBUCKET
       - GITHUB
       - GITLAB
-    ContainerRegistryKindEnum:
-      type: string
-      enum:
-      - ECR
-      - SCALEWAY_CR
-      - DOCKER_HUB
-      - GITHUB_CR
-      - GITHUB_ENTERPRISE_CR
-      - GITLAB_CR
-      - PUBLIC_ECR
-      - DOCR
-      - GENERIC_CR
-      - GCP_ARTIFACT_REGISTRY
-      - AZURE_CR
-      description: The type of your container registry
-    JobLifecycleTypeEnum:
-      title: JobLifecycleTypeEnum
-      x-stoplight:
-        id: tz1t23a291l51
-      enum:
-      - GENERIC
-      - TERRAFORM
-      - CLOUDFORMATION
-    StatusDetails:
-      type: object
-      required:
-      - action
-      - status
-      - sub_action
-      properties:
-        action:
-          $ref: '#/components/schemas/ServiceActionEnum'
-        status:
-          $ref: '#/components/schemas/ServiceActionStatusEnum'
-        sub_action:
-          $ref: '#/components/schemas/ServiceSubActionEnum'
     TerraformVarKeyValue:
       title: TerraformVarKeyValue
       type: object
@@ -1379,145 +1221,331 @@ components:
           type: boolean
           x-stoplight:
             id: df80p2az3whjg
-    StateEnum:
-      type: string
+    EnvironmentDeploymentStatusEnum:
+      title: EnvironmentDeploymentStatusEnum
+      x-stoplight:
+        id: sbw3iw6yteyba
       enum:
-      - BUILDING
-      - BUILD_ERROR
-      - CANCELED
-      - CANCELING
-      - DELETED
-      - DELETE_ERROR
-      - DELETE_QUEUED
-      - DELETING
-      - DEPLOYED
-      - DEPLOYING
-      - DEPLOYMENT_ERROR
-      - DEPLOYMENT_QUEUED
-      - EXECUTING
-      - QUEUED
-      - READY
-      - RECAP
-      - RESTARTED
-      - RESTARTING
-      - RESTART_ERROR
-      - RESTART_QUEUED
-      - STOPPED
-      - STOPPING
-      - STOP_ERROR
-      - STOP_QUEUED
-      - UNAVAILABLE
-      - WAITING_DELETING
-      - WAITING_RESTARTING
-      - WAITING_RUNNING
-      - WAITING_STOPPING
-    StageStepMetrics:
+      - NEVER_DEPLOYED
+      - UP_TO_DATE
+      - OUT_OF_DATE
+    ServiceAnnotationsRequestList:
+      type: array
+      items:
+        $ref: '#/components/schemas/ServiceAnnotationRequest'
+    DockerfileFragmentInline:
+      title: DockerfileFragmentInline
+      type: object
+      description: Define Dockerfile commands directly in the configuration.
+      required:
+      - type
+      - content
+      properties:
+        type:
+          type: string
+          enum:
+          - inline
+          description: Fragment type discriminator
+        content:
+          type: string
+          description: Dockerfile commands to inject (max 8KB).
+          example: RUN apt-get update && apt-get install -y aws-cli jq curl && rm -rf /var/lib/apt/lists/*
+    ServiceStorage:
       type: object
       properties:
-        stage_id:
+        storage:
+          type: array
+          items:
+            type: object
+            required:
+            - id
+            - type
+            - size
+            - mount_point
+            properties:
+              id:
+                type: string
+                format: uuid
+              type:
+                $ref: '#/components/schemas/StorageTypeEnum'
+              size:
+                type: integer
+                description: unit is GB
+                example: 16
+              mount_point:
+                type: string
+                example: /mnt/images
+    ServiceLabelRequest:
+      type: object
+      required:
+      - id
+      properties:
+        id:
           type: string
           format: uuid
+    StatusDetails:
+      type: object
+      required:
+      - action
+      - status
+      - sub_action
+      properties:
+        action:
+          $ref: '#/components/schemas/ServiceActionEnum'
+        status:
+          $ref: '#/components/schemas/ServiceActionStatusEnum'
+        sub_action:
+          $ref: '#/components/schemas/ServiceSubActionEnum'
+    JobResponse:
+      oneOf:
+      - $ref: '#/components/schemas/LifecycleJobResponse'
+      - $ref: '#/components/schemas/CronJobResponse'
+      discriminator:
+        propertyName: job_type
+        mapping:
+          LIFECYCLE: '#/components/schemas/LifecycleJobResponse'
+          CRON: '#/components/schemas/CronJobResponse'
+    TerraformProviderVersion:
+      title: TerraformProviderVersion
+      x-stoplight:
+        id: 1a1hkhvei2wjq
+      type: object
+      required:
+      - explicit_version
+      properties:
+        read_from_terraform_block:
+          type: boolean
+          x-stoplight:
+            id: p2dnmuifo0fki
+        explicit_version:
+          type: string
+          x-stoplight:
+            id: 611hxcvuy68lv
+    ServiceStepMetric:
+      type: object
+      properties:
+        step_name:
+          $ref: '#/components/schemas/ServiceStepMetricNameEnum'
+        status:
+          $ref: '#/components/schemas/StepMetricStatusEnum'
+        duration_sec:
+          description: The duration of the step in seconds.
+          type: integer
+    DeploymentStageWithServicesStatuses:
+      type: object
+      properties:
+        applications:
+          type: array
+          items:
+            $ref: '#/components/schemas/Status'
+        containers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Status'
+        jobs:
+          type: array
+          items:
+            $ref: '#/components/schemas/Status'
+        databases:
+          type: array
+          items:
+            $ref: '#/components/schemas/Status'
+        helms:
+          type: array
+          items:
+            $ref: '#/components/schemas/Status'
+        terraforms:
+          type: array
+          items:
+            $ref: '#/components/schemas/Status'
+        stage:
+          $ref: '#/components/schemas/Stage'
+    JobSourceDockerResponse:
+      title: JobSourceDockerResponse
+      x-stoplight:
+        id: s59m8wajnieny
+      type: object
+      properties:
+        git_repository:
+          $ref: '#/components/schemas/ApplicationGitRepository'
+        dockerfile_path:
+          type:
+          - string
+          - 'null'
+          x-stoplight:
+            id: 72djyl4mjhxny
+          description: The path of the associated Dockerfile. Only if you are using build_mode = DOCKER
+        dockerfile_raw:
+          type:
+          - string
+          - 'null'
+          x-stoplight:
+            id: 7s4l0qg285y48
+          description: The content of your dockerfile if it is not stored inside your git repository
+        docker_target_build_stage:
+          type:
+          - string
+          - 'null'
+          x-stoplight:
+            id: 8o1faq3bgz92i
+          description: The target build stage in the Dockerfile to build
+    DatabaseRequest:
+      type: object
+      required:
+      - name
+      - type
+      - version
+      - mode
+      properties:
+        name:
+          type: string
+          description: name is case insensitive
+        description:
+          type: string
+          description: give a description to this database
+        type:
+          $ref: '#/components/schemas/DatabaseTypeEnum'
+        version:
+          type: string
+          example: '10.1'
+        mode:
+          $ref: '#/components/schemas/DatabaseModeEnum'
+        accessibility:
+          $ref: '#/components/schemas/DatabaseAccessibilityEnum'
+        cpu:
+          type: integer
+          description: 'unit is millicores (m). 1000m = 1 cpu
+
+            This field will be ignored for managed DB (instance type will be used instead).
+
+            '
+          default: 250
+          example: 1250
+        instance_type:
+          type: string
+          example: db.t3.medium
+          description: Database instance type to be used for this database. The list of values can be retrieved via the endpoint /{CloudProvider}/managedDatabase/instanceType/{region}/{dbType}. This field SHOULD NOT be set for container DB.
+        memory:
+          type: integer
+          description: "unit is MB. 1024 MB = 1GB\nThis field will be ignored for managed DB (instance type will be used instead).\nDefault value is linked to the database type:\n- MANAGED: `100`\n- CONTAINER\n  - POSTGRES: `100`\n  - REDIS: `100`\n  - MYSQL: `512`\n  - MONGODB: `256`\n"
+          example: 1024
+        storage:
+          type: integer
+          description: unit is GB
+          default: 10
+        annotations_groups:
+          $ref: '#/components/schemas/ServiceAnnotationsRequestList'
+        labels_groups:
+          $ref: '#/components/schemas/ServiceLabelsRequestList'
+        icon_uri:
+          type: string
+          format: uri
+          description: Icon URI representing the database.
+          x-stoplight:
+            id: ls6yevnhskd5y
+    ServicePort:
+      type: object
+      required:
+      - id
+      - internal_port
+      - publicly_accessible
+      - protocol
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        internal_port:
+          type: integer
+          example: 8080
+          description: The listening port of your service.
+        external_port:
+          type: integer
+          example: 8080
+          description: The exposed port for your service. This is optional. If not set a default port will be used.
+        publicly_accessible:
+          type: boolean
+          description: Expose the port to the world
+        is_default:
+          type: boolean
+          description: is the default port to use for domain
+        protocol:
+          $ref: '#/components/schemas/PortProtocolEnum'
+        public_path:
+          type: string
+          description: "Indicate the path or regex that must match for traffic to be accepted on your service\ni.e: /api/ will only accept http calls that start with /api/ \nOnly valid for publicly_accessible HTTP or GRPC ports."
+        public_path_rewrite:
+          type: string
+          description: "Indicate the new path that will be used to reach your service after replacement\ni.e: public_path -> /(.*)  public_path_rewrite -> /api/$1 will append /api/ on all externaly requested url when reaching the service \nexternal/use url -> example.com/foobar  -> url seen by the service -> example.com/api/foobar\nOnly valid for publicly_accessible HTTP or GRPC ports."
+    DatabaseAccessibilityEnum:
+      type: string
+      default: PRIVATE
+      enum:
+      - PRIVATE
+      - PUBLIC
+    ServiceStepMetrics:
+      type: object
+      required:
+      - total_duration_sec
+      - total_computing_duration_sec
+      - details
+      properties:
         total_duration_sec:
-          description: The total duration in seconds of the stage deployment or null if the deployment is not completed.
+          description: The total duration in seconds of the service deployment or null if the deployment is not completed.
           type:
           - integer
           - 'null'
+        total_computing_duration_sec:
+          description: The total duration in seconds of the service deployment without queuing steps.
+          type: integer
         details:
-          description: A list of metrics for deployment steps of the stage.
+          description: A list of metrics for deployment steps of the service.
           type: array
           items:
-            $ref: '#/components/schemas/StageStepMetric'
-    ServiceLabelsRequestList:
-      type: array
-      items:
-        $ref: '#/components/schemas/ServiceLabelRequest'
-    StepMetricStatusEnum:
-      type: string
-      enum:
-      - SUCCESS
-      - ERROR
-      - CANCEL
-      - SKIP
-      description: 'The status of completion for the step:
-
-        - SUCCESS: The step completed successfully.
-
-        - ERROR: The step completed with an error.
-
-        - CANCEL: The step was canceled.
-
-        - SKIP: The step was skipped because it was not necessary.
-
-        '
-    Database:
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - $ref: '#/components/schemas/DatabaseRequest'
-      - type: object
-        required:
-        - environment
-        - icon_uri
-        - service_type
-        properties:
-          environment:
-            $ref: '#/components/schemas/ReferenceObject'
-          host:
-            type: string
-          port:
-            type: integer
-            example: 5432
-          maximum_cpu:
-            type: integer
-            description: Maximum cpu that can be allocated to the database based on organization cluster configuration. unit is millicores (m). 1000m = 1 cpu
-            example: 1250
-          maximum_memory:
-            type: integer
-            description: Maximum memory that can be allocated to the database based on organization cluster configuration. unit is MB. 1024 MB = 1GB
-            example: 1024
-          disk_encrypted:
-            type: boolean
-            description: indicates if the database disk is encrypted or not
-          instance_type:
-            type: string
-            example: db.t3.medium
-            description: Database instance type to be used for this database. The list of values can be retrieved via the endpoint /{CloudProvider}/managedDatabase/instanceType/{region}/{dbType}. This field is null for container DB.
-          disk_type:
-            type:
-            - string
-            - 'null'
-            description: EBS disk type for the database. Only applicable for MANAGED mode (gp2 or gp3). Null for CONTAINER mode.
-            enum:
-            - gp2
-            - gp3
-          annotations_groups:
-            $ref: '#/components/schemas/OrganizationAnnotationsGroupResponseList'
-          labels_groups:
-            $ref: '#/components/schemas/OrganizationLabelsGroupResponseList'
-          icon_uri:
-            type: string
-            format: uri
-            description: Icon URI representing the database.
-          service_type:
-            $ref: '#/components/schemas/ServiceTypeEnum'
-    OrganizationAnnotationsGroupResponse:
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - type: object
-        required:
-        - name
-        - annotations
-        - scopes
-        properties:
-          name:
-            type: string
-          annotations:
-            type: array
-            items:
-              $ref: '#/components/schemas/Annotation'
-          scopes:
-            type: array
-            items:
-              $ref: '#/components/schemas/OrganizationAnnotationsGroupScopeEnum'
+            $ref: '#/components/schemas/ServiceStepMetric'
+    Status:
+      type: object
+      required:
+      - id
+      - state
+      - service_deployment_status
+      - status_details
+      - is_part_last_deployment
+      - deployment_requests_count
+      - deployment_request_id
+      properties:
+        id:
+          type: string
+          format: uuid
+        state:
+          $ref: '#/components/schemas/StateEnum'
+        service_deployment_status:
+          $ref: '#/components/schemas/ServiceDeploymentStatusEnum'
+        last_deployment_date:
+          type: string
+          format: date-time
+        is_part_last_deployment:
+          type: boolean
+        steps:
+          $ref: '#/components/schemas/ServiceStepMetrics'
+        execution_id:
+          type: string
+          x-stoplight:
+            id: 3o9tz4272s2ct
+        status_details:
+          $ref: '#/components/schemas/StatusDetails'
+        deployment_request_id:
+          type:
+          - string
+          - 'null'
+          x-stoplight:
+            id: bepixrb7tyzme
+          format: uuid
+        deployment_requests_count:
+          type: integer
+          x-stoplight:
+            id: crku532vt3v4p
     KubernetesSelector:
       title: KubernetesSelector
       x-stoplight:
@@ -1535,21 +1563,77 @@ components:
           type: string
           x-stoplight:
             id: 6zpc45u4laog4
-    AutoscalingMode:
-      title: AutoscalingMode
-      x-stoplight:
-        id: vmgo27882mrl3
+    EnvironmentModeEnum:
       type: string
       enum:
-      - KEDA
-    ServiceActionEnum:
+      - DEVELOPMENT
+      - PREVIEW
+      - PRODUCTION
+      - STAGING
+      example: PRODUCTION
+    JobTypeEnum:
+      type: string
+      description: type of job
+      enum:
+      - LIFECYCLE
+      - CRON
+    CronJobResponse:
+      allOf:
+      - $ref: '#/components/schemas/BaseJobResponse'
+      - type: object
+        required:
+        - job_type
+        - schedule
+        properties:
+          job_type:
+            $ref: '#/components/schemas/JobTypeEnum'
+          schedule:
+            type: object
+            required:
+            - cronjob
+            properties:
+              cronjob:
+                type: object
+                required:
+                - timezone
+                - scheduled_at
+                properties:
+                  arguments:
+                    type: array
+                    items:
+                      type: string
+                  entrypoint:
+                    type: string
+                    description: optional entrypoint when launching container
+                  timezone:
+                    type: string
+                    description: tz identifier at which the schedule at will be executed
+                  scheduled_at:
+                    type: string
+                    format: cron
+                    description: "Can only be set if the event is CRON.  \nRepresent the cron format for the job schedule without seconds.  \nFor example: `* * * * *` represent the cron to launch the job every minute.  \nSee https://crontab.guru/ to WISIWIG interface.  \nTimezone is UT\n"
+          annotations_groups:
+            $ref: '#/components/schemas/OrganizationAnnotationsGroupResponseList'
+          labels_groups:
+            $ref: '#/components/schemas/OrganizationLabelsGroupResponseList'
+    BuildModeEnum:
       type: string
       enum:
-      - DEPLOY
-      - DELETE
-      - RESTART
-      - STOP
-      - UNKNOWN
+      - DOCKER
+      description: '`DOCKER` requires `dockerfile_path`
+
+        '
+      default: DOCKER
+    Annotation:
+      type: object
+      required:
+      - key
+      - value
+      properties:
+        key:
+          type: string
+        value:
+          type: string
     ServiceTypeEnum:
       type: string
       x-stoplight:
@@ -1563,13 +1647,238 @@ components:
       - HELM
       - TERRAFORM
       - ARGOCD_APP
-    HelmKeyValues:
-      type: array
-      description: 'The input is in json array format: [ [$KEY,$VALUE], [...] ]'
-      items:
-        type: array
-        items:
+    ContainerSource:
+      type: object
+      required:
+      - image_name
+      - tag
+      - registry
+      properties:
+        image_name:
           type: string
+          description: 'The image name pattern differs according to chosen container registry provider:
+
+            * `ECR`: `repository`
+
+            * `SCALEWAY_CR`: `namespace/image`
+
+            * `DOCKER_HUB`: `image` or `repository/image`
+
+            * `PUBLIC_ECR`: `registry_alias/repository`
+
+            '
+        tag:
+          type: string
+          description: tag of the image container
+        registry_id:
+          type: string
+          description: tag of the image container
+        registry:
+          $ref: '#/components/schemas/ContainerRegistryProviderDetailsResponse'
+    KedaTriggerAuthenticationResponse:
+      title: KedaTriggerAuthenticationResponse
+      x-stoplight:
+        id: 7mm4a4sk9jhz3
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        x-stoplight:
+          id: ssejnexbsra11
+        required:
+        - organization_id
+        - name
+        properties:
+          organization_id:
+            type: string
+            x-stoplight:
+              id: akxa3zctvjj5h
+          name:
+            type: string
+            x-stoplight:
+              id: gpvwed95xygk1
+          config_yaml:
+            type: string
+            x-stoplight:
+              id: r5lmrzakyk9o6
+            description: ' Optional raw KEDA TriggerAuthentication YAML configuration.'
+    EnvironmentStatus:
+      type: object
+      required:
+      - id
+      - state
+      - last_deployment_state
+      properties:
+        id:
+          type: string
+          format: uuid
+        state:
+          $ref: '#/components/schemas/StateEnum'
+        last_deployment_date:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        last_deployment_state:
+          $ref: '#/components/schemas/StateEnum'
+        last_deployment_id:
+          type:
+          - string
+          - 'null'
+        total_deployment_duration_in_seconds:
+          type:
+          - integer
+          - 'null'
+        origin:
+          $ref: '#/components/schemas/EnvironmentStatusEventOriginEnum'
+        triggered_by:
+          type:
+          - string
+          - 'null'
+        deployment_status:
+          $ref: '#/components/schemas/EnvironmentDeploymentStatusEnum'
+        deployment_request_id:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        metrics:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/StageStepMetrics'
+    StageStatusEnum:
+      type: string
+      x-stoplight:
+        id: lv5pyjmui11rn
+      enum:
+      - QUEUED
+      - ONGOING
+      - DONE
+      - ERROR
+      - SKIPPED
+      - CANCELED
+    Application:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - $ref: '#/components/schemas/ServiceStorage'
+      - type: object
+        required:
+        - environment
+        - name
+        - healthchecks
+        - icon_uri
+        - service_type
+        properties:
+          environment:
+            $ref: '#/components/schemas/ReferenceObject'
+          git_repository:
+            $ref: '#/components/schemas/ApplicationGitRepository'
+          maximum_cpu:
+            type: integer
+            description: Maximum cpu that can be allocated to the application based on organization cluster configuration. unit is millicores (m). 1000m = 1 cpu
+            example: 16000
+          maximum_memory:
+            type: integer
+            description: Maximum memory that can be allocated to the application based on organization cluster configuration. unit is MB. 1024 MB = 1GB
+            example: 16384
+          maximun_gpu:
+            type: integer
+            x-stoplight:
+              id: ho7l9maiyqe52
+            default: 0
+            minimum: 0
+          name:
+            type: string
+            description: name is case insensitive
+          description:
+            type: string
+            description: give a description to this application
+          build_mode:
+            $ref: '#/components/schemas/BuildModeEnum'
+          dockerfile_path:
+            type:
+            - string
+            - 'null'
+            description: The path of the associated Dockerfile. Only if you are using build_mode = DOCKER
+          cpu:
+            type: integer
+            description: unit is millicores (m). 1000m = 1 cpu
+            example: 1250
+          memory:
+            type: integer
+            description: unit is MB. 1024 MB = 1GB
+            example: 1024
+          gpu:
+            type: integer
+            x-stoplight:
+              id: 3n3pebmhkah3k
+            default: 0
+            minimum: 0
+          min_running_instances:
+            type: integer
+            minimum: 0
+            description: 'Minimum number of instances running. This resource auto-scale based on the CPU and Memory consumption.
+
+              Note: 0 means that there is no application running.
+
+              '
+            default: 1
+          max_running_instances:
+            type: integer
+            description: 'Maximum number of instances running. This resource auto-scale based on the CPU and Memory consumption.
+
+              Note: -1 means that there is no limit.
+
+              '
+            default: 1
+          healthchecks:
+            $ref: '#/components/schemas/Healthcheck'
+          auto_preview:
+            type: boolean
+            description: "Specify if the environment preview option is activated or not for this application.  \nIf activated, a preview environment will be automatically cloned at each pull request.  \nIf not specified, it takes the value of the `auto_preview` property from the associated environment.\n"
+            default: true
+          ports:
+            $ref: '#/components/schemas/ServicePortResponseList'
+          arguments:
+            type: array
+            items:
+              type: string
+          entrypoint:
+            type: string
+            description: optional entrypoint when launching container
+          auto_deploy:
+            type: boolean
+            description: Specify if the application will be automatically updated after receiving a new commit.
+          annotations_groups:
+            $ref: '#/components/schemas/OrganizationAnnotationsGroupResponseList'
+          labels_groups:
+            $ref: '#/components/schemas/OrganizationLabelsGroupResponseList'
+          icon_uri:
+            type: string
+            format: uri
+            description: Icon URI representing the application.
+            x-stoplight:
+              id: b8karc43pdxpu
+          service_type:
+            $ref: '#/components/schemas/ServiceTypeEnum'
+          docker_target_build_stage:
+            type:
+            - string
+            - 'null'
+            x-stoplight:
+              id: tdxdfoyowutcx
+            description: The target build stage in the Dockerfile to build
+          autoscaling:
+            $ref: '#/components/schemas/AutoscalingPolicyResponse'
+    PortProtocolEnum:
+      type: string
+      default: HTTP
+      enum:
+      - HTTP
+      - GRPC
+      - TCP
+      - UDP
     ContainerResponse:
       allOf:
       - $ref: '#/components/schemas/Base'
@@ -1679,101 +1988,64 @@ components:
             $ref: '#/components/schemas/ServiceTypeEnum'
           autoscaling:
             $ref: '#/components/schemas/AutoscalingPolicyResponse'
-    StageStepMetricNameEnum:
-      type: string
-      enum:
-      - TOTAL
-      - QUEUEING
-      - PROVISION_BUILDER
-      description: 'The name of the deployment step at the stage level:
-
-        - TOTAL: The total duration of the stage deployment.
-
-        - QUEUEING: The step preceding the actual stage deployment step.
-
-        - PROVISION_BUILDER: The step to provision builders before the actual build.
-
-        '
-    EnvironmentModeEnum:
-      type: string
-      enum:
-      - DEVELOPMENT
-      - PREVIEW
-      - PRODUCTION
-      - STAGING
-      example: PRODUCTION
-    ServiceAnnotationsRequestList:
-      type: array
-      items:
-        $ref: '#/components/schemas/ServiceAnnotationRequest'
-    OrganizationAnnotationsGroupResponseList:
-      type: array
-      items:
-        $ref: '#/components/schemas/OrganizationAnnotationsGroupResponse'
-    OrganizationLabelsGroupResponseList:
-      type: array
-      items:
-        $ref: '#/components/schemas/OrganizationLabelsGroupResponse'
-      title: ''
-    JobSourceDockerResponse:
-      title: JobSourceDockerResponse
+    HelmSourceRepositoryResponse:
+      title: HelmSourceRepositoryResponse
       x-stoplight:
-        id: s59m8wajnieny
-      type: object
-      properties:
-        git_repository:
-          $ref: '#/components/schemas/ApplicationGitRepository'
-        dockerfile_path:
-          type:
-          - string
-          - 'null'
-          x-stoplight:
-            id: 72djyl4mjhxny
-          description: The path of the associated Dockerfile. Only if you are using build_mode = DOCKER
-        dockerfile_raw:
-          type:
-          - string
-          - 'null'
-          x-stoplight:
-            id: 7s4l0qg285y48
-          description: The content of your dockerfile if it is not stored inside your git repository
-        docker_target_build_stage:
-          type:
-          - string
-          - 'null'
-          x-stoplight:
-            id: 8o1faq3bgz92i
-          description: The target build stage in the Dockerfile to build
-    ServiceSubActionEnum:
-      type: string
-      default: NONE
-      enum:
-      - NONE
-      - TERRAFORM_PLAN_ONLY
-      - TERRAFORM_PLAN_AND_APPLY
-      - TERRAFORM_DESTROY
-      - TERRAFORM_FORCE_UNLOCK_STATE
-      - TERRAFORM_MIGRATE_STATE
-    ServiceStepMetrics:
+        id: 4u8sg5mvbz502
       type: object
       required:
-      - total_duration_sec
-      - total_computing_duration_sec
-      - details
+      - chart_name
+      - chart_version
+      - repository
       properties:
-        total_duration_sec:
-          description: The total duration in seconds of the service deployment or null if the deployment is not completed.
-          type:
-          - integer
-          - 'null'
-        total_computing_duration_sec:
-          description: The total duration in seconds of the service deployment without queuing steps.
-          type: integer
-        details:
-          description: A list of metrics for deployment steps of the service.
-          type: array
-          items:
-            $ref: '#/components/schemas/ServiceStepMetric'
+        chart_name:
+          type: string
+          x-stoplight:
+            id: myqqxis6r2wum
+        chart_version:
+          type: string
+          x-stoplight:
+            id: bxqymhkfiwauw
+        repository:
+          type: object
+          x-stoplight:
+            id: fr4th9yrro2rh
+          required:
+          - id
+          - name
+          - url
+          properties:
+            id:
+              type: string
+              x-stoplight:
+                id: 4mb2ymh7anud4
+              format: uu
+            name:
+              type: string
+              x-stoplight:
+                id: bamkqh6qvsenc
+            url:
+              type: string
+              x-stoplight:
+                id: qxjxb9crdcsyv
+              format: uri
+    DockerfileFragmentFile:
+      title: DockerfileFragmentFile
+      type: object
+      description: Reference a Dockerfile fragment file from your Git repository.
+      required:
+      - type
+      - path
+      properties:
+        type:
+          type: string
+          enum:
+          - file
+          description: Fragment type discriminator
+        path:
+          type: string
+          description: Absolute path to the fragment file.
+          example: /infra/terraform/custom-build.dockerfile
     QueuedDeploymentRequestWithStages:
       title: QueuedDeploymentRequestWithStages
       x-stoplight:
@@ -1893,37 +2165,178 @@ components:
                             - CRON
                             - LIFECYCLE
                       type: object
-    OrganizationLabelsGroupResponse:
+    Base:
+      type: object
+      required:
+      - id
+      - created_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          readOnly: true
+          format: date-time
+        updated_at:
+          type: string
+          readOnly: true
+          format: date-time
+    EnvironmentStatusEventOriginEnum:
+      type:
+      - string
+      - 'null'
+      description: Origin of the organization event
+      enum:
+      - API
+      - CLI
+      - CONSOLE
+      - GIT
+      - QOVERY_INTERNAL
+      - TERRAFORM_PROVIDER
+      example: API
+    ServiceLabelsRequestList:
+      type: array
+      items:
+        $ref: '#/components/schemas/ServiceLabelRequest'
+    TerraformResponse:
       allOf:
       - $ref: '#/components/schemas/Base'
       - type: object
         required:
         - name
-        - labels
+        - timeout_sec
+        - auto_deploy
+        - icon_uri
+        - service_type
+        - terraform_variables_source
+        - engine
+        - backend
+        - provider_version
+        - job_resources
+        - environment
+        - use_cluster_credentials
+        - action_extra_arguments
         properties:
           name:
             type: string
-          labels:
-            type: array
-            items:
-              $ref: '#/components/schemas/Label'
-      title: ''
-    TerraformFilesSource:
-      title: TerraformFilesSource
+            description: name is case insensitive
+          description:
+            type: string
+          timeout_sec:
+            type: integer
+            minimum: 0
+            default: 600
+          auto_deploy:
+            type: boolean
+          auto_deploy_config:
+            $ref: '#/components/schemas/TerraformAutoDeployConfig'
+          terraform_files_source:
+            x-stoplight:
+              id: abfhjb6q74upq
+            oneOf:
+            - $ref: '#/components/schemas/TerraformFilesSource'
+          icon_uri:
+            type: string
+            format: uri
+            description: Icon URI representing the terraform service.
+            x-stoplight:
+              id: i2pvbugqsldhe
+          service_type:
+            $ref: '#/components/schemas/ServiceTypeEnum'
+          terraform_variables_source:
+            $ref: '#/components/schemas/TerraformVariablesSourceResponse'
+          engine:
+            $ref: '#/components/schemas/TerraformEngineEnum'
+          backend:
+            $ref: '#/components/schemas/TerraformBackend'
+          provider_version:
+            $ref: '#/components/schemas/TerraformProviderVersion'
+          job_resources:
+            $ref: '#/components/schemas/TerraformJobResourcesResponse'
+          environment:
+            $ref: '#/components/schemas/ReferenceObject'
+          use_cluster_credentials:
+            type: boolean
+            x-stoplight:
+              id: ixjejij08tgfo
+          action_extra_arguments:
+            type: object
+            x-stoplight:
+              id: rnkzwlf29dgb5
+            description: 'The key represent the action command name i.e: "plan"
+
+              The value represent the extra arguments to pass to this command
+
+
+              i.e: {"apply", ["-lock=false"]} is going to prepend `-lock=false` to terraform apply commands'
+            additionalProperties:
+              x-stoplight:
+                id: 57b09dqz1jwra
+              type: array
+              items:
+                x-stoplight:
+                  id: 2mkmankga2thw
+                type: string
+          dockerfile_fragment:
+            description: 'Custom Dockerfile fragment to inject during build.
+
+              When null, no custom fragment is injected.
+
+              '
+            oneOf:
+            - $ref: '#/components/schemas/DockerfileFragmentFile'
+            - $ref: '#/components/schemas/DockerfileFragmentInline'
+            discriminator:
+              propertyName: type
+              mapping:
+                file: '#/components/schemas/DockerfileFragmentFile'
+                inline: '#/components/schemas/DockerfileFragmentInline'
+      description: A Terraform service
+    AutoscalingMode:
+      title: AutoscalingMode
       x-stoplight:
-        id: ynhtfa5yo20ee
+        id: vmgo27882mrl3
+      type: string
+      enum:
+      - KEDA
+    OrganizationEventOrigin:
+      type: string
+      description: Origin of the organization event
+      enum:
+      - API
+      - CLI
+      - CONSOLE
+      - GIT
+      - QOVERY_INTERNAL
+      - TERRAFORM_PROVIDER
+      example: API
+    ServicePortResponseList:
+      type: array
+      items:
+        $ref: '#/components/schemas/ServicePort'
+    ServiceAnnotationRequest:
       type: object
+      required:
+      - id
       properties:
-        git:
-          x-stoplight:
-            id: iavjewfs0d12k
-          type: object
-          properties:
-            git_repository:
-              $ref: '#/components/schemas/ApplicationGitRepository'
-    DeploymentStageWithServicesStatuses:
+        id:
+          type: string
+          format: uuid
+    EnvironmentStatuses:
       type: object
+      required:
+      - environment
+      - containers
+      - applications
+      - jobs
+      - databases
+      - helms
+      - terraforms
       properties:
+        environment:
+          $ref: '#/components/schemas/EnvironmentStatus'
         applications:
           type: array
           items:
@@ -1948,14 +2361,140 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Status'
-        stage:
-          $ref: '#/components/schemas/Stage'
-    HelmPortProtocolEnum:
+    Label:
+      type: object
+      required:
+      - key
+      - value
+      - propagate_to_cloud_provider
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+        propagate_to_cloud_provider:
+          type: boolean
+    CreateEnvironmentModeEnum:
       type: string
-      default: HTTP
       enum:
-      - HTTP
-      - GRPC
+      - DEVELOPMENT
+      - PRODUCTION
+      - STAGING
+      example: PRODUCTION
+    LifecycleJobResponse:
+      allOf:
+      - $ref: '#/components/schemas/BaseJobResponse'
+      - type: object
+        required:
+        - job_type
+        - schedule
+        properties:
+          job_type:
+            $ref: '#/components/schemas/JobTypeEnum'
+          schedule:
+            type: object
+            properties:
+              on_start:
+                type: object
+                properties:
+                  arguments:
+                    type: array
+                    items:
+                      type: string
+                  entrypoint:
+                    type: string
+                    description: optional entrypoint when launching container
+              on_stop:
+                type: object
+                properties:
+                  arguments:
+                    type: array
+                    items:
+                      type: string
+                  entrypoint:
+                    type: string
+                    description: optional entrypoint when launching container
+              on_delete:
+                type: object
+                properties:
+                  arguments:
+                    type: array
+                    items:
+                      type: string
+                  entrypoint:
+                    type: string
+                    description: optional entrypoint when launching container
+              lifecycle_type:
+                $ref: '#/components/schemas/JobLifecycleTypeEnum'
+          annotations_groups:
+            $ref: '#/components/schemas/OrganizationAnnotationsGroupResponseList'
+          labels_groups:
+            $ref: '#/components/schemas/OrganizationLabelsGroupResponseList'
+      title: ''
+    OrganizationLabelsGroupResponse:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        required:
+        - name
+        - labels
+        properties:
+          name:
+            type: string
+          labels:
+            type: array
+            items:
+              $ref: '#/components/schemas/Label'
+      title: ''
+    ArgocdAppResponse:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        required:
+        - name
+        - service_type
+        - namespace
+        - environment_id
+        - cluster_id
+        properties:
+          name:
+            type: string
+            description: name is case insensitive
+          service_type:
+            $ref: '#/components/schemas/ServiceTypeEnum'
+          namespace:
+            type: string
+          environment_id:
+            type: string
+            format: uuid
+          cluster_id:
+            type: string
+            format: uuid
+          last_synced_at:
+            type:
+            - string
+            - 'null'
+            format: date-time
+          manifest_revision:
+            type:
+            - string
+            - 'null'
+          source_repo_url:
+            type:
+            - string
+            - 'null'
+          source_target_revision:
+            type:
+            - string
+            - 'null'
+      description: An ArgoCD service
+    OrganizationAnnotationsGroupResponseList:
+      type: array
+      items:
+        $ref: '#/components/schemas/OrganizationAnnotationsGroupResponse'
+    TerraformBackendUserProvided:
+      type: object
+      description: User-provided backend configuration
     QueuedDeploymentRequestForService:
       title: QueuedDeploymentRequestForService
       x-stoplight:
@@ -2004,203 +2543,100 @@ components:
           type: string
           x-stoplight:
             id: h69hlvf3roanf
-    TerraformBackendKubernetes:
-      type: object
-      description: Kubernetes-specific backend configuration
-    KedaScalerResponse:
-      title: KedaScalerResponse
-      x-stoplight:
-        id: gaaqg32ivl48h
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - type: object
-        x-stoplight:
-          id: 74tt3hgf95nfe
-        required:
-        - scaler_type
-        - enabled
-        - role
-        properties:
-          scaler_type:
-            type: string
-            x-stoplight:
-              id: 1ckp76ziimkg4
-          enabled:
-            type: boolean
-            x-stoplight:
-              id: 0dnjwnlkuj3kp
-          role:
-            $ref: '#/components/schemas/KedaScalerRole'
-          config_json:
-            type:
-            - object
-            - 'null'
-          config_yaml:
-            type:
-            - string
-            - 'null'
-          trigger_authentication:
-            $ref: '#/components/schemas/KedaTriggerAuthenticationResponse'
-    StageStatusEnum:
-      type: string
-      x-stoplight:
-        id: lv5pyjmui11rn
-      enum:
-      - QUEUED
-      - ONGOING
-      - DONE
-      - ERROR
-      - SKIPPED
-      - CANCELED
-    Environment:
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - type: object
-        required:
-        - name
-        - cloud_provider
-        - mode
-        - cluster_id
-        - project
-        - organization
-        properties:
-          name:
-            type: string
-            description: name is case insensitive
-          organization:
-            $ref: '#/components/schemas/ReferenceObject'
-          project:
-            $ref: '#/components/schemas/ReferenceObject'
-          last_updated_by:
-            type: string
-            format: uuid
-            description: uuid of the user that made the last update
-          cloud_provider:
-            type: object
-            properties:
-              provider:
-                type: string
-                example: aws
-              cluster:
-                type: string
-                example: us-east-2
-          mode:
-            $ref: '#/components/schemas/EnvironmentModeEnum'
-          cluster_id:
-            type: string
-            format: uuid
-          cluster_name:
-            type: string
-            format: string
-    ServiceStepMetricNameEnum:
-      type: string
-      enum:
-      - REGISTRY_CREATE_REPOSITORY
-      - GIT_CLONE
-      - BUILD_QUEUEING
-      - BUILD
-      - DEPLOYMENT_QUEUEING
-      - DEPLOYMENT
-      - ROUTER_DEPLOYMENT
-      - MIRROR_IMAGE
-      - EXECUTING
-      description: "The name of the deployment step at the service level:\n- REGISTRY_CREATE_REPOSITORY: The step to create the repository in the registry.\n- GIT_CLONE: The step to clone the source code repository. \n- BUILD_QUEUEING: The queuing time preceding the actual building step.\n- BUILD: The step to build the source code.\n- DEPLOYMENT_QUEUEING: The queuing time preceding the actual deployment step.\n- DEPLOYMENT: The step to deploy the service. \n- ROUTER_DEPLOYMENT: The step to deploy the router. \n- MIRROR_IMAGE: The step to mirror the image to the private registry.\n- EXECUTING: The step to execute a job or terraform apply.\n"
-    Annotation:
-      type: object
-      required:
-      - key
-      - value
-      properties:
-        key:
+    HelmKeyValues:
+      type: array
+      description: 'The input is in json array format: [ [$KEY,$VALUE], [...] ]'
+      items:
+        type: array
+        items:
           type: string
-        value:
-          type: string
-    Probe:
-      type:
-      - object
-      - 'null'
+    TerraformFilesSource:
+      title: TerraformFilesSource
+      x-stoplight:
+        id: ynhtfa5yo20ee
+      type: object
       properties:
-        type:
+        git:
+          x-stoplight:
+            id: iavjewfs0d12k
           type: object
           properties:
-            tcp:
-              type:
-              - object
-              - 'null'
-              properties:
-                port:
-                  type: integer
-                host:
-                  type:
-                  - string
-                  - 'null'
-                  default: null
-            http:
-              type:
-              - object
-              - 'null'
-              properties:
-                path:
-                  type: string
-                  default: /
-                scheme:
-                  type: string
-                  default: HTTP
-                port:
-                  type: integer
-            exec:
-              type:
-              - object
-              - 'null'
-              description: Execute a command inside the container. The probe succeeds if the command exits with status code 0.
-              properties:
-                command:
-                  type: array
-                  description: 'Command to execute inside the container, specified as an array of strings. The first element is the executable, followed by its arguments. Example: ["sh", "-c", "test -f /tmp/healthy"]'
-                  example:
-                  - sh
-                  - -c
-                  - test -f /tmp/healthy
-                  items:
-                    type: string
-                  minItems: 1
-            grpc:
-              type:
-              - object
-              - 'null'
-              properties:
-                service:
-                  type:
-                  - string
-                  - 'null'
-                  default: null
-                port:
-                  type: integer
-        initial_delay_seconds:
-          type: integer
-          default: 30
-        period_seconds:
-          type: integer
-          default: 10
-        timeout_seconds:
-          type: integer
-          default: 5
-        success_threshold:
-          type: integer
-          default: 1
-        failure_threshold:
-          type: integer
-          default: 9
-    HelmSourceGitResponse:
-      title: HelmSourceGitResponse
-      x-stoplight:
-        id: lsxautcdafty6
+            git_repository:
+              $ref: '#/components/schemas/ApplicationGitRepository'
+    DatabaseTypeEnum:
+      type: string
+      enum:
+      - MONGODB
+      - MYSQL
+      - POSTGRESQL
+      - REDIS
+    Stage:
       type: object
       required:
-      - git_repository
+      - id
+      - name
+      - description
       properties:
-        git_repository:
-          $ref: '#/components/schemas/ApplicationGitRepository'
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          description: stage name
+        steps:
+          $ref: '#/components/schemas/StageStepMetrics'
+        description:
+          type: string
+          x-stoplight:
+            id: gwpra9face692
+        status:
+          $ref: '#/components/schemas/StageStatusEnum'
+    StateEnum:
+      type: string
+      enum:
+      - BUILDING
+      - BUILD_ERROR
+      - CANCELED
+      - CANCELING
+      - DELETED
+      - DELETE_ERROR
+      - DELETE_QUEUED
+      - DELETING
+      - DEPLOYED
+      - DEPLOYING
+      - DEPLOYMENT_ERROR
+      - DEPLOYMENT_QUEUED
+      - EXECUTING
+      - QUEUED
+      - READY
+      - RECAP
+      - RESTARTED
+      - RESTARTING
+      - RESTART_ERROR
+      - RESTART_QUEUED
+      - STOPPED
+      - STOPPING
+      - STOP_ERROR
+      - STOP_QUEUED
+      - UNAVAILABLE
+      - WAITING_DELETING
+      - WAITING_RESTARTING
+      - WAITING_RUNNING
+      - WAITING_STOPPING
+    DeploymentHistoryTriggerAction:
+      x-stoplight:
+        id: 1hzy6riqo7lq4
+      enum:
+      - DEPLOY
+      - DELETE
+      - RESTART
+      - STOP
+      - DEPLOY_DRY_RUN
+      - TERRAFORM_FORCE_UNLOCK
+      - TERRAFORM_MIGRATE_STATE
+      - DELETE_RESOURCES_ONLY
+      - UNKNOWN
+      - UNINSTALL
     ReferenceObject:
       type: object
       required:
@@ -2210,453 +2646,17 @@ components:
           type: string
           format: uuid
           readOnly: true
-    KedaAutoscalingResponse:
-      title: KedaAutoscalingResponse
-      x-stoplight:
-        id: dgcb902szizvv
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - type: object
-        x-stoplight:
-          id: zjlwqohiiyuwf
-        required:
-        - service_id
-        - mode
-        - polling_interval_seconds
-        - cooldown_period_seconds
-        - scalers
-        properties:
-          service_id:
-            type: string
-            x-stoplight:
-              id: j9bxhtiyyl0iv
-            format: uuid
-          mode:
-            $ref: '#/components/schemas/AutoscalingMode'
-          polling_interval_seconds:
-            type: integer
-            x-stoplight:
-              id: uone6zr48amok
-            format: int32
-          cooldown_period_seconds:
-            type: integer
-            x-stoplight:
-              id: j2dapmjjjiafj
-            format: int32
-          scalers:
-            type: array
-            x-stoplight:
-              id: oyhxgvwg36ixz
-            minItems: 1
-            items:
-              $ref: '#/components/schemas/KedaScalerResponse'
-      description: ''
-    DatabaseRequest:
-      type: object
-      required:
-      - name
-      - type
-      - version
-      - mode
-      properties:
-        name:
-          type: string
-          description: name is case insensitive
-        description:
-          type: string
-          description: give a description to this database
-        type:
-          $ref: '#/components/schemas/DatabaseTypeEnum'
-        version:
-          type: string
-          example: '10.1'
-        mode:
-          $ref: '#/components/schemas/DatabaseModeEnum'
-        accessibility:
-          $ref: '#/components/schemas/DatabaseAccessibilityEnum'
-        cpu:
-          type: integer
-          description: 'unit is millicores (m). 1000m = 1 cpu
-
-            This field will be ignored for managed DB (instance type will be used instead).
-
-            '
-          default: 250
-          example: 1250
-        instance_type:
-          type: string
-          example: db.t3.medium
-          description: Database instance type to be used for this database. The list of values can be retrieved via the endpoint /{CloudProvider}/managedDatabase/instanceType/{region}/{dbType}. This field SHOULD NOT be set for container DB.
-        memory:
-          type: integer
-          description: "unit is MB. 1024 MB = 1GB\nThis field will be ignored for managed DB (instance type will be used instead).\nDefault value is linked to the database type:\n- MANAGED: `100`\n- CONTAINER\n  - POSTGRES: `100`\n  - REDIS: `100`\n  - MYSQL: `512`\n  - MONGODB: `256`\n"
-          example: 1024
-        storage:
-          type: integer
-          description: unit is GB
-          default: 10
-        annotations_groups:
-          $ref: '#/components/schemas/ServiceAnnotationsRequestList'
-        labels_groups:
-          $ref: '#/components/schemas/ServiceLabelsRequestList'
-        icon_uri:
-          type: string
-          format: uri
-          description: Icon URI representing the database.
-          x-stoplight:
-            id: ls6yevnhskd5y
-    Status:
-      type: object
-      required:
-      - id
-      - state
-      - service_deployment_status
-      - status_details
-      - is_part_last_deployment
-      - deployment_requests_count
-      - deployment_request_id
-      properties:
-        id:
-          type: string
-          format: uuid
-        state:
-          $ref: '#/components/schemas/StateEnum'
-        service_deployment_status:
-          $ref: '#/components/schemas/ServiceDeploymentStatusEnum'
-        last_deployment_date:
-          type: string
-          format: date-time
-        is_part_last_deployment:
-          type: boolean
-        steps:
-          $ref: '#/components/schemas/ServiceStepMetrics'
-        execution_id:
-          type: string
-          x-stoplight:
-            id: 3o9tz4272s2ct
-        status_details:
-          $ref: '#/components/schemas/StatusDetails'
-        deployment_request_id:
-          type:
-          - string
-          - 'null'
-          x-stoplight:
-            id: bepixrb7tyzme
-          format: uuid
-        deployment_requests_count:
-          type: integer
-          x-stoplight:
-            id: crku532vt3v4p
-    BuildModeEnum:
-      type: string
-      enum:
-      - DOCKER
-      description: '`DOCKER` requires `dockerfile_path`
-
-        '
-      default: DOCKER
-    ArgocdAppResponse:
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - type: object
-        required:
-        - name
-        - service_type
-        - namespace
-        - environment_id
-        - cluster_id
-        properties:
-          name:
-            type: string
-            description: name is case insensitive
-          service_type:
-            $ref: '#/components/schemas/ServiceTypeEnum'
-          namespace:
-            type: string
-          environment_id:
-            type: string
-            format: uuid
-          cluster_id:
-            type: string
-            format: uuid
-          last_synced_at:
-            type:
-            - string
-            - 'null'
-            format: date-time
-          manifest_revision:
-            type:
-            - string
-            - 'null'
-          source_repo_url:
-            type:
-            - string
-            - 'null'
-          source_target_revision:
-            type:
-            - string
-            - 'null'
-      description: An ArgoCD service
-    HelmSourceRepositoryResponse:
-      title: HelmSourceRepositoryResponse
-      x-stoplight:
-        id: 4u8sg5mvbz502
-      type: object
-      required:
-      - chart_name
-      - chart_version
-      - repository
-      properties:
-        chart_name:
-          type: string
-          x-stoplight:
-            id: myqqxis6r2wum
-        chart_version:
-          type: string
-          x-stoplight:
-            id: bxqymhkfiwauw
-        repository:
-          type: object
-          x-stoplight:
-            id: fr4th9yrro2rh
-          required:
-          - id
-          - name
-          - url
-          properties:
-            id:
-              type: string
-              x-stoplight:
-                id: 4mb2ymh7anud4
-              format: uu
-            name:
-              type: string
-              x-stoplight:
-                id: bamkqh6qvsenc
-            url:
-              type: string
-              x-stoplight:
-                id: qxjxb9crdcsyv
-              format: uri
-    TerraformBackend:
-      oneOf:
-      - type: object
-        required:
-        - kubernetes
-        properties:
-          kubernetes:
-            $ref: '#/components/schemas/TerraformBackendKubernetes'
-      - type: object
-        required:
-        - user_provided
-        properties:
-          user_provided:
-            $ref: '#/components/schemas/TerraformBackendUserProvided'
-      description: Configuration for Terraform backend - exactly one backend type must be specified
-    BaseJobResponse:
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - type: object
-        required:
-        - environment
-        - maximum_cpu
-        - maximum_memory
-        - maximum_gpu
-        - name
-        - cpu
-        - memory
-        - gpu
-        - auto_preview
-        - source
-        - healthchecks
-        - icon_uri
-        - service_type
-        properties:
-          environment:
-            $ref: '#/components/schemas/ReferenceObject'
-          maximum_cpu:
-            type: integer
-            description: Maximum cpu that can be allocated to the job based on organization cluster configuration. unit is millicores (m). 1000m = 1 cpu
-            example: 16000
-          maximum_memory:
-            type: integer
-            description: Maximum memory that can be allocated to the job based on organization cluster configuration. unit is MB. 1024 MB = 1GB
-            example: 16384
-          maximum_gpu:
-            type: integer
-            description: Maximum memory that can be allocated to the job based on organization cluster configuration. unit is MB. 1024 MB = 1GB
-            x-stoplight:
-              id: 7o0e6wrgnxgcc
-            minimum: 0
-            default: 0
-            example: 2
-          name:
-            type: string
-            description: name is case insensitive
-          description:
-            type: string
-          cpu:
-            type: integer
-            description: unit is millicores (m). 1000m = 1 cpu
-            example: 1250
-          memory:
-            type: integer
-            description: unit is MB. 1024 MB = 1GB
-            example: 1024
-          gpu:
-            type: integer
-            x-stoplight:
-              id: 50sj2wtkdypgg
-            default: 0
-            minimum: 0
-            example: 1
-          max_nb_restart:
-            type: integer
-            minimum: 0
-            description: 'Maximum number of restart allowed before the job is considered as failed
-
-              0 means that no restart/crash of the job is allowed
-
-              '
-          max_duration_seconds:
-            type: integer
-            minimum: 0
-            description: 'Maximum number of seconds allowed for the job to run before killing it and mark it as failed
-
-              '
-          auto_preview:
-            type: boolean
-            description: "Indicates if the 'environment preview option' is enabled for this container.  \nIf enabled, a preview environment will be automatically cloned when `/preview` endpoint is called.  \nIf not specified, it takes the value of the `auto_preview` property from the associated environment.\n"
-          port:
-            type:
-            - integer
-            - 'null'
-            minimum: 1
-            description: Port where to run readiness and liveliness probes checks. The port will not be exposed externally
-            default: null
-          source:
-            oneOf:
-            - required:
-              - image
-              properties:
-                image:
-                  $ref: '#/components/schemas/ContainerSource'
-              type: object
-            - required:
-              - docker
-              properties:
-                docker:
-                  $ref: '#/components/schemas/JobSourceDockerResponse'
-              type: object
-          healthchecks:
-            $ref: '#/components/schemas/Healthcheck'
-          auto_deploy:
-            type: boolean
-            description: "Specify if the job will be automatically updated after receiving a new image tag or a new commit according to the source type. \nThe new image tag shall be communicated via the \"Auto Deploy job\" endpoint https://api-doc.qovery.com/#tag/Jobs/operation/autoDeployJobEnvironments\n"
-          icon_uri:
-            type: string
-            format: uri
-            description: Icon URI representing the job.
-            x-stoplight:
-              id: p1secr7kxozsd
-          service_type:
-            $ref: '#/components/schemas/ServiceTypeEnum'
-    ServiceActionStatusEnum:
-      type: string
-      enum:
-      - QUEUED
-      - ONGOING
-      - SUCCESS
-      - ERROR
-      - EXECUTING
-      - CANCELED
-      - CANCELING
-      - NEVER
-    Base:
-      type: object
-      required:
-      - id
-      - created_at
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        created_at:
-          type: string
-          readOnly: true
-          format: date-time
-        updated_at:
-          type: string
-          readOnly: true
-          format: date-time
-    DockerfileFragmentInline:
-      title: DockerfileFragmentInline
-      type: object
-      description: Define Dockerfile commands directly in the configuration.
-      required:
-      - type
-      - content
-      properties:
-        type:
-          type: string
-          enum:
-          - inline
-          description: Fragment type discriminator
-        content:
-          type: string
-          description: Dockerfile commands to inject (max 8KB).
-          example: RUN apt-get update && apt-get install -y aws-cli jq curl && rm -rf /var/lib/apt/lists/*
-    EnvironmentStatusEventOriginEnum:
-      type:
-      - string
-      - 'null'
-      description: Origin of the organization event
-      enum:
-      - API
-      - CLI
-      - CONSOLE
-      - GIT
-      - QOVERY_INTERNAL
-      - TERRAFORM_PROVIDER
-      example: API
-    KedaTriggerAuthenticationResponse:
-      title: KedaTriggerAuthenticationResponse
-      x-stoplight:
-        id: 7mm4a4sk9jhz3
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - type: object
-        x-stoplight:
-          id: ssejnexbsra11
-        required:
-        - organization_id
-        - name
-        properties:
-          organization_id:
-            type: string
-            x-stoplight:
-              id: akxa3zctvjj5h
-          name:
-            type: string
-            x-stoplight:
-              id: gpvwed95xygk1
-          config_yaml:
-            type: string
-            x-stoplight:
-              id: r5lmrzakyk9o6
-            description: ' Optional raw KEDA TriggerAuthentication YAML configuration.'
   responses:
-    '400':
-      description: Bad request
-    204-deletion:
-      description: The resource was deleted successfully
     '401':
       description: Access token is missing or invalid
-    '404':
-      description: Resource not found
     '403':
       description: Access forbidden
+    204-deletion:
+      description: The resource was deleted successfully
+    '400':
+      description: Bad request
+    '404':
+      description: Resource not found
   parameters:
     environmentId:
       name: environmentId

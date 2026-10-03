@@ -89,16 +89,27 @@ paths:
         '404':
           $ref: '#/components/responses/404'
 components:
+  responses:
+    '403':
+      description: Access forbidden
+    204-deletion:
+      description: The resource was deleted successfully
+    '400':
+      description: Bad request
+    '404':
+      description: Resource not found
+    '401':
+      description: Access token is missing or invalid
+  parameters:
+    projectId:
+      name: projectId
+      in: path
+      description: Project ID
+      required: true
+      schema:
+        type: string
+        format: uuid
   schemas:
-    ReferenceObject:
-      type: object
-      required:
-      - id
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
     Base:
       type: object
       required:
@@ -144,26 +155,15 @@ components:
             type: integer
           organization:
             $ref: '#/components/schemas/ReferenceObject'
-  responses:
-    204-deletion:
-      description: The resource was deleted successfully
-    '401':
-      description: Access token is missing or invalid
-    '400':
-      description: Bad request
-    '403':
-      description: Access forbidden
-    '404':
-      description: Resource not found
-  parameters:
-    projectId:
-      name: projectId
-      in: path
-      description: Project ID
-      required: true
-      schema:
-        type: string
-        format: uuid
+    ReferenceObject:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
   securitySchemes:
     bearerAuth:
       type: http

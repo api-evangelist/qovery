@@ -43,6 +43,13 @@ paths:
         '404':
           $ref: '#/components/responses/404'
 components:
+  responses:
+    '403':
+      description: Access forbidden
+    '404':
+      description: Resource not found
+    '401':
+      description: Access token is missing or invalid
   schemas:
     LogResponseList:
       type: object
@@ -74,13 +81,6 @@ components:
         version:
           type: string
           example: 2bfd61fe45946c74f318050b26210be486c43a39
-  responses:
-    '403':
-      description: Access forbidden
-    '404':
-      description: Resource not found
-    '401':
-      description: Access token is missing or invalid
   parameters:
     containerId:
       name: containerId

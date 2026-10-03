@@ -123,6 +123,15 @@ paths:
         '404':
           $ref: '#/components/responses/404'
 components:
+  parameters:
+    applicationId:
+      name: applicationId
+      in: path
+      description: Application ID
+      required: true
+      schema:
+        type: string
+        format: uuid
   schemas:
     ApplicationNetwork:
       type: object
@@ -335,23 +344,14 @@ components:
 
             '
   responses:
-    '400':
-      description: Bad request
     '403':
       description: Access forbidden
     '404':
       description: Resource not found
+    '400':
+      description: Bad request
     '401':
       description: Access token is missing or invalid
-  parameters:
-    applicationId:
-      name: applicationId
-      in: path
-      description: Application ID
-      required: true
-      schema:
-        type: string
-        format: uuid
   securitySchemes:
     bearerAuth:
       type: http

@@ -194,63 +194,6 @@ paths:
           $ref: '#/components/responses/401'
 components:
   schemas:
-    GitRepositoryBranchResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/GitRepositoryBranch'
-    GitProviderEnum:
-      type: string
-      enum:
-      - BITBUCKET
-      - GITHUB
-      - GITLAB
-    GitRepository:
-      type: object
-      required:
-      - name
-      - url
-      - id
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-          example: simple-node-app
-        url:
-          type: string
-          example: https://github.com/Qovery/simple-node-app
-        default_branch:
-          type: string
-          example: master
-        is_private:
-          type: boolean
-    GitRepositoryBranch:
-      type: object
-      required:
-      - name
-      properties:
-        name:
-          type: string
-          example: main
-    GitAuthProvider:
-      type: object
-      required:
-      - name
-      - owner
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-          example: GITHUB
-        owner:
-          type: string
-          example: John Doe
-        use_bot:
-          type: boolean
     ApplicationGitRepositoryRequest:
       type: object
       required:
@@ -283,6 +226,39 @@ components:
           description: The git token id on Qovery side
         provider:
           $ref: '#/components/schemas/GitProviderEnum'
+    GitProviderEnum:
+      type: string
+      enum:
+      - BITBUCKET
+      - GITHUB
+      - GITLAB
+    GitRepositoryBranchResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/GitRepositoryBranch'
+    GitRepository:
+      type: object
+      required:
+      - name
+      - url
+      - id
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+          example: simple-node-app
+        url:
+          type: string
+          example: https://github.com/Qovery/simple-node-app
+        default_branch:
+          type: string
+          example: master
+        is_private:
+          type: boolean
     GitRepositoryResponseList:
       type: object
       properties:
@@ -297,13 +273,37 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/GitAuthProvider'
+    GitAuthProvider:
+      type: object
+      required:
+      - name
+      - owner
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+          example: GITHUB
+        owner:
+          type: string
+          example: John Doe
+        use_bot:
+          type: boolean
+    GitRepositoryBranch:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          example: main
   responses:
-    '400':
-      description: Bad request
     '403':
       description: Access forbidden
     '404':
       description: Resource not found
+    '400':
+      description: Bad request
     '401':
       description: Access token is missing or invalid
   parameters:

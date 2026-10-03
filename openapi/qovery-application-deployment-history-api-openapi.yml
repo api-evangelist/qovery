@@ -82,148 +82,6 @@ paths:
         id: 59xza5oe7uvet
 components:
   schemas:
-    StatusDetails:
-      type: object
-      required:
-      - action
-      - status
-      - sub_action
-      properties:
-        action:
-          $ref: '#/components/schemas/ServiceActionEnum'
-        status:
-          $ref: '#/components/schemas/ServiceActionStatusEnum'
-        sub_action:
-          $ref: '#/components/schemas/ServiceSubActionEnum'
-    StateEnum:
-      type: string
-      enum:
-      - BUILDING
-      - BUILD_ERROR
-      - CANCELED
-      - CANCELING
-      - DELETED
-      - DELETE_ERROR
-      - DELETE_QUEUED
-      - DELETING
-      - DEPLOYED
-      - DEPLOYING
-      - DEPLOYMENT_ERROR
-      - DEPLOYMENT_QUEUED
-      - EXECUTING
-      - QUEUED
-      - READY
-      - RECAP
-      - RESTARTED
-      - RESTARTING
-      - RESTART_ERROR
-      - RESTART_QUEUED
-      - STOPPED
-      - STOPPING
-      - STOP_ERROR
-      - STOP_QUEUED
-      - UNAVAILABLE
-      - WAITING_DELETING
-      - WAITING_RESTARTING
-      - WAITING_RUNNING
-      - WAITING_STOPPING
-    PaginationData:
-      type: object
-      required:
-      - page
-      - page_size
-      properties:
-        page:
-          type: number
-          example: 1
-        page_size:
-          type: number
-          example: 20
-    DeploymentHistory:
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - type: object
-        properties:
-          name:
-            type: string
-            description: name of the service
-          commit:
-            $ref: '#/components/schemas/Commit'
-          status:
-            $ref: '#/components/schemas/DeploymentHistoryStatusEnum'
-    JobLifecyleSchedule:
-      type: object
-      x-stoplight:
-        id: nbir5gxiux1ei
-      required:
-      - arguments
-      properties:
-        arguments:
-          type: array
-          x-stoplight:
-            id: wj3fkami4h2b7
-          items:
-            x-stoplight:
-              id: 4a4sqxpll8vlc
-            type: string
-        entrypoint:
-          type: string
-          x-stoplight:
-            id: 951clotz2i2na
-    DeploymentHistoryStatusEnum:
-      type: string
-      enum:
-      - FAILED
-      - SUCCESS
-    Commit:
-      type:
-      - object
-      - 'null'
-      required:
-      - git_commit_id
-      - created_at
-      - author_name
-      - message
-      - tag
-      properties:
-        created_at:
-          type: string
-          format: date-time
-        git_commit_id:
-          type: string
-        tag:
-          type: string
-          example: v2.1.1
-        message:
-          type: string
-        author_name:
-          type: string
-        author_avatar_url:
-          type: string
-        commit_page_url:
-          type: string
-    OrganizationEventOrigin:
-      type: string
-      description: Origin of the organization event
-      enum:
-      - API
-      - CLI
-      - CONSOLE
-      - GIT
-      - QOVERY_INTERNAL
-      - TERRAFORM_PROVIDER
-      example: API
-    DeploymentHistoryServicePaginatedResponseListV2:
-      allOf:
-      - $ref: '#/components/schemas/PaginationData'
-      - type: object
-        properties:
-          results:
-            type: array
-            items:
-              $ref: '#/components/schemas/DeploymentHistoryService'
-      x-stoplight:
-        id: e2g667def2r2z
     ServiceActionEnum:
       type: string
       enum:
@@ -232,19 +90,6 @@ components:
       - RESTART
       - STOP
       - UNKNOWN
-    ServiceTypeEnum:
-      type: string
-      x-stoplight:
-        id: d66063cd29913
-      description: type of the service (application, database, job, ...)
-      enum:
-      - APPLICATION
-      - DATABASE
-      - CONTAINER
-      - JOB
-      - HELM
-      - TERRAFORM
-      - ARGOCD_APP
     DeploymentHistoryService:
       type: object
       x-stoplight:
@@ -299,7 +144,79 @@ components:
           x-stoplight:
             id: adofwhd0bgwuw
           format: duration
-    DeploymentHistoryPaginatedResponseList:
+    DeploymentHistoryAuditingData:
+      x-stoplight:
+        id: 5oovmby4u1mxw
+      type: object
+      required:
+      - created_at
+      - updated_at
+      - triggered_by
+      properties:
+        created_at:
+          type: string
+          x-stoplight:
+            id: e1idlr92680lb
+          format: date-time
+        updated_at:
+          type: string
+          x-stoplight:
+            id: mz8yet1k3voef
+          format: date-time
+        triggered_by:
+          type: string
+          x-stoplight:
+            id: hf405wx2g73py
+        origin:
+          $ref: '#/components/schemas/OrganizationEventOrigin'
+    ServiceActionStatusEnum:
+      type: string
+      enum:
+      - QUEUED
+      - ONGOING
+      - SUCCESS
+      - ERROR
+      - EXECUTING
+      - CANCELED
+      - CANCELING
+      - NEVER
+    StatusDetails:
+      type: object
+      required:
+      - action
+      - status
+      - sub_action
+      properties:
+        action:
+          $ref: '#/components/schemas/ServiceActionEnum'
+        status:
+          $ref: '#/components/schemas/ServiceActionStatusEnum'
+        sub_action:
+          $ref: '#/components/schemas/ServiceSubActionEnum'
+    Base:
+      type: object
+      required:
+      - id
+      - created_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          readOnly: true
+          format: date-time
+        updated_at:
+          type: string
+          readOnly: true
+          format: date-time
+    DeploymentHistoryStatusEnum:
+      type: string
+      enum:
+      - FAILED
+      - SUCCESS
+    DeploymentHistoryServicePaginatedResponseListV2:
       allOf:
       - $ref: '#/components/schemas/PaginationData'
       - type: object
@@ -307,7 +224,57 @@ components:
           results:
             type: array
             items:
-              $ref: '#/components/schemas/DeploymentHistory'
+              $ref: '#/components/schemas/DeploymentHistoryService'
+      x-stoplight:
+        id: e2g667def2r2z
+    ServiceSubActionEnum:
+      type: string
+      default: NONE
+      enum:
+      - NONE
+      - TERRAFORM_PLAN_ONLY
+      - TERRAFORM_PLAN_AND_APPLY
+      - TERRAFORM_DESTROY
+      - TERRAFORM_FORCE_UNLOCK_STATE
+      - TERRAFORM_MIGRATE_STATE
+    Commit:
+      type:
+      - object
+      - 'null'
+      required:
+      - git_commit_id
+      - created_at
+      - author_name
+      - message
+      - tag
+      properties:
+        created_at:
+          type: string
+          format: date-time
+        git_commit_id:
+          type: string
+        tag:
+          type: string
+          example: v2.1.1
+        message:
+          type: string
+        author_name:
+          type: string
+        author_avatar_url:
+          type: string
+        commit_page_url:
+          type: string
+    OrganizationEventOrigin:
+      type: string
+      description: Origin of the organization event
+      enum:
+      - API
+      - CLI
+      - CONSOLE
+      - GIT
+      - QOVERY_INTERNAL
+      - TERRAFORM_PROVIDER
+      example: API
     DeploymentHistoryServiceDetails:
       x-stoplight:
         id: vx9hzryfyv7sb
@@ -390,6 +357,31 @@ components:
               chart_version:
                 type: string
       type: object
+    DeploymentHistory:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        properties:
+          name:
+            type: string
+            description: name of the service
+          commit:
+            $ref: '#/components/schemas/Commit'
+          status:
+            $ref: '#/components/schemas/DeploymentHistoryStatusEnum'
+    ServiceTypeEnum:
+      type: string
+      x-stoplight:
+        id: d66063cd29913
+      description: type of the service (application, database, job, ...)
+      enum:
+      - APPLICATION
+      - DATABASE
+      - CONTAINER
+      - JOB
+      - HELM
+      - TERRAFORM
+      - ARGOCD_APP
     JobCronSchedule:
       type: object
       x-stoplight:
@@ -413,70 +405,6 @@ components:
           type: string
           x-stoplight:
             id: btav5l3tp9w3l
-    ServiceActionStatusEnum:
-      type: string
-      enum:
-      - QUEUED
-      - ONGOING
-      - SUCCESS
-      - ERROR
-      - EXECUTING
-      - CANCELED
-      - CANCELING
-      - NEVER
-    DeploymentHistoryAuditingData:
-      x-stoplight:
-        id: 5oovmby4u1mxw
-      type: object
-      required:
-      - created_at
-      - updated_at
-      - triggered_by
-      properties:
-        created_at:
-          type: string
-          x-stoplight:
-            id: e1idlr92680lb
-          format: date-time
-        updated_at:
-          type: string
-          x-stoplight:
-            id: mz8yet1k3voef
-          format: date-time
-        triggered_by:
-          type: string
-          x-stoplight:
-            id: hf405wx2g73py
-        origin:
-          $ref: '#/components/schemas/OrganizationEventOrigin'
-    Base:
-      type: object
-      required:
-      - id
-      - created_at
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        created_at:
-          type: string
-          readOnly: true
-          format: date-time
-        updated_at:
-          type: string
-          readOnly: true
-          format: date-time
-    ServiceSubActionEnum:
-      type: string
-      default: NONE
-      enum:
-      - NONE
-      - TERRAFORM_PLAN_ONLY
-      - TERRAFORM_PLAN_AND_APPLY
-      - TERRAFORM_DESTROY
-      - TERRAFORM_FORCE_UNLOCK_STATE
-      - TERRAFORM_MIGRATE_STATE
     JobLifecycleTypeEnum:
       title: JobLifecycleTypeEnum
       x-stoplight:
@@ -485,15 +413,86 @@ components:
       - GENERIC
       - TERRAFORM
       - CLOUDFORMATION
+    DeploymentHistoryPaginatedResponseList:
+      allOf:
+      - $ref: '#/components/schemas/PaginationData'
+      - type: object
+        properties:
+          results:
+            type: array
+            items:
+              $ref: '#/components/schemas/DeploymentHistory'
+    PaginationData:
+      type: object
+      required:
+      - page
+      - page_size
+      properties:
+        page:
+          type: number
+          example: 1
+        page_size:
+          type: number
+          example: 20
+    StateEnum:
+      type: string
+      enum:
+      - BUILDING
+      - BUILD_ERROR
+      - CANCELED
+      - CANCELING
+      - DELETED
+      - DELETE_ERROR
+      - DELETE_QUEUED
+      - DELETING
+      - DEPLOYED
+      - DEPLOYING
+      - DEPLOYMENT_ERROR
+      - DEPLOYMENT_QUEUED
+      - EXECUTING
+      - QUEUED
+      - READY
+      - RECAP
+      - RESTARTED
+      - RESTARTING
+      - RESTART_ERROR
+      - RESTART_QUEUED
+      - STOPPED
+      - STOPPING
+      - STOP_ERROR
+      - STOP_QUEUED
+      - UNAVAILABLE
+      - WAITING_DELETING
+      - WAITING_RESTARTING
+      - WAITING_RUNNING
+      - WAITING_STOPPING
+    JobLifecyleSchedule:
+      type: object
+      x-stoplight:
+        id: nbir5gxiux1ei
+      required:
+      - arguments
+      properties:
+        arguments:
+          type: array
+          x-stoplight:
+            id: wj3fkami4h2b7
+          items:
+            x-stoplight:
+              id: 4a4sqxpll8vlc
+            type: string
+        entrypoint:
+          type: string
+          x-stoplight:
+            id: 951clotz2i2na
+  responses:
+    '401':
+      description: Access token is missing or invalid
+    '403':
+      description: Access forbidden
+    '404':
+      description: Resource not found
   parameters:
-    startId:
-      name: startId
-      in: query
-      description: Starting point after which to return results
-      required: false
-      schema:
-        type: string
-        format: uuid
     applicationId:
       name: applicationId
       in: path
@@ -502,13 +501,14 @@ components:
       schema:
         type: string
         format: uuid
-  responses:
-    '403':
-      description: Access forbidden
-    '404':
-      description: Resource not found
-    '401':
-      description: Access token is missing or invalid
+    startId:
+      name: startId
+      in: query
+      description: Starting point after which to return results
+      required: false
+      schema:
+        type: string
+        format: uuid
   securitySchemes:
     bearerAuth:
       type: http

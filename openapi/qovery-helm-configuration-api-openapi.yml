@@ -72,14 +72,23 @@ paths:
           $ref: '#/components/responses/404'
 components:
   responses:
-    '400':
-      description: Bad request
     '403':
       description: Access forbidden
     '404':
       description: Resource not found
+    '400':
+      description: Bad request
     '401':
       description: Access token is missing or invalid
+  parameters:
+    helmId:
+      name: helmId
+      in: path
+      description: Helm ID
+      required: true
+      schema:
+        type: string
+        format: uuid
   schemas:
     HelmAdvancedSettings:
       type: object
@@ -169,15 +178,6 @@ components:
           - 'null'
           minimum: 0
           description: Sets the idle timeout (in seconds) for HTTP connections proxied through the Gateway API route.
-  parameters:
-    helmId:
-      name: helmId
-      in: path
-      description: Helm ID
-      required: true
-      schema:
-        type: string
-        format: uuid
   securitySchemes:
     bearerAuth:
       type: http

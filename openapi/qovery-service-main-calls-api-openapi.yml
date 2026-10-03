@@ -81,6 +81,15 @@ paths:
         '429':
           description: Git provider rate limit exceeded
 components:
+  parameters:
+    serviceId:
+      name: serviceId
+      in: path
+      description: Service ID of an application/job/container/database
+      required: true
+      schema:
+        type: string
+        format: uuid
   responses:
     '403':
       description: Access forbidden
@@ -125,15 +134,6 @@ components:
           items:
             type: string
           description: List of required events that are missing from the webhook configuration (only present when status is MISCONFIGURED)
-  parameters:
-    serviceId:
-      name: serviceId
-      in: path
-      description: Service ID of an application/job/container/database
-      required: true
-      schema:
-        type: string
-        format: uuid
   securitySchemes:
     bearerAuth:
       type: http

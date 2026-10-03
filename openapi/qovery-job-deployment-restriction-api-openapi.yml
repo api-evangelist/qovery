@@ -115,18 +115,12 @@ paths:
         '404':
           $ref: '#/components/responses/404'
 components:
-  responses:
-    204-deletion:
-      description: The resource was deleted successfully
-    '400':
-      description: Bad request
-    '403':
-      description: Access forbidden
-    '404':
-      description: Resource not found
-    '401':
-      description: Access token is missing or invalid
   schemas:
+    DeploymentRestrictionTypeEnum:
+      type: string
+      enum:
+      - PATH
+      example: PATH
     JobDeploymentRestrictionRequest:
       type: object
       required:
@@ -160,15 +154,6 @@ components:
           type: string
           readOnly: true
           format: date-time
-    JobDeploymentRestrictionResponse:
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - $ref: '#/components/schemas/JobDeploymentRestrictionRequest'
-    DeploymentRestrictionTypeEnum:
-      type: string
-      enum:
-      - PATH
-      example: PATH
     JobDeploymentRestrictionResponseList:
       type: object
       properties:
@@ -183,6 +168,21 @@ components:
       - EXCLUDE
       - MATCH
       example: MATCH
+    JobDeploymentRestrictionResponse:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - $ref: '#/components/schemas/JobDeploymentRestrictionRequest'
+  responses:
+    '403':
+      description: Access forbidden
+    '404':
+      description: Resource not found
+    204-deletion:
+      description: The resource was deleted successfully
+    '400':
+      description: Bad request
+    '401':
+      description: Access token is missing or invalid
   parameters:
     deploymentRestrictionId:
       name: deploymentRestrictionId

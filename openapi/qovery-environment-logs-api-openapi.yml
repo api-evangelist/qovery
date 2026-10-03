@@ -74,73 +74,6 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/EnvironmentLogs'
-    EnvironmentLog:
-      type: object
-      required:
-      - id
-      - created_at
-      - service
-      - status
-      - message
-      properties:
-        id:
-          type: string
-          format: uuid
-        created_at:
-          type: string
-          format: date-time
-        scope:
-          type: object
-          properties:
-            type:
-              $ref: '#/components/schemas/EnvironmentLogTypeEnum'
-            name:
-              type: string
-            id:
-              type: string
-              format: uuid
-        state:
-          $ref: '#/components/schemas/StatusKindEnum'
-        message:
-          type:
-          - string
-          - 'null'
-          description: Log message
-        execution_id:
-          type: string
-          description: Only for errors. Helps Qovery team to investigate.
-        hint:
-          type: string
-          example: only for errors. it gives a possible action to the user -- Markdown can be injected
-    StatusKindEnum:
-      type: string
-      enum:
-      - CANCELED
-      - CANCELING
-      - DELETED
-      - DELETE_ERROR
-      - DELETE_IN_PROGRESS
-      - DEPLOYED
-      - DEPLOYMENT_ERROR
-      - DEPLOYMENT_IN_PROGRESS
-      - ERROR
-      - PAUSED
-      - PAUSE_ERROR
-      - PAUSE_IN_PROGRESS
-      - WAITING
-    EnvironmentLogResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/EnvironmentLog'
-    EnvironmentLogTypeEnum:
-      type: string
-      enum:
-      - APPLICATION
-      - DATABASE
-      - ENVIRONMENT
     EnvironmentLogs:
       type: object
       required:
@@ -218,6 +151,73 @@ components:
               type: string
             full_details:
               type: string
+    StatusKindEnum:
+      type: string
+      enum:
+      - CANCELED
+      - CANCELING
+      - DELETED
+      - DELETE_ERROR
+      - DELETE_IN_PROGRESS
+      - DEPLOYED
+      - DEPLOYMENT_ERROR
+      - DEPLOYMENT_IN_PROGRESS
+      - ERROR
+      - PAUSED
+      - PAUSE_ERROR
+      - PAUSE_IN_PROGRESS
+      - WAITING
+    EnvironmentLogTypeEnum:
+      type: string
+      enum:
+      - APPLICATION
+      - DATABASE
+      - ENVIRONMENT
+    EnvironmentLog:
+      type: object
+      required:
+      - id
+      - created_at
+      - service
+      - status
+      - message
+      properties:
+        id:
+          type: string
+          format: uuid
+        created_at:
+          type: string
+          format: date-time
+        scope:
+          type: object
+          properties:
+            type:
+              $ref: '#/components/schemas/EnvironmentLogTypeEnum'
+            name:
+              type: string
+            id:
+              type: string
+              format: uuid
+        state:
+          $ref: '#/components/schemas/StatusKindEnum'
+        message:
+          type:
+          - string
+          - 'null'
+          description: Log message
+        execution_id:
+          type: string
+          description: Only for errors. Helps Qovery team to investigate.
+        hint:
+          type: string
+          example: only for errors. it gives a possible action to the user -- Markdown can be injected
+    EnvironmentLogResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/EnvironmentLog'
   responses:
     '403':
       description: Access forbidden

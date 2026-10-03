@@ -231,92 +231,19 @@ paths:
           $ref: '#/components/responses/404'
 components:
   responses:
+    '401':
+      description: Access token is missing or invalid
+    '403':
+      description: Access forbidden
     '204':
       description: no content
+    '404':
+      description: Resource not found
     204-deletion:
       description: The resource was deleted successfully
     '400':
       description: Bad request
-    '403':
-      description: Access forbidden
-    '404':
-      description: Resource not found
-    '401':
-      description: Access token is missing or invalid
   schemas:
-    InviteStatusEnum:
-      type: string
-      enum:
-      - EXPIRED
-      - PENDING
-    Base:
-      type: object
-      required:
-      - id
-      - created_at
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        created_at:
-          type: string
-          readOnly: true
-          format: date-time
-        updated_at:
-          type: string
-          readOnly: true
-          format: date-time
-    Member:
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - type: object
-        required:
-        - email
-        properties:
-          name:
-            type: string
-          nickname:
-            type: string
-          email:
-            type: string
-            format: email
-          profile_picture_url:
-            type: string
-            format: uri
-          last_activity_at:
-            type: string
-            format: date-time
-            description: last time the user was connected
-          role:
-            $ref: '#/components/schemas/InviteMemberRoleEnum'
-          role_name:
-            type: string
-            description: the role linked to the user
-          role_id:
-            type: string
-            format: uuid
-    TransferOwnershipRequest:
-      type: object
-      required:
-      - user_id
-      properties:
-        user_id:
-          type: string
-          format: uuid
-    InviteMemberRequest:
-      type: object
-      required:
-      - email
-      properties:
-        email:
-          type: string
-        role:
-          $ref: '#/components/schemas/InviteMemberRoleEnum'
-        role_id:
-          type: string
-          format: uuid
-          description: the target role to attribute to the new member
     InviteMember:
       allOf:
       - $ref: '#/components/schemas/Base'
@@ -350,6 +277,101 @@ components:
             format: uuid
           role_name:
             type: string
+    MemberResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Member'
+    TransferOwnershipRequest:
+      type: object
+      required:
+      - user_id
+      properties:
+        user_id:
+          type: string
+          format: uuid
+    InviteStatusEnum:
+      type: string
+      enum:
+      - EXPIRED
+      - PENDING
+    InviteMemberRoleEnum:
+      type: string
+      description: deprecated
+      enum:
+      - ADMIN
+      - DEVELOPER
+      - OWNER
+      - VIEWER
+    Base:
+      type: object
+      required:
+      - id
+      - created_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          readOnly: true
+          format: date-time
+        updated_at:
+          type: string
+          readOnly: true
+          format: date-time
+    InviteMemberRequest:
+      type: object
+      required:
+      - email
+      properties:
+        email:
+          type: string
+        role:
+          $ref: '#/components/schemas/InviteMemberRoleEnum'
+        role_id:
+          type: string
+          format: uuid
+          description: the target role to attribute to the new member
+    InviteMemberResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/InviteMember'
+    Member:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        required:
+        - email
+        properties:
+          name:
+            type: string
+          nickname:
+            type: string
+          email:
+            type: string
+            format: email
+          profile_picture_url:
+            type: string
+            format: uri
+          last_activity_at:
+            type: string
+            format: date-time
+            description: last time the user was connected
+          role:
+            $ref: '#/components/schemas/InviteMemberRoleEnum'
+          role_name:
+            type: string
+            description: the role linked to the user
+          role_id:
+            type: string
+            format: uuid
     MemberRoleUpdateRequest:
       type: object
       required:
@@ -362,28 +384,6 @@ components:
         role_id:
           type: string
           format: uuid
-    MemberResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/Member'
-    InviteMemberResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/InviteMember'
-    InviteMemberRoleEnum:
-      type: string
-      description: deprecated
-      enum:
-      - ADMIN
-      - DEVELOPER
-      - OWNER
-      - VIEWER
   parameters:
     inviteId:
       name: inviteId

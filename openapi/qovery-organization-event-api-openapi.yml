@@ -190,58 +190,14 @@ paths:
         '404':
           $ref: '#/components/responses/404'
 components:
+  responses:
+    '401':
+      description: Access token is missing or invalid
+    '403':
+      description: Access forbidden
+    '404':
+      description: Resource not found
   schemas:
-    OrganizationEventOrigin:
-      type: string
-      description: Origin of the organization event
-      enum:
-      - API
-      - CLI
-      - CONSOLE
-      - GIT
-      - QOVERY_INTERNAL
-      - TERRAFORM_PROVIDER
-      example: API
-    OrganizationEventTargetType:
-      type: string
-      description: Type of the organization event
-      enum:
-      - APPLICATION
-      - CLUSTER
-      - CONTAINER
-      - CONTAINER_REGISTRY
-      - DATABASE
-      - ENTERPRISE_CONNECTION
-      - ENVIRONMENT
-      - JOB
-      - HELM
-      - HELM_REPOSITORY
-      - MEMBERS_AND_ROLES
-      - ORGANIZATION
-      - PROJECT
-      - WEBHOOK
-      - TERRAFORM
-      example: APPLICATION
-      title: ''
-    OrganizationEventTargetLevel:
-      type: string
-      description: The target level to fetch
-      enum:
-      - PROJECT
-      - ENVIRONMENT
-    OrganizationEventTargetResponseList:
-      type: object
-      properties:
-        targets:
-          type: array
-          items:
-            type: object
-            properties:
-              id:
-                type: string
-                format: uuid
-              name:
-                type: string
     OrganizationEventSubTargetType:
       type:
       - string
@@ -340,6 +296,57 @@ components:
       - LOCK
       - UNLOCK
       example: CREATE
+    OrganizationEventTargetType:
+      type: string
+      description: Type of the organization event
+      enum:
+      - APPLICATION
+      - CLUSTER
+      - CONTAINER
+      - CONTAINER_REGISTRY
+      - DATABASE
+      - ENTERPRISE_CONNECTION
+      - ENVIRONMENT
+      - JOB
+      - HELM
+      - HELM_REPOSITORY
+      - MEMBERS_AND_ROLES
+      - ORGANIZATION
+      - PROJECT
+      - WEBHOOK
+      - TERRAFORM
+      example: APPLICATION
+      title: ''
+    OrganizationEventTargetLevel:
+      type: string
+      description: The target level to fetch
+      enum:
+      - PROJECT
+      - ENVIRONMENT
+    OrganizationEventTargetResponseList:
+      type: object
+      properties:
+        targets:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              name:
+                type: string
+    OrganizationEventOrigin:
+      type: string
+      description: Origin of the organization event
+      enum:
+      - API
+      - CLI
+      - CONSOLE
+      - GIT
+      - QOVERY_INTERNAL
+      - TERRAFORM_PROVIDER
+      example: API
     OrganizationEventResponse:
       type: object
       properties:
@@ -411,13 +418,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/OrganizationEventResponse'
-  responses:
-    '403':
-      description: Access forbidden
-    '404':
-      description: Resource not found
-    '401':
-      description: Access token is missing or invalid
   parameters:
     organizationId:
       name: organizationId

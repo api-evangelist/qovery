@@ -157,18 +157,24 @@ paths:
         '404':
           $ref: '#/components/responses/404'
 components:
-  responses:
-    '204':
-      description: no content
-    '400':
-      description: Bad request
-    '403':
-      description: Access forbidden
-    '404':
-      description: Resource not found
-    '401':
-      description: Access token is missing or invalid
   schemas:
+    OrganizationLabelsGroupEnrichedResponse:
+      title: OrganizationLabelsGroupEnrichedResponse
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        required:
+        - name
+        - labels
+        properties:
+          name:
+            type: string
+          labels:
+            type: array
+            items:
+              $ref: '#/components/schemas/Label'
+          associated_items_count:
+            type: integer
     Label:
       type: object
       required:
@@ -249,23 +255,6 @@ components:
                 type: string
               item_type:
                 $ref: '#/components/schemas/LabelsGroupAssociatedItemType'
-    OrganizationLabelsGroupEnrichedResponse:
-      title: OrganizationLabelsGroupEnrichedResponse
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - type: object
-        required:
-        - name
-        - labels
-        properties:
-          name:
-            type: string
-          labels:
-            type: array
-            items:
-              $ref: '#/components/schemas/Label'
-          associated_items_count:
-            type: integer
     OrganizationLabelsGroupCreateRequest:
       type: object
       required:
@@ -295,6 +284,17 @@ components:
       - ENVIRONMENT
       - CLUSTER
       - CRON
+  responses:
+    '403':
+      description: Access forbidden
+    '204':
+      description: no content
+    '404':
+      description: Resource not found
+    '400':
+      description: Bad request
+    '401':
+      description: Access token is missing or invalid
   parameters:
     labelsGroupId:
       name: labelsGroupId

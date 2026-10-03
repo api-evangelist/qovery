@@ -50,13 +50,6 @@ paths:
         '404':
           $ref: '#/components/responses/404'
 components:
-  responses:
-    '403':
-      description: Access forbidden
-    '404':
-      description: Resource not found
-    '401':
-      description: Access token is missing or invalid
   parameters:
     environmentId:
       name: environmentId
@@ -66,6 +59,13 @@ components:
       schema:
         type: string
         format: uuid
+  responses:
+    '404':
+      description: Resource not found
+    '403':
+      description: Access forbidden
+    '401':
+      description: Access token is missing or invalid
   securitySchemes:
     bearerAuth:
       type: http

@@ -58,6 +58,12 @@ paths:
           $ref: '#/components/responses/401'
 components:
   schemas:
+    AccountInfoEditRequest:
+      type: object
+      properties:
+        communication_email:
+          type: string
+          description: The email to be used for official Qovery communications
     AccountInfo:
       type: object
       properties:
@@ -77,12 +83,6 @@ components:
           type: string
         communication_email:
           type: string
-    AccountInfoEditRequest:
-      type: object
-      properties:
-        communication_email:
-          type: string
-          description: The email to be used for official Qovery communications
   responses:
     '400':
       description: Bad request

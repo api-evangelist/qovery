@@ -160,19 +160,8 @@ paths:
         '404':
           $ref: '#/components/responses/404'
 components:
-  responses:
-    '204':
-      description: no content
-    '400':
-      description: Bad request
-    '403':
-      description: Access forbidden
-    '404':
-      description: Resource not found
-    '401':
-      description: Access token is missing or invalid
   schemas:
-    OrganizationWebhookResponse:
+    OrganizationWebhookCreateResponse:
       allOf:
       - $ref: '#/components/schemas/Base'
       - type: object
@@ -211,71 +200,6 @@ components:
               '
             items:
               $ref: '#/components/schemas/EnvironmentModeEnum'
-    OrganizationWebhookKindEnum:
-      type: string
-      description: Define the type of the webhook. `SLACK` is a special webhook type to push notifications directly to slack. The `target_url` must be a Slack compatible endpoint.
-      enum:
-      - STANDARD
-      - SLACK
-      example: STANDARD
-    OrganizationWebhookEventEnum:
-      type: string
-      description: 'Events to subscribe to and send to the `target_url`.
-
-        - `DEPLOYMENT_STARTED` send an event when a deployment is started and going to be executed
-
-        - `DEPLOYMENT_CANCELLED` send an event when a deployment is cancelled
-
-        - `DEPLOYMENT_FAILURE` send an event when a deployment failed
-
-        - `DEPLOYMENT_SUCCESSFUL` send an event when a deployment is successful
-
-        '
-      enum:
-      - DEPLOYMENT_STARTED
-      - DEPLOYMENT_CANCELLED
-      - DEPLOYMENT_FAILURE
-      - DEPLOYMENT_SUCCESSFUL
-    Base:
-      type: object
-      required:
-      - id
-      - created_at
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        created_at:
-          type: string
-          readOnly: true
-          format: date-time
-        updated_at:
-          type: string
-          readOnly: true
-          format: date-time
-    EnvironmentModeEnum:
-      type: string
-      enum:
-      - DEVELOPMENT
-      - PREVIEW
-      - PRODUCTION
-      - STAGING
-      example: PRODUCTION
-    OrganizationWebhookResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/OrganizationWebhookResponse'
-    WebhookEventResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/WebhookEventResponse'
     WebhookEventResponse:
       type: object
       required:
@@ -316,45 +240,63 @@ components:
           - string
           - 'null'
           description: Response body from the webhook target
-    OrganizationWebhookCreateResponse:
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - type: object
-        properties:
-          kind:
-            $ref: '#/components/schemas/OrganizationWebhookKindEnum'
-          target_url:
-            type: string
-            description: 'Set the public HTTP or HTTPS endpoint that will receive the specified events.
+    WebhookEventResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/WebhookEventResponse'
+    OrganizationWebhookEventEnum:
+      type: string
+      description: 'Events to subscribe to and send to the `target_url`.
 
-              The target URL must starts with `http://` or `https://`
+        - `DEPLOYMENT_STARTED` send an event when a deployment is started and going to be executed
 
-              '
-          target_secret_set:
-            type: boolean
-          description:
-            type: string
-          enabled:
-            type: boolean
-            description: Turn on or off your endpoint.
-          events:
-            type: array
-            items:
-              $ref: '#/components/schemas/OrganizationWebhookEventEnum'
-          project_names_filter:
-            type: array
-            description: "Specify the project names you want to filter to. \nThis webhook will be triggered only if the event is coming from the specified Project IDs.\nNotes: 1. Wildcard is accepted E.g. `product*`. 2. Name is case insensitive.\n"
-            items:
-              type: string
-          environment_types_filter:
-            type: array
-            description: 'Specify the environment modes you want to filter to.
+        - `DEPLOYMENT_CANCELLED` send an event when a deployment is cancelled
 
-              This webhook will be triggered only if the event is coming from an environment with the specified mode.
+        - `DEPLOYMENT_FAILURE` send an event when a deployment failed
 
-              '
-            items:
-              $ref: '#/components/schemas/EnvironmentModeEnum'
+        - `DEPLOYMENT_SUCCESSFUL` send an event when a deployment is successful
+
+        '
+      enum:
+      - DEPLOYMENT_STARTED
+      - DEPLOYMENT_CANCELLED
+      - DEPLOYMENT_FAILURE
+      - DEPLOYMENT_SUCCESSFUL
+    Base:
+      type: object
+      required:
+      - id
+      - created_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          readOnly: true
+          format: date-time
+        updated_at:
+          type: string
+          readOnly: true
+          format: date-time
+    OrganizationWebhookKindEnum:
+      type: string
+      description: Define the type of the webhook. `SLACK` is a special webhook type to push notifications directly to slack. The `target_url` must be a Slack compatible endpoint.
+      enum:
+      - STANDARD
+      - SLACK
+      example: STANDARD
+    OrganizationWebhookResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrganizationWebhookResponse'
     OrganizationWebhookCreateRequest:
       type: object
       required:
@@ -401,6 +343,64 @@ components:
             '
           items:
             $ref: '#/components/schemas/EnvironmentModeEnum'
+    EnvironmentModeEnum:
+      type: string
+      enum:
+      - DEVELOPMENT
+      - PREVIEW
+      - PRODUCTION
+      - STAGING
+      example: PRODUCTION
+    OrganizationWebhookResponse:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        properties:
+          kind:
+            $ref: '#/components/schemas/OrganizationWebhookKindEnum'
+          target_url:
+            type: string
+            description: 'Set the public HTTP or HTTPS endpoint that will receive the specified events.
+
+              The target URL must starts with `http://` or `https://`
+
+              '
+          target_secret_set:
+            type: boolean
+          description:
+            type: string
+          enabled:
+            type: boolean
+            description: Turn on or off your endpoint.
+          events:
+            type: array
+            items:
+              $ref: '#/components/schemas/OrganizationWebhookEventEnum'
+          project_names_filter:
+            type: array
+            description: "Specify the project names you want to filter to. \nThis webhook will be triggered only if the event is coming from the specified Project IDs.\nNotes: 1. Wildcard is accepted E.g. `product*`. 2. Name is case insensitive.\n"
+            items:
+              type: string
+          environment_types_filter:
+            type: array
+            description: 'Specify the environment modes you want to filter to.
+
+              This webhook will be triggered only if the event is coming from an environment with the specified mode.
+
+              '
+            items:
+              $ref: '#/components/schemas/EnvironmentModeEnum'
+  responses:
+    '403':
+      description: Access forbidden
+    '204':
+      description: no content
+    '404':
+      description: Resource not found
+    '400':
+      description: Bad request
+    '401':
+      description: Access token is missing or invalid
   parameters:
     webhookId:
       name: webhookId

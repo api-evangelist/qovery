@@ -115,17 +115,6 @@ paths:
         '404':
           $ref: '#/components/responses/404'
 components:
-  responses:
-    204-deletion:
-      description: The resource was deleted successfully
-    '400':
-      description: Bad request
-    '403':
-      description: Access forbidden
-    '404':
-      description: Resource not found
-    '401':
-      description: Access token is missing or invalid
   schemas:
     ApplicationDeploymentRestrictionResponseList:
       type: object
@@ -134,10 +123,26 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ApplicationDeploymentRestriction'
-    ApplicationDeploymentRestriction:
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - $ref: '#/components/schemas/ApplicationDeploymentRestrictionRequest'
+    DeploymentRestrictionTypeEnum:
+      type: string
+      enum:
+      - PATH
+      example: PATH
+    ApplicationDeploymentRestrictionRequest:
+      type: object
+      required:
+      - mode
+      - type
+      - value
+      properties:
+        mode:
+          $ref: '#/components/schemas/DeploymentRestrictionModeEnum'
+        type:
+          $ref: '#/components/schemas/DeploymentRestrictionTypeEnum'
+        value:
+          type: string
+          description: For `PATH` restrictions, the value must not start with `/`
+          example: application1/src/
     Base:
       type: object
       required:
@@ -156,26 +161,10 @@ components:
           type: string
           readOnly: true
           format: date-time
-    ApplicationDeploymentRestrictionRequest:
-      type: object
-      required:
-      - mode
-      - type
-      - value
-      properties:
-        mode:
-          $ref: '#/components/schemas/DeploymentRestrictionModeEnum'
-        type:
-          $ref: '#/components/schemas/DeploymentRestrictionTypeEnum'
-        value:
-          type: string
-          description: For `PATH` restrictions, the value must not start with `/`
-          example: application1/src/
-    DeploymentRestrictionTypeEnum:
-      type: string
-      enum:
-      - PATH
-      example: PATH
+    ApplicationDeploymentRestriction:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - $ref: '#/components/schemas/ApplicationDeploymentRestrictionRequest'
     DeploymentRestrictionModeEnum:
       type: string
       description: Match mode will rebuild app only if specified items are updated. Exclude mode will not rebuild app if specified items are updated.
@@ -184,14 +173,6 @@ components:
       - MATCH
       example: MATCH
   parameters:
-    deploymentRestrictionId:
-      name: deploymentRestrictionId
-      in: path
-      description: Deployment Restriction ID
-      required: true
-      schema:
-        type: string
-        format: uuid
     applicationId:
       name: applicationId
       in: path
@@ -200,6 +181,25 @@ components:
       schema:
         type: string
         format: uuid
+    deploymentRestrictionId:
+      name: deploymentRestrictionId
+      in: path
+      description: Deployment Restriction ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+  responses:
+    '403':
+      description: Access forbidden
+    204-deletion:
+      description: The resource was deleted successfully
+    '400':
+      description: Bad request
+    '404':
+      description: Resource not found
+    '401':
+      description: Access token is missing or invalid
   securitySchemes:
     bearerAuth:
       type: http

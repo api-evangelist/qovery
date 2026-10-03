@@ -226,6 +226,39 @@ paths:
         '404':
           $ref: '#/components/responses/404'
 components:
+  parameters:
+    serviceId:
+      name: serviceId
+      in: path
+      description: Service ID of an application/job/container/database
+      required: true
+      schema:
+        type: string
+        format: uuid
+    environmentId:
+      name: environmentId
+      in: path
+      description: Environment ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+    stageId:
+      name: stageId
+      in: path
+      description: Deployment Stage ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+    deploymentStageId:
+      name: deploymentStageId
+      in: path
+      description: Deployment Stage ID
+      required: true
+      schema:
+        type: string
+        format: uuid
   schemas:
     DeploymentStageResponse:
       allOf:
@@ -247,43 +280,6 @@ components:
             example: 1
           services:
             $ref: '#/components/schemas/DeploymentStageServiceResponseList'
-    ReferenceObject:
-      type: object
-      required:
-      - id
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-    DeploymentStageServiceResponse:
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - type: object
-        properties:
-          service_id:
-            type: string
-            format: uuid
-            description: id of the service attached to the stage
-          service_type:
-            type: string
-            description: type of the service (i.e APPLICATION, JOB, DATABASE, ...)
-          is_skipped:
-            type: boolean
-            description: whether the service is excluded from environment-level deployments
-    DeploymentStageRequest:
-      type: object
-      required:
-      - name
-      properties:
-        name:
-          type: string
-          description: The name of the deployment stage
-        description:
-          type:
-          - string
-          - 'null'
-          description: free test describing this stage
     Base:
       type: object
       required:
@@ -302,10 +298,47 @@ components:
           type: string
           readOnly: true
           format: date-time
+    DeploymentStageServiceResponse:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        properties:
+          service_id:
+            type: string
+            format: uuid
+            description: id of the service attached to the stage
+          service_type:
+            type: string
+            description: type of the service (i.e APPLICATION, JOB, DATABASE, ...)
+          is_skipped:
+            type: boolean
+            description: whether the service is excluded from environment-level deployments
     DeploymentStageServiceResponseList:
       type: array
       items:
         $ref: '#/components/schemas/DeploymentStageServiceResponse'
+    DeploymentStageRequest:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          description: The name of the deployment stage
+        description:
+          type:
+          - string
+          - 'null'
+          description: free test describing this stage
+    ReferenceObject:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
     DeploymentStageResponseList:
       type: object
       properties:
@@ -314,47 +347,14 @@ components:
           items:
             $ref: '#/components/schemas/DeploymentStageResponse'
   responses:
-    '204':
-      description: no content
     '403':
       description: Access forbidden
+    '204':
+      description: no content
     '404':
       description: Resource not found
     '401':
       description: Access token is missing or invalid
-  parameters:
-    stageId:
-      name: stageId
-      in: path
-      description: Deployment Stage ID
-      required: true
-      schema:
-        type: string
-        format: uuid
-    environmentId:
-      name: environmentId
-      in: path
-      description: Environment ID
-      required: true
-      schema:
-        type: string
-        format: uuid
-    serviceId:
-      name: serviceId
-      in: path
-      description: Service ID of an application/job/container/database
-      required: true
-      schema:
-        type: string
-        format: uuid
-    deploymentStageId:
-      name: deploymentStageId
-      in: path
-      description: Deployment Stage ID
-      required: true
-      schema:
-        type: string
-        format: uuid
   securitySchemes:
     bearerAuth:
       type: http

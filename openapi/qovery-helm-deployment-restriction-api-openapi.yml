@@ -131,13 +131,15 @@ components:
           type: string
           description: For `PATH` restrictions, the value must not start with `/`
           example: helm1/src/
-    HelmDeploymentRestrictionResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/HelmDeploymentRestrictionResponse'
+    HelmDeploymentRestrictionResponse:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - $ref: '#/components/schemas/HelmDeploymentRestrictionRequest'
+    DeploymentRestrictionTypeEnum:
+      type: string
+      enum:
+      - PATH
+      example: PATH
     Base:
       type: object
       required:
@@ -156,11 +158,13 @@ components:
           type: string
           readOnly: true
           format: date-time
-    DeploymentRestrictionTypeEnum:
-      type: string
-      enum:
-      - PATH
-      example: PATH
+    HelmDeploymentRestrictionResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/HelmDeploymentRestrictionResponse'
     DeploymentRestrictionModeEnum:
       type: string
       description: Match mode will rebuild app only if specified items are updated. Exclude mode will not rebuild app if specified items are updated.
@@ -168,19 +172,15 @@ components:
       - EXCLUDE
       - MATCH
       example: MATCH
-    HelmDeploymentRestrictionResponse:
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - $ref: '#/components/schemas/HelmDeploymentRestrictionRequest'
   responses:
-    204-deletion:
-      description: The resource was deleted successfully
-    '400':
-      description: Bad request
     '403':
       description: Access forbidden
     '404':
       description: Resource not found
+    204-deletion:
+      description: The resource was deleted successfully
+    '400':
+      description: Bad request
     '401':
       description: Access token is missing or invalid
   parameters:

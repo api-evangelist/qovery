@@ -138,6 +138,289 @@ paths:
           $ref: '#/components/responses/404'
 components:
   schemas:
+    ServiceTotalNumber:
+      type: object
+      required:
+      - number
+      properties:
+        service_total_number:
+          type: number
+    StageStepMetricNameEnum:
+      type: string
+      enum:
+      - TOTAL
+      - QUEUEING
+      - PROVISION_BUILDER
+      description: 'The name of the deployment step at the stage level:
+
+        - TOTAL: The total duration of the stage deployment.
+
+        - QUEUEING: The step preceding the actual stage deployment step.
+
+        - PROVISION_BUILDER: The step to provision builders before the actual build.
+
+        '
+    Base:
+      type: object
+      required:
+      - id
+      - created_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          readOnly: true
+          format: date-time
+        updated_at:
+          type: string
+          readOnly: true
+          format: date-time
+    EnvironmentStatusEventOriginEnum:
+      type:
+      - string
+      - 'null'
+      description: Origin of the organization event
+      enum:
+      - API
+      - CLI
+      - CONSOLE
+      - GIT
+      - QOVERY_INTERNAL
+      - TERRAFORM_PROVIDER
+      example: API
+    EnvironmentOverviewResponse:
+      type: object
+      required:
+      - id
+      - created_at
+      - updated_at
+      - name
+      - mode
+      - services_overview
+      - cluster
+      properties:
+        id:
+          type: string
+          format: uuid
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        name:
+          type: string
+        mode:
+          $ref: '#/components/schemas/EnvironmentModeEnum'
+        cluster:
+          $ref: '#/components/schemas/ClusterOverviewResponse'
+        services_overview:
+          $ref: '#/components/schemas/ServicesOverviewResponse'
+        deployment_status:
+          allOf:
+          - $ref: '#/components/schemas/EnvironmentStatus'
+    Environment:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        required:
+        - name
+        - cloud_provider
+        - mode
+        - cluster_id
+        - project
+        - organization
+        properties:
+          name:
+            type: string
+            description: name is case insensitive
+          organization:
+            $ref: '#/components/schemas/ReferenceObject'
+          project:
+            $ref: '#/components/schemas/ReferenceObject'
+          last_updated_by:
+            type: string
+            format: uuid
+            description: uuid of the user that made the last update
+          cloud_provider:
+            type: object
+            properties:
+              provider:
+                type: string
+                example: aws
+              cluster:
+                type: string
+                example: us-east-2
+          mode:
+            $ref: '#/components/schemas/EnvironmentModeEnum'
+          cluster_id:
+            type: string
+            format: uuid
+          cluster_name:
+            type: string
+            format: string
+    StageStepMetric:
+      type: object
+      properties:
+        stage_id:
+          type: string
+          format: uuid
+        step_name:
+          $ref: '#/components/schemas/StageStepMetricNameEnum'
+        status:
+          $ref: '#/components/schemas/StepMetricStatusEnum'
+        duration_sec:
+          description: The duration of the step in seconds.
+          type: integer
+    EnvironmentResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Environment'
+    EnvironmentOverviewResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/EnvironmentOverviewResponse'
+    EnvironmentModeEnum:
+      type: string
+      enum:
+      - DEVELOPMENT
+      - PREVIEW
+      - PRODUCTION
+      - STAGING
+      example: PRODUCTION
+    CreateEnvironmentModeEnum:
+      type: string
+      enum:
+      - DEVELOPMENT
+      - PRODUCTION
+      - STAGING
+      example: PRODUCTION
+    ServicesOverviewResponse:
+      type: object
+      required:
+      - service_count
+      - managed_by
+      properties:
+        service_count:
+          type: integer
+          format: int32
+        managed_by:
+          type: string
+          enum:
+          - QOVERY
+          - ARGOCD
+          - MIXED
+    CloudVendorEnum:
+      type: string
+      enum:
+      - AWS
+      - SCW
+      - GCP
+      - DO
+      - AZURE
+      - OVH
+      - CIVO
+      - HETZNER
+      - ORACLE
+      - IBM
+      - ON_PREMISE
+    EnvironmentStatusList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/EnvironmentStatus'
+    EnvironmentStats:
+      allOf:
+      - $ref: '#/components/schemas/ReferenceObject'
+      - $ref: '#/components/schemas/ServiceTotalNumber'
+    CreateEnvironmentRequest:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          description: name is case insensitive
+        cluster:
+          type: string
+          format: uuid
+        mode:
+          $ref: '#/components/schemas/CreateEnvironmentModeEnum'
+    StepMetricStatusEnum:
+      type: string
+      enum:
+      - SUCCESS
+      - ERROR
+      - CANCEL
+      - SKIP
+      description: 'The status of completion for the step:
+
+        - SUCCESS: The step completed successfully.
+
+        - ERROR: The step completed with an error.
+
+        - CANCEL: The step was canceled.
+
+        - SKIP: The step was skipped because it was not necessary.
+
+        '
+    EnvironmentStatus:
+      type: object
+      required:
+      - id
+      - state
+      - last_deployment_state
+      properties:
+        id:
+          type: string
+          format: uuid
+        state:
+          $ref: '#/components/schemas/StateEnum'
+        last_deployment_date:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        last_deployment_state:
+          $ref: '#/components/schemas/StateEnum'
+        last_deployment_id:
+          type:
+          - string
+          - 'null'
+        total_deployment_duration_in_seconds:
+          type:
+          - integer
+          - 'null'
+        origin:
+          $ref: '#/components/schemas/EnvironmentStatusEventOriginEnum'
+        triggered_by:
+          type:
+          - string
+          - 'null'
+        deployment_status:
+          $ref: '#/components/schemas/EnvironmentDeploymentStatusEnum'
+        deployment_request_id:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        metrics:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/StageStepMetrics'
     StateEnum:
       type: string
       enum:
@@ -186,6 +469,30 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/StageStepMetric'
+    EnvironmentStatsResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/EnvironmentStats'
+    EnvironmentDeploymentStatusEnum:
+      title: EnvironmentDeploymentStatusEnum
+      x-stoplight:
+        id: sbw3iw6yteyba
+      enum:
+      - NEVER_DEPLOYED
+      - UP_TO_DATE
+      - OUT_OF_DATE
+    ReferenceObject:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
     ClusterOverviewResponse:
       type: object
       required:
@@ -203,322 +510,6 @@ components:
           $ref: '#/components/schemas/CloudVendorEnum'
         is_demo:
           type: boolean
-    CreateEnvironmentRequest:
-      type: object
-      required:
-      - name
-      properties:
-        name:
-          type: string
-          description: name is case insensitive
-        cluster:
-          type: string
-          format: uuid
-        mode:
-          $ref: '#/components/schemas/CreateEnvironmentModeEnum'
-    StageStepMetric:
-      type: object
-      properties:
-        stage_id:
-          type: string
-          format: uuid
-        step_name:
-          $ref: '#/components/schemas/StageStepMetricNameEnum'
-        status:
-          $ref: '#/components/schemas/StepMetricStatusEnum'
-        duration_sec:
-          description: The duration of the step in seconds.
-          type: integer
-    StepMetricStatusEnum:
-      type: string
-      enum:
-      - SUCCESS
-      - ERROR
-      - CANCEL
-      - SKIP
-      description: 'The status of completion for the step:
-
-        - SUCCESS: The step completed successfully.
-
-        - ERROR: The step completed with an error.
-
-        - CANCEL: The step was canceled.
-
-        - SKIP: The step was skipped because it was not necessary.
-
-        '
-    EnvironmentDeploymentStatusEnum:
-      title: EnvironmentDeploymentStatusEnum
-      x-stoplight:
-        id: sbw3iw6yteyba
-      enum:
-      - NEVER_DEPLOYED
-      - UP_TO_DATE
-      - OUT_OF_DATE
-    Environment:
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - type: object
-        required:
-        - name
-        - cloud_provider
-        - mode
-        - cluster_id
-        - project
-        - organization
-        properties:
-          name:
-            type: string
-            description: name is case insensitive
-          organization:
-            $ref: '#/components/schemas/ReferenceObject'
-          project:
-            $ref: '#/components/schemas/ReferenceObject'
-          last_updated_by:
-            type: string
-            format: uuid
-            description: uuid of the user that made the last update
-          cloud_provider:
-            type: object
-            properties:
-              provider:
-                type: string
-                example: aws
-              cluster:
-                type: string
-                example: us-east-2
-          mode:
-            $ref: '#/components/schemas/EnvironmentModeEnum'
-          cluster_id:
-            type: string
-            format: uuid
-          cluster_name:
-            type: string
-            format: string
-    EnvironmentOverviewResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/EnvironmentOverviewResponse'
-    EnvironmentResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/Environment'
-    ReferenceObject:
-      type: object
-      required:
-      - id
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-    EnvironmentStatsResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/EnvironmentStats'
-    CreateEnvironmentModeEnum:
-      type: string
-      enum:
-      - DEVELOPMENT
-      - PRODUCTION
-      - STAGING
-      example: PRODUCTION
-    EnvironmentModeEnum:
-      type: string
-      enum:
-      - DEVELOPMENT
-      - PREVIEW
-      - PRODUCTION
-      - STAGING
-      example: PRODUCTION
-    StageStepMetricNameEnum:
-      type: string
-      enum:
-      - TOTAL
-      - QUEUEING
-      - PROVISION_BUILDER
-      description: 'The name of the deployment step at the stage level:
-
-        - TOTAL: The total duration of the stage deployment.
-
-        - QUEUEING: The step preceding the actual stage deployment step.
-
-        - PROVISION_BUILDER: The step to provision builders before the actual build.
-
-        '
-    EnvironmentStats:
-      allOf:
-      - $ref: '#/components/schemas/ReferenceObject'
-      - $ref: '#/components/schemas/ServiceTotalNumber'
-    EnvironmentStatus:
-      type: object
-      required:
-      - id
-      - state
-      - last_deployment_state
-      properties:
-        id:
-          type: string
-          format: uuid
-        state:
-          $ref: '#/components/schemas/StateEnum'
-        last_deployment_date:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        last_deployment_state:
-          $ref: '#/components/schemas/StateEnum'
-        last_deployment_id:
-          type:
-          - string
-          - 'null'
-        total_deployment_duration_in_seconds:
-          type:
-          - integer
-          - 'null'
-        origin:
-          $ref: '#/components/schemas/EnvironmentStatusEventOriginEnum'
-        triggered_by:
-          type:
-          - string
-          - 'null'
-        deployment_status:
-          $ref: '#/components/schemas/EnvironmentDeploymentStatusEnum'
-        deployment_request_id:
-          type:
-          - string
-          - 'null'
-          format: uuid
-        metrics:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/StageStepMetrics'
-    CloudVendorEnum:
-      type: string
-      enum:
-      - AWS
-      - SCW
-      - GCP
-      - DO
-      - AZURE
-      - OVH
-      - CIVO
-      - HETZNER
-      - ORACLE
-      - IBM
-      - ON_PREMISE
-    ServicesOverviewResponse:
-      type: object
-      required:
-      - service_count
-      - managed_by
-      properties:
-        service_count:
-          type: integer
-          format: int32
-        managed_by:
-          type: string
-          enum:
-          - QOVERY
-          - ARGOCD
-          - MIXED
-    Base:
-      type: object
-      required:
-      - id
-      - created_at
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        created_at:
-          type: string
-          readOnly: true
-          format: date-time
-        updated_at:
-          type: string
-          readOnly: true
-          format: date-time
-    EnvironmentOverviewResponse:
-      type: object
-      required:
-      - id
-      - created_at
-      - updated_at
-      - name
-      - mode
-      - services_overview
-      - cluster
-      properties:
-        id:
-          type: string
-          format: uuid
-        created_at:
-          type: string
-          format: date-time
-        updated_at:
-          type: string
-          format: date-time
-        name:
-          type: string
-        mode:
-          $ref: '#/components/schemas/EnvironmentModeEnum'
-        cluster:
-          $ref: '#/components/schemas/ClusterOverviewResponse'
-        services_overview:
-          $ref: '#/components/schemas/ServicesOverviewResponse'
-        deployment_status:
-          allOf:
-          - $ref: '#/components/schemas/EnvironmentStatus'
-    EnvironmentStatusEventOriginEnum:
-      type:
-      - string
-      - 'null'
-      description: Origin of the organization event
-      enum:
-      - API
-      - CLI
-      - CONSOLE
-      - GIT
-      - QOVERY_INTERNAL
-      - TERRAFORM_PROVIDER
-      example: API
-    EnvironmentStatusList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/EnvironmentStatus'
-    ServiceTotalNumber:
-      type: object
-      required:
-      - number
-      properties:
-        service_total_number:
-          type: number
-  responses:
-    '400':
-      description: Bad request
-    '403':
-      description: Access forbidden
-    '404':
-      description: Resource not found
-    '401':
-      description: Access token is missing or invalid
   parameters:
     projectId:
       name: projectId
@@ -528,6 +519,15 @@ components:
       schema:
         type: string
         format: uuid
+  responses:
+    '401':
+      description: Access token is missing or invalid
+    '400':
+      description: Bad request
+    '403':
+      description: Access forbidden
+    '404':
+      description: Resource not found
   securitySchemes:
     bearerAuth:
       type: http

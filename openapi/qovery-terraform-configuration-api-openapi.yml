@@ -76,15 +76,6 @@ paths:
         '404':
           $ref: '#/components/responses/404'
 components:
-  responses:
-    '400':
-      description: Bad request
-    '403':
-      description: Access forbidden
-    '404':
-      description: Resource not found
-    '401':
-      description: Access token is missing or invalid
   schemas:
     TerraformAdvancedSettings:
       title: TerraformAdvancedSettings
@@ -121,6 +112,15 @@ components:
           description: 'Mounts the container''s root filesystem as read-only
 
             '
+  responses:
+    '403':
+      description: Access forbidden
+    '404':
+      description: Resource not found
+    '400':
+      description: Bad request
+    '401':
+      description: Access token is missing or invalid
   securitySchemes:
     bearerAuth:
       type: http

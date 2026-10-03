@@ -184,249 +184,6 @@ paths:
         id: 7cl74u6hzmccd
 components:
   schemas:
-    StatusDetails:
-      type: object
-      required:
-      - action
-      - status
-      - sub_action
-      properties:
-        action:
-          $ref: '#/components/schemas/ServiceActionEnum'
-        status:
-          $ref: '#/components/schemas/ServiceActionStatusEnum'
-        sub_action:
-          $ref: '#/components/schemas/ServiceSubActionEnum'
-    StateEnum:
-      type: string
-      enum:
-      - BUILDING
-      - BUILD_ERROR
-      - CANCELED
-      - CANCELING
-      - DELETED
-      - DELETE_ERROR
-      - DELETE_QUEUED
-      - DELETING
-      - DEPLOYED
-      - DEPLOYING
-      - DEPLOYMENT_ERROR
-      - DEPLOYMENT_QUEUED
-      - EXECUTING
-      - QUEUED
-      - READY
-      - RECAP
-      - RESTARTED
-      - RESTARTING
-      - RESTART_ERROR
-      - RESTART_QUEUED
-      - STOPPED
-      - STOPPING
-      - STOP_ERROR
-      - STOP_QUEUED
-      - UNAVAILABLE
-      - WAITING_DELETING
-      - WAITING_RESTARTING
-      - WAITING_RUNNING
-      - WAITING_STOPPING
-    KubernetesServiceSpec:
-      title: KubernetesServiceSpec
-      x-stoplight:
-        id: qecw98tpxage0
-      type: object
-      properties:
-        type:
-          type: string
-          x-stoplight:
-            id: 5bi9ckakwdfod
-        ports:
-          type: array
-          x-stoplight:
-            id: xaa6ow6ugihju
-          items:
-            $ref: '#/components/schemas/KubernetesServicePort'
-        selectors:
-          type: array
-          x-stoplight:
-            id: snld7nhiy088w
-          items:
-            $ref: '#/components/schemas/KubernetesSelector'
-    Link:
-      type: object
-      required:
-      - service_id
-      - service_type
-      - url
-      - internal_port
-      - external_port
-      - is_qovery_domain
-      - is_default
-      properties:
-        service_id:
-          type: string
-          format: uuid
-          description: ID of the associated service
-        service_type:
-          $ref: '#/components/schemas/ServiceTypeEnum'
-        url:
-          type: string
-          description: URL to access the service
-        internal_port:
-          type: integer
-          description: The port from which the service is reachable from within the cluster
-        external_port:
-          type: integer
-          description: 'The port from which the service is reachable from externally (i.e: 443 for HTTPS)'
-        is_qovery_domain:
-          type: boolean
-          description: True if the domain is managed by Qovery, false if it belongs to the user
-        is_default:
-          type: boolean
-          description: 'Indicate if the link is using the root of the domain and not one derivated from port
-
-            i.e:
-
-            p8080.zxxxx.jvm.worl      => is_default = false, is_qovery = true
-
-            zxxxx.jvm.world           => is_default = true, is_qovery = true
-
-            p8080-my-super-domain.com => is_default = false, is_qovery = false
-
-            my-super-domain.com       => is_default = true, is_qovery = false
-
-            '
-    StepMetricStatusEnum:
-      type: string
-      enum:
-      - SUCCESS
-      - ERROR
-      - CANCEL
-      - SKIP
-      description: 'The status of completion for the step:
-
-        - SUCCESS: The step completed successfully.
-
-        - ERROR: The step completed with an error.
-
-        - CANCEL: The step was canceled.
-
-        - SKIP: The step was skipped because it was not necessary.
-
-        '
-    KubernetesMetadata:
-      title: KubernetesMetadata
-      x-stoplight:
-        id: ajq08tq9ym2vh
-      type: object
-      properties:
-        name:
-          type: string
-          x-stoplight:
-            id: n0gt58vsemvlv
-    HelmPortProtocolEnum:
-      type: string
-      default: HTTP
-      enum:
-      - HTTP
-      - GRPC
-    Commit:
-      type:
-      - object
-      - 'null'
-      required:
-      - git_commit_id
-      - created_at
-      - author_name
-      - message
-      - tag
-      properties:
-        created_at:
-          type: string
-          format: date-time
-        git_commit_id:
-          type: string
-        tag:
-          type: string
-          example: v2.1.1
-        message:
-          type: string
-        author_name:
-          type: string
-        author_avatar_url:
-          type: string
-        commit_page_url:
-          type: string
-    KubernetesServiceResponseList:
-      title: KubernetesServiceResponseList
-      x-stoplight:
-        id: 91mgvynk8ostk
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/KubernetesService'
-    HelmGitRepositoryRequest:
-      type: object
-      required:
-      - provider
-      - owner
-      - name
-      - url
-      properties:
-        url:
-          type: string
-          description: application git repository URL
-          example: https://github.com/Qovery/simple-node-app
-        branch:
-          type: string
-          description: 'Name of the branch to use. This is optional
-
-            If not specified, then the branch used is the `main` or `master` one
-
-            '
-          example: feat/text_xxx
-        root_path:
-          type: string
-          default: /
-          description: indicates the root path of the application.
-        git_token_id:
-          type:
-          - string
-          - 'null'
-          format: uuid
-          description: The git token id on Qovery side
-      title: ''
-    KubernetesSelector:
-      title: KubernetesSelector
-      x-stoplight:
-        id: 4i1ztgngi75vs
-      type: object
-      required:
-      - key
-      - value
-      properties:
-        key:
-          type: string
-          x-stoplight:
-            id: 1zcgvzdknhr8n
-        value:
-          type: string
-          x-stoplight:
-            id: 6zpc45u4laog4
-    ServiceStepMetricNameEnum:
-      type: string
-      enum:
-      - REGISTRY_CREATE_REPOSITORY
-      - GIT_CLONE
-      - BUILD_QUEUEING
-      - BUILD
-      - DEPLOYMENT_QUEUEING
-      - DEPLOYMENT
-      - ROUTER_DEPLOYMENT
-      - MIRROR_IMAGE
-      - EXECUTING
-      description: "The name of the deployment step at the service level:\n- REGISTRY_CREATE_REPOSITORY: The step to create the repository in the registry.\n- GIT_CLONE: The step to clone the source code repository. \n- BUILD_QUEUEING: The queuing time preceding the actual building step.\n- BUILD: The step to build the source code.\n- DEPLOYMENT_QUEUEING: The queuing time preceding the actual deployment step.\n- DEPLOYMENT: The step to deploy the service. \n- ROUTER_DEPLOYMENT: The step to deploy the router. \n- MIRROR_IMAGE: The step to mirror the image to the private registry.\n- EXECUTING: The step to execute a job or terraform apply.\n"
     ServiceActionEnum:
       type: string
       enum:
@@ -435,75 +192,6 @@ components:
       - RESTART
       - STOP
       - UNKNOWN
-    ServiceTypeEnum:
-      type: string
-      x-stoplight:
-        id: d66063cd29913
-      description: type of the service (application, database, job, ...)
-      enum:
-      - APPLICATION
-      - DATABASE
-      - CONTAINER
-      - JOB
-      - HELM
-      - TERRAFORM
-      - ARGOCD_APP
-    HelmKeyValues:
-      type: array
-      description: 'The input is in json array format: [ [$KEY,$VALUE], [...] ]'
-      items:
-        type: array
-        items:
-          type: string
-    HelmSourceGitResponse:
-      title: HelmSourceGitResponse
-      x-stoplight:
-        id: lsxautcdafty6
-      type: object
-      required:
-      - git_repository
-      properties:
-        git_repository:
-          $ref: '#/components/schemas/ApplicationGitRepository'
-    ReferenceObject:
-      type: object
-      required:
-      - id
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-    HelmPortResponseBase:
-      type: object
-      required:
-      - id
-      - internal_port
-      - protocol
-      - port_type
-      properties:
-        id:
-          type: string
-          format: uuid
-        port_type:
-          type: string
-        name:
-          type: string
-        internal_port:
-          type: integer
-          example: 8080
-          description: The listening port of your service.
-        external_port:
-          type: integer
-          example: 8080
-          description: The exposed port for your service. This is optional. If not set a default port will be used.
-        namespace:
-          type: string
-        protocol:
-          $ref: '#/components/schemas/HelmPortProtocolEnum'
-        is_default:
-          type: boolean
-          description: is the default port to use for domain
     HelmRequest:
       allOf:
       - $ref: '#/components/schemas/HelmPortRequest'
@@ -627,48 +315,6 @@ components:
             description: Icon URI representing the helm service.
             x-stoplight:
               id: 117p5u95nwx2p
-    Status:
-      type: object
-      required:
-      - id
-      - state
-      - service_deployment_status
-      - status_details
-      - is_part_last_deployment
-      - deployment_requests_count
-      - deployment_request_id
-      properties:
-        id:
-          type: string
-          format: uuid
-        state:
-          $ref: '#/components/schemas/StateEnum'
-        service_deployment_status:
-          $ref: '#/components/schemas/ServiceDeploymentStatusEnum'
-        last_deployment_date:
-          type: string
-          format: date-time
-        is_part_last_deployment:
-          type: boolean
-        steps:
-          $ref: '#/components/schemas/ServiceStepMetrics'
-        execution_id:
-          type: string
-          x-stoplight:
-            id: 3o9tz4272s2ct
-        status_details:
-          $ref: '#/components/schemas/StatusDetails'
-        deployment_request_id:
-          type:
-          - string
-          - 'null'
-          x-stoplight:
-            id: bepixrb7tyzme
-          format: uuid
-        deployment_requests_count:
-          type: integer
-          x-stoplight:
-            id: crku532vt3v4p
     HelmSourceRepositoryResponse:
       title: HelmSourceRepositoryResponse
       x-stoplight:
@@ -710,6 +356,137 @@ components:
               x-stoplight:
                 id: qxjxb9crdcsyv
               format: uri
+    ServiceActionStatusEnum:
+      type: string
+      enum:
+      - QUEUED
+      - ONGOING
+      - SUCCESS
+      - ERROR
+      - EXECUTING
+      - CANCELED
+      - CANCELING
+      - NEVER
+    StatusDetails:
+      type: object
+      required:
+      - action
+      - status
+      - sub_action
+      properties:
+        action:
+          $ref: '#/components/schemas/ServiceActionEnum'
+        status:
+          $ref: '#/components/schemas/ServiceActionStatusEnum'
+        sub_action:
+          $ref: '#/components/schemas/ServiceSubActionEnum'
+    Base:
+      type: object
+      required:
+      - id
+      - created_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          readOnly: true
+          format: date-time
+        updated_at:
+          type: string
+          readOnly: true
+          format: date-time
+    HelmPortRequest:
+      type: object
+      properties:
+        ports:
+          type: array
+          items:
+            allOf:
+            - type: object
+              required:
+              - internal_port
+              properties:
+                name:
+                  type: string
+                internal_port:
+                  type: integer
+                  example: 8080
+                  description: The listening port of your service.
+                external_port:
+                  type: integer
+                  example: 8080
+                  description: The exposed port for your service. This is optional. If not set a default port will be used.
+                namespace:
+                  type: string
+                protocol:
+                  $ref: '#/components/schemas/HelmPortProtocolEnum'
+                is_default:
+                  type: boolean
+                  description: is the default port to use for domain
+            - oneOf:
+              - type: object
+                properties:
+                  service_selectors:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/KubernetesSelector'
+              - type: object
+                properties:
+                  service_name:
+                    type: string
+    CommitResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Commit'
+    HelmPortResponseBase:
+      type: object
+      required:
+      - id
+      - internal_port
+      - protocol
+      - port_type
+      properties:
+        id:
+          type: string
+          format: uuid
+        port_type:
+          type: string
+        name:
+          type: string
+        internal_port:
+          type: integer
+          example: 8080
+          description: The listening port of your service.
+        external_port:
+          type: integer
+          example: 8080
+          description: The exposed port for your service. This is optional. If not set a default port will be used.
+        namespace:
+          type: string
+        protocol:
+          $ref: '#/components/schemas/HelmPortProtocolEnum'
+        is_default:
+          type: boolean
+          description: is the default port to use for domain
+    KubernetesService:
+      title: KubernetesService
+      x-stoplight:
+        id: e93yew0imhkxz
+      type: object
+      required:
+      - metadata
+      - service_spec
+      properties:
+        metadata:
+          $ref: '#/components/schemas/KubernetesMetadata'
+        service_spec:
+          $ref: '#/components/schemas/KubernetesServiceSpec'
     ApplicationGitRepository:
       type: object
       required:
@@ -759,51 +536,183 @@ components:
           - string
           - 'null'
       title: ''
-    HelmPortRequest:
+    ServiceStepMetric:
       type: object
       properties:
-        ports:
+        step_name:
+          $ref: '#/components/schemas/ServiceStepMetricNameEnum'
+        status:
+          $ref: '#/components/schemas/StepMetricStatusEnum'
+        duration_sec:
+          description: The duration of the step in seconds.
+          type: integer
+    HelmGitRepositoryRequest:
+      type: object
+      required:
+      - provider
+      - owner
+      - name
+      - url
+      properties:
+        url:
+          type: string
+          description: application git repository URL
+          example: https://github.com/Qovery/simple-node-app
+        branch:
+          type: string
+          description: 'Name of the branch to use. This is optional
+
+            If not specified, then the branch used is the `main` or `master` one
+
+            '
+          example: feat/text_xxx
+        root_path:
+          type: string
+          default: /
+          description: indicates the root path of the application.
+        git_token_id:
+          type:
+          - string
+          - 'null'
+          format: uuid
+          description: The git token id on Qovery side
+      title: ''
+    HelmPortResponseWithServiceSelectors:
+      allOf:
+      - $ref: '#/components/schemas/HelmPortResponseBase'
+      - type: object
+        required:
+        - service_selectors
+        properties:
+          service_selectors:
+            type: array
+            items:
+              $ref: '#/components/schemas/KubernetesSelector'
+    ServiceSubActionEnum:
+      type: string
+      default: NONE
+      enum:
+      - NONE
+      - TERRAFORM_PLAN_ONLY
+      - TERRAFORM_PLAN_AND_APPLY
+      - TERRAFORM_DESTROY
+      - TERRAFORM_FORCE_UNLOCK_STATE
+      - TERRAFORM_MIGRATE_STATE
+    Commit:
+      type:
+      - object
+      - 'null'
+      required:
+      - git_commit_id
+      - created_at
+      - author_name
+      - message
+      - tag
+      properties:
+        created_at:
+          type: string
+          format: date-time
+        git_commit_id:
+          type: string
+        tag:
+          type: string
+          example: v2.1.1
+        message:
+          type: string
+        author_name:
+          type: string
+        author_avatar_url:
+          type: string
+        commit_page_url:
+          type: string
+    KubernetesSelector:
+      title: KubernetesSelector
+      x-stoplight:
+        id: 4i1ztgngi75vs
+      type: object
+      required:
+      - key
+      - value
+      properties:
+        key:
+          type: string
+          x-stoplight:
+            id: 1zcgvzdknhr8n
+        value:
+          type: string
+          x-stoplight:
+            id: 6zpc45u4laog4
+    Status:
+      type: object
+      required:
+      - id
+      - state
+      - service_deployment_status
+      - status_details
+      - is_part_last_deployment
+      - deployment_requests_count
+      - deployment_request_id
+      properties:
+        id:
+          type: string
+          format: uuid
+        state:
+          $ref: '#/components/schemas/StateEnum'
+        service_deployment_status:
+          $ref: '#/components/schemas/ServiceDeploymentStatusEnum'
+        last_deployment_date:
+          type: string
+          format: date-time
+        is_part_last_deployment:
+          type: boolean
+        steps:
+          $ref: '#/components/schemas/ServiceStepMetrics'
+        execution_id:
+          type: string
+          x-stoplight:
+            id: 3o9tz4272s2ct
+        status_details:
+          $ref: '#/components/schemas/StatusDetails'
+        deployment_request_id:
+          type:
+          - string
+          - 'null'
+          x-stoplight:
+            id: bepixrb7tyzme
+          format: uuid
+        deployment_requests_count:
+          type: integer
+          x-stoplight:
+            id: crku532vt3v4p
+    ServiceStepMetrics:
+      type: object
+      required:
+      - total_duration_sec
+      - total_computing_duration_sec
+      - details
+      properties:
+        total_duration_sec:
+          description: The total duration in seconds of the service deployment or null if the deployment is not completed.
+          type:
+          - integer
+          - 'null'
+        total_computing_duration_sec:
+          description: The total duration in seconds of the service deployment without queuing steps.
+          type: integer
+        details:
+          description: A list of metrics for deployment steps of the service.
           type: array
           items:
-            allOf:
-            - type: object
-              required:
-              - internal_port
-              properties:
-                name:
-                  type: string
-                internal_port:
-                  type: integer
-                  example: 8080
-                  description: The listening port of your service.
-                external_port:
-                  type: integer
-                  example: 8080
-                  description: The exposed port for your service. This is optional. If not set a default port will be used.
-                namespace:
-                  type: string
-                protocol:
-                  $ref: '#/components/schemas/HelmPortProtocolEnum'
-                is_default:
-                  type: boolean
-                  description: is the default port to use for domain
-            - oneOf:
-              - type: object
-                properties:
-                  service_selectors:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/KubernetesSelector'
-              - type: object
-                properties:
-                  service_name:
-                    type: string
-    ServiceDeploymentStatusEnum:
-      type: string
-      enum:
-      - NEVER_DEPLOYED
-      - OUT_OF_DATE
-      - UP_TO_DATE
+            $ref: '#/components/schemas/ServiceStepMetric'
+    HelmPortResponseWithServiceName:
+      allOf:
+      - $ref: '#/components/schemas/HelmPortResponseBase'
+      - type: object
+        required:
+        - service_name
+        properties:
+          service_name:
+            type: string
     HelmResponse:
       allOf:
       - $ref: '#/components/schemas/Base'
@@ -943,57 +852,6 @@ components:
               id: i2pvbugqsldhe
           service_type:
             $ref: '#/components/schemas/ServiceTypeEnum'
-    ServiceActionStatusEnum:
-      type: string
-      enum:
-      - QUEUED
-      - ONGOING
-      - SUCCESS
-      - ERROR
-      - EXECUTING
-      - CANCELED
-      - CANCELING
-      - NEVER
-    KubernetesServicePort:
-      title: KubernetesServicePort
-      x-stoplight:
-        id: wgdmnyglzosd6
-      type: object
-      required:
-      - port
-      properties:
-        name:
-          type: string
-          x-stoplight:
-            id: tusjgcztulh9m
-        port:
-          type: integer
-          x-stoplight:
-            id: iloqun4s628bz
-    GitProviderEnum:
-      type: string
-      enum:
-      - BITBUCKET
-      - GITHUB
-      - GITLAB
-    Base:
-      type: object
-      required:
-      - id
-      - created_at
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        created_at:
-          type: string
-          readOnly: true
-          format: date-time
-        updated_at:
-          type: string
-          readOnly: true
-          format: date-time
     LinkResponseList:
       type: object
       properties:
@@ -1001,59 +859,22 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Link'
-    KubernetesService:
-      title: KubernetesService
+    KubernetesServiceResponseList:
+      title: KubernetesServiceResponseList
       x-stoplight:
-        id: e93yew0imhkxz
-      type: object
-      required:
-      - metadata
-      - service_spec
-      properties:
-        metadata:
-          $ref: '#/components/schemas/KubernetesMetadata'
-        service_spec:
-          $ref: '#/components/schemas/KubernetesServiceSpec'
-    ServiceStepMetric:
+        id: 91mgvynk8ostk
       type: object
       properties:
-        step_name:
-          $ref: '#/components/schemas/ServiceStepMetricNameEnum'
-        status:
-          $ref: '#/components/schemas/StepMetricStatusEnum'
-        duration_sec:
-          description: The duration of the step in seconds.
-          type: integer
-    HelmPortResponseWithServiceSelectors:
-      allOf:
-      - $ref: '#/components/schemas/HelmPortResponseBase'
-      - type: object
-        required:
-        - service_selectors
-        properties:
-          service_selectors:
-            type: array
-            items:
-              $ref: '#/components/schemas/KubernetesSelector'
-    HelmPortResponseWithServiceName:
-      allOf:
-      - $ref: '#/components/schemas/HelmPortResponseBase'
-      - type: object
-        required:
-        - service_name
-        properties:
-          service_name:
-            type: string
-    ServiceSubActionEnum:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/KubernetesService'
+    HelmPortProtocolEnum:
       type: string
-      default: NONE
+      default: HTTP
       enum:
-      - NONE
-      - TERRAFORM_PLAN_ONLY
-      - TERRAFORM_PLAN_AND_APPLY
-      - TERRAFORM_DESTROY
-      - TERRAFORM_FORCE_UNLOCK_STATE
-      - TERRAFORM_MIGRATE_STATE
+      - HTTP
+      - GRPC
     ApplicationGitRepositoryRequest:
       type: object
       required:
@@ -1086,33 +907,223 @@ components:
           description: The git token id on Qovery side
         provider:
           $ref: '#/components/schemas/GitProviderEnum'
-    CommitResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/Commit'
-    ServiceStepMetrics:
+    ServiceTypeEnum:
+      type: string
+      x-stoplight:
+        id: d66063cd29913
+      description: type of the service (application, database, job, ...)
+      enum:
+      - APPLICATION
+      - DATABASE
+      - CONTAINER
+      - JOB
+      - HELM
+      - TERRAFORM
+      - ARGOCD_APP
+    KubernetesServicePort:
+      title: KubernetesServicePort
+      x-stoplight:
+        id: wgdmnyglzosd6
       type: object
       required:
-      - total_duration_sec
-      - total_computing_duration_sec
-      - details
+      - port
       properties:
-        total_duration_sec:
-          description: The total duration in seconds of the service deployment or null if the deployment is not completed.
-          type:
-          - integer
-          - 'null'
-        total_computing_duration_sec:
-          description: The total duration in seconds of the service deployment without queuing steps.
+        name:
+          type: string
+          x-stoplight:
+            id: tusjgcztulh9m
+        port:
           type: integer
-        details:
-          description: A list of metrics for deployment steps of the service.
+          x-stoplight:
+            id: iloqun4s628bz
+    ServiceDeploymentStatusEnum:
+      type: string
+      enum:
+      - NEVER_DEPLOYED
+      - OUT_OF_DATE
+      - UP_TO_DATE
+    StepMetricStatusEnum:
+      type: string
+      enum:
+      - SUCCESS
+      - ERROR
+      - CANCEL
+      - SKIP
+      description: 'The status of completion for the step:
+
+        - SUCCESS: The step completed successfully.
+
+        - ERROR: The step completed with an error.
+
+        - CANCEL: The step was canceled.
+
+        - SKIP: The step was skipped because it was not necessary.
+
+        '
+    ServiceStepMetricNameEnum:
+      type: string
+      enum:
+      - REGISTRY_CREATE_REPOSITORY
+      - GIT_CLONE
+      - BUILD_QUEUEING
+      - BUILD
+      - DEPLOYMENT_QUEUEING
+      - DEPLOYMENT
+      - ROUTER_DEPLOYMENT
+      - MIRROR_IMAGE
+      - EXECUTING
+      description: "The name of the deployment step at the service level:\n- REGISTRY_CREATE_REPOSITORY: The step to create the repository in the registry.\n- GIT_CLONE: The step to clone the source code repository. \n- BUILD_QUEUEING: The queuing time preceding the actual building step.\n- BUILD: The step to build the source code.\n- DEPLOYMENT_QUEUEING: The queuing time preceding the actual deployment step.\n- DEPLOYMENT: The step to deploy the service. \n- ROUTER_DEPLOYMENT: The step to deploy the router. \n- MIRROR_IMAGE: The step to mirror the image to the private registry.\n- EXECUTING: The step to execute a job or terraform apply.\n"
+    HelmKeyValues:
+      type: array
+      description: 'The input is in json array format: [ [$KEY,$VALUE], [...] ]'
+      items:
+        type: array
+        items:
+          type: string
+    HelmSourceGitResponse:
+      title: HelmSourceGitResponse
+      x-stoplight:
+        id: lsxautcdafty6
+      type: object
+      required:
+      - git_repository
+      properties:
+        git_repository:
+          $ref: '#/components/schemas/ApplicationGitRepository'
+    GitProviderEnum:
+      type: string
+      enum:
+      - BITBUCKET
+      - GITHUB
+      - GITLAB
+    StateEnum:
+      type: string
+      enum:
+      - BUILDING
+      - BUILD_ERROR
+      - CANCELED
+      - CANCELING
+      - DELETED
+      - DELETE_ERROR
+      - DELETE_QUEUED
+      - DELETING
+      - DEPLOYED
+      - DEPLOYING
+      - DEPLOYMENT_ERROR
+      - DEPLOYMENT_QUEUED
+      - EXECUTING
+      - QUEUED
+      - READY
+      - RECAP
+      - RESTARTED
+      - RESTARTING
+      - RESTART_ERROR
+      - RESTART_QUEUED
+      - STOPPED
+      - STOPPING
+      - STOP_ERROR
+      - STOP_QUEUED
+      - UNAVAILABLE
+      - WAITING_DELETING
+      - WAITING_RESTARTING
+      - WAITING_RUNNING
+      - WAITING_STOPPING
+    Link:
+      type: object
+      required:
+      - service_id
+      - service_type
+      - url
+      - internal_port
+      - external_port
+      - is_qovery_domain
+      - is_default
+      properties:
+        service_id:
+          type: string
+          format: uuid
+          description: ID of the associated service
+        service_type:
+          $ref: '#/components/schemas/ServiceTypeEnum'
+        url:
+          type: string
+          description: URL to access the service
+        internal_port:
+          type: integer
+          description: The port from which the service is reachable from within the cluster
+        external_port:
+          type: integer
+          description: 'The port from which the service is reachable from externally (i.e: 443 for HTTPS)'
+        is_qovery_domain:
+          type: boolean
+          description: True if the domain is managed by Qovery, false if it belongs to the user
+        is_default:
+          type: boolean
+          description: 'Indicate if the link is using the root of the domain and not one derivated from port
+
+            i.e:
+
+            p8080.zxxxx.jvm.worl      => is_default = false, is_qovery = true
+
+            zxxxx.jvm.world           => is_default = true, is_qovery = true
+
+            p8080-my-super-domain.com => is_default = false, is_qovery = false
+
+            my-super-domain.com       => is_default = true, is_qovery = false
+
+            '
+    ReferenceObject:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+    KubernetesServiceSpec:
+      title: KubernetesServiceSpec
+      x-stoplight:
+        id: qecw98tpxage0
+      type: object
+      properties:
+        type:
+          type: string
+          x-stoplight:
+            id: 5bi9ckakwdfod
+        ports:
           type: array
+          x-stoplight:
+            id: xaa6ow6ugihju
           items:
-            $ref: '#/components/schemas/ServiceStepMetric'
+            $ref: '#/components/schemas/KubernetesServicePort'
+        selectors:
+          type: array
+          x-stoplight:
+            id: snld7nhiy088w
+          items:
+            $ref: '#/components/schemas/KubernetesSelector'
+    KubernetesMetadata:
+      title: KubernetesMetadata
+      x-stoplight:
+        id: ajq08tq9ym2vh
+      type: object
+      properties:
+        name:
+          type: string
+          x-stoplight:
+            id: n0gt58vsemvlv
+  responses:
+    '401':
+      description: Access token is missing or invalid
+    '400':
+      description: Bad request
+    '403':
+      description: Access forbidden
+    '404':
+      description: Resource not found
+    204-deletion:
+      description: The resource was deleted successfully
   parameters:
     helmOf:
       name: of
@@ -1129,17 +1140,6 @@ components:
       schema:
         type: string
         format: uuid
-  responses:
-    '400':
-      description: Bad request
-    '403':
-      description: Access forbidden
-    '404':
-      description: Resource not found
-    204-deletion:
-      description: The resource was deleted successfully
-    '401':
-      description: Access token is missing or invalid
   securitySchemes:
     bearerAuth:
       type: http

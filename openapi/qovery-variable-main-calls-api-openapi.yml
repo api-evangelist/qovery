@@ -261,36 +261,6 @@ paths:
           $ref: '#/components/responses/404'
 components:
   schemas:
-    VariableAliasRequest:
-      type: object
-      required:
-      - key
-      - alias_scope
-      - alias_parent_id
-      properties:
-        key:
-          type: string
-          description: the value to be used as Alias of the targeted environment variable.
-        alias_scope:
-          $ref: '#/components/schemas/APIVariableScopeEnum'
-        alias_parent_id:
-          type: string
-          format: uuid
-          description: the id of the variable that is aliased.
-        description:
-          type:
-          - string
-          - 'null'
-          x-stoplight:
-            id: e1tqebew6jfe8
-          description: optional variable description (255 characters maximum)
-          maxLength: 255
-        enable_interpolation_in_file:
-          type:
-          - boolean
-          - 'null'
-          x-stoplight:
-            id: udmfa3jcpde9q
     APIVariableTypeEnum:
       type: string
       description: 'type of the environment variable (VALUE, FILE, ALIAS, OVERRIDE or BUIT_IN)
@@ -302,6 +272,24 @@ components:
       - OVERRIDE
       - BUILT_IN
       - FILE
+    Base:
+      type: object
+      required:
+      - id
+      - created_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          readOnly: true
+          format: date-time
+        updated_at:
+          type: string
+          readOnly: true
+          format: date-time
     VariableOverrideRequest:
       type: object
       required:
@@ -332,6 +320,43 @@ components:
           - 'null'
           x-stoplight:
             id: smk0wzzy31f5u
+    VariableImportRequest:
+      type: object
+      required:
+      - vars
+      - overwrite
+      properties:
+        overwrite:
+          type: boolean
+          default: false
+        vars:
+          type: array
+          items:
+            type: object
+            required:
+            - name
+            - value
+            - scope
+            - is_secret
+            properties:
+              name:
+                type: string
+              value:
+                type: string
+              scope:
+                $ref: '#/components/schemas/APIVariableScopeEnum'
+              is_secret:
+                type: boolean
+    LinkedServiceTypeEnum:
+      type: string
+      description: type of the service (application, database, job, gateway...)
+      enum:
+      - APPLICATION
+      - CONTAINER
+      - DATABASE
+      - JOB
+      - HELM
+      - TERRAFORM
     ServiceTypeForVariableEnum:
       type: string
       description: type of the service
@@ -341,6 +366,54 @@ components:
       - JOB
       - HELM
       - TERRAFORM
+    VariableRequest:
+      type: object
+      required:
+      - key
+      - value
+      - is_secret
+      - variable_scope
+      - variable_parent_id
+      properties:
+        key:
+          type: string
+          description: the key of the environment variable
+        value:
+          type: string
+          description: the value of the environment variable
+        mount_path:
+          type:
+          - string
+          - 'null'
+          description: the path where the file will be mounted (only if type =file)
+        is_secret:
+          type: boolean
+          description: if true, the variable will be considered as a secret and will not be accessible after its creation. Only your applications will be able to access its value at build and run time.
+        variable_scope:
+          $ref: '#/components/schemas/APIVariableScopeEnum'
+        variable_parent_id:
+          type: string
+          format: uuid
+          description: based on the selected scope, it contains the ID of the service, environment or project where the variable is attached
+        description:
+          type:
+          - string
+          - 'null'
+          x-stoplight:
+            id: 328cipvix8hjo
+          description: optional variable description (255 characters maximum)
+          maxLength: 255
+        enable_interpolation_in_file:
+          type:
+          - boolean
+          - 'null'
+          x-stoplight:
+            id: docfts24qtko6
+        secret_manager_access_id:
+          type:
+          - string
+          - 'null'
+          format: uuid
     VariableResponse:
       allOf:
       - $ref: '#/components/schemas/Base'
@@ -397,196 +470,6 @@ components:
             - string
             - 'null'
             format: uuid
-    VariableResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/VariableResponse'
-    APIVariableScopeEnum:
-      type: string
-      enum:
-      - APPLICATION
-      - BUILT_IN
-      - ENVIRONMENT
-      - PROJECT
-      - CONTAINER
-      - JOB
-      - HELM
-      - TERRAFORM
-    VariableAlias:
-      type: object
-      required:
-      - id
-      - key
-      - mount_path
-      - scope
-      - variable_type
-      properties:
-        id:
-          type: string
-          format: uuid
-        key:
-          type: string
-          example: DATABASE_PSQL_NAME
-        value:
-          type:
-          - string
-          - 'null'
-        mount_path:
-          type: string
-        scope:
-          $ref: '#/components/schemas/APIVariableScopeEnum'
-        variable_type:
-          $ref: '#/components/schemas/APIVariableTypeEnum'
-    VariableOverride:
-      type: object
-      required:
-      - id
-      - key
-      - mount_path
-      - scope
-      - variable_type
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: The id of the overriden variable
-        key:
-          type: string
-          description: The key of the overriden variable
-        value:
-          type:
-          - string
-          - 'null'
-          description: The value of the overriden variable
-        mount_path:
-          type: string
-          description: The mounth path of the overriden variable (only if environment variable type is 'file')
-        scope:
-          $ref: '#/components/schemas/APIVariableScopeEnum'
-        variable_type:
-          $ref: '#/components/schemas/APIVariableTypeEnum'
-    VariableImport:
-      type: object
-      required:
-      - total_variables_to_import
-      - successful_imported_variables
-      properties:
-        total_variables_to_import:
-          type: number
-        successful_imported_variables:
-          type: array
-          items:
-            type: object
-            required:
-            - name
-            - scope
-            - is_secret
-            properties:
-              name:
-                type: string
-              value:
-                type: string
-                description: Optional if the variable is secret
-              scope:
-                $ref: '#/components/schemas/APIVariableScopeEnum'
-              is_secret:
-                type: boolean
-    VariableImportRequest:
-      type: object
-      required:
-      - vars
-      - overwrite
-      properties:
-        overwrite:
-          type: boolean
-          default: false
-        vars:
-          type: array
-          items:
-            type: object
-            required:
-            - name
-            - value
-            - scope
-            - is_secret
-            properties:
-              name:
-                type: string
-              value:
-                type: string
-              scope:
-                $ref: '#/components/schemas/APIVariableScopeEnum'
-              is_secret:
-                type: boolean
-    Base:
-      type: object
-      required:
-      - id
-      - created_at
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        created_at:
-          type: string
-          readOnly: true
-          format: date-time
-        updated_at:
-          type: string
-          readOnly: true
-          format: date-time
-    VariableRequest:
-      type: object
-      required:
-      - key
-      - value
-      - is_secret
-      - variable_scope
-      - variable_parent_id
-      properties:
-        key:
-          type: string
-          description: the key of the environment variable
-        value:
-          type: string
-          description: the value of the environment variable
-        mount_path:
-          type:
-          - string
-          - 'null'
-          description: the path where the file will be mounted (only if type =file)
-        is_secret:
-          type: boolean
-          description: if true, the variable will be considered as a secret and will not be accessible after its creation. Only your applications will be able to access its value at build and run time.
-        variable_scope:
-          $ref: '#/components/schemas/APIVariableScopeEnum'
-        variable_parent_id:
-          type: string
-          format: uuid
-          description: based on the selected scope, it contains the ID of the service, environment or project where the variable is attached
-        description:
-          type:
-          - string
-          - 'null'
-          x-stoplight:
-            id: 328cipvix8hjo
-          description: optional variable description (255 characters maximum)
-          maxLength: 255
-        enable_interpolation_in_file:
-          type:
-          - boolean
-          - 'null'
-          x-stoplight:
-            id: docfts24qtko6
-        secret_manager_access_id:
-          type:
-          - string
-          - 'null'
-          format: uuid
     VariableEditRequest:
       type: object
       required:
@@ -617,17 +500,136 @@ components:
           - string
           - 'null'
           format: uuid
-    LinkedServiceTypeEnum:
+    VariableResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/VariableResponse'
+    VariableImport:
+      type: object
+      required:
+      - total_variables_to_import
+      - successful_imported_variables
+      properties:
+        total_variables_to_import:
+          type: number
+        successful_imported_variables:
+          type: array
+          items:
+            type: object
+            required:
+            - name
+            - scope
+            - is_secret
+            properties:
+              name:
+                type: string
+              value:
+                type: string
+                description: Optional if the variable is secret
+              scope:
+                $ref: '#/components/schemas/APIVariableScopeEnum'
+              is_secret:
+                type: boolean
+    APIVariableScopeEnum:
       type: string
-      description: type of the service (application, database, job, gateway...)
       enum:
       - APPLICATION
+      - BUILT_IN
+      - ENVIRONMENT
+      - PROJECT
       - CONTAINER
-      - DATABASE
       - JOB
       - HELM
       - TERRAFORM
+    VariableAliasRequest:
+      type: object
+      required:
+      - key
+      - alias_scope
+      - alias_parent_id
+      properties:
+        key:
+          type: string
+          description: the value to be used as Alias of the targeted environment variable.
+        alias_scope:
+          $ref: '#/components/schemas/APIVariableScopeEnum'
+        alias_parent_id:
+          type: string
+          format: uuid
+          description: the id of the variable that is aliased.
+        description:
+          type:
+          - string
+          - 'null'
+          x-stoplight:
+            id: e1tqebew6jfe8
+          description: optional variable description (255 characters maximum)
+          maxLength: 255
+        enable_interpolation_in_file:
+          type:
+          - boolean
+          - 'null'
+          x-stoplight:
+            id: udmfa3jcpde9q
+    VariableOverride:
+      type: object
+      required:
+      - id
+      - key
+      - mount_path
+      - scope
+      - variable_type
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The id of the overriden variable
+        key:
+          type: string
+          description: The key of the overriden variable
+        value:
+          type:
+          - string
+          - 'null'
+          description: The value of the overriden variable
+        mount_path:
+          type: string
+          description: The mounth path of the overriden variable (only if environment variable type is 'file')
+        scope:
+          $ref: '#/components/schemas/APIVariableScopeEnum'
+        variable_type:
+          $ref: '#/components/schemas/APIVariableTypeEnum'
+    VariableAlias:
+      type: object
+      required:
+      - id
+      - key
+      - mount_path
+      - scope
+      - variable_type
+      properties:
+        id:
+          type: string
+          format: uuid
+        key:
+          type: string
+          example: DATABASE_PSQL_NAME
+        value:
+          type:
+          - string
+          - 'null'
+        mount_path:
+          type: string
+        scope:
+          $ref: '#/components/schemas/APIVariableScopeEnum'
+        variable_type:
+          $ref: '#/components/schemas/APIVariableTypeEnum'
   responses:
+    '401':
+      description: Access token is missing or invalid
     '400':
       description: Bad request
     '403':
@@ -636,8 +638,6 @@ components:
       description: Resource not found
     204-deletion:
       description: The resource was deleted successfully
-    '401':
-      description: Access token is missing or invalid
   parameters:
     variableId:
       name: variableId

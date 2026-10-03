@@ -132,30 +132,31 @@ paths:
       x-stoplight:
         id: d896flm9ibi54
 components:
-  responses:
-    204-deletion:
-      description: The resource was deleted successfully
-    '400':
-      description: Bad request
-    '403':
-      description: Access forbidden
-    '404':
-      description: Resource not found
-    '401':
-      description: Access token is missing or invalid
   schemas:
-    TerraformDeploymentRestrictionResponseList:
-      title: TerraformDeploymentRestrictionResponseList
+    TerraformDeploymentRestrictionRequest:
+      title: TerraformDeploymentRestrictionRequest
       x-stoplight:
-        id: olvqymwxtdfeq
+        id: gtjm33l5m7q0x
       type: object
+      required:
+      - mode
+      - type
+      - value
       properties:
-        results:
+        mode:
+          $ref: '#/components/schemas/DeploymentRestrictionModeEnum'
+        type:
+          $ref: '#/components/schemas/DeploymentRestrictionTypeEnum'
+        value:
+          type: string
           x-stoplight:
-            id: iu0k7b7tkayre
-          type: array
-          items:
-            $ref: '#/components/schemas/TerraformDeploymentRestrictionResponse'
+            id: hsk8w0ydpuwm4
+          description: ‘For `PATH` restrictions, the value must not start with `/`’
+    DeploymentRestrictionTypeEnum:
+      type: string
+      enum:
+      - PATH
+      example: PATH
     Base:
       type: object
       required:
@@ -181,30 +182,6 @@ components:
       allOf:
       - $ref: '#/components/schemas/Base'
       - $ref: '#/components/schemas/TerraformDeploymentRestrictionRequest'
-    TerraformDeploymentRestrictionRequest:
-      title: TerraformDeploymentRestrictionRequest
-      x-stoplight:
-        id: gtjm33l5m7q0x
-      type: object
-      required:
-      - mode
-      - type
-      - value
-      properties:
-        mode:
-          $ref: '#/components/schemas/DeploymentRestrictionModeEnum'
-        type:
-          $ref: '#/components/schemas/DeploymentRestrictionTypeEnum'
-        value:
-          type: string
-          x-stoplight:
-            id: hsk8w0ydpuwm4
-          description: ‘For `PATH` restrictions, the value must not start with `/`’
-    DeploymentRestrictionTypeEnum:
-      type: string
-      enum:
-      - PATH
-      example: PATH
     DeploymentRestrictionModeEnum:
       type: string
       description: Match mode will rebuild app only if specified items are updated. Exclude mode will not rebuild app if specified items are updated.
@@ -212,6 +189,29 @@ components:
       - EXCLUDE
       - MATCH
       example: MATCH
+    TerraformDeploymentRestrictionResponseList:
+      title: TerraformDeploymentRestrictionResponseList
+      x-stoplight:
+        id: olvqymwxtdfeq
+      type: object
+      properties:
+        results:
+          x-stoplight:
+            id: iu0k7b7tkayre
+          type: array
+          items:
+            $ref: '#/components/schemas/TerraformDeploymentRestrictionResponse'
+  responses:
+    '403':
+      description: Access forbidden
+    '404':
+      description: Resource not found
+    204-deletion:
+      description: The resource was deleted successfully
+    '400':
+      description: Bad request
+    '401':
+      description: Access token is missing or invalid
   securitySchemes:
     bearerAuth:
       type: http

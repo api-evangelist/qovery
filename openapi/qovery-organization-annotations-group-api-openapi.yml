@@ -157,52 +157,7 @@ paths:
         '404':
           $ref: '#/components/responses/404'
 components:
-  responses:
-    '204':
-      description: no content
-    '400':
-      description: Bad request
-    '403':
-      description: Access forbidden
-    '404':
-      description: Resource not found
-    '401':
-      description: Access token is missing or invalid
   schemas:
-    OrganizationAnnotationsGroupAssociatedItemsResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            type: object
-            required:
-            - item_id
-            - item_name
-            - item_type
-            properties:
-              cluster_id:
-                type: string
-                format: uuid
-              cluster_name:
-                type: string
-              project_id:
-                type: string
-                format: uuid
-              project_name:
-                type: string
-              environment_id:
-                type: string
-                format: uuid
-              environment_name:
-                type: string
-              item_id:
-                type: string
-                format: uuid
-              item_name:
-                type: string
-              item_type:
-                $ref: '#/components/schemas/AnnotationsGroupAssociatedItemType'
     AnnotationsGroupAssociatedItemType:
       type: string
       description: Annotations Group Associated Item Type
@@ -214,13 +169,66 @@ components:
       - ENVIRONMENT
       - CLUSTER
       - CRON
-    OrganizationAnnotationsGroupEnrichedResponseList:
-      title: OrganizationAnnotationsGroupEnrichedResponseList
-      x-stoplight:
-        id: 2tbiuqncqaqaw
-      type: array
-      items:
-        $ref: '#/components/schemas/OrganizationAnnotationsGroupEnrichedResponse'
+    OrganizationAnnotationsGroupScopeEnum:
+      type: string
+      description: Annotations Group Scope
+      enum:
+      - DEPLOYMENTS
+      - STATEFUL_SETS
+      - SERVICES
+      - INGRESS
+      - GATEWAY_API_ROUTES
+      - HPA
+      - PODS
+      - SECRETS
+      - JOBS
+      - CRON_JOBS
+    Annotation:
+      type: object
+      required:
+      - key
+      - value
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+    OrganizationAnnotationsGroupCreateRequest:
+      type: object
+      required:
+      - name
+      - annotations
+      - scopes
+      properties:
+        name:
+          type: string
+          description: name of the annotations group
+        annotations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Annotation'
+        scopes:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrganizationAnnotationsGroupScopeEnum'
+    Base:
+      type: object
+      required:
+      - id
+      - created_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          readOnly: true
+          format: date-time
+        updated_at:
+          type: string
+          readOnly: true
+          format: date-time
     OrganizationAnnotationsGroupResponse:
       allOf:
       - $ref: '#/components/schemas/Base'
@@ -240,38 +248,13 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/OrganizationAnnotationsGroupScopeEnum'
-    Base:
-      type: object
-      required:
-      - id
-      - created_at
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        created_at:
-          type: string
-          readOnly: true
-          format: date-time
-        updated_at:
-          type: string
-          readOnly: true
-          format: date-time
-    OrganizationAnnotationsGroupScopeEnum:
-      type: string
-      description: Annotations Group Scope
-      enum:
-      - DEPLOYMENTS
-      - STATEFUL_SETS
-      - SERVICES
-      - INGRESS
-      - GATEWAY_API_ROUTES
-      - HPA
-      - PODS
-      - SECRETS
-      - JOBS
-      - CRON_JOBS
+    OrganizationAnnotationsGroupEnrichedResponseList:
+      title: OrganizationAnnotationsGroupEnrichedResponseList
+      x-stoplight:
+        id: 2tbiuqncqaqaw
+      type: array
+      items:
+        $ref: '#/components/schemas/OrganizationAnnotationsGroupEnrichedResponse'
     OrganizationAnnotationsGroupEnrichedResponse:
       title: OrganizationAnnotationsGroupEnrichedResponse
       x-stoplight:
@@ -306,47 +289,64 @@ components:
             type: integer
             x-stoplight:
               id: q71gum8nqmj8p
-    Annotation:
+    OrganizationAnnotationsGroupAssociatedItemsResponseList:
       type: object
-      required:
-      - key
-      - value
       properties:
-        key:
-          type: string
-        value:
-          type: string
-    OrganizationAnnotationsGroupCreateRequest:
-      type: object
-      required:
-      - name
-      - annotations
-      - scopes
-      properties:
-        name:
-          type: string
-          description: name of the annotations group
-        annotations:
+        results:
           type: array
           items:
-            $ref: '#/components/schemas/Annotation'
-        scopes:
-          type: array
-          items:
-            $ref: '#/components/schemas/OrganizationAnnotationsGroupScopeEnum'
+            type: object
+            required:
+            - item_id
+            - item_name
+            - item_type
+            properties:
+              cluster_id:
+                type: string
+                format: uuid
+              cluster_name:
+                type: string
+              project_id:
+                type: string
+                format: uuid
+              project_name:
+                type: string
+              environment_id:
+                type: string
+                format: uuid
+              environment_name:
+                type: string
+              item_id:
+                type: string
+                format: uuid
+              item_name:
+                type: string
+              item_type:
+                $ref: '#/components/schemas/AnnotationsGroupAssociatedItemType'
+  responses:
+    '403':
+      description: Access forbidden
+    '204':
+      description: no content
+    '404':
+      description: Resource not found
+    '400':
+      description: Bad request
+    '401':
+      description: Access token is missing or invalid
   parameters:
-    organizationId:
-      name: organizationId
-      in: path
-      description: Organization ID
-      required: true
-      schema:
-        type: string
-        format: uuid
     annotationsGroupId:
       name: annotationsGroupId
       in: path
       description: Organization annotations group ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+    organizationId:
+      name: organizationId
+      in: path
+      description: Organization ID
       required: true
       schema:
         type: string

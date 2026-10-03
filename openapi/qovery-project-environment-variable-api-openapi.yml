@@ -211,6 +211,23 @@ paths:
         '404':
           $ref: '#/components/responses/404'
 components:
+  parameters:
+    projectId:
+      name: projectId
+      in: path
+      description: Project ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+    environmentVariableId:
+      name: environmentVariableId
+      in: path
+      description: Environment Variable ID
+      required: true
+      schema:
+        type: string
+        format: uuid
   schemas:
     APIVariableTypeEnum:
       type: string
@@ -223,164 +240,6 @@ components:
       - OVERRIDE
       - BUILT_IN
       - FILE
-    Value:
-      type: object
-      title: EnvironmentVariableOverrideRequest
-      properties:
-        value:
-          type: string
-        description:
-          type:
-          - string
-          - 'null'
-          x-stoplight:
-            id: ygzxe4xek3thk
-          maxLength: 255
-          description: optional variable description (255 characters maximum)
-        enable_interpolation_in_file:
-          type:
-          - boolean
-          - 'null'
-          x-stoplight:
-            id: ercieri1t6gqn
-    EnvironmentVariableRequest:
-      type: object
-      required:
-      - key
-      properties:
-        key:
-          type: string
-          description: key is case sensitive.
-        value:
-          type: string
-          description: value of the env variable.
-        mount_path:
-          type:
-          - string
-          - 'null'
-          default: null
-          description: should be set for file only. variable mount path makes variable a file (where file should be mounted).
-        description:
-          type:
-          - string
-          - 'null'
-          x-stoplight:
-            id: 1k835w52vgl4m
-          maxLength: 255
-          description: optional variable description (255 characters maximum)
-        enable_interpolation_in_file:
-          type:
-          - boolean
-          - 'null'
-          x-stoplight:
-            id: yzgx9eytturo9
-    EnvironmentVariable:
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - $ref: '#/components/schemas/EnvironmentVariableRequest'
-      - type: object
-        required:
-        - scope
-        - variable_type
-        properties:
-          overridden_variable:
-            $ref: '#/components/schemas/EnvironmentVariableOverride'
-          aliased_variable:
-            $ref: '#/components/schemas/EnvironmentVariableAlias'
-          scope:
-            $ref: '#/components/schemas/APIVariableScopeEnum'
-          variable_type:
-            $ref: '#/components/schemas/APIVariableTypeEnum'
-          service_id:
-            type: string
-            format: uuid
-          service_name:
-            type: string
-          service_type:
-            $ref: '#/components/schemas/LinkedServiceTypeEnum'
-          owned_by:
-            type: string
-            description: 'Entity that created/own the variable (i.e: Qovery, Doppler)'
-    APIVariableScopeEnum:
-      type: string
-      enum:
-      - APPLICATION
-      - BUILT_IN
-      - ENVIRONMENT
-      - PROJECT
-      - CONTAINER
-      - JOB
-      - HELM
-      - TERRAFORM
-    EnvironmentVariableOverride:
-      type: object
-      required:
-      - id
-      - key
-      - value
-      - mount_path
-      - scope
-      - variable_type
-      properties:
-        id:
-          type: string
-          format: uuid
-        key:
-          type: string
-        value:
-          type: string
-        mount_path:
-          type: string
-        scope:
-          $ref: '#/components/schemas/APIVariableScopeEnum'
-        variable_type:
-          $ref: '#/components/schemas/APIVariableTypeEnum'
-    EnvironmentVariableAlias:
-      type: object
-      required:
-      - id
-      - key
-      - value
-      - mount_path
-      - scope
-      - variable_type
-      properties:
-        id:
-          type: string
-          format: uuid
-        key:
-          type: string
-          example: QOVERY_DATABASE_PSQL_NAME
-        value:
-          type: string
-        mount_path:
-          type: string
-        scope:
-          $ref: '#/components/schemas/APIVariableScopeEnum'
-        variable_type:
-          $ref: '#/components/schemas/APIVariableTypeEnum'
-    Key:
-      type: object
-      title: EnvironmentVariableAliasRequest
-      required:
-      - key
-      properties:
-        key:
-          type: string
-        description:
-          type:
-          - string
-          - 'null'
-          x-stoplight:
-            id: qe7qh1tjtkwrm
-          maxLength: 255
-          description: optional variable description (255 characters maximum)
-        enable_interpolation_in_file:
-          type:
-          - boolean
-          - 'null'
-          x-stoplight:
-            id: alajw1h9vgr9e
     Base:
       type: object
       required:
@@ -430,13 +289,84 @@ components:
           - 'null'
           x-stoplight:
             id: bw41elfsxminc
-    EnvironmentVariableResponseList:
+    EnvironmentVariableOverride:
       type: object
+      required:
+      - id
+      - key
+      - value
+      - mount_path
+      - scope
+      - variable_type
       properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/EnvironmentVariable'
+        id:
+          type: string
+          format: uuid
+        key:
+          type: string
+        value:
+          type: string
+        mount_path:
+          type: string
+        scope:
+          $ref: '#/components/schemas/APIVariableScopeEnum'
+        variable_type:
+          $ref: '#/components/schemas/APIVariableTypeEnum'
+    EnvironmentVariableRequest:
+      type: object
+      required:
+      - key
+      properties:
+        key:
+          type: string
+          description: key is case sensitive.
+        value:
+          type: string
+          description: value of the env variable.
+        mount_path:
+          type:
+          - string
+          - 'null'
+          default: null
+          description: should be set for file only. variable mount path makes variable a file (where file should be mounted).
+        description:
+          type:
+          - string
+          - 'null'
+          x-stoplight:
+            id: 1k835w52vgl4m
+          maxLength: 255
+          description: optional variable description (255 characters maximum)
+        enable_interpolation_in_file:
+          type:
+          - boolean
+          - 'null'
+          x-stoplight:
+            id: yzgx9eytturo9
+    EnvironmentVariableAlias:
+      type: object
+      required:
+      - id
+      - key
+      - value
+      - mount_path
+      - scope
+      - variable_type
+      properties:
+        id:
+          type: string
+          format: uuid
+        key:
+          type: string
+          example: QOVERY_DATABASE_PSQL_NAME
+        value:
+          type: string
+        mount_path:
+          type: string
+        scope:
+          $ref: '#/components/schemas/APIVariableScopeEnum'
+        variable_type:
+          $ref: '#/components/schemas/APIVariableTypeEnum'
     LinkedServiceTypeEnum:
       type: string
       description: type of the service (application, database, job, gateway...)
@@ -447,34 +377,104 @@ components:
       - JOB
       - HELM
       - TERRAFORM
+    Value:
+      type: object
+      title: EnvironmentVariableOverrideRequest
+      properties:
+        value:
+          type: string
+        description:
+          type:
+          - string
+          - 'null'
+          x-stoplight:
+            id: ygzxe4xek3thk
+          maxLength: 255
+          description: optional variable description (255 characters maximum)
+        enable_interpolation_in_file:
+          type:
+          - boolean
+          - 'null'
+          x-stoplight:
+            id: ercieri1t6gqn
+    EnvironmentVariableResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/EnvironmentVariable'
+    APIVariableScopeEnum:
+      type: string
+      enum:
+      - APPLICATION
+      - BUILT_IN
+      - ENVIRONMENT
+      - PROJECT
+      - CONTAINER
+      - JOB
+      - HELM
+      - TERRAFORM
+    EnvironmentVariable:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - $ref: '#/components/schemas/EnvironmentVariableRequest'
+      - type: object
+        required:
+        - scope
+        - variable_type
+        properties:
+          overridden_variable:
+            $ref: '#/components/schemas/EnvironmentVariableOverride'
+          aliased_variable:
+            $ref: '#/components/schemas/EnvironmentVariableAlias'
+          scope:
+            $ref: '#/components/schemas/APIVariableScopeEnum'
+          variable_type:
+            $ref: '#/components/schemas/APIVariableTypeEnum'
+          service_id:
+            type: string
+            format: uuid
+          service_name:
+            type: string
+          service_type:
+            $ref: '#/components/schemas/LinkedServiceTypeEnum'
+          owned_by:
+            type: string
+            description: 'Entity that created/own the variable (i.e: Qovery, Doppler)'
+    Key:
+      type: object
+      title: EnvironmentVariableAliasRequest
+      required:
+      - key
+      properties:
+        key:
+          type: string
+        description:
+          type:
+          - string
+          - 'null'
+          x-stoplight:
+            id: qe7qh1tjtkwrm
+          maxLength: 255
+          description: optional variable description (255 characters maximum)
+        enable_interpolation_in_file:
+          type:
+          - boolean
+          - 'null'
+          x-stoplight:
+            id: alajw1h9vgr9e
   responses:
+    '401':
+      description: Access token is missing or invalid
     '400':
       description: Bad request
     '403':
       description: Access forbidden
-    '404':
-      description: Resource not found
     204-deletion:
       description: The resource was deleted successfully
-    '401':
-      description: Access token is missing or invalid
-  parameters:
-    environmentVariableId:
-      name: environmentVariableId
-      in: path
-      description: Environment Variable ID
-      required: true
-      schema:
-        type: string
-        format: uuid
-    projectId:
-      name: projectId
-      in: path
-      description: Project ID
-      required: true
-      schema:
-        type: string
-        format: uuid
+    '404':
+      description: Resource not found
   securitySchemes:
     bearerAuth:
       type: http

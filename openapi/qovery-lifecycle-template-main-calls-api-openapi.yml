@@ -81,6 +81,14 @@ paths:
           $ref: '#/components/responses/404'
 components:
   schemas:
+    CloudProviderEnum:
+      type: string
+      enum:
+      - AWS
+      - SCW
+      - GCP
+      - ON_PREMISE
+      - AZURE
     LifecycleTemplateResponse:
       title: LifecycleTemplateResponse
       x-stoplight:
@@ -229,14 +237,6 @@ components:
           x-stoplight:
             id: 0xkypu9qkowv3
           description: Dockerfile of the template
-    CloudProviderEnum:
-      type: string
-      enum:
-      - AWS
-      - SCW
-      - GCP
-      - ON_PREMISE
-      - AZURE
     LifecycleTemplateListResponse:
       title: LifecycleTemplateListResponse
       x-stoplight:

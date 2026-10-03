@@ -180,17 +180,6 @@ paths:
         '404':
           $ref: '#/components/responses/404'
 components:
-  responses:
-    204-deletion:
-      description: The resource was deleted successfully
-    '401':
-      description: Access token is missing or invalid
-    '400':
-      description: Bad request
-    '403':
-      description: Access forbidden
-    '404':
-      description: Resource not found
   schemas:
     AvailableContainerRegistryResponse:
       type: object
@@ -213,6 +202,94 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ContainerVersionResponse'
+    ContainerRegistryResponse:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        properties:
+          name:
+            type: string
+          kind:
+            $ref: '#/components/schemas/ContainerRegistryKindEnum'
+          description:
+            type: string
+          url:
+            type: string
+            description: URL of the container registry
+          cluster:
+            type: object
+            required:
+            - id
+            - name
+            properties:
+              id:
+                type: string
+                x-stoplight:
+                  id: y0l22s5yhh4ez
+                format: uuid
+              name:
+                type: string
+                x-stoplight:
+                  id: 5jak2m85ljxaa
+          associated_services_count:
+            type: integer
+            x-stoplight:
+              id: 02mqr04rogfem
+            description: The number of services using this container registry
+          config:
+            type: object
+            x-stoplight:
+              id: s9rg5wox9j00z
+            properties:
+              username:
+                type: string
+                x-stoplight:
+                  id: 9g2hk57o11s8k
+              region:
+                type: string
+                x-stoplight:
+                  id: fo0nnlsnrdn0k
+              scaleway_access_key:
+                type: string
+                x-stoplight:
+                  id: fdb55y4vnpndk
+              scaleway_project_id:
+                type: string
+                x-stoplight:
+                  id: ra9oc489c2wyt
+              access_key_id:
+                type: string
+                x-stoplight:
+                  id: s5elye0gv4lks
+              role_arn:
+                type: string
+                x-stoplight:
+                  id: iusxfgcmg72tl
+              azure_tenant_id:
+                type: string
+                x-stoplight:
+                  id: obk7v9hlx3jv4
+              azure_subscription_id:
+                type: string
+                x-stoplight:
+                  id: nrvn3j8xq81da
+              azure_application_id:
+                type: string
+                x-stoplight:
+                  id: t4jvfihz1ml04
+              azure_application_object_id:
+                type: string
+                x-stoplight:
+                  id: 2soynl0stz0lh
+    ContainerVersionResponse:
+      type: object
+      properties:
+        image_name:
+          type: string
+        versions:
+          type: array
+          items:
+            type: string
     Base:
       type: object
       required:
@@ -231,13 +308,21 @@ components:
           type: string
           readOnly: true
           format: date-time
-    AvailableContainerRegistryResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/AvailableContainerRegistryResponse'
+    ContainerRegistryKindEnum:
+      type: string
+      enum:
+      - ECR
+      - SCALEWAY_CR
+      - DOCKER_HUB
+      - GITHUB_CR
+      - GITHUB_ENTERPRISE_CR
+      - GITLAB_CR
+      - PUBLIC_ECR
+      - DOCR
+      - GENERIC_CR
+      - GCP_ARTIFACT_REGISTRY
+      - AZURE_CR
+      description: The type of your container registry
     ContainerRegistryRequest:
       type: object
       required:
@@ -333,30 +418,13 @@ components:
               x-stoplight:
                 id: eaqm4swmqt9ty
               description: Required if kind is `AZURE_CR`.
-    ContainerVersionResponse:
+    AvailableContainerRegistryResponseList:
       type: object
       properties:
-        image_name:
-          type: string
-        versions:
+        results:
           type: array
           items:
-            type: string
-    ContainerRegistryKindEnum:
-      type: string
-      enum:
-      - ECR
-      - SCALEWAY_CR
-      - DOCKER_HUB
-      - GITHUB_CR
-      - GITHUB_ENTERPRISE_CR
-      - GITLAB_CR
-      - PUBLIC_ECR
-      - DOCR
-      - GENERIC_CR
-      - GCP_ARTIFACT_REGISTRY
-      - AZURE_CR
-      description: The type of your container registry
+            $ref: '#/components/schemas/AvailableContainerRegistryResponse'
     ContainerRegistryResponseList:
       type: object
       properties:
@@ -364,85 +432,17 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ContainerRegistryResponse'
-    ContainerRegistryResponse:
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - type: object
-        properties:
-          name:
-            type: string
-          kind:
-            $ref: '#/components/schemas/ContainerRegistryKindEnum'
-          description:
-            type: string
-          url:
-            type: string
-            description: URL of the container registry
-          cluster:
-            type: object
-            required:
-            - id
-            - name
-            properties:
-              id:
-                type: string
-                x-stoplight:
-                  id: y0l22s5yhh4ez
-                format: uuid
-              name:
-                type: string
-                x-stoplight:
-                  id: 5jak2m85ljxaa
-          associated_services_count:
-            type: integer
-            x-stoplight:
-              id: 02mqr04rogfem
-            description: The number of services using this container registry
-          config:
-            type: object
-            x-stoplight:
-              id: s9rg5wox9j00z
-            properties:
-              username:
-                type: string
-                x-stoplight:
-                  id: 9g2hk57o11s8k
-              region:
-                type: string
-                x-stoplight:
-                  id: fo0nnlsnrdn0k
-              scaleway_access_key:
-                type: string
-                x-stoplight:
-                  id: fdb55y4vnpndk
-              scaleway_project_id:
-                type: string
-                x-stoplight:
-                  id: ra9oc489c2wyt
-              access_key_id:
-                type: string
-                x-stoplight:
-                  id: s5elye0gv4lks
-              role_arn:
-                type: string
-                x-stoplight:
-                  id: iusxfgcmg72tl
-              azure_tenant_id:
-                type: string
-                x-stoplight:
-                  id: obk7v9hlx3jv4
-              azure_subscription_id:
-                type: string
-                x-stoplight:
-                  id: nrvn3j8xq81da
-              azure_application_id:
-                type: string
-                x-stoplight:
-                  id: t4jvfihz1ml04
-              azure_application_object_id:
-                type: string
-                x-stoplight:
-                  id: 2soynl0stz0lh
+  responses:
+    '403':
+      description: Access forbidden
+    '404':
+      description: Resource not found
+    '400':
+      description: Bad request
+    204-deletion:
+      description: The resource was deleted successfully
+    '401':
+      description: Access token is missing or invalid
   parameters:
     searchImageName:
       name: search
@@ -451,10 +451,10 @@ components:
       description: partial container image name to search
       schema:
         type: string
-    organizationId:
-      name: organizationId
+    containerRegistryId:
+      name: containerRegistryId
       in: path
-      description: Organization ID
+      description: Container Registry ID
       required: true
       schema:
         type: string
@@ -466,10 +466,10 @@ components:
       description: container image name
       schema:
         type: string
-    containerRegistryId:
-      name: containerRegistryId
+    organizationId:
+      name: organizationId
       in: path
-      description: Container Registry ID
+      description: Organization ID
       required: true
       schema:
         type: string

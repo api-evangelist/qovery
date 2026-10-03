@@ -108,18 +108,57 @@ paths:
         '404':
           $ref: '#/components/responses/404'
 components:
-  responses:
-    '204':
-      description: no content
-    '400':
-      description: Bad request
-    '403':
-      description: Access forbidden
-    '404':
-      description: Resource not found
-    '401':
-      description: Access token is missing or invalid
   schemas:
+    OrganizationApiTokenCreateRequest:
+      type: object
+      required:
+      - name
+      - role_id
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        scope:
+          $ref: '#/components/schemas/OrganizationApiTokenScope'
+        role_id:
+          type:
+          - string
+          - 'null'
+          format: uuid
+          description: the roleId provided by the "List organization custom roles" endpoint.
+    Base:
+      type: object
+      required:
+      - id
+      - created_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          readOnly: true
+          format: date-time
+        updated_at:
+          type: string
+          readOnly: true
+          format: date-time
+    OrganizationApiTokenResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrganizationApiToken'
+    OrganizationApiTokenScope:
+      type:
+      - string
+      - 'null'
+      description: deprecated
+      enum:
+      - ADMIN
     OrganizationApiToken:
       allOf:
       - $ref: '#/components/schemas/Base'
@@ -151,56 +190,17 @@ components:
           role_id:
             type: string
             format: uuid
-    Base:
-      type: object
-      required:
-      - id
-      - created_at
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        created_at:
-          type: string
-          readOnly: true
-          format: date-time
-        updated_at:
-          type: string
-          readOnly: true
-          format: date-time
-    OrganizationApiTokenResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/OrganizationApiToken'
-    OrganizationApiTokenCreateRequest:
-      type: object
-      required:
-      - name
-      - role_id
-      properties:
-        name:
-          type: string
-        description:
-          type: string
-        scope:
-          $ref: '#/components/schemas/OrganizationApiTokenScope'
-        role_id:
-          type:
-          - string
-          - 'null'
-          format: uuid
-          description: the roleId provided by the "List organization custom roles" endpoint.
-    OrganizationApiTokenScope:
-      type:
-      - string
-      - 'null'
-      description: deprecated
-      enum:
-      - ADMIN
+  responses:
+    '403':
+      description: Access forbidden
+    '204':
+      description: no content
+    '404':
+      description: Resource not found
+    '400':
+      description: Bad request
+    '401':
+      description: Access token is missing or invalid
   parameters:
     organizationId:
       name: organizationId
