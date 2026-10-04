@@ -518,185 +518,6 @@ paths:
         id: 2jm9tyqfhw4xf
 components:
   schemas:
-    EksAnywhereVsphereClusterCredentials:
-      title: EksAnywhereVsphereClusterCredentials
-      type: object
-      required:
-      - id
-      - name
-      - vsphere_user
-      - object_type
-      properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          type: string
-        vsphere_user:
-          type: string
-        access_key_id:
-          type:
-          - string
-          - 'null'
-        role_arn:
-          type:
-          - string
-          - 'null'
-        object_type:
-          enum:
-          - EKS_ANYWHERE_VSPHERE
-    OrganizationEditRequest:
-      type: object
-      required:
-      - name
-      - plan
-      properties:
-        name:
-          type: string
-          description: name is case insensitive
-        description:
-          type: string
-        website_url:
-          type:
-          - string
-          - 'null'
-        repository:
-          type:
-          - string
-          - 'null'
-        logo_url:
-          type:
-          - string
-          - 'null'
-        icon_url:
-          type:
-          - string
-          - 'null'
-        admin_emails:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-    GenericClusterCredentials:
-      title: GenericClusterCredentials
-      x-stoplight:
-        id: gtibx4nzrvxm9
-      type: object
-      required:
-      - id
-      - name
-      - object_type
-      properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          type: string
-        object_type:
-          enum:
-          - OTHER
-    TfVarsDiscoveryModeSpecificPaths:
-      title: TfVarsDiscoveryModeSpecificPaths
-      type: object
-      description: Discover tfvars files at specific paths only
-      required:
-      - type
-      - paths
-      properties:
-        type:
-          type: string
-          enum:
-          - SpecificPaths
-          description: Discriminator for specific paths mode
-        paths:
-          type: array
-          items:
-            type: string
-          description: List of specific paths to tfvars files
-          example:
-          - /environments/prod.tfvars
-          - /environments/staging.tfvars
-    Base:
-      type: object
-      required:
-      - id
-      - created_at
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        created_at:
-          type: string
-          readOnly: true
-          format: date-time
-        updated_at:
-          type: string
-          readOnly: true
-          format: date-time
-    HelmRepositoryAssociatedServicesResponse:
-      title: HelmRepositoryAssociatedServicesResponse
-      x-stoplight:
-        id: een4pa4di1fir
-      type: object
-      required:
-      - project_id
-      - project_name
-      - environment_id
-      - environment_name
-      - service_id
-      - service_name
-      - service_type
-      properties:
-        project_id:
-          type: string
-          x-stoplight:
-            id: 5p4tj302re42n
-          format: uuid
-        project_name:
-          type: string
-          x-stoplight:
-            id: j9o1qaceqfiu8
-        environment_id:
-          type: string
-          x-stoplight:
-            id: oe1zp7vzdukve
-          format: uuid
-        environment_name:
-          type: string
-          x-stoplight:
-            id: n2usi4loyu8kn
-        service_id:
-          type: string
-          x-stoplight:
-            id: 9nnymt6uz7zdq
-          format: uuid
-        service_name:
-          type: string
-          x-stoplight:
-            id: rb0g9ev15frmu
-        service_type:
-          $ref: '#/components/schemas/HelmRepositoryAssociatedServiceType'
-    OrganizationEnvironmentResponse:
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - type: object
-        required:
-        - name
-        - organization
-        - project
-        - mode
-        properties:
-          name:
-            type: string
-            description: name is case insensitive
-          organization:
-            $ref: '#/components/schemas/ReferenceObject'
-          project:
-            $ref: '#/components/schemas/ReferenceObject'
-          mode:
-            $ref: '#/components/schemas/EnvironmentModeEnum'
     GitTokenAssociatedServicesResponseList:
       type: object
       properties:
@@ -704,206 +525,32 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/GitTokenAssociatedServiceResponse'
-    TfVarsFileResponse:
-      title: TfVarsFileResponse
-      type: object
-      description: Represents a Terraform tfvars file with its variables
-      required:
-      - source
-      - variables
-      properties:
-        source:
-          type: string
-          description: The path to the tfvars file within the Git repository
-          example: environments/prod.tfvars
-        variables:
-          type: object
-          additionalProperties:
-            type: string
-          description: Map of variable names to their values from the tfvars file
-          example:
-            environment: production
-            region: us-east-1
-    ContainerRegistryAssociatedServicesResponseList:
-      title: ContainerRegistryAssociatedServicesResponseList
+    GcpStaticClusterCredentials:
+      title: GcpStaticClusterCredentials
       x-stoplight:
-        id: xn1fsp17ahwfi
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/ContainerRegistryAssociatedServicesResponse'
-    OrganizationCrendentialsResponseList:
-      title: OrganizationCrendentialsResponseList
-      x-stoplight:
-        id: 0tv1xnjgh98nm
-      type: object
-      properties:
-        results:
-          type: array
-          x-stoplight:
-            id: dyld95hlync5e
-          items:
-            x-stoplight:
-              id: qjal2umjmvumz
-            type: object
-            properties:
-              credential:
-                $ref: '#/components/schemas/ClusterCredentials'
-              clusters:
-                type: array
-                x-stoplight:
-                  id: 7o7dzkbyt78bu
-                items:
-                  $ref: '#/components/schemas/CredentialCluster'
-    OrganizationAvailableRole:
+        id: qtvaepejqookw
       type: object
       required:
       - id
       - name
+      - object_type
       properties:
         id:
           type: string
           format: uuid
         name:
           type: string
-    GitTokenResponse:
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - type: object
-        required:
-        - name
-        - type
-        - associated_services_count
-        - git_api_url
-        properties:
-          name:
-            type: string
-          description:
-            type: string
-          type:
-            $ref: '#/components/schemas/GitProviderEnum'
-          expired_at:
-            type: string
-            format: date
-          workspace:
-            type: string
-            description: Mandatory only for BITBUCKET git provider
-          associated_services_count:
-            type: number
-            description: The number of services using this git token
-          git_api_url:
-            type: string
-            x-stoplight:
-              id: 27n37ox3lysq4
-            format: uri
-    Organization:
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - $ref: '#/components/schemas/OrganizationRequest'
-      - type: object
-        properties:
-          owner:
-            type: string
-            format: uuid
-            description: uuid of the user owning the organization
-          billing_deployment_restriction:
-            type:
-            - string
-            - 'null'
-            description: If set, indicates a billing-related restriction on the organization. 'NO_CREDIT_CARD' means the organization is on a free trial without a credit card — managed cluster creation and deployments on managed clusters are blocked, but demo cluster usage is allowed. Any other value blocks all deployments. null means no restriction.
-      - type: object
-        properties:
-          organization_plan:
-            type: object
-            properties:
-              plan:
-                $ref: '#/components/schemas/PlanEnum'
-              audit_logs_retention_in_days:
-                type: number
-                description: audit logs maximum period available in days
-    EnvironmentModeEnum:
+        object_type:
+          enum:
+          - GCP
+    GitTokenAssociatedServiceType:
       type: string
       enum:
-      - DEVELOPMENT
-      - PREVIEW
-      - PRODUCTION
-      - STAGING
-      example: PRODUCTION
-    OrganizationAvailableRoleList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/OrganizationAvailableRole'
-    OrganizationResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/Organization'
-    GitTokenRequest:
-      type: object
-      required:
-      - name
-      - type
-      - token
-      properties:
-        name:
-          type: string
-        description:
-          type: string
-        type:
-          $ref: '#/components/schemas/GitProviderEnum'
-        token:
-          type: string
-          description: The token from your git provider side
-        workspace:
-          type: string
-          description: Mandatory only for BITBUCKET git provider, to allow us to fetch repositories at creation/edition of a service
-        git_api_url:
-          type: string
-          x-stoplight:
-            id: 8g38vvoghxzdf
-          format: uri
-          description: 'custom git api url for the given git provider/type.
-
-            I.e: Self-hosted version of Gitlab'
-    ApplicationGitRepositoryRequest:
-      type: object
-      required:
-      - url
-      - owner
-      - name
-      - provider
-      properties:
-        url:
-          type: string
-          description: application git repository URL
-          example: https://github.com/Qovery/simple-node-app
-        branch:
-          type: string
-          description: 'Name of the branch to use. This is optional
-
-            If not specified, then the branch used is the `main` or `master` one
-
-            '
-          example: feat/text_xxx
-        root_path:
-          type: string
-          default: /
-          description: indicates the root path of the application.
-        git_token_id:
-          type:
-          - string
-          - 'null'
-          format: uuid
-          description: The git token id on Qovery side
-        provider:
-          $ref: '#/components/schemas/GitProviderEnum'
+      - APPLICATION
+      - CRON
+      - LIFECYCLE
+      - HELM
+      - TERRAFORM
     ContainerRegistryAssociatedServicesResponse:
       title: ContainerRegistryAssociatedServicesResponse
       x-stoplight:
@@ -947,18 +594,60 @@ components:
             id: ga0yqhtmi4nl6
         service_type:
           $ref: '#/components/schemas/ContainerRegistryAssociatedServiceType'
-    TfVarsListRequest:
-      title: TfVarsListRequest
+    OrganizationEditRequest:
       type: object
-      description: Request to list Terraform tfvars files from a Git repository
       required:
-      - git_repository
-      - mode
+      - name
+      - plan
       properties:
-        git_repository:
-          $ref: '#/components/schemas/ApplicationGitRepositoryRequest'
-        mode:
-          $ref: '#/components/schemas/TfVarsDiscoveryMode'
+        name:
+          type: string
+          description: name is case insensitive
+        description:
+          type: string
+        website_url:
+          type:
+          - string
+          - 'null'
+        repository:
+          type:
+          - string
+          - 'null'
+        logo_url:
+          type:
+          - string
+          - 'null'
+        icon_url:
+          type:
+          - string
+          - 'null'
+        admin_emails:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+    TfVarsDiscoveryMode:
+      title: TfVarsDiscoveryMode
+      description: Discovery mode for Terraform tfvars files - either auto-discover or specify paths
+      oneOf:
+      - $ref: '#/components/schemas/TfVarsDiscoveryModeAutoDiscover'
+      - $ref: '#/components/schemas/TfVarsDiscoveryModeSpecificPaths'
+      discriminator:
+        propertyName: type
+        mapping:
+          AutoDiscover: '#/components/schemas/TfVarsDiscoveryModeAutoDiscover'
+          SpecificPaths: '#/components/schemas/TfVarsDiscoveryModeSpecificPaths'
+    ContainerRegistryAssociatedServicesResponseList:
+      title: ContainerRegistryAssociatedServicesResponseList
+      x-stoplight:
+        id: xn1fsp17ahwfi
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContainerRegistryAssociatedServicesResponse'
     ContainerRegistryAssociatedServiceType:
       title: ContainerRegistryAssociatedServiceType
       x-stoplight:
@@ -967,6 +656,33 @@ components:
       - CONTAINER
       - LIFECYCLE
       - CRON
+    GitTokenRequest:
+      type: object
+      required:
+      - name
+      - type
+      - token
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        type:
+          $ref: '#/components/schemas/GitProviderEnum'
+        token:
+          type: string
+          description: The token from your git provider side
+        workspace:
+          type: string
+          description: Mandatory only for BITBUCKET git provider, to allow us to fetch repositories at creation/edition of a service
+        git_api_url:
+          type: string
+          x-stoplight:
+            id: 8g38vvoghxzdf
+          format: uri
+          description: 'custom git api url for the given git provider/type.
+
+            I.e: Self-hosted version of Gitlab'
     TerraformVariableDefinition:
       title: TerraformVariableDefinition
       type: object
@@ -999,6 +715,208 @@ components:
           - string
           - 'null'
           description: The description of the variable, or null if no description is provided
+    CloudProviderEnum:
+      type: string
+      enum:
+      - AWS
+      - SCW
+      - GCP
+      - ON_PREMISE
+      - AZURE
+    OrganizationAvailableRole:
+      type: object
+      required:
+      - id
+      - name
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+    ApplicationGitRepositoryRequest:
+      type: object
+      required:
+      - url
+      - owner
+      - name
+      - provider
+      properties:
+        url:
+          type: string
+          description: application git repository URL
+          example: https://github.com/Qovery/simple-node-app
+        branch:
+          type: string
+          description: 'Name of the branch to use. This is optional
+
+            If not specified, then the branch used is the `main` or `master` one
+
+            '
+          example: feat/text_xxx
+        root_path:
+          type: string
+          default: /
+          description: indicates the root path of the application.
+        git_token_id:
+          type:
+          - string
+          - 'null'
+          format: uuid
+          description: The git token id on Qovery side
+        provider:
+          $ref: '#/components/schemas/GitProviderEnum'
+    ReferenceObject:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+    Base:
+      type: object
+      required:
+      - id
+      - created_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          readOnly: true
+          format: date-time
+        updated_at:
+          type: string
+          readOnly: true
+          format: date-time
+    TfVarsFileResponse:
+      title: TfVarsFileResponse
+      type: object
+      description: Represents a Terraform tfvars file with its variables
+      required:
+      - source
+      - variables
+      properties:
+        source:
+          type: string
+          description: The path to the tfvars file within the Git repository
+          example: environments/prod.tfvars
+        variables:
+          type: object
+          additionalProperties:
+            type: string
+          description: Map of variable names to their values from the tfvars file
+          example:
+            environment: production
+            region: us-east-1
+    OrganizationEnvironmentResponse:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        required:
+        - name
+        - organization
+        - project
+        - mode
+        properties:
+          name:
+            type: string
+            description: name is case insensitive
+          organization:
+            $ref: '#/components/schemas/ReferenceObject'
+          project:
+            $ref: '#/components/schemas/ReferenceObject'
+          mode:
+            $ref: '#/components/schemas/EnvironmentModeEnum'
+    GitProviderEnum:
+      type: string
+      enum:
+      - BITBUCKET
+      - GITHUB
+      - GITLAB
+    EnvironmentModeEnum:
+      type: string
+      enum:
+      - DEVELOPMENT
+      - PREVIEW
+      - PRODUCTION
+      - STAGING
+      example: PRODUCTION
+    ScalewayClusterCredentials:
+      title: ScalewayClusterCredentials
+      x-stoplight:
+        id: j3ep46eyah9p5
+      type: object
+      required:
+      - id
+      - name
+      - scaleway_access_key
+      - object_type
+      - scaleway_project_id
+      - scaleway_organization_id
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        scaleway_access_key:
+          type: string
+          x-stoplight:
+            id: 4db3031sq6tea
+        object_type:
+          enum:
+          - SCW
+        scaleway_project_id:
+          type: string
+          x-stoplight:
+            id: 0630fqc615vg4
+        scaleway_organization_id:
+          type: string
+          x-stoplight:
+            id: 5ui02pola5ndr
+    ClusterCredentials:
+      oneOf:
+      - $ref: '#/components/schemas/AwsStaticClusterCredentials'
+      - $ref: '#/components/schemas/ScalewayClusterCredentials'
+      - $ref: '#/components/schemas/GenericClusterCredentials'
+      - $ref: '#/components/schemas/AwsRoleClusterCredentials'
+      - $ref: '#/components/schemas/EksAnywhereVsphereClusterCredentials'
+      - $ref: '#/components/schemas/AzureStaticClusterCredentials'
+      - $ref: '#/components/schemas/GcpStaticClusterCredentials'
+      discriminator:
+        propertyName: object_type
+        mapping:
+          AWS: '#/components/schemas/AwsStaticClusterCredentials'
+          AWS_ROLE: '#/components/schemas/AwsRoleClusterCredentials'
+          EKS_ANYWHERE_VSPHERE: '#/components/schemas/EksAnywhereVsphereClusterCredentials'
+          SCW: '#/components/schemas/ScalewayClusterCredentials'
+          OTHER: '#/components/schemas/GenericClusterCredentials'
+          AZURE: '#/components/schemas/AzureStaticClusterCredentials'
+          GCP: '#/components/schemas/GcpStaticClusterCredentials'
+    OrganizationAvailableRoleList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrganizationAvailableRole'
+    TfVarsListRequest:
+      title: TfVarsListRequest
+      type: object
+      description: Request to list Terraform tfvars files from a Git repository
+      required:
+      - git_repository
+      - mode
+      properties:
+        git_repository:
+          $ref: '#/components/schemas/ApplicationGitRepositoryRequest'
+        mode:
+          $ref: '#/components/schemas/TfVarsDiscoveryMode'
     TfVarsDiscoveryModeAutoDiscover:
       title: TfVarsDiscoveryModeAutoDiscover
       type: object
@@ -1011,19 +929,29 @@ components:
           enum:
           - AutoDiscover
           description: Discriminator for auto-discovery mode
-    ServiceTypeEnum:
-      type: string
+    AwsRoleClusterCredentials:
+      title: AwsRoleClusterCredentials
       x-stoplight:
-        id: d66063cd29913
-      description: type of the service (application, database, job, ...)
-      enum:
-      - APPLICATION
-      - DATABASE
-      - CONTAINER
-      - JOB
-      - HELM
-      - TERRAFORM
-      - ARGOCD_APP
+        id: f5c1iewg51zam
+      type: object
+      required:
+      - id
+      - name
+      - role_arn
+      - object_type
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        role_arn:
+          type: string
+          x-stoplight:
+            id: 8l5tuxflg76d2
+        object_type:
+          enum:
+          - AWS_ROLE
     OrganizationRequest:
       type: object
       required:
@@ -1061,212 +989,6 @@ components:
           - 'null'
           items:
             type: string
-    AzureStaticClusterCredentials:
-      title: AzureStaticClusterCredentials
-      x-stoplight:
-        id: wo7v4e4c0jlfu
-      type: object
-      required:
-      - id
-      - name
-      - azure_subscription_id
-      - azure_tenant_id
-      - object_type
-      - azure_application_id
-      - azure_application_object_id
-      properties:
-        id:
-          type: string
-          x-stoplight:
-            id: 7qy00mrnhmclv
-          format: uuid
-        name:
-          type: string
-          x-stoplight:
-            id: f5c1wc467emz3
-        azure_subscription_id:
-          type: string
-          x-stoplight:
-            id: x0s5zbj6l1yx0
-        azure_tenant_id:
-          type: string
-          x-stoplight:
-            id: ygjwz6uqfexsc
-        object_type:
-          x-stoplight:
-            id: 8oodrxjznyahm
-          enum:
-          - AZURE
-        azure_application_id:
-          type: string
-          x-stoplight:
-            id: wc0e8cqceyopu
-        azure_application_object_id:
-          type: string
-          x-stoplight:
-            id: q20e71qkfsk1k
-    HelmRepositoryAssociatedServiceType:
-      title: HelmRepositoryAssociatedServiceType
-      x-stoplight:
-        id: 7afohg0qwqoht
-      enum:
-      - HELM
-    CredentialCluster:
-      title: CredentialCluster
-      x-stoplight:
-        id: oyhk9uf5vcqlk
-      type: object
-      properties:
-        id:
-          type: string
-          x-stoplight:
-            id: ksymb5hxvrlq9
-          format: uuid
-        name:
-          type: string
-          x-stoplight:
-            id: skztj7io7an31
-        cloud_provider:
-          $ref: '#/components/schemas/CloudProviderEnum'
-    GitTokenAssociatedServiceType:
-      type: string
-      enum:
-      - APPLICATION
-      - CRON
-      - LIFECYCLE
-      - HELM
-      - TERRAFORM
-    AwsRoleClusterCredentials:
-      title: AwsRoleClusterCredentials
-      x-stoplight:
-        id: f5c1iewg51zam
-      type: object
-      required:
-      - id
-      - name
-      - role_arn
-      - object_type
-      properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          type: string
-        role_arn:
-          type: string
-          x-stoplight:
-            id: 8l5tuxflg76d2
-        object_type:
-          enum:
-          - AWS_ROLE
-    TerraformVariableParsingRequest:
-      type: object
-      required:
-      - git_repository
-      properties:
-        git_repository:
-          $ref: '#/components/schemas/ApplicationGitRepositoryRequest'
-    AwsStaticClusterCredentials:
-      x-stoplight:
-        id: s0aosg7la96hp
-      title: AwsStaticClusterCredentials
-      type: object
-      required:
-      - id
-      - name
-      - access_key_id
-      - object_type
-      properties:
-        id:
-          type: string
-          x-stoplight:
-            id: en79y0yc76xhp
-          format: uuid
-        name:
-          type: string
-          x-stoplight:
-            id: mx0mwek4ubieo
-        access_key_id:
-          type: string
-          x-stoplight:
-            id: 6g20j0ggu8nqc
-        object_type:
-          x-stoplight:
-            id: ravczabg8e2sp
-          enum:
-          - AWS
-    ScalewayClusterCredentials:
-      title: ScalewayClusterCredentials
-      x-stoplight:
-        id: j3ep46eyah9p5
-      type: object
-      required:
-      - id
-      - name
-      - scaleway_access_key
-      - object_type
-      - scaleway_project_id
-      - scaleway_organization_id
-      properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          type: string
-        scaleway_access_key:
-          type: string
-          x-stoplight:
-            id: 4db3031sq6tea
-        object_type:
-          enum:
-          - SCW
-        scaleway_project_id:
-          type: string
-          x-stoplight:
-            id: 0630fqc615vg4
-        scaleway_organization_id:
-          type: string
-          x-stoplight:
-            id: 5ui02pola5ndr
-    TfVarsDiscoveryMode:
-      title: TfVarsDiscoveryMode
-      description: Discovery mode for Terraform tfvars files - either auto-discover or specify paths
-      oneOf:
-      - $ref: '#/components/schemas/TfVarsDiscoveryModeAutoDiscover'
-      - $ref: '#/components/schemas/TfVarsDiscoveryModeSpecificPaths'
-      discriminator:
-        propertyName: type
-        mapping:
-          AutoDiscover: '#/components/schemas/TfVarsDiscoveryModeAutoDiscover'
-          SpecificPaths: '#/components/schemas/TfVarsDiscoveryModeSpecificPaths'
-    GitTokenAssociatedServiceResponse:
-      type: object
-      required:
-      - project_id
-      - project_name
-      - environment_id
-      - environment_name
-      - service_id
-      - service_name
-      - service_type
-      properties:
-        project_id:
-          type: string
-          format: uuid
-        project_name:
-          type: string
-        environment_id:
-          type: string
-          format: uuid
-        environment_name:
-          type: string
-        service_id:
-          type: string
-          format: uuid
-        service_name:
-          type: string
-        service_type:
-          $ref: '#/components/schemas/GitTokenAssociatedServiceType'
     HelmRepositoryAssociatedServicesResponseList:
       title: HelmRepositoryAssociatedServicesResponseList
       x-stoplight:
@@ -1279,53 +1001,20 @@ components:
             id: 00sn35cw5lnb4
           items:
             $ref: '#/components/schemas/HelmRepositoryAssociatedServicesResponse'
-    CloudProviderEnum:
-      type: string
-      enum:
-      - AWS
-      - SCW
-      - GCP
-      - ON_PREMISE
-      - AZURE
-    GitProviderEnum:
-      type: string
-      enum:
-      - BITBUCKET
-      - GITHUB
-      - GITLAB
-    PlanEnum:
-      type: string
-      description: FREE, BUSINESS & PROFESSIONAL are deprecated. 2025 plans are the new plans available.
-      enum:
-      - FREE
-      - TEAM
-      - TEAM_YEARLY
-      - ENTERPRISE
-      - ENTERPRISE_YEARLY
-      - PROFESSIONAL
-      - BUSINESS
-      - USER_2025
-      - TEAM_2025
-      - BUSINESS_2025
-      - ENTERPRISE_2025
-    GcpStaticClusterCredentials:
-      title: GcpStaticClusterCredentials
-      x-stoplight:
-        id: qtvaepejqookw
+    TerraformVariableParsingRequest:
       type: object
       required:
-      - id
-      - name
-      - object_type
+      - git_repository
       properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          type: string
-        object_type:
-          enum:
-          - GCP
+        git_repository:
+          $ref: '#/components/schemas/ApplicationGitRepositoryRequest'
+    OrganizationResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Organization'
     ServiceLightResponse:
       title: ServiceLightResponse
       x-stoplight:
@@ -1392,34 +1081,76 @@ components:
           enum:
           - CRON
           - LIFECYCLE
-    ClusterCredentials:
-      oneOf:
-      - $ref: '#/components/schemas/AwsStaticClusterCredentials'
-      - $ref: '#/components/schemas/ScalewayClusterCredentials'
-      - $ref: '#/components/schemas/GenericClusterCredentials'
-      - $ref: '#/components/schemas/AwsRoleClusterCredentials'
-      - $ref: '#/components/schemas/EksAnywhereVsphereClusterCredentials'
-      - $ref: '#/components/schemas/AzureStaticClusterCredentials'
-      - $ref: '#/components/schemas/GcpStaticClusterCredentials'
-      discriminator:
-        propertyName: object_type
-        mapping:
-          AWS: '#/components/schemas/AwsStaticClusterCredentials'
-          AWS_ROLE: '#/components/schemas/AwsRoleClusterCredentials'
-          EKS_ANYWHERE_VSPHERE: '#/components/schemas/EksAnywhereVsphereClusterCredentials'
-          SCW: '#/components/schemas/ScalewayClusterCredentials'
-          OTHER: '#/components/schemas/GenericClusterCredentials'
-          AZURE: '#/components/schemas/AzureStaticClusterCredentials'
-          GCP: '#/components/schemas/GcpStaticClusterCredentials'
-    ReferenceObject:
+    AwsStaticClusterCredentials:
+      x-stoplight:
+        id: s0aosg7la96hp
+      title: AwsStaticClusterCredentials
       type: object
       required:
       - id
+      - name
+      - access_key_id
+      - object_type
+      properties:
+        id:
+          type: string
+          x-stoplight:
+            id: en79y0yc76xhp
+          format: uuid
+        name:
+          type: string
+          x-stoplight:
+            id: mx0mwek4ubieo
+        access_key_id:
+          type: string
+          x-stoplight:
+            id: 6g20j0ggu8nqc
+        object_type:
+          x-stoplight:
+            id: ravczabg8e2sp
+          enum:
+          - AWS
+    GenericClusterCredentials:
+      title: GenericClusterCredentials
+      x-stoplight:
+        id: gtibx4nzrvxm9
+      type: object
+      required:
+      - id
+      - name
+      - object_type
       properties:
         id:
           type: string
           format: uuid
-          readOnly: true
+        name:
+          type: string
+        object_type:
+          enum:
+          - OTHER
+    OrganizationCrendentialsResponseList:
+      title: OrganizationCrendentialsResponseList
+      x-stoplight:
+        id: 0tv1xnjgh98nm
+      type: object
+      properties:
+        results:
+          type: array
+          x-stoplight:
+            id: dyld95hlync5e
+          items:
+            x-stoplight:
+              id: qjal2umjmvumz
+            type: object
+            properties:
+              credential:
+                $ref: '#/components/schemas/ClusterCredentials'
+              clusters:
+                type: array
+                x-stoplight:
+                  id: 7o7dzkbyt78bu
+                items:
+                  $ref: '#/components/schemas/CredentialCluster'
     GitTokenResponseList:
       type: object
       properties:
@@ -1427,6 +1158,286 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/GitTokenResponse'
+    GitTokenResponse:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        required:
+        - name
+        - type
+        - associated_services_count
+        - git_api_url
+        properties:
+          name:
+            type: string
+          description:
+            type: string
+          type:
+            $ref: '#/components/schemas/GitProviderEnum'
+          expired_at:
+            type: string
+            format: date
+          workspace:
+            type: string
+            description: Mandatory only for BITBUCKET git provider
+          associated_services_count:
+            type: number
+            description: The number of services using this git token
+          git_api_url:
+            type: string
+            x-stoplight:
+              id: 27n37ox3lysq4
+            format: uri
+    AzureStaticClusterCredentials:
+      title: AzureStaticClusterCredentials
+      x-stoplight:
+        id: wo7v4e4c0jlfu
+      type: object
+      required:
+      - id
+      - name
+      - azure_subscription_id
+      - azure_tenant_id
+      - object_type
+      - azure_application_id
+      - azure_application_object_id
+      properties:
+        id:
+          type: string
+          x-stoplight:
+            id: 7qy00mrnhmclv
+          format: uuid
+        name:
+          type: string
+          x-stoplight:
+            id: f5c1wc467emz3
+        azure_subscription_id:
+          type: string
+          x-stoplight:
+            id: x0s5zbj6l1yx0
+        azure_tenant_id:
+          type: string
+          x-stoplight:
+            id: ygjwz6uqfexsc
+        object_type:
+          x-stoplight:
+            id: 8oodrxjznyahm
+          enum:
+          - AZURE
+        azure_application_id:
+          type: string
+          x-stoplight:
+            id: wc0e8cqceyopu
+        azure_application_object_id:
+          type: string
+          x-stoplight:
+            id: q20e71qkfsk1k
+    HelmRepositoryAssociatedServiceType:
+      title: HelmRepositoryAssociatedServiceType
+      x-stoplight:
+        id: 7afohg0qwqoht
+      enum:
+      - HELM
+    GitTokenAssociatedServiceResponse:
+      type: object
+      required:
+      - project_id
+      - project_name
+      - environment_id
+      - environment_name
+      - service_id
+      - service_name
+      - service_type
+      properties:
+        project_id:
+          type: string
+          format: uuid
+        project_name:
+          type: string
+        environment_id:
+          type: string
+          format: uuid
+        environment_name:
+          type: string
+        service_id:
+          type: string
+          format: uuid
+        service_name:
+          type: string
+        service_type:
+          $ref: '#/components/schemas/GitTokenAssociatedServiceType'
+    ServiceTypeEnum:
+      type: string
+      x-stoplight:
+        id: d66063cd29913
+      description: type of the service (application, database, job, ...)
+      enum:
+      - APPLICATION
+      - DATABASE
+      - CONTAINER
+      - JOB
+      - HELM
+      - TERRAFORM
+      - ARGOCD_APP
+    EksAnywhereVsphereClusterCredentials:
+      title: EksAnywhereVsphereClusterCredentials
+      type: object
+      required:
+      - id
+      - name
+      - vsphere_user
+      - object_type
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        vsphere_user:
+          type: string
+        access_key_id:
+          type:
+          - string
+          - 'null'
+        role_arn:
+          type:
+          - string
+          - 'null'
+        object_type:
+          enum:
+          - EKS_ANYWHERE_VSPHERE
+    HelmRepositoryAssociatedServicesResponse:
+      title: HelmRepositoryAssociatedServicesResponse
+      x-stoplight:
+        id: een4pa4di1fir
+      type: object
+      required:
+      - project_id
+      - project_name
+      - environment_id
+      - environment_name
+      - service_id
+      - service_name
+      - service_type
+      properties:
+        project_id:
+          type: string
+          x-stoplight:
+            id: 5p4tj302re42n
+          format: uuid
+        project_name:
+          type: string
+          x-stoplight:
+            id: j9o1qaceqfiu8
+        environment_id:
+          type: string
+          x-stoplight:
+            id: oe1zp7vzdukve
+          format: uuid
+        environment_name:
+          type: string
+          x-stoplight:
+            id: n2usi4loyu8kn
+        service_id:
+          type: string
+          x-stoplight:
+            id: 9nnymt6uz7zdq
+          format: uuid
+        service_name:
+          type: string
+          x-stoplight:
+            id: rb0g9ev15frmu
+        service_type:
+          $ref: '#/components/schemas/HelmRepositoryAssociatedServiceType'
+    TfVarsDiscoveryModeSpecificPaths:
+      title: TfVarsDiscoveryModeSpecificPaths
+      type: object
+      description: Discover tfvars files at specific paths only
+      required:
+      - type
+      - paths
+      properties:
+        type:
+          type: string
+          enum:
+          - SpecificPaths
+          description: Discriminator for specific paths mode
+        paths:
+          type: array
+          items:
+            type: string
+          description: List of specific paths to tfvars files
+          example:
+          - /environments/prod.tfvars
+          - /environments/staging.tfvars
+    CredentialCluster:
+      title: CredentialCluster
+      x-stoplight:
+        id: oyhk9uf5vcqlk
+      type: object
+      properties:
+        id:
+          type: string
+          x-stoplight:
+            id: ksymb5hxvrlq9
+          format: uuid
+        name:
+          type: string
+          x-stoplight:
+            id: skztj7io7an31
+        cloud_provider:
+          $ref: '#/components/schemas/CloudProviderEnum'
+    Organization:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - $ref: '#/components/schemas/OrganizationRequest'
+      - type: object
+        properties:
+          owner:
+            type: string
+            format: uuid
+            description: uuid of the user owning the organization
+          billing_deployment_restriction:
+            type:
+            - string
+            - 'null'
+            description: If set, indicates a billing-related restriction on the organization. 'NO_CREDIT_CARD' means the organization is on a free trial without a credit card — managed cluster creation and deployments on managed clusters are blocked, but demo cluster usage is allowed. Any other value blocks all deployments. null means no restriction.
+      - type: object
+        properties:
+          organization_plan:
+            type: object
+            properties:
+              plan:
+                $ref: '#/components/schemas/PlanEnum'
+              audit_logs_retention_in_days:
+                type: number
+                description: audit logs maximum period available in days
+    PlanEnum:
+      type: string
+      description: FREE, BUSINESS & PROFESSIONAL are deprecated. 2025 plans are the new plans available.
+      enum:
+      - FREE
+      - TEAM
+      - TEAM_YEARLY
+      - ENTERPRISE
+      - ENTERPRISE_YEARLY
+      - PROFESSIONAL
+      - BUSINESS
+      - USER_2025
+      - TEAM_2025
+      - BUSINESS_2025
+      - ENTERPRISE_2025
+  responses:
+    '404':
+      description: Resource not found
+    '401':
+      description: Access token is missing or invalid
+    204-deletion:
+      description: The resource was deleted successfully
+    '403':
+      description: Access forbidden
+    '400':
+      description: Bad request
   parameters:
     gitTokenId:
       name: gitTokenId
@@ -1444,17 +1455,6 @@ components:
       schema:
         type: string
         format: uuid
-  responses:
-    '401':
-      description: Access token is missing or invalid
-    '400':
-      description: Bad request
-    '403':
-      description: Access forbidden
-    '404':
-      description: Resource not found
-    204-deletion:
-      description: The resource was deleted successfully
   securitySchemes:
     bearerAuth:
       type: http

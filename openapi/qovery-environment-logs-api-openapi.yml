@@ -70,10 +70,6 @@ paths:
           $ref: '#/components/responses/404'
 components:
   schemas:
-    EnvironmentLogsResponseList:
-      type: array
-      items:
-        $ref: '#/components/schemas/EnvironmentLogs'
     EnvironmentLogs:
       type: object
       required:
@@ -151,28 +147,6 @@ components:
               type: string
             full_details:
               type: string
-    StatusKindEnum:
-      type: string
-      enum:
-      - CANCELED
-      - CANCELING
-      - DELETED
-      - DELETE_ERROR
-      - DELETE_IN_PROGRESS
-      - DEPLOYED
-      - DEPLOYMENT_ERROR
-      - DEPLOYMENT_IN_PROGRESS
-      - ERROR
-      - PAUSED
-      - PAUSE_ERROR
-      - PAUSE_IN_PROGRESS
-      - WAITING
-    EnvironmentLogTypeEnum:
-      type: string
-      enum:
-      - APPLICATION
-      - DATABASE
-      - ENVIRONMENT
     EnvironmentLog:
       type: object
       required:
@@ -211,6 +185,12 @@ components:
         hint:
           type: string
           example: only for errors. it gives a possible action to the user -- Markdown can be injected
+    EnvironmentLogTypeEnum:
+      type: string
+      enum:
+      - APPLICATION
+      - DATABASE
+      - ENVIRONMENT
     EnvironmentLogResponseList:
       type: object
       properties:
@@ -218,6 +198,26 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/EnvironmentLog'
+    StatusKindEnum:
+      type: string
+      enum:
+      - CANCELED
+      - CANCELING
+      - DELETED
+      - DELETE_ERROR
+      - DELETE_IN_PROGRESS
+      - DEPLOYED
+      - DEPLOYMENT_ERROR
+      - DEPLOYMENT_IN_PROGRESS
+      - ERROR
+      - PAUSED
+      - PAUSE_ERROR
+      - PAUSE_IN_PROGRESS
+      - WAITING
+    EnvironmentLogsResponseList:
+      type: array
+      items:
+        $ref: '#/components/schemas/EnvironmentLogs'
   responses:
     '403':
       description: Access forbidden

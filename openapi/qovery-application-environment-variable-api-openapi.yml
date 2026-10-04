@@ -237,17 +237,91 @@ paths:
           $ref: '#/components/responses/404'
 components:
   schemas:
-    APIVariableTypeEnum:
+    EnvironmentVariableOverride:
+      type: object
+      required:
+      - id
+      - key
+      - value
+      - mount_path
+      - scope
+      - variable_type
+      properties:
+        id:
+          type: string
+          format: uuid
+        key:
+          type: string
+        value:
+          type: string
+        mount_path:
+          type: string
+        scope:
+          $ref: '#/components/schemas/APIVariableScopeEnum'
+        variable_type:
+          $ref: '#/components/schemas/APIVariableTypeEnum'
+    VariableImportRequest:
+      type: object
+      required:
+      - vars
+      - overwrite
+      properties:
+        overwrite:
+          type: boolean
+          default: false
+        vars:
+          type: array
+          items:
+            type: object
+            required:
+            - name
+            - value
+            - scope
+            - is_secret
+            properties:
+              name:
+                type: string
+              value:
+                type: string
+              scope:
+                $ref: '#/components/schemas/APIVariableScopeEnum'
+              is_secret:
+                type: boolean
+    EnvironmentVariableAlias:
+      type: object
+      required:
+      - id
+      - key
+      - value
+      - mount_path
+      - scope
+      - variable_type
+      properties:
+        id:
+          type: string
+          format: uuid
+        key:
+          type: string
+          example: QOVERY_DATABASE_PSQL_NAME
+        value:
+          type: string
+        mount_path:
+          type: string
+        scope:
+          $ref: '#/components/schemas/APIVariableScopeEnum'
+        variable_type:
+          $ref: '#/components/schemas/APIVariableTypeEnum'
+    APIVariableScopeEnum:
       type: string
-      description: 'type of the environment variable (VALUE, FILE, ALIAS, OVERRIDE or BUIT_IN)
-
-        '
       enum:
-      - VALUE
-      - ALIAS
-      - OVERRIDE
+      - APPLICATION
       - BUILT_IN
-      - FILE
+      - ENVIRONMENT
+      - PROJECT
+      - CONTAINER
+      - JOB
+      - HELM
+      - TERRAFORM
     Base:
       type: object
       required:
@@ -297,29 +371,16 @@ components:
           - 'null'
           x-stoplight:
             id: bw41elfsxminc
-    EnvironmentVariableOverride:
-      type: object
-      required:
-      - id
-      - key
-      - value
-      - mount_path
-      - scope
-      - variable_type
-      properties:
-        id:
-          type: string
-          format: uuid
-        key:
-          type: string
-        value:
-          type: string
-        mount_path:
-          type: string
-        scope:
-          $ref: '#/components/schemas/APIVariableScopeEnum'
-        variable_type:
-          $ref: '#/components/schemas/APIVariableTypeEnum'
+    LinkedServiceTypeEnum:
+      type: string
+      description: type of the service (application, database, job, gateway...)
+      enum:
+      - APPLICATION
+      - CONTAINER
+      - DATABASE
+      - JOB
+      - HELM
+      - TERRAFORM
     EnvironmentVariableRequest:
       type: object
       required:
@@ -351,67 +412,6 @@ components:
           - 'null'
           x-stoplight:
             id: yzgx9eytturo9
-    EnvironmentVariableAlias:
-      type: object
-      required:
-      - id
-      - key
-      - value
-      - mount_path
-      - scope
-      - variable_type
-      properties:
-        id:
-          type: string
-          format: uuid
-        key:
-          type: string
-          example: QOVERY_DATABASE_PSQL_NAME
-        value:
-          type: string
-        mount_path:
-          type: string
-        scope:
-          $ref: '#/components/schemas/APIVariableScopeEnum'
-        variable_type:
-          $ref: '#/components/schemas/APIVariableTypeEnum'
-    VariableImportRequest:
-      type: object
-      required:
-      - vars
-      - overwrite
-      properties:
-        overwrite:
-          type: boolean
-          default: false
-        vars:
-          type: array
-          items:
-            type: object
-            required:
-            - name
-            - value
-            - scope
-            - is_secret
-            properties:
-              name:
-                type: string
-              value:
-                type: string
-              scope:
-                $ref: '#/components/schemas/APIVariableScopeEnum'
-              is_secret:
-                type: boolean
-    LinkedServiceTypeEnum:
-      type: string
-      description: type of the service (application, database, job, gateway...)
-      enum:
-      - APPLICATION
-      - CONTAINER
-      - DATABASE
-      - JOB
-      - HELM
-      - TERRAFORM
     Value:
       type: object
       title: EnvironmentVariableOverrideRequest
@@ -439,6 +439,39 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/EnvironmentVariable'
+    APIVariableTypeEnum:
+      type: string
+      description: 'type of the environment variable (VALUE, FILE, ALIAS, OVERRIDE or BUIT_IN)
+
+        '
+      enum:
+      - VALUE
+      - ALIAS
+      - OVERRIDE
+      - BUILT_IN
+      - FILE
+    Key:
+      type: object
+      title: EnvironmentVariableAliasRequest
+      required:
+      - key
+      properties:
+        key:
+          type: string
+        description:
+          type:
+          - string
+          - 'null'
+          x-stoplight:
+            id: qe7qh1tjtkwrm
+          maxLength: 255
+          description: optional variable description (255 characters maximum)
+        enable_interpolation_in_file:
+          type:
+          - boolean
+          - 'null'
+          x-stoplight:
+            id: alajw1h9vgr9e
     VariableImport:
       type: object
       required:
@@ -465,17 +498,6 @@ components:
                 $ref: '#/components/schemas/APIVariableScopeEnum'
               is_secret:
                 type: boolean
-    APIVariableScopeEnum:
-      type: string
-      enum:
-      - APPLICATION
-      - BUILT_IN
-      - ENVIRONMENT
-      - PROJECT
-      - CONTAINER
-      - JOB
-      - HELM
-      - TERRAFORM
     EnvironmentVariable:
       allOf:
       - $ref: '#/components/schemas/Base'
@@ -503,39 +525,17 @@ components:
           owned_by:
             type: string
             description: 'Entity that created/own the variable (i.e: Qovery, Doppler)'
-    Key:
-      type: object
-      title: EnvironmentVariableAliasRequest
-      required:
-      - key
-      properties:
-        key:
-          type: string
-        description:
-          type:
-          - string
-          - 'null'
-          x-stoplight:
-            id: qe7qh1tjtkwrm
-          maxLength: 255
-          description: optional variable description (255 characters maximum)
-        enable_interpolation_in_file:
-          type:
-          - boolean
-          - 'null'
-          x-stoplight:
-            id: alajw1h9vgr9e
   responses:
-    '401':
-      description: Access token is missing or invalid
-    '400':
-      description: Bad request
-    '403':
-      description: Access forbidden
-    204-deletion:
-      description: The resource was deleted successfully
     '404':
       description: Resource not found
+    '401':
+      description: Access token is missing or invalid
+    204-deletion:
+      description: The resource was deleted successfully
+    '403':
+      description: Access forbidden
+    '400':
+      description: Bad request
   parameters:
     applicationId:
       name: applicationId

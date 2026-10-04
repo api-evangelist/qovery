@@ -81,14 +81,40 @@ paths:
           $ref: '#/components/responses/404'
 components:
   schemas:
-    CloudProviderEnum:
-      type: string
-      enum:
-      - AWS
-      - SCW
-      - GCP
-      - ON_PREMISE
-      - AZURE
+    LifecycleTemplateListResponse:
+      title: LifecycleTemplateListResponse
+      x-stoplight:
+        id: xors8ncf4ky35
+      type: object
+      required:
+      - results
+      properties:
+        results:
+          type: array
+          x-stoplight:
+            id: 7641tagxo4zpi
+          items:
+            x-stoplight:
+              id: uozhvuyd6pdmu
+            type: object
+            required:
+            - id
+            - name
+            - description
+            properties:
+              id:
+                type: string
+                x-stoplight:
+                  id: qwkicuwqfvcw4
+                format: uuid
+              name:
+                type: string
+                x-stoplight:
+                  id: eec0zks0ju8mm
+              description:
+                type: string
+                x-stoplight:
+                  id: yg0unyqcvyzcn
     LifecycleTemplateResponse:
       title: LifecycleTemplateResponse
       x-stoplight:
@@ -237,40 +263,14 @@ components:
           x-stoplight:
             id: 0xkypu9qkowv3
           description: Dockerfile of the template
-    LifecycleTemplateListResponse:
-      title: LifecycleTemplateListResponse
-      x-stoplight:
-        id: xors8ncf4ky35
-      type: object
-      required:
-      - results
-      properties:
-        results:
-          type: array
-          x-stoplight:
-            id: 7641tagxo4zpi
-          items:
-            x-stoplight:
-              id: uozhvuyd6pdmu
-            type: object
-            required:
-            - id
-            - name
-            - description
-            properties:
-              id:
-                type: string
-                x-stoplight:
-                  id: qwkicuwqfvcw4
-                format: uuid
-              name:
-                type: string
-                x-stoplight:
-                  id: eec0zks0ju8mm
-              description:
-                type: string
-                x-stoplight:
-                  id: yg0unyqcvyzcn
+    CloudProviderEnum:
+      type: string
+      enum:
+      - AWS
+      - SCW
+      - GCP
+      - ON_PREMISE
+      - AZURE
   responses:
     '403':
       description: Access forbidden

@@ -180,28 +180,51 @@ paths:
         '404':
           $ref: '#/components/responses/404'
 components:
+  responses:
+    204-deletion:
+      description: The resource was deleted successfully
+    '403':
+      description: Access forbidden
+    '404':
+      description: Resource not found
+    '400':
+      description: Bad request
+    '401':
+      description: Access token is missing or invalid
   schemas:
-    AvailableContainerRegistryResponse:
+    Base:
       type: object
       required:
-      - kind
-      - required_config
-      - is_mandatory
+      - id
+      - created_at
       properties:
-        kind:
-          $ref: '#/components/schemas/ContainerRegistryKindEnum'
-        required_config:
-          type: object
-          additionalProperties: true
-        is_mandatory:
-          type: boolean
-    ContainerVersionResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/ContainerVersionResponse'
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          readOnly: true
+          format: date-time
+        updated_at:
+          type: string
+          readOnly: true
+          format: date-time
+    ContainerRegistryKindEnum:
+      type: string
+      enum:
+      - ECR
+      - SCALEWAY_CR
+      - DOCKER_HUB
+      - GITHUB_CR
+      - GITHUB_ENTERPRISE_CR
+      - GITLAB_CR
+      - PUBLIC_ECR
+      - DOCR
+      - GENERIC_CR
+      - GCP_ARTIFACT_REGISTRY
+      - AZURE_CR
+      description: The type of your container registry
     ContainerRegistryResponse:
       allOf:
       - $ref: '#/components/schemas/Base'
@@ -281,48 +304,13 @@ components:
                 type: string
                 x-stoplight:
                   id: 2soynl0stz0lh
-    ContainerVersionResponse:
+    AvailableContainerRegistryResponseList:
       type: object
       properties:
-        image_name:
-          type: string
-        versions:
+        results:
           type: array
           items:
-            type: string
-    Base:
-      type: object
-      required:
-      - id
-      - created_at
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        created_at:
-          type: string
-          readOnly: true
-          format: date-time
-        updated_at:
-          type: string
-          readOnly: true
-          format: date-time
-    ContainerRegistryKindEnum:
-      type: string
-      enum:
-      - ECR
-      - SCALEWAY_CR
-      - DOCKER_HUB
-      - GITHUB_CR
-      - GITHUB_ENTERPRISE_CR
-      - GITLAB_CR
-      - PUBLIC_ECR
-      - DOCR
-      - GENERIC_CR
-      - GCP_ARTIFACT_REGISTRY
-      - AZURE_CR
-      description: The type of your container registry
+            $ref: '#/components/schemas/AvailableContainerRegistryResponse'
     ContainerRegistryRequest:
       type: object
       required:
@@ -418,13 +406,22 @@ components:
               x-stoplight:
                 id: eaqm4swmqt9ty
               description: Required if kind is `AZURE_CR`.
-    AvailableContainerRegistryResponseList:
+    ContainerVersionResponse:
+      type: object
+      properties:
+        image_name:
+          type: string
+        versions:
+          type: array
+          items:
+            type: string
+    ContainerVersionResponseList:
       type: object
       properties:
         results:
           type: array
           items:
-            $ref: '#/components/schemas/AvailableContainerRegistryResponse'
+            $ref: '#/components/schemas/ContainerVersionResponse'
     ContainerRegistryResponseList:
       type: object
       properties:
@@ -432,17 +429,20 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ContainerRegistryResponse'
-  responses:
-    '403':
-      description: Access forbidden
-    '404':
-      description: Resource not found
-    '400':
-      description: Bad request
-    204-deletion:
-      description: The resource was deleted successfully
-    '401':
-      description: Access token is missing or invalid
+    AvailableContainerRegistryResponse:
+      type: object
+      required:
+      - kind
+      - required_config
+      - is_mandatory
+      properties:
+        kind:
+          $ref: '#/components/schemas/ContainerRegistryKindEnum'
+        required_config:
+          type: object
+          additionalProperties: true
+        is_mandatory:
+          type: boolean
   parameters:
     searchImageName:
       name: search
@@ -451,14 +451,6 @@ components:
       description: partial container image name to search
       schema:
         type: string
-    containerRegistryId:
-      name: containerRegistryId
-      in: path
-      description: Container Registry ID
-      required: true
-      schema:
-        type: string
-        format: uuid
     imageName:
       name: imageName
       in: query
@@ -470,6 +462,14 @@ components:
       name: organizationId
       in: path
       description: Organization ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+    containerRegistryId:
+      name: containerRegistryId
+      in: path
+      description: Container Registry ID
       required: true
       schema:
         type: string

@@ -158,51 +158,6 @@ paths:
           $ref: '#/components/responses/404'
 components:
   schemas:
-    OrganizationLabelsGroupEnrichedResponse:
-      title: OrganizationLabelsGroupEnrichedResponse
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - type: object
-        required:
-        - name
-        - labels
-        properties:
-          name:
-            type: string
-          labels:
-            type: array
-            items:
-              $ref: '#/components/schemas/Label'
-          associated_items_count:
-            type: integer
-    Label:
-      type: object
-      required:
-      - key
-      - value
-      - propagate_to_cloud_provider
-      properties:
-        key:
-          type: string
-        value:
-          type: string
-        propagate_to_cloud_provider:
-          type: boolean
-    OrganizationLabelsGroupResponse:
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - type: object
-        required:
-        - name
-        - labels
-        properties:
-          name:
-            type: string
-          labels:
-            type: array
-            items:
-              $ref: '#/components/schemas/Label'
-      title: ''
     Base:
       type: object
       required:
@@ -221,6 +176,30 @@ components:
           type: string
           readOnly: true
           format: date-time
+    LabelsGroupAssociatedItemType:
+      type: string
+      description: Labels Group Associated Item Type
+      enum:
+      - APPLICATION
+      - DATABASE
+      - CONTAINER
+      - LIFECYCLE
+      - ENVIRONMENT
+      - CLUSTER
+      - CRON
+    OrganizationLabelsGroupCreateRequest:
+      type: object
+      required:
+      - name
+      - labels
+      properties:
+        name:
+          type: string
+          description: name of the labels group
+        labels:
+          type: array
+          items:
+            $ref: '#/components/schemas/Label'
     OrganizationLabelsGroupAssociatedItemsResponseList:
       type: object
       properties:
@@ -255,44 +234,65 @@ components:
                 type: string
               item_type:
                 $ref: '#/components/schemas/LabelsGroupAssociatedItemType'
-    OrganizationLabelsGroupCreateRequest:
-      type: object
-      required:
-      - name
-      - labels
-      properties:
-        name:
-          type: string
-          description: name of the labels group
-        labels:
-          type: array
-          items:
-            $ref: '#/components/schemas/Label'
+    OrganizationLabelsGroupResponse:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        required:
+        - name
+        - labels
+        properties:
+          name:
+            type: string
+          labels:
+            type: array
+            items:
+              $ref: '#/components/schemas/Label'
+      title: ''
     OrganizationLabelsGroupEnrichedResponseList:
       title: OrganizationLabelsGroupEnrichedResponseList
       type: array
       items:
         $ref: '#/components/schemas/OrganizationLabelsGroupEnrichedResponse'
-    LabelsGroupAssociatedItemType:
-      type: string
-      description: Labels Group Associated Item Type
-      enum:
-      - APPLICATION
-      - DATABASE
-      - CONTAINER
-      - LIFECYCLE
-      - ENVIRONMENT
-      - CLUSTER
-      - CRON
+    OrganizationLabelsGroupEnrichedResponse:
+      title: OrganizationLabelsGroupEnrichedResponse
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        required:
+        - name
+        - labels
+        properties:
+          name:
+            type: string
+          labels:
+            type: array
+            items:
+              $ref: '#/components/schemas/Label'
+          associated_items_count:
+            type: integer
+    Label:
+      type: object
+      required:
+      - key
+      - value
+      - propagate_to_cloud_provider
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+        propagate_to_cloud_provider:
+          type: boolean
   responses:
-    '403':
-      description: Access forbidden
     '204':
       description: no content
-    '404':
-      description: Resource not found
+    '403':
+      description: Access forbidden
     '400':
       description: Bad request
+    '404':
+      description: Resource not found
     '401':
       description: Access token is missing or invalid
   parameters:

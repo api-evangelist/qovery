@@ -190,52 +190,52 @@ paths:
         '404':
           $ref: '#/components/responses/404'
 components:
-  responses:
-    '401':
-      description: Access token is missing or invalid
-    '403':
-      description: Access forbidden
-    '404':
-      description: Resource not found
   schemas:
-    OrganizationEventSubTargetType:
-      type:
-      - string
-      - 'null'
+    OrganizationEventTargetResponseList:
+      type: object
+      properties:
+        targets:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              name:
+                type: string
+    OrganizationEventOrigin:
+      type: string
+      description: Origin of the organization event
+      enum:
+      - API
+      - CLI
+      - CONSOLE
+      - GIT
+      - QOVERY_INTERNAL
+      - TERRAFORM_PROVIDER
+      example: API
+    OrganizationEventTargetType:
+      type: string
       description: Type of the organization event
       enum:
-      - ADVANCED_SETTINGS
-      - ALERT_RULE
-      - ANNOTATIONS_GROUP
-      - API_TOKEN
-      - BILLING_INFO
-      - BILLING_USAGE_REPORT
-      - CLOUD_PROVIDER_CREDENTIALS
-      - CLUSTER_CREDENTIALS
-      - CLUSTER_ROUTING_TABLE
-      - CONFIG
-      - CREDIT_CARD
-      - CREDIT_CODE
-      - CUSTOM_DOMAIN
-      - CUSTOM_ROLE
-      - DEPLOYMENT_RULE
-      - DEPLOYMENT_STAGE
-      - GITHUB_APP
-      - GIT_REPOSITORY
-      - GIT_TOKEN
-      - INVITATION
-      - KUBERNETES_CONFIGURATION
-      - KUBERNETES_CREDENTIALS
-      - LABELS_GROUP
-      - MEMBER_ROLE
-      - PLAN
-      - REMOTE_ACCESS
-      - SECRET
-      - SSO
+      - APPLICATION
+      - CLUSTER
+      - CONTAINER
+      - CONTAINER_REGISTRY
+      - DATABASE
+      - ENTERPRISE_CONNECTION
+      - ENVIRONMENT
+      - JOB
+      - HELM
+      - HELM_REPOSITORY
+      - MEMBERS_AND_ROLES
+      - ORGANIZATION
+      - PROJECT
+      - WEBHOOK
       - TERRAFORM
-      - TRANSFER_OWNERSHIP
-      - VARIABLE
-      example: ADVANCED_SETTINGS
+      example: APPLICATION
+      title: ''
     OrganizationEventType:
       type: string
       description: Type of the organization event
@@ -296,57 +296,63 @@ components:
       - LOCK
       - UNLOCK
       example: CREATE
-    OrganizationEventTargetType:
-      type: string
-      description: Type of the organization event
-      enum:
-      - APPLICATION
-      - CLUSTER
-      - CONTAINER
-      - CONTAINER_REGISTRY
-      - DATABASE
-      - ENTERPRISE_CONNECTION
-      - ENVIRONMENT
-      - JOB
-      - HELM
-      - HELM_REPOSITORY
-      - MEMBERS_AND_ROLES
-      - ORGANIZATION
-      - PROJECT
-      - WEBHOOK
-      - TERRAFORM
-      example: APPLICATION
-      title: ''
-    OrganizationEventTargetLevel:
-      type: string
-      description: The target level to fetch
-      enum:
-      - PROJECT
-      - ENVIRONMENT
-    OrganizationEventTargetResponseList:
+    OrganizationEventResponseList:
       type: object
       properties:
-        targets:
+        links:
+          type: object
+          properties:
+            previous:
+              type: string
+              format: uri
+            next:
+              type: string
+              format: uri
+        organization_max_limit_reached:
+          type: boolean
+          description: Indicates if you cannot see previous logs according to your organization max limit
+        events:
           type: array
           items:
-            type: object
-            properties:
-              id:
-                type: string
-                format: uuid
-              name:
-                type: string
-    OrganizationEventOrigin:
-      type: string
-      description: Origin of the organization event
+            $ref: '#/components/schemas/OrganizationEventResponse'
+    OrganizationEventSubTargetType:
+      type:
+      - string
+      - 'null'
+      description: Type of the organization event
       enum:
-      - API
-      - CLI
-      - CONSOLE
-      - GIT
-      - QOVERY_INTERNAL
-      - TERRAFORM_PROVIDER
-      example: API
+      - ADVANCED_SETTINGS
+      - ALERT_RULE
+      - ANNOTATIONS_GROUP
+      - API_TOKEN
+      - BILLING_INFO
+      - BILLING_USAGE_REPORT
+      - CLOUD_PROVIDER_CREDENTIALS
+      - CLUSTER_CREDENTIALS
+      - CLUSTER_ROUTING_TABLE
+      - CONFIG
+      - CREDIT_CARD
+      - CREDIT_CODE
+      - CUSTOM_DOMAIN
+      - CUSTOM_ROLE
+      - DEPLOYMENT_RULE
+      - DEPLOYMENT_STAGE
+      - GITHUB_APP
+      - GIT_REPOSITORY
+      - GIT_TOKEN
+      - INVITATION
+      - KUBERNETES_CONFIGURATION
+      - KUBERNETES_CREDENTIALS
+      - LABELS_GROUP
+      - MEMBER_ROLE
+      - PLAN
+      - REMOTE_ACCESS
+      - SECRET
+      - SSO
+      - TERRAFORM
+      - TRANSFER_OWNERSHIP
+      - VARIABLE
+      example: ADVANCED_SETTINGS
     OrganizationEventResponse:
       type: object
       properties:
@@ -399,25 +405,19 @@ components:
           - 'null'
       description: ''
       title: ''
-    OrganizationEventResponseList:
-      type: object
-      properties:
-        links:
-          type: object
-          properties:
-            previous:
-              type: string
-              format: uri
-            next:
-              type: string
-              format: uri
-        organization_max_limit_reached:
-          type: boolean
-          description: Indicates if you cannot see previous logs according to your organization max limit
-        events:
-          type: array
-          items:
-            $ref: '#/components/schemas/OrganizationEventResponse'
+    OrganizationEventTargetLevel:
+      type: string
+      description: The target level to fetch
+      enum:
+      - PROJECT
+      - ENVIRONMENT
+  responses:
+    '403':
+      description: Access forbidden
+    '404':
+      description: Resource not found
+    '401':
+      description: Access token is missing or invalid
   parameters:
     organizationId:
       name: organizationId

@@ -226,7 +226,111 @@ paths:
         '404':
           $ref: '#/components/responses/404'
 components:
+  schemas:
+    ReferenceObject:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+    Base:
+      type: object
+      required:
+      - id
+      - created_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          readOnly: true
+          format: date-time
+        updated_at:
+          type: string
+          readOnly: true
+          format: date-time
+    DeploymentStageServiceResponseList:
+      type: array
+      items:
+        $ref: '#/components/schemas/DeploymentStageServiceResponse'
+    DeploymentStageResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/DeploymentStageResponse'
+    DeploymentStageResponse:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        required:
+        - environment
+        properties:
+          environment:
+            $ref: '#/components/schemas/ReferenceObject'
+          name:
+            type: string
+            description: name is case insensitive
+          description:
+            type: string
+          deployment_order:
+            type: integer
+            description: Position of the deployment stage within the environment
+            example: 1
+          services:
+            $ref: '#/components/schemas/DeploymentStageServiceResponseList'
+    DeploymentStageServiceResponse:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        properties:
+          service_id:
+            type: string
+            format: uuid
+            description: id of the service attached to the stage
+          service_type:
+            type: string
+            description: type of the service (i.e APPLICATION, JOB, DATABASE, ...)
+          is_skipped:
+            type: boolean
+            description: whether the service is excluded from environment-level deployments
+    DeploymentStageRequest:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          description: The name of the deployment stage
+        description:
+          type:
+          - string
+          - 'null'
+          description: free test describing this stage
+  responses:
+    '204':
+      description: no content
+    '403':
+      description: Access forbidden
+    '404':
+      description: Resource not found
+    '401':
+      description: Access token is missing or invalid
   parameters:
+    deploymentStageId:
+      name: deploymentStageId
+      in: path
+      description: Deployment Stage ID
+      required: true
+      schema:
+        type: string
+        format: uuid
     serviceId:
       name: serviceId
       in: path
@@ -251,110 +355,6 @@ components:
       schema:
         type: string
         format: uuid
-    deploymentStageId:
-      name: deploymentStageId
-      in: path
-      description: Deployment Stage ID
-      required: true
-      schema:
-        type: string
-        format: uuid
-  schemas:
-    DeploymentStageResponse:
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - type: object
-        required:
-        - environment
-        properties:
-          environment:
-            $ref: '#/components/schemas/ReferenceObject'
-          name:
-            type: string
-            description: name is case insensitive
-          description:
-            type: string
-          deployment_order:
-            type: integer
-            description: Position of the deployment stage within the environment
-            example: 1
-          services:
-            $ref: '#/components/schemas/DeploymentStageServiceResponseList'
-    Base:
-      type: object
-      required:
-      - id
-      - created_at
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        created_at:
-          type: string
-          readOnly: true
-          format: date-time
-        updated_at:
-          type: string
-          readOnly: true
-          format: date-time
-    DeploymentStageServiceResponse:
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - type: object
-        properties:
-          service_id:
-            type: string
-            format: uuid
-            description: id of the service attached to the stage
-          service_type:
-            type: string
-            description: type of the service (i.e APPLICATION, JOB, DATABASE, ...)
-          is_skipped:
-            type: boolean
-            description: whether the service is excluded from environment-level deployments
-    DeploymentStageServiceResponseList:
-      type: array
-      items:
-        $ref: '#/components/schemas/DeploymentStageServiceResponse'
-    DeploymentStageRequest:
-      type: object
-      required:
-      - name
-      properties:
-        name:
-          type: string
-          description: The name of the deployment stage
-        description:
-          type:
-          - string
-          - 'null'
-          description: free test describing this stage
-    ReferenceObject:
-      type: object
-      required:
-      - id
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-    DeploymentStageResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/DeploymentStageResponse'
-  responses:
-    '403':
-      description: Access forbidden
-    '204':
-      description: no content
-    '404':
-      description: Resource not found
-    '401':
-      description: Access token is missing or invalid
   securitySchemes:
     bearerAuth:
       type: http

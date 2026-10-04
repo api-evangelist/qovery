@@ -947,6 +947,611 @@ paths:
         name: time
 components:
   schemas:
+    ClusterInfrastructureCertManagerChartParameters:
+      title: InfrastructureCertManagerChartParameters
+      x-stoplight:
+        id: xsidu7mikkhq3
+      type: object
+      properties:
+        kubernetes_namespace:
+          type: string
+          x-stoplight:
+            id: y5txd86avhe6j
+    KapsuleInfrastructureOutputs:
+      type: object
+      required:
+      - kind
+      - cluster_name
+      properties:
+        kind:
+          enum:
+          - SCW_KAPSULE
+        cluster_name:
+          type: string
+    AutomaticallyConfiguredAuthDto:
+      type: object
+      required:
+      - mode
+      properties:
+        mode:
+          type: string
+          enum:
+          - AUTOMATICALLY_CONFIGURED
+    ClusterCloudProviderInfoRequest:
+      type: object
+      properties:
+        cloud_provider:
+          $ref: '#/components/schemas/CloudProviderEnum'
+        credentials:
+          type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+            name:
+              type: string
+        region:
+          type: string
+    ClusterDeploymentStatusEnum:
+      type: string
+      enum:
+      - NEVER_DEPLOYED
+      - OUT_OF_DATE
+      - UP_TO_DATE
+    ClusterEksAnywhereGitRepository:
+      type: object
+      required:
+      - url
+      - git_token_id
+      properties:
+        url:
+          type: string
+          format: uri
+          description: EKS Anywhere git repository URL
+          example: https://github.com/Qovery/eks-anywhere-config.git
+        branch:
+          type: string
+          description: 'Name of the branch to use. This is optional.
+
+            If not specified, the default branch of the repository is used.
+
+            '
+          example: main
+        commit_id:
+          type: string
+          description: 'Optional git commit SHA to pin EKS Anywhere configuration on a specific revision.
+
+            If omitted, the latest commit from the selected branch is used.
+
+            '
+          example: 4e3128725f47140002fa47d65d83195a51f5140f
+        git_token_id:
+          type: string
+          format: uuid
+          description: Qovery git token id used to access the repository
+        provider:
+          $ref: '#/components/schemas/GitProviderEnum'
+    SecretManagerAuthenticationDto:
+      oneOf:
+      - $ref: '#/components/schemas/AutomaticallyConfiguredAuthDto'
+      - $ref: '#/components/schemas/AwsRoleArnAuthDto'
+      - $ref: '#/components/schemas/AwsStaticCredentialsAuthDto'
+      - $ref: '#/components/schemas/GcpJsonCredentialsAuthDto'
+      discriminator:
+        propertyName: mode
+        mapping:
+          AUTOMATICALLY_CONFIGURED: '#/components/schemas/AutomaticallyConfiguredAuthDto'
+          AWS_ROLE_ARN: '#/components/schemas/AwsRoleArnAuthDto'
+          AWS_STATIC_CREDENTIALS: '#/components/schemas/AwsStaticCredentialsAuthDto'
+          GCP_JSON_CREDENTIALS: '#/components/schemas/GcpJsonCredentialsAuthDto'
+    ReferenceObject:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+    EksInfrastructureOutputs:
+      type: object
+      required:
+      - kind
+      - cluster_name
+      - cluster_arn
+      - cluster_oidc_issuer
+      - vpc_id
+      properties:
+        kind:
+          enum:
+          - EKS
+        cluster_name:
+          type: string
+        cluster_arn:
+          type: string
+        cluster_oidc_issuer:
+          type: string
+        vpc_id:
+          type: string
+    GitProviderEnum:
+      type: string
+      enum:
+      - BITBUCKET
+      - GITHUB
+      - GITLAB
+    AwsSecretManagerEndpointDto:
+      type: object
+      required:
+      - mode
+      - region
+      properties:
+        mode:
+          type: string
+          enum:
+          - AWS_SECRET_MANAGER
+        region:
+          type: string
+    GkeInfrastructureOutputs:
+      type: object
+      required:
+      - kind
+      - cluster_name
+      - cluster_self_link
+      properties:
+        kind:
+          enum:
+          - GKE
+        cluster_name:
+          type: string
+        cluster_self_link:
+          type: string
+    ClusterFeatureResponseTypeEnum:
+      type: string
+      enum:
+      - STRING
+      - BOOLEAN
+      - AWS_USER_PROVIDED_NETWORK
+      - GCP_USER_PROVIDED_NETWORK
+      - KARPENTER
+    ClusterInfrastructureChartsParameters:
+      type: object
+      properties:
+        nginx_parameters:
+          $ref: '#/components/schemas/ClusterInfrastructureNginxChartParameters'
+        cert_manager_parameters:
+          $ref: '#/components/schemas/ClusterInfrastructureCertManagerChartParameters'
+        metal_lb_parameters:
+          $ref: '#/components/schemas/ClusterInfrastructureMetalLbChartParameters'
+        eks_anywhere_parameters:
+          $ref: '#/components/schemas/ClusterInfrastructureEksAnywhereParameters'
+    ClusterLabelsGroup:
+      title: ClusterLabelsGroup
+      x-stoplight:
+        id: mmho7lnvhxeqm
+      type: object
+      properties:
+        id:
+          type: string
+          x-stoplight:
+            id: 3b5pacfwyt1p2
+          format: uuid
+    EksAnywhereCommitResponse:
+      type: object
+      required:
+      - commit_id
+      properties:
+        commit_id:
+          type: string
+    Commit:
+      type:
+      - object
+      - 'null'
+      required:
+      - git_commit_id
+      - created_at
+      - author_name
+      - message
+      - tag
+      properties:
+        created_at:
+          type: string
+          format: date-time
+        git_commit_id:
+          type: string
+        tag:
+          type: string
+          example: v2.1.1
+        message:
+          type: string
+        author_name:
+          type: string
+        author_avatar_url:
+          type: string
+        commit_page_url:
+          type: string
+    MetricsConfigurationManagedByQovery:
+      title: MetricsConfigurationManagedByQovery
+      x-stoplight:
+        id: d6oy3aiodk659
+      type: object
+      properties:
+        kind:
+          x-stoplight:
+            id: i8z3rzufjt5uk
+          enum:
+          - MANAGED_BY_QOVERY
+        resource_profile:
+          $ref: '#/components/schemas/ObservabilityResourceProfile'
+        cloud_watch_export_config:
+          $ref: '#/components/schemas/CloudWatchExportConfig'
+        high_availability:
+          type: boolean
+          x-stoplight:
+            id: zs2zhdd1p5e6q
+        internal_network_monitoring:
+          $ref: '#/components/schemas/InternalNetworkMonitoring'
+        alerting:
+          $ref: '#/components/schemas/AlertingConfig'
+    ClusterEnvironmentResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClusterEnvironmentResponse'
+    KarpenterNodePoolLimits:
+      title: KarpenterNodePoolLimits
+      type: object
+      required:
+      - enabled
+      - max_cpu_in_vcpu
+      - max_memory_in_gibibytes
+      - max_gpu
+      properties:
+        enabled:
+          type: boolean
+          default: false
+        max_cpu_in_vcpu:
+          type: integer
+          description: 'CPU limit that will be applied for the node pool (in vCPU unit: 1 vCPU = 1000 millicores)'
+        max_memory_in_gibibytes:
+          type: integer
+          description: 'Memory limit that will be applied for the node pool (in Gibibytes unit: 1Gi = 1024 mebibytes)'
+        max_gpu:
+          type: integer
+          x-stoplight:
+            id: fn3k34ck5abe4
+          default: 0
+          example: 10
+          minimum: 0
+          description: GPU limit that will be applied for the node pool
+    GcpSecretManagerEndpointDto:
+      type: object
+      required:
+      - mode
+      - region
+      - projectId
+      properties:
+        mode:
+          type: string
+          enum:
+          - GCP_SECRET_MANAGER
+        region:
+          type: string
+        projectId:
+          type: string
+    ClusterInfrastructureEksAnywhereBackupS3Parameters:
+      type: object
+      required:
+      - bucket
+      - region
+      - role_arn
+      properties:
+        bucket:
+          type: string
+          description: S3 bucket name used to store EKS Anywhere backup artifacts.
+        region:
+          type: string
+          description: AWS region where the backup bucket is hosted.
+        role_arn:
+          type: string
+          description: IAM role ARN assumed to upload backup artifacts.
+        key_prefix:
+          type: string
+          description: Optional S3 key prefix used for backup object keys.
+    AwsParameterStoreEndpointDto:
+      type: object
+      required:
+      - mode
+      - region
+      properties:
+        mode:
+          type: string
+          enum:
+          - AWS_PARAMETER_STORE
+        region:
+          type: string
+    EksAnywhereCommitRequest:
+      type: object
+      required:
+      - commit_id
+      properties:
+        commit_id:
+          type: string
+    AlertingConfig:
+      title: AlertingConfig
+      x-stoplight:
+        id: 079kamufdt1pm
+      type: object
+      required:
+      - enabled
+      properties:
+        enabled:
+          type: boolean
+          x-stoplight:
+            id: spv3usiee6mc9
+        default_rule_labels:
+          type:
+          - object
+          - 'null'
+          additionalProperties:
+            type: string
+          description: Key-value pairs of default labels to be applied to alert rules
+          x-stoplight:
+            id: tsp767d421sed
+        spec_config_secret:
+          type: string
+          x-stoplight:
+            id: vhloqa7s6ta17
+        spec_external_url:
+          type: string
+          x-stoplight:
+            id: 53c0p049mktbg
+        config_name:
+          type: string
+          x-stoplight:
+            id: 6ueyhx8jelz3f
+    CloudProviderEnum:
+      type: string
+      enum:
+      - AWS
+      - SCW
+      - GCP
+      - ON_PREMISE
+      - AZURE
+    Base:
+      type: object
+      required:
+      - id
+      - created_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          readOnly: true
+          format: date-time
+        updated_at:
+          type: string
+          readOnly: true
+          format: date-time
+    ClusterKarpenterPrivateSubnetIdsPutRequest:
+      type: object
+      properties:
+        eks_karpenter_fargate_subnets_zone_a_ids:
+          type: array
+          items:
+            type: string
+        eks_karpenter_fargate_subnets_zone_b_ids:
+          type: array
+          items:
+            type: string
+        eks_karpenter_fargate_subnets_zone_c_ids:
+          type: array
+          items:
+            type: string
+    ClusterResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Cluster'
+    LinkedServiceTypeEnum:
+      type: string
+      description: type of the service (application, database, job, gateway...)
+      enum:
+      - APPLICATION
+      - CONTAINER
+      - DATABASE
+      - JOB
+      - HELM
+      - TERRAFORM
+    ClusterInfrastructureEksAnywhereParameters:
+      type: object
+      required:
+      - git_repository
+      - yaml_file_path
+      properties:
+        git_repository:
+          $ref: '#/components/schemas/ClusterEksAnywhereGitRepository'
+        yaml_file_path:
+          type: string
+          description: Path to the EKS Anywhere cluster YAML file in the git repository
+          example: /clusters/cluster-a.yaml
+        cluster_backup:
+          $ref: '#/components/schemas/ClusterInfrastructureEksAnywhereBackupParameters'
+    SecretManagerEndpointConfigurationDto:
+      oneOf:
+      - $ref: '#/components/schemas/AwsSecretManagerEndpointDto'
+      - $ref: '#/components/schemas/AwsParameterStoreEndpointDto'
+      - $ref: '#/components/schemas/GcpSecretManagerEndpointDto'
+      discriminator:
+        propertyName: mode
+        mapping:
+          AWS_SECRET_MANAGER: '#/components/schemas/AwsSecretManagerEndpointDto'
+          AWS_PARAMETER_STORE: '#/components/schemas/AwsParameterStoreEndpointDto'
+          GCP_SECRET_MANAGER: '#/components/schemas/GcpSecretManagerEndpointDto'
+    ClusterRequest:
+      type: object
+      required:
+      - name
+      - region
+      - cloud_provider
+      properties:
+        name:
+          type: string
+          description: name is case-insensitive
+        description:
+          type: string
+        region:
+          type: string
+        cloud_provider:
+          $ref: '#/components/schemas/CloudVendorEnum'
+        cloud_provider_credentials:
+          $ref: '#/components/schemas/ClusterCloudProviderInfoRequest'
+        min_running_nodes:
+          type: integer
+          default: 1
+        max_running_nodes:
+          type: integer
+          default: 1
+        disk_size:
+          type: integer
+          example: 50
+          default: 40
+          description: Unit is in GB. The disk size to be used for the node configuration
+        disk_iops:
+          type: integer
+          example: 7800
+          minimum: 3000
+          maximum: 16000
+          description: Unit is operation/seconds. The disk IOPS to be used for the node configuration
+        disk_throughput:
+          type: integer
+          example: 255
+          minimum: 125
+          maximum: 1000
+          description: Unit is in MB/s. The disk thoughput to be used for the node configuration
+        instance_type:
+          type: string
+          example: T3A_LARGE
+          description: the instance type to be used for this cluster. The list of values can be retrieved via the endpoint /{CloudProvider}/instanceType
+        kubernetes:
+          $ref: '#/components/schemas/KubernetesEnum'
+        production:
+          type: boolean
+          description: specific flag to indicate that this cluster is a production one
+        ssh_keys:
+          description: Indicate your public ssh_key to remotely connect to your EC2 instance.
+          type: array
+          items:
+            type: string
+        features:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              value:
+                oneOf:
+                - type: string
+                - type: boolean
+                - $ref: '#/components/schemas/ClusterFeatureAwsExistingVpc'
+                - $ref: '#/components/schemas/ClusterFeatureGcpExistingVpc'
+                - $ref: '#/components/schemas/ClusterFeatureKarpenterParameters'
+        metrics_parameters:
+          $ref: '#/components/schemas/MetricsParameters'
+        infrastructure_charts_parameters:
+          $ref: '#/components/schemas/ClusterInfrastructureChartsParameters'
+        keda:
+          $ref: '#/components/schemas/ClusterKeda'
+        labels_groups:
+          $ref: '#/components/schemas/ClusterLabelsGroupList'
+        secret_manager_accesses:
+          $ref: '#/components/schemas/SecretManagerAccessRequestList'
+    CloudWatchExportConfig:
+      title: CloudWatchExportConfig
+      x-stoplight:
+        id: 69hi4weirghk5
+      type: object
+      required:
+      - enabled
+      properties:
+        enabled:
+          description: To enable the cloudwatch exporter.
+          type: boolean
+          x-stoplight:
+            id: zxwl3n47xffu4
+    ClusterFeatureKarpenterParametersResponse:
+      title: ClusterFeatureKarpenterParametersResponse
+      x-stoplight:
+        id: q33tdlz4ychh5
+      type: object
+      required:
+      - type
+      - value
+      properties:
+        type:
+          $ref: '#/components/schemas/ClusterFeatureResponseTypeEnum'
+        value:
+          $ref: '#/components/schemas/ClusterFeatureKarpenterParameters'
+    ClusterStatus:
+      type: object
+      properties:
+        cluster_id:
+          type: string
+          format: uuid
+        status:
+          $ref: '#/components/schemas/ClusterStateEnum'
+        is_deployed:
+          type: boolean
+        next_k8s_available_version:
+          type:
+          - string
+          - 'null'
+          example: '1.28'
+        last_execution_id:
+          type: string
+          example: f73e3833-922a-48a5-9dbd-6163f43f9143-1656410242
+        cluster_lock:
+          $ref: '#/components/schemas/ClusterLock'
+        last_deployment_date:
+          type: string
+          format: date-time
+          example: '2022-06-22T14:20:17.733084815Z'
+    ClusterEnvironmentServiceResponse:
+      type: object
+      required:
+      - id
+      - name
+      - type
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        type:
+          $ref: '#/components/schemas/LinkedServiceTypeEnum'
+    ClusterInfrastructureMetalLbChartParameters:
+      title: InfrastructureMetalLbChartParameters
+      x-stoplight:
+        id: evxswes22ykhd
+      type: object
+      properties:
+        ip_address_pools:
+          type: array
+          x-stoplight:
+            id: sfxtfy7n1uddw
+          items:
+            x-stoplight:
+              id: lstjwwfo9ys6i
+            type: string
     ClusterStatusResponseList:
       type: object
       properties:
@@ -954,24 +1559,376 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ClusterStatus'
-    KarpenterCronjobNodePoolOverride:
-      title: KarpenterCronjobNodePoolOverride
+    ClusterRoutingTableRequest:
+      type: object
+      required:
+      - routes
+      properties:
+        routes:
+          type: array
+          items:
+            type: object
+            required:
+            - destination
+            - target
+            - description
+            properties:
+              destination:
+                type: string
+              target:
+                type: string
+              description:
+                type: string
+    KarpenterNodePool:
+      title: KarpenterNodePool
+      x-stoplight:
+        id: q8vks57rql8x1
+      type: object
+      required:
+      - requirements
+      properties:
+        requirements:
+          x-stoplight:
+            id: pkowctfxv7q77
+          type: array
+          items:
+            $ref: '#/components/schemas/KarpenterNodePoolRequirement'
+        stable_override:
+          $ref: '#/components/schemas/KarpenterStableNodePoolOverride'
+        default_override:
+          $ref: '#/components/schemas/KarpenterDefaultNodePoolOverride'
+        gpu_override:
+          $ref: '#/components/schemas/KarpenterGpuNodePoolOverride'
+        cronjob_override:
+          $ref: '#/components/schemas/KarpenterCronjobNodePoolOverride'
+    ClusterLogsResponse:
+      title: ClusterLogsResponse
+      x-stoplight:
+        id: 93ntufnd3epke
+      type: object
+      properties:
+        response:
+          type: string
+          x-stoplight:
+            id: 7vk339giarxht
+    ClusterFeatureStringResponse:
+      type: object
+      required:
+      - type
+      - value
+      properties:
+        type:
+          $ref: '#/components/schemas/ClusterFeatureResponseTypeEnum'
+        value:
+          type: string
+    ClusterFeatureResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        description:
+          type:
+          - string
+          - 'null'
+        cost_per_month_in_cents:
+          type:
+          - integer
+          - 'null'
+          example: 9900
+          deprecated: true
+        cost_per_month:
+          type:
+          - number
+          - 'null'
+          example: 99
+          deprecated: true
+        currency_code:
+          type:
+          - string
+          - 'null'
+          example: USD
+          deprecated: true
+        is_cloud_provider_paying_feature:
+          type: boolean
+          example: true
+        cloud_provider_feature_documentation:
+          type:
+          - string
+          - 'null'
+          example: https://cloud.provider.doc/feature
+        is_qovery_paying_feature:
+          type: boolean
+          example: true
+        qovery_feature_documentation:
+          type:
+          - string
+          - 'null'
+          example: https://qovery.doc/feature
+        value_type:
+          type: string
+          enum:
+          - BOOLEAN
+        value_object:
+          oneOf:
+          - $ref: '#/components/schemas/ClusterFeatureStringResponse'
+          - $ref: '#/components/schemas/ClusterFeatureBooleanResponse'
+          - $ref: '#/components/schemas/ClusterFeatureAwsExistingVpcResponse'
+          - $ref: '#/components/schemas/ClusterFeatureGcpExistingVpcResponse'
+          - $ref: '#/components/schemas/ClusterFeatureKarpenterParametersResponse'
+          discriminator:
+            propertyName: type
+            mapping:
+              STRING: '#/components/schemas/ClusterFeatureStringResponse'
+              BOOLEAN: '#/components/schemas/ClusterFeatureBooleanResponse'
+              AWS_USER_PROVIDED_NETWORK: '#/components/schemas/ClusterFeatureAwsExistingVpcResponse'
+              GCP_USER_PROVIDED_NETWORK: '#/components/schemas/ClusterFeatureGcpExistingVpcResponse'
+              KARPENTER: '#/components/schemas/ClusterFeatureKarpenterParametersResponse'
+        is_value_updatable:
+          type: boolean
+          default: false
+        accepted_values:
+          type: array
+          items:
+            oneOf:
+            - type: string
+            - type: boolean
+    EksAnywhereClusterJwtResponse:
+      type: object
+      required:
+      - jwt
+      properties:
+        jwt:
+          type: string
+    RegistryMirroringModeEnum:
+      type: string
+      default: Service
+      enum:
+      - Cluster
+      - Service
+      description: 'Mirroring mode when deploying a service from a container registry
+
+        - Cluster: This is not available on Scaleway. Images within the mirroring registry are organized by "Qovery cluster", meaning that the application deployed on the same cluster are all mirrored on the same repository.
+
+        - Service: Images within the mirroring registry are organized by "Qovery service", each service has its own repository
+
+        '
+    MetricsParameters:
+      title: MetricsParameters
+      x-stoplight:
+        id: 25tfm065x6c64
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          x-stoplight:
+            id: 0y1427jsrtwmg
+        configuration:
+          x-stoplight:
+            id: 1e9r2at0nxziv
+          oneOf:
+          - $ref: '#/components/schemas/MetricsConfigurationManagedByQovery'
+          discriminator:
+            propertyName: kind
+            mapping:
+              MANAGED_BY_QOVERY: '#/components/schemas/MetricsConfigurationManagedByQovery'
+    ClusterCloudProviderInfo:
+      type: object
+      properties:
+        cloud_provider:
+          $ref: '#/components/schemas/CloudProviderEnum'
+        credentials:
+          type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+            name:
+              type: string
+        region:
+          type: string
+    ClusterFeatureAwsExistingVpc:
+      type: object
+      required:
+      - aws_vpc_eks_id
+      - eks_subnets_zone_a_ids
+      - eks_subnets_zone_b_ids
+      - eks_subnets_zone_c_ids
+      properties:
+        aws_vpc_eks_id:
+          type: string
+        eks_subnets_zone_a_ids:
+          type: array
+          items:
+            type: string
+        eks_subnets_zone_b_ids:
+          type: array
+          items:
+            type: string
+        eks_subnets_zone_c_ids:
+          type: array
+          items:
+            type: string
+        documentdb_subnets_zone_a_ids:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        documentdb_subnets_zone_b_ids:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        documentdb_subnets_zone_c_ids:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        elasticache_subnets_zone_a_ids:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        elasticache_subnets_zone_b_ids:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        elasticache_subnets_zone_c_ids:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        rds_subnets_zone_a_ids:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        rds_subnets_zone_b_ids:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        rds_subnets_zone_c_ids:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        eks_karpenter_fargate_subnets_zone_a_ids:
+          type:
+          - array
+          - 'null'
+          x-stoplight:
+            id: 8rttrya00wmkr
+          items:
+            x-stoplight:
+              id: rtxx96v011irr
+            type: string
+        eks_karpenter_fargate_subnets_zone_b_ids:
+          type:
+          - array
+          - 'null'
+          x-stoplight:
+            id: xnbtr8676culs
+          items:
+            x-stoplight:
+              id: 1w592qk4spodn
+            type: string
+        eks_karpenter_fargate_subnets_zone_c_ids:
+          type:
+          - array
+          - 'null'
+          x-stoplight:
+            id: st5domzqqkcoh
+          items:
+            x-stoplight:
+              id: xyjjh50ckrzee
+            type: string
+        eks_create_nodes_in_private_subnet:
+          type: boolean
+          default: true
+    KarpenterGpuNodePoolOverride:
+      title: KarpenterGpuNodePoolOverride
+      x-stoplight:
+        id: fi2s446xdrdu1
       type: object
       properties:
         consolidation:
           $ref: '#/components/schemas/KarpenterNodePoolConsolidation'
         limits:
           $ref: '#/components/schemas/KarpenterNodePoolLimits'
+        requirements:
+          type: array
+          x-stoplight:
+            id: 38pdri17ozql9
+          items:
+            $ref: '#/components/schemas/KarpenterNodePoolRequirement'
+        disk_size_in_gib:
+          type: integer
+          x-stoplight:
+            id: xq5ycmme7o025
+          minimum: 0
+          default: 100
+          example: 150
+        disk_iops:
+          type: integer
+          x-stoplight:
+            id: gpu1d1skiops
+          minimum: 3000
+          maximum: 16000
+          example: 7800
+          description: Unit is operation/seconds. The disk IOPS to be used for the GPU node pool configuration
+        disk_throughput:
+          type: integer
+          x-stoplight:
+            id: gpu1d1skthr
+          minimum: 125
+          maximum: 1000
+          example: 255
+          description: Unit is in MB/s. The disk throughput to be used for the GPU node pool configuration
+        spot_enabled:
+          type: boolean
+          x-stoplight:
+            id: rjzxs0e2rn0ij
+          default: false
         consolidate_after:
           type: string
           description: 'Time to wait before consolidating empty or underutilized nodes (e.g., 1m, 10m, 1h). Maximum: 24h'
           example: 30s
           pattern: ^\d+(s|m|h)$
-    SecretManagerAccessResponseList:
-      title: SecretManagerAccessResponseList
-      type: array
-      items:
-        $ref: '#/components/schemas/SecretManagerAccessResponse'
+    ClusterMetricsResponse:
+      title: ClusterMetricsResponse
+      x-stoplight:
+        id: 7z04ha035fh6s
+      type: object
+      properties:
+        metrics:
+          type: string
+          x-stoplight:
+            id: nyp9g89joz1wv
+    AwsRoleArnAuthDto:
+      type: object
+      required:
+      - mode
+      - role_arn
+      properties:
+        mode:
+          type: string
+          enum:
+          - AWS_ROLE_ARN
+        role_arn:
+          type: string
     ClusterAdvancedSettings:
       type: object
       properties:
@@ -1204,177 +2161,6 @@ components:
             x-stoplight:
               id: v8r1f6alk5abp
             type: string
-    KarpenterNodePoolRequirementOperator:
-      title: KarpenterNodePoolRequirementOperator
-      x-stoplight:
-        id: wkzlvifywpa0t
-      enum:
-      - In
-    Commit:
-      type:
-      - object
-      - 'null'
-      required:
-      - git_commit_id
-      - created_at
-      - author_name
-      - message
-      - tag
-      properties:
-        created_at:
-          type: string
-          format: date-time
-        git_commit_id:
-          type: string
-        tag:
-          type: string
-          example: v2.1.1
-        message:
-          type: string
-        author_name:
-          type: string
-        author_avatar_url:
-          type: string
-        commit_page_url:
-          type: string
-    RegistryMirroringModeEnum:
-      type: string
-      default: Service
-      enum:
-      - Cluster
-      - Service
-      description: 'Mirroring mode when deploying a service from a container registry
-
-        - Cluster: This is not available on Scaleway. Images within the mirroring registry are organized by "Qovery cluster", meaning that the application deployed on the same cluster are all mirrored on the same repository.
-
-        - Service: Images within the mirroring registry are organized by "Qovery service", each service has its own repository
-
-        '
-    CloudVendorEnum:
-      type: string
-      enum:
-      - AWS
-      - SCW
-      - GCP
-      - DO
-      - AZURE
-      - OVH
-      - CIVO
-      - HETZNER
-      - ORACLE
-      - IBM
-      - ON_PREMISE
-    AwsSecretManagerEndpointDto:
-      type: object
-      required:
-      - mode
-      - region
-      properties:
-        mode:
-          type: string
-          enum:
-          - AWS_SECRET_MANAGER
-        region:
-          type: string
-    ClusterKarpenterPrivateSubnetIdsPutRequest:
-      type: object
-      properties:
-        eks_karpenter_fargate_subnets_zone_a_ids:
-          type: array
-          items:
-            type: string
-        eks_karpenter_fargate_subnets_zone_b_ids:
-          type: array
-          items:
-            type: string
-        eks_karpenter_fargate_subnets_zone_c_ids:
-          type: array
-          items:
-            type: string
-    KubernetesEnum:
-      type: string
-      enum:
-      - MANAGED
-      - SELF_MANAGED
-      - PARTIALLY_MANAGED
-      default: MANAGED
-    ClusterStateEnum:
-      type: string
-      enum:
-      - BUILDING
-      - BUILD_ERROR
-      - CANCELED
-      - CANCELING
-      - DELETED
-      - DELETE_ERROR
-      - DELETE_QUEUED
-      - DELETING
-      - DEPLOYED
-      - DEPLOYING
-      - DEPLOYMENT_ERROR
-      - DEPLOYMENT_QUEUED
-      - DRY_RUN
-      - QUEUED
-      - READY
-      - STOPPED
-      - STOPPING
-      - STOP_ERROR
-      - STOP_QUEUED
-      - RESTART_QUEUED
-      - RESTARTING
-      - RESTARTED
-      - RESTART_ERROR
-      - INVALID_CREDENTIALS
-    ClusterLogsResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/ClusterLogs'
-    InfrastructureOutputs:
-      type: object
-      required:
-      - kind
-      discriminator:
-        propertyName: kind
-        mapping:
-          AKS: '#/components/schemas/AksInfrastructureOutputs'
-          EKS: '#/components/schemas/EksInfrastructureOutputs'
-          GKE: '#/components/schemas/GkeInfrastructureOutputs'
-          SCW_KAPSULE: '#/components/schemas/KapsuleInfrastructureOutputs'
-      oneOf:
-      - $ref: '#/components/schemas/AksInfrastructureOutputs'
-      - $ref: '#/components/schemas/EksInfrastructureOutputs'
-      - $ref: '#/components/schemas/GkeInfrastructureOutputs'
-      - $ref: '#/components/schemas/KapsuleInfrastructureOutputs'
-    ClusterInfrastructureNginxChartParameters:
-      title: ClusterInfrastructureNginxChartParameters
-      x-stoplight:
-        id: c9r0h8ey6ugzr
-      type: object
-      properties:
-        replica_count:
-          type: integer
-          x-stoplight:
-            id: zdwoxwir7ygnw
-          minimum: 0
-        default_ssl_certificate:
-          type: string
-          x-stoplight:
-            id: z1l1xmwud3yjq
-        publish_status_address:
-          type: string
-          x-stoplight:
-            id: da9klqdcxew6n
-        annotation_metal_lb_load_balancer_ips:
-          type: string
-          x-stoplight:
-            id: 4ji26purdr956
-        annotation_external_dns_kubernetes_target:
-          type: string
-          x-stoplight:
-            id: ytwsmm8mzre3g
     InternalNetworkMonitoring:
       title: InternalNetworkMonitoring
       x-stoplight:
@@ -1387,19 +2173,37 @@ components:
           type: boolean
           x-stoplight:
             id: 8fvsh62tnjurc
-    CloudWatchExportConfig:
-      title: CloudWatchExportConfig
+    ClusterLabelsGroupList:
+      title: ClusterLabelsGroupList
       x-stoplight:
-        id: 69hi4weirghk5
+        id: imn8c9l4fab56
+      type: array
+      items:
+        $ref: '#/components/schemas/ClusterLabelsGroup'
+    GcpJsonCredentialsAuthDto:
       type: object
       required:
-      - enabled
+      - mode
       properties:
-        enabled:
-          description: To enable the cloudwatch exporter.
-          type: boolean
-          x-stoplight:
-            id: zxwl3n47xffu4
+        mode:
+          type: string
+          enum:
+          - GCP_JSON_CREDENTIALS
+        json_credentials:
+          type:
+          - string
+          - 'null'
+    WeekdayEnum:
+      type: string
+      enum:
+      - MONDAY
+      - TUESDAY
+      - WEDNESDAY
+      - THURSDAY
+      - FRIDAY
+      - SATURDAY
+      - SUNDAY
+      example: MONDAY
     ClusterFeatureGcpExistingVpc:
       type: object
       required:
@@ -1427,17 +2231,27 @@ components:
           type: array
           items:
             type: string
-    WeekdayEnum:
+    ClusterDeleteMode:
       type: string
+      description: "Indicates the mode to apply on cluster deletion  \n**\"hard delete\"** means that we delete directly from our database, this is different from a **\"trigger delete\"** that cleans the resource\n- `DEFAULT`: this is the normal way, trigger delete the cluster only if no environment linked to this cluster remains\n- `DELETE_CLUSTER_AND_QOVERY_CONFIG`: hard delete environments linked to this cluster then trigger delete the cluster\n- `DELETE_QOVERY_CONFIG`: ⚠️ ⚠️ ⚠️ hard delete environments linked to this cluster then hard delete the cluster - whole cluster ressources **are not deleted** on our side and must be deleted on your side\n"
       enum:
-      - MONDAY
-      - TUESDAY
-      - WEDNESDAY
-      - THURSDAY
-      - FRIDAY
-      - SATURDAY
-      - SUNDAY
-      example: MONDAY
+      - DEFAULT
+      - DELETE_CLUSTER_AND_QOVERY_CONFIG
+      - DELETE_QOVERY_CONFIG
+      example: DEFAULT
+      default: DEFAULT
+    ClusterKeda:
+      title: ClusterKeda
+      x-stoplight:
+        id: apznbrc98va7j
+      type: object
+      required:
+      - enabled
+      properties:
+        enabled:
+          type: boolean
+          x-stoplight:
+            id: 46c6f1rqdvu55
     KarpenterNodePoolConsolidation:
       title: KarpenterNodePoolConsolidation
       type: object
@@ -1470,20 +2284,33 @@ components:
             '
           type: string
           example: PT2H45M
-    AksInfrastructureOutputs:
+    InfrastructureOutputs:
       type: object
       required:
       - kind
-      - cluster_name
-      - cluster_oidc_issuer
+      discriminator:
+        propertyName: kind
+        mapping:
+          AKS: '#/components/schemas/AksInfrastructureOutputs'
+          EKS: '#/components/schemas/EksInfrastructureOutputs'
+          GKE: '#/components/schemas/GkeInfrastructureOutputs'
+          SCW_KAPSULE: '#/components/schemas/KapsuleInfrastructureOutputs'
+      oneOf:
+      - $ref: '#/components/schemas/AksInfrastructureOutputs'
+      - $ref: '#/components/schemas/EksInfrastructureOutputs'
+      - $ref: '#/components/schemas/GkeInfrastructureOutputs'
+      - $ref: '#/components/schemas/KapsuleInfrastructureOutputs'
+    KarpenterDefaultNodePoolOverride:
+      title: KarpenterDefaultNodePoolOverride
+      type: object
       properties:
-        kind:
-          enum:
-          - AKS
-        cluster_name:
+        limits:
+          $ref: '#/components/schemas/KarpenterNodePoolLimits'
+        consolidate_after:
           type: string
-        cluster_oidc_issuer:
-          type: string
+          description: 'Time to wait before consolidating empty or underutilized nodes (e.g., 1m, 10m, 1h). Maximum: 24h'
+          example: 1m
+          pattern: ^\d+(s|m|h)$
     CommitResponseList:
       type: object
       properties:
@@ -1491,62 +2318,87 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Commit'
-    ClusterDeploymentStatusEnum:
-      type: string
-      enum:
-      - NEVER_DEPLOYED
-      - OUT_OF_DATE
-      - UP_TO_DATE
-    ClusterResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/Cluster'
-    MetricsConfigurationManagedByQovery:
-      title: MetricsConfigurationManagedByQovery
-      x-stoplight:
-        id: d6oy3aiodk659
-      type: object
-      properties:
-        kind:
-          x-stoplight:
-            id: i8z3rzufjt5uk
-          enum:
-          - MANAGED_BY_QOVERY
-        resource_profile:
-          $ref: '#/components/schemas/ObservabilityResourceProfile'
-        cloud_watch_export_config:
-          $ref: '#/components/schemas/CloudWatchExportConfig'
-        high_availability:
-          type: boolean
-          x-stoplight:
-            id: zs2zhdd1p5e6q
-        internal_network_monitoring:
-          $ref: '#/components/schemas/InternalNetworkMonitoring'
-        alerting:
-          $ref: '#/components/schemas/AlertingConfig'
-    ClusterRoutingTableRequest:
+    SecretManagerAccessResponseList:
+      title: SecretManagerAccessResponseList
+      type: array
+      items:
+        $ref: '#/components/schemas/SecretManagerAccessResponse'
+    SecretManagerAccessResponse:
       type: object
       required:
-      - routes
+      - id
+      - name
+      - created_at
+      - updated_at
+      - endpoint
+      - authentication
       properties:
-        routes:
-          type: array
-          items:
-            type: object
-            required:
-            - destination
-            - target
-            - description
-            properties:
-              destination:
-                type: string
-              target:
-                type: string
-              description:
-                type: string
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        endpoint:
+          $ref: '#/components/schemas/SecretManagerEndpointConfigurationDto'
+        authentication:
+          $ref: '#/components/schemas/SecretManagerAuthenticationDto'
+    AwsStaticCredentialsAuthDto:
+      type: object
+      required:
+      - mode
+      - region
+      - access_key
+      properties:
+        mode:
+          type: string
+          enum:
+          - AWS_STATIC_CREDENTIALS
+        region:
+          type: string
+        access_key:
+          type: string
+        secret_key:
+          type:
+          - string
+          - 'null'
+    SecretManagerAccessRequestList:
+      title: SecretManagerAccessRequestList
+      type: array
+      items:
+        $ref: '#/components/schemas/SecretManagerAccessRequest'
+    ClusterInfrastructureNginxChartParameters:
+      title: ClusterInfrastructureNginxChartParameters
+      x-stoplight:
+        id: c9r0h8ey6ugzr
+      type: object
+      properties:
+        replica_count:
+          type: integer
+          x-stoplight:
+            id: zdwoxwir7ygnw
+          minimum: 0
+        default_ssl_certificate:
+          type: string
+          x-stoplight:
+            id: z1l1xmwud3yjq
+        publish_status_address:
+          type: string
+          x-stoplight:
+            id: da9klqdcxew6n
+        annotation_metal_lb_load_balancer_ips:
+          type: string
+          x-stoplight:
+            id: 4ji26purdr956
+        annotation_external_dns_kubernetes_target:
+          type: string
+          x-stoplight:
+            id: ytwsmm8mzre3g
     ClusterEnvironmentResponse:
       type: object
       required:
@@ -1570,112 +2422,46 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ClusterEnvironmentServiceResponse'
-    ClusterKeda:
-      title: ClusterKeda
-      x-stoplight:
-        id: apznbrc98va7j
-      type: object
-      required:
-      - enabled
-      properties:
-        enabled:
-          type: boolean
-          x-stoplight:
-            id: 46c6f1rqdvu55
-    ClusterRequest:
-      type: object
-      required:
-      - name
-      - region
-      - cloud_provider
-      properties:
-        name:
-          type: string
-          description: name is case-insensitive
-        description:
-          type: string
-        region:
-          type: string
-        cloud_provider:
-          $ref: '#/components/schemas/CloudVendorEnum'
-        cloud_provider_credentials:
-          $ref: '#/components/schemas/ClusterCloudProviderInfoRequest'
-        min_running_nodes:
-          type: integer
-          default: 1
-        max_running_nodes:
-          type: integer
-          default: 1
-        disk_size:
-          type: integer
-          example: 50
-          default: 40
-          description: Unit is in GB. The disk size to be used for the node configuration
-        disk_iops:
-          type: integer
-          example: 7800
-          minimum: 3000
-          maximum: 16000
-          description: Unit is operation/seconds. The disk IOPS to be used for the node configuration
-        disk_throughput:
-          type: integer
-          example: 255
-          minimum: 125
-          maximum: 1000
-          description: Unit is in MB/s. The disk thoughput to be used for the node configuration
-        instance_type:
-          type: string
-          example: T3A_LARGE
-          description: the instance type to be used for this cluster. The list of values can be retrieved via the endpoint /{CloudProvider}/instanceType
-        kubernetes:
-          $ref: '#/components/schemas/KubernetesEnum'
-        production:
-          type: boolean
-          description: specific flag to indicate that this cluster is a production one
-        ssh_keys:
-          description: Indicate your public ssh_key to remotely connect to your EC2 instance.
-          type: array
-          items:
-            type: string
-        features:
-          type: array
-          items:
-            type: object
-            properties:
-              id:
-                type: string
-                format: uuid
-              value:
-                oneOf:
-                - type: string
-                - type: boolean
-                - $ref: '#/components/schemas/ClusterFeatureAwsExistingVpc'
-                - $ref: '#/components/schemas/ClusterFeatureGcpExistingVpc'
-                - $ref: '#/components/schemas/ClusterFeatureKarpenterParameters'
-        metrics_parameters:
-          $ref: '#/components/schemas/MetricsParameters'
-        infrastructure_charts_parameters:
-          $ref: '#/components/schemas/ClusterInfrastructureChartsParameters'
-        keda:
-          $ref: '#/components/schemas/ClusterKeda'
-        labels_groups:
-          $ref: '#/components/schemas/ClusterLabelsGroupList'
-        secret_manager_accesses:
-          $ref: '#/components/schemas/SecretManagerAccessRequestList'
-    ClusterInfrastructureMetalLbChartParameters:
-      title: InfrastructureMetalLbChartParameters
-      x-stoplight:
-        id: evxswes22ykhd
+    KarpenterCronjobNodePoolOverride:
+      title: KarpenterCronjobNodePoolOverride
       type: object
       properties:
-        ip_address_pools:
-          type: array
-          x-stoplight:
-            id: sfxtfy7n1uddw
-          items:
-            x-stoplight:
-              id: lstjwwfo9ys6i
-            type: string
+        consolidation:
+          $ref: '#/components/schemas/KarpenterNodePoolConsolidation'
+        limits:
+          $ref: '#/components/schemas/KarpenterNodePoolLimits'
+        consolidate_after:
+          type: string
+          description: 'Time to wait before consolidating empty or underutilized nodes (e.g., 1m, 10m, 1h). Maximum: 24h'
+          example: 30s
+          pattern: ^\d+(s|m|h)$
+    ClusterStateEnum:
+      type: string
+      enum:
+      - BUILDING
+      - BUILD_ERROR
+      - CANCELED
+      - CANCELING
+      - DELETED
+      - DELETE_ERROR
+      - DELETE_QUEUED
+      - DELETING
+      - DEPLOYED
+      - DEPLOYING
+      - DEPLOYMENT_ERROR
+      - DEPLOYMENT_QUEUED
+      - DRY_RUN
+      - QUEUED
+      - READY
+      - STOPPED
+      - STOPPING
+      - STOP_ERROR
+      - STOP_QUEUED
+      - RESTART_QUEUED
+      - RESTARTING
+      - RESTARTED
+      - RESTART_ERROR
+      - INVALID_CREDENTIALS
     ClusterFeatureKarpenterParameters:
       title: ClusterFeatureKarpenterParameters
       x-stoplight:
@@ -1711,71 +2497,15 @@ components:
           $ref: '#/components/schemas/CpuArchitectureEnum'
         qovery_node_pools:
           $ref: '#/components/schemas/KarpenterNodePool'
-    SecretManagerAccessRequest:
-      type: object
-      required:
-      - name
-      - endpoint
-      - authentication
-      properties:
-        id:
-          type:
-          - string
-          - 'null'
-          format: uuid
-        name:
-          type: string
-        endpoint:
-          $ref: '#/components/schemas/SecretManagerEndpointConfigurationDto'
-        authentication:
-          $ref: '#/components/schemas/SecretManagerAuthenticationDto'
-    ClusterRoutingTable:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            type: object
-            required:
-            - destination
-            - target
-            - description
-            properties:
-              destination:
-                type: string
-              target:
-                type: string
-              description:
-                type: string
-    SecretManagerAuthenticationDto:
-      oneOf:
-      - $ref: '#/components/schemas/AutomaticallyConfiguredAuthDto'
-      - $ref: '#/components/schemas/AwsRoleArnAuthDto'
-      - $ref: '#/components/schemas/AwsStaticCredentialsAuthDto'
-      - $ref: '#/components/schemas/GcpJsonCredentialsAuthDto'
-      discriminator:
-        propertyName: mode
-        mapping:
-          AUTOMATICALLY_CONFIGURED: '#/components/schemas/AutomaticallyConfiguredAuthDto'
-          AWS_ROLE_ARN: '#/components/schemas/AwsRoleArnAuthDto'
-          AWS_STATIC_CREDENTIALS: '#/components/schemas/AwsStaticCredentialsAuthDto'
-          GCP_JSON_CREDENTIALS: '#/components/schemas/GcpJsonCredentialsAuthDto'
-    GcpSecretManagerEndpointDto:
-      type: object
-      required:
-      - mode
-      - region
-      - projectId
-      properties:
-        mode:
-          type: string
-          enum:
-          - GCP_SECRET_MANAGER
-        region:
-          type: string
-        projectId:
-          type: string
-    ClusterFeatureAwsExistingVpcResponse:
+    ObservabilityResourceProfile:
+      title: ObservabilityResourceProfile
+      x-stoplight:
+        id: 3a3rea0t85miz
+      enum:
+      - LOW
+      - NORMAL
+      - HIGH
+    ClusterFeatureBooleanResponse:
       type: object
       required:
       - type
@@ -1784,376 +2514,21 @@ components:
         type:
           $ref: '#/components/schemas/ClusterFeatureResponseTypeEnum'
         value:
-          $ref: '#/components/schemas/ClusterFeatureAwsExistingVpc'
-    ClusterMetricsResponse:
-      title: ClusterMetricsResponse
-      x-stoplight:
-        id: 7z04ha035fh6s
-      type: object
-      properties:
-        metrics:
-          type: string
-          x-stoplight:
-            id: nyp9g89joz1wv
-    KarpenterGpuNodePoolOverride:
-      title: KarpenterGpuNodePoolOverride
-      x-stoplight:
-        id: fi2s446xdrdu1
-      type: object
-      properties:
-        consolidation:
-          $ref: '#/components/schemas/KarpenterNodePoolConsolidation'
-        limits:
-          $ref: '#/components/schemas/KarpenterNodePoolLimits'
-        requirements:
-          type: array
-          x-stoplight:
-            id: 38pdri17ozql9
-          items:
-            $ref: '#/components/schemas/KarpenterNodePoolRequirement'
-        disk_size_in_gib:
-          type: integer
-          x-stoplight:
-            id: xq5ycmme7o025
-          minimum: 0
-          default: 100
-          example: 150
-        disk_iops:
-          type: integer
-          x-stoplight:
-            id: gpu1d1skiops
-          minimum: 3000
-          maximum: 16000
-          example: 7800
-          description: Unit is operation/seconds. The disk IOPS to be used for the GPU node pool configuration
-        disk_throughput:
-          type: integer
-          x-stoplight:
-            id: gpu1d1skthr
-          minimum: 125
-          maximum: 1000
-          example: 255
-          description: Unit is in MB/s. The disk throughput to be used for the GPU node pool configuration
-        spot_enabled:
           type: boolean
-          x-stoplight:
-            id: rjzxs0e2rn0ij
-          default: false
-        consolidate_after:
-          type: string
-          description: 'Time to wait before consolidating empty or underutilized nodes (e.g., 1m, 10m, 1h). Maximum: 24h'
-          example: 30s
-          pattern: ^\d+(s|m|h)$
-    KarpenterStableNodePoolOverride:
-      title: KarpenterStableNodePoolOverride
-      type: object
-      properties:
-        consolidation:
-          $ref: '#/components/schemas/KarpenterNodePoolConsolidation'
-        limits:
-          $ref: '#/components/schemas/KarpenterNodePoolLimits'
-        consolidate_after:
-          type: string
-          description: 'Time to wait before consolidating empty or underutilized nodes (e.g., 1m, 10m, 1h). Maximum: 24h'
-          example: 30s
-          pattern: ^\d+(s|m|h)$
-    ClusterStatus:
-      type: object
-      properties:
-        cluster_id:
-          type: string
-          format: uuid
-        status:
-          $ref: '#/components/schemas/ClusterStateEnum'
-        is_deployed:
-          type: boolean
-        next_k8s_available_version:
-          type:
-          - string
-          - 'null'
-          example: '1.28'
-        last_execution_id:
-          type: string
-          example: f73e3833-922a-48a5-9dbd-6163f43f9143-1656410242
-        cluster_lock:
-          $ref: '#/components/schemas/ClusterLock'
-        last_deployment_date:
-          type: string
-          format: date-time
-          example: '2022-06-22T14:20:17.733084815Z'
-    CloudProviderEnum:
+    CloudVendorEnum:
       type: string
       enum:
       - AWS
       - SCW
       - GCP
-      - ON_PREMISE
+      - DO
       - AZURE
-    GitProviderEnum:
-      type: string
-      enum:
-      - BITBUCKET
-      - GITHUB
-      - GITLAB
-    ClusterDeleteMode:
-      type: string
-      description: "Indicates the mode to apply on cluster deletion  \n**\"hard delete\"** means that we delete directly from our database, this is different from a **\"trigger delete\"** that cleans the resource\n- `DEFAULT`: this is the normal way, trigger delete the cluster only if no environment linked to this cluster remains\n- `DELETE_CLUSTER_AND_QOVERY_CONFIG`: hard delete environments linked to this cluster then trigger delete the cluster\n- `DELETE_QOVERY_CONFIG`: ⚠️ ⚠️ ⚠️ hard delete environments linked to this cluster then hard delete the cluster - whole cluster ressources **are not deleted** on our side and must be deleted on your side\n"
-      enum:
-      - DEFAULT
-      - DELETE_CLUSTER_AND_QOVERY_CONFIG
-      - DELETE_QOVERY_CONFIG
-      example: DEFAULT
-      default: DEFAULT
-    ClusterInfrastructureEksAnywhereParameters:
-      type: object
-      required:
-      - git_repository
-      - yaml_file_path
-      properties:
-        git_repository:
-          $ref: '#/components/schemas/ClusterEksAnywhereGitRepository'
-        yaml_file_path:
-          type: string
-          description: Path to the EKS Anywhere cluster YAML file in the git repository
-          example: /clusters/cluster-a.yaml
-        cluster_backup:
-          $ref: '#/components/schemas/ClusterInfrastructureEksAnywhereBackupParameters'
-    ClusterLogsResponse:
-      title: ClusterLogsResponse
-      x-stoplight:
-        id: 93ntufnd3epke
-      type: object
-      properties:
-        response:
-          type: string
-          x-stoplight:
-            id: 7vk339giarxht
-    SecretManagerEndpointConfigurationDto:
-      oneOf:
-      - $ref: '#/components/schemas/AwsSecretManagerEndpointDto'
-      - $ref: '#/components/schemas/AwsParameterStoreEndpointDto'
-      - $ref: '#/components/schemas/GcpSecretManagerEndpointDto'
-      discriminator:
-        propertyName: mode
-        mapping:
-          AWS_SECRET_MANAGER: '#/components/schemas/AwsSecretManagerEndpointDto'
-          AWS_PARAMETER_STORE: '#/components/schemas/AwsParameterStoreEndpointDto'
-          GCP_SECRET_MANAGER: '#/components/schemas/GcpSecretManagerEndpointDto'
-    SecretManagerAccessRequestList:
-      title: SecretManagerAccessRequestList
-      type: array
-      items:
-        $ref: '#/components/schemas/SecretManagerAccessRequest'
-    ClusterFeatureResponseTypeEnum:
-      type: string
-      enum:
-      - STRING
-      - BOOLEAN
-      - AWS_USER_PROVIDED_NETWORK
-      - GCP_USER_PROVIDED_NETWORK
-      - KARPENTER
-    EksAnywhereCommitResponse:
-      type: object
-      required:
-      - commit_id
-      properties:
-        commit_id:
-          type: string
-    ClusterEnvironmentServiceResponse:
-      type: object
-      required:
-      - id
-      - name
-      - type
-      properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          type: string
-        type:
-          $ref: '#/components/schemas/LinkedServiceTypeEnum'
-    KarpenterNodePoolLimits:
-      title: KarpenterNodePoolLimits
-      type: object
-      required:
-      - enabled
-      - max_cpu_in_vcpu
-      - max_memory_in_gibibytes
-      - max_gpu
-      properties:
-        enabled:
-          type: boolean
-          default: false
-        max_cpu_in_vcpu:
-          type: integer
-          description: 'CPU limit that will be applied for the node pool (in vCPU unit: 1 vCPU = 1000 millicores)'
-        max_memory_in_gibibytes:
-          type: integer
-          description: 'Memory limit that will be applied for the node pool (in Gibibytes unit: 1Gi = 1024 mebibytes)'
-        max_gpu:
-          type: integer
-          x-stoplight:
-            id: fn3k34ck5abe4
-          default: 0
-          example: 10
-          minimum: 0
-          description: GPU limit that will be applied for the node pool
-    ClusterEksAnywhereGitRepository:
-      type: object
-      required:
-      - url
-      - git_token_id
-      properties:
-        url:
-          type: string
-          format: uri
-          description: EKS Anywhere git repository URL
-          example: https://github.com/Qovery/eks-anywhere-config.git
-        branch:
-          type: string
-          description: 'Name of the branch to use. This is optional.
-
-            If not specified, the default branch of the repository is used.
-
-            '
-          example: main
-        commit_id:
-          type: string
-          description: 'Optional git commit SHA to pin EKS Anywhere configuration on a specific revision.
-
-            If omitted, the latest commit from the selected branch is used.
-
-            '
-          example: 4e3128725f47140002fa47d65d83195a51f5140f
-        git_token_id:
-          type: string
-          format: uuid
-          description: Qovery git token id used to access the repository
-        provider:
-          $ref: '#/components/schemas/GitProviderEnum'
-    ClusterInfrastructureEksAnywhereBackupParameters:
-      type: object
-      required:
-      - s3
-      properties:
-        enabled:
-          type: boolean
-          default: true
-          description: Enable or disable EKS Anywhere cluster backup.
-        timeout_seconds:
-          type: integer
-          format: int64
-          default: 300
-          description: Timeout in seconds for backup operations.
-        certs_secret_name:
-          type: string
-          description: Optional Kubernetes secret name holding etcd certificates.
-        s3:
-          $ref: '#/components/schemas/ClusterInfrastructureEksAnywhereBackupS3Parameters'
-    AwsParameterStoreEndpointDto:
-      type: object
-      required:
-      - mode
-      - region
-      properties:
-        mode:
-          type: string
-          enum:
-          - AWS_PARAMETER_STORE
-        region:
-          type: string
-    LinkedServiceTypeEnum:
-      type: string
-      description: type of the service (application, database, job, gateway...)
-      enum:
-      - APPLICATION
-      - CONTAINER
-      - DATABASE
-      - JOB
-      - HELM
-      - TERRAFORM
-    ClusterFeatureResponse:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        title:
-          type: string
-        description:
-          type:
-          - string
-          - 'null'
-        cost_per_month_in_cents:
-          type:
-          - integer
-          - 'null'
-          example: 9900
-          deprecated: true
-        cost_per_month:
-          type:
-          - number
-          - 'null'
-          example: 99
-          deprecated: true
-        currency_code:
-          type:
-          - string
-          - 'null'
-          example: USD
-          deprecated: true
-        is_cloud_provider_paying_feature:
-          type: boolean
-          example: true
-        cloud_provider_feature_documentation:
-          type:
-          - string
-          - 'null'
-          example: https://cloud.provider.doc/feature
-        is_qovery_paying_feature:
-          type: boolean
-          example: true
-        qovery_feature_documentation:
-          type:
-          - string
-          - 'null'
-          example: https://qovery.doc/feature
-        value_type:
-          type: string
-          enum:
-          - BOOLEAN
-        value_object:
-          oneOf:
-          - $ref: '#/components/schemas/ClusterFeatureStringResponse'
-          - $ref: '#/components/schemas/ClusterFeatureBooleanResponse'
-          - $ref: '#/components/schemas/ClusterFeatureAwsExistingVpcResponse'
-          - $ref: '#/components/schemas/ClusterFeatureGcpExistingVpcResponse'
-          - $ref: '#/components/schemas/ClusterFeatureKarpenterParametersResponse'
-          discriminator:
-            propertyName: type
-            mapping:
-              STRING: '#/components/schemas/ClusterFeatureStringResponse'
-              BOOLEAN: '#/components/schemas/ClusterFeatureBooleanResponse'
-              AWS_USER_PROVIDED_NETWORK: '#/components/schemas/ClusterFeatureAwsExistingVpcResponse'
-              GCP_USER_PROVIDED_NETWORK: '#/components/schemas/ClusterFeatureGcpExistingVpcResponse'
-              KARPENTER: '#/components/schemas/ClusterFeatureKarpenterParametersResponse'
-        is_value_updatable:
-          type: boolean
-          default: false
-        accepted_values:
-          type: array
-          items:
-            oneOf:
-            - type: string
-            - type: boolean
-    ClusterLabelsGroupList:
-      title: ClusterLabelsGroupList
-      x-stoplight:
-        id: imn8c9l4fab56
-      type: array
-      items:
-        $ref: '#/components/schemas/ClusterLabelsGroup'
+      - OVH
+      - CIVO
+      - HETZNER
+      - ORACLE
+      - IBM
+      - ON_PREMISE
     ClusterLockRequest:
       title: ClusterLockRequest
       x-stoplight:
@@ -2170,88 +2545,6 @@ components:
           type: integer
           x-stoplight:
             id: m7spawrlr0mii
-    ClusterCloudProviderInfoRequest:
-      type: object
-      properties:
-        cloud_provider:
-          $ref: '#/components/schemas/CloudProviderEnum'
-        credentials:
-          type: object
-          properties:
-            id:
-              type: string
-              format: uuid
-            name:
-              type: string
-        region:
-          type: string
-    EksAnywhereCommitRequest:
-      type: object
-      required:
-      - commit_id
-      properties:
-        commit_id:
-          type: string
-    ClusterFeatureKarpenterParametersResponse:
-      title: ClusterFeatureKarpenterParametersResponse
-      x-stoplight:
-        id: q33tdlz4ychh5
-      type: object
-      required:
-      - type
-      - value
-      properties:
-        type:
-          $ref: '#/components/schemas/ClusterFeatureResponseTypeEnum'
-        value:
-          $ref: '#/components/schemas/ClusterFeatureKarpenterParameters'
-    ObservabilityResourceProfile:
-      title: ObservabilityResourceProfile
-      x-stoplight:
-        id: 3a3rea0t85miz
-      enum:
-      - LOW
-      - NORMAL
-      - HIGH
-    ClusterInfrastructureEksAnywhereBackupS3Parameters:
-      type: object
-      required:
-      - bucket
-      - region
-      - role_arn
-      properties:
-        bucket:
-          type: string
-          description: S3 bucket name used to store EKS Anywhere backup artifacts.
-        region:
-          type: string
-          description: AWS region where the backup bucket is hosted.
-        role_arn:
-          type: string
-          description: IAM role ARN assumed to upload backup artifacts.
-        key_prefix:
-          type: string
-          description: Optional S3 key prefix used for backup object keys.
-    ClusterFeatureGcpExistingVpcResponse:
-      type: object
-      required:
-      - type
-      - value
-      properties:
-        type:
-          $ref: '#/components/schemas/ClusterFeatureResponseTypeEnum'
-        value:
-          $ref: '#/components/schemas/ClusterFeatureGcpExistingVpc'
-    ClusterFeatureStringResponse:
-      type: object
-      required:
-      - type
-      - value
-      properties:
-        type:
-          $ref: '#/components/schemas/ClusterFeatureResponseTypeEnum'
-        value:
-          type: string
     KarpenterNodePoolRequirementKey:
       title: KarpenterNodePoolRequirementKey
       x-stoplight:
@@ -2262,7 +2555,7 @@ components:
       - Arch
       - SkuFamily
       - SkuVersion
-    ClusterFeatureBooleanResponse:
+    ClusterFeatureGcpExistingVpcResponse:
       type: object
       required:
       - type
@@ -2271,303 +2564,7 @@ components:
         type:
           $ref: '#/components/schemas/ClusterFeatureResponseTypeEnum'
         value:
-          type: boolean
-    MetricsParameters:
-      title: MetricsParameters
-      x-stoplight:
-        id: 25tfm065x6c64
-      type: object
-      properties:
-        enabled:
-          type: boolean
-          x-stoplight:
-            id: 0y1427jsrtwmg
-        configuration:
-          x-stoplight:
-            id: 1e9r2at0nxziv
-          oneOf:
-          - $ref: '#/components/schemas/MetricsConfigurationManagedByQovery'
-          discriminator:
-            propertyName: kind
-            mapping:
-              MANAGED_BY_QOVERY: '#/components/schemas/MetricsConfigurationManagedByQovery'
-    KarpenterDefaultNodePoolOverride:
-      title: KarpenterDefaultNodePoolOverride
-      type: object
-      properties:
-        limits:
-          $ref: '#/components/schemas/KarpenterNodePoolLimits'
-        consolidate_after:
-          type: string
-          description: 'Time to wait before consolidating empty or underutilized nodes (e.g., 1m, 10m, 1h). Maximum: 24h'
-          example: 1m
-          pattern: ^\d+(s|m|h)$
-    ClusterEnvironmentResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/ClusterEnvironmentResponse'
-    Base:
-      type: object
-      required:
-      - id
-      - created_at
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        created_at:
-          type: string
-          readOnly: true
-          format: date-time
-        updated_at:
-          type: string
-          readOnly: true
-          format: date-time
-    KarpenterNodePool:
-      title: KarpenterNodePool
-      x-stoplight:
-        id: q8vks57rql8x1
-      type: object
-      required:
-      - requirements
-      properties:
-        requirements:
-          x-stoplight:
-            id: pkowctfxv7q77
-          type: array
-          items:
-            $ref: '#/components/schemas/KarpenterNodePoolRequirement'
-        stable_override:
-          $ref: '#/components/schemas/KarpenterStableNodePoolOverride'
-        default_override:
-          $ref: '#/components/schemas/KarpenterDefaultNodePoolOverride'
-        gpu_override:
-          $ref: '#/components/schemas/KarpenterGpuNodePoolOverride'
-        cronjob_override:
-          $ref: '#/components/schemas/KarpenterCronjobNodePoolOverride'
-    ClusterFeatureAwsExistingVpc:
-      type: object
-      required:
-      - aws_vpc_eks_id
-      - eks_subnets_zone_a_ids
-      - eks_subnets_zone_b_ids
-      - eks_subnets_zone_c_ids
-      properties:
-        aws_vpc_eks_id:
-          type: string
-        eks_subnets_zone_a_ids:
-          type: array
-          items:
-            type: string
-        eks_subnets_zone_b_ids:
-          type: array
-          items:
-            type: string
-        eks_subnets_zone_c_ids:
-          type: array
-          items:
-            type: string
-        documentdb_subnets_zone_a_ids:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-        documentdb_subnets_zone_b_ids:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-        documentdb_subnets_zone_c_ids:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-        elasticache_subnets_zone_a_ids:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-        elasticache_subnets_zone_b_ids:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-        elasticache_subnets_zone_c_ids:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-        rds_subnets_zone_a_ids:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-        rds_subnets_zone_b_ids:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-        rds_subnets_zone_c_ids:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-        eks_karpenter_fargate_subnets_zone_a_ids:
-          type:
-          - array
-          - 'null'
-          x-stoplight:
-            id: 8rttrya00wmkr
-          items:
-            x-stoplight:
-              id: rtxx96v011irr
-            type: string
-        eks_karpenter_fargate_subnets_zone_b_ids:
-          type:
-          - array
-          - 'null'
-          x-stoplight:
-            id: xnbtr8676culs
-          items:
-            x-stoplight:
-              id: 1w592qk4spodn
-            type: string
-        eks_karpenter_fargate_subnets_zone_c_ids:
-          type:
-          - array
-          - 'null'
-          x-stoplight:
-            id: st5domzqqkcoh
-          items:
-            x-stoplight:
-              id: xyjjh50ckrzee
-            type: string
-        eks_create_nodes_in_private_subnet:
-          type: boolean
-          default: true
-    SecretManagerAccessResponse:
-      type: object
-      required:
-      - id
-      - name
-      - created_at
-      - updated_at
-      - endpoint
-      - authentication
-      properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          type: string
-        created_at:
-          type: string
-          format: date-time
-        updated_at:
-          type: string
-          format: date-time
-        endpoint:
-          $ref: '#/components/schemas/SecretManagerEndpointConfigurationDto'
-        authentication:
-          $ref: '#/components/schemas/SecretManagerAuthenticationDto'
-    EksInfrastructureOutputs:
-      type: object
-      required:
-      - kind
-      - cluster_name
-      - cluster_arn
-      - cluster_oidc_issuer
-      - vpc_id
-      properties:
-        kind:
-          enum:
-          - EKS
-        cluster_name:
-          type: string
-        cluster_arn:
-          type: string
-        cluster_oidc_issuer:
-          type: string
-        vpc_id:
-          type: string
-    KarpenterNodePoolRequirement:
-      title: KarpenterNodePoolRequirement
-      x-stoplight:
-        id: 4ebed64emvn09
-      type: object
-      required:
-      - key
-      - operator
-      - values
-      properties:
-        key:
-          $ref: '#/components/schemas/KarpenterNodePoolRequirementKey'
-        operator:
-          $ref: '#/components/schemas/KarpenterNodePoolRequirementOperator'
-        values:
-          type: array
-          x-stoplight:
-            id: qf036o7tch5ed
-          items:
-            x-stoplight:
-              id: 02kz5mierypik
-            type: string
-    CpuArchitectureEnum:
-      title: CpuArchitectureEnum
-      x-stoplight:
-        id: jlrd3r03vjzoy
-      enum:
-      - AMD64
-      - ARM64
-    ClusterLabelsGroup:
-      title: ClusterLabelsGroup
-      x-stoplight:
-        id: mmho7lnvhxeqm
-      type: object
-      properties:
-        id:
-          type: string
-          x-stoplight:
-            id: 3b5pacfwyt1p2
-          format: uuid
-    GkeInfrastructureOutputs:
-      type: object
-      required:
-      - kind
-      - cluster_name
-      - cluster_self_link
-      properties:
-        kind:
-          enum:
-          - GKE
-        cluster_name:
-          type: string
-        cluster_self_link:
-          type: string
-    ClusterInfrastructureChartsParameters:
-      type: object
-      properties:
-        nginx_parameters:
-          $ref: '#/components/schemas/ClusterInfrastructureNginxChartParameters'
-        cert_manager_parameters:
-          $ref: '#/components/schemas/ClusterInfrastructureCertManagerChartParameters'
-        metal_lb_parameters:
-          $ref: '#/components/schemas/ClusterInfrastructureMetalLbChartParameters'
-        eks_anywhere_parameters:
-          $ref: '#/components/schemas/ClusterInfrastructureEksAnywhereParameters'
+          $ref: '#/components/schemas/ClusterFeatureGcpExistingVpc'
     Cluster:
       allOf:
       - $ref: '#/components/schemas/Base'
@@ -2666,118 +2663,43 @@ components:
             $ref: '#/components/schemas/ClusterLabelsGroupList'
           secret_manager_accesses:
             $ref: '#/components/schemas/SecretManagerAccessResponseList'
-    EksAnywhereClusterJwtResponse:
+    KubernetesEnum:
+      type: string
+      enum:
+      - MANAGED
+      - SELF_MANAGED
+      - PARTIALLY_MANAGED
+      default: MANAGED
+    ClusterLogsResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClusterLogs'
+    ClusterFeatureAwsExistingVpcResponse:
       type: object
       required:
-      - jwt
+      - type
+      - value
       properties:
-        jwt:
-          type: string
-    AwsStaticCredentialsAuthDto:
-      type: object
-      required:
-      - mode
-      - region
-      - access_key
-      properties:
-        mode:
-          type: string
-          enum:
-          - AWS_STATIC_CREDENTIALS
-        region:
-          type: string
-        access_key:
-          type: string
-        secret_key:
-          type:
-          - string
-          - 'null'
-    AutomaticallyConfiguredAuthDto:
-      type: object
-      required:
-      - mode
-      properties:
-        mode:
-          type: string
-          enum:
-          - AUTOMATICALLY_CONFIGURED
-    KapsuleInfrastructureOutputs:
-      type: object
-      required:
-      - kind
-      - cluster_name
-      properties:
-        kind:
-          enum:
-          - SCW_KAPSULE
-        cluster_name:
-          type: string
-    GcpJsonCredentialsAuthDto:
-      type: object
-      required:
-      - mode
-      properties:
-        mode:
-          type: string
-          enum:
-          - GCP_JSON_CREDENTIALS
-        json_credentials:
-          type:
-          - string
-          - 'null'
-    ClusterLock:
-      title: ClusterLock
-      x-stoplight:
-        id: cfl44h3tyj8p9
-      type: object
-      required:
-      - reason
-      - cluster_id
-      - locked_at
-      - owner_name
-      properties:
-        reason:
-          type: string
-          x-stoplight:
-            id: 24t21mhr6yvb8
-        ttl_in_days:
-          type: integer
-          x-stoplight:
-            id: hkgmap89j628o
-        cluster_id:
-          type: string
-          x-stoplight:
-            id: uvcmzekexkogh
-          format: uuid
-        locked_at:
-          type: string
-          format: date-time
-          x-stoplight:
-            id: aqpw2xs6xlw6b
-        owner_name:
-          type: string
-          x-stoplight:
-            id: 92n5bq5he0utp
-    ClusterCloudProviderInfo:
+        type:
+          $ref: '#/components/schemas/ClusterFeatureResponseTypeEnum'
+        value:
+          $ref: '#/components/schemas/ClusterFeatureAwsExistingVpc'
+    KarpenterStableNodePoolOverride:
+      title: KarpenterStableNodePoolOverride
       type: object
       properties:
-        cloud_provider:
-          $ref: '#/components/schemas/CloudProviderEnum'
-        credentials:
-          type: object
-          properties:
-            id:
-              type: string
-              format: uuid
-            name:
-              type: string
-        region:
+        consolidation:
+          $ref: '#/components/schemas/KarpenterNodePoolConsolidation'
+        limits:
+          $ref: '#/components/schemas/KarpenterNodePoolLimits'
+        consolidate_after:
           type: string
-    ClusterReadinessStatus:
-      type: object
-      properties:
-        is_ready:
-          type: boolean
+          description: 'Time to wait before consolidating empty or underutilized nodes (e.g., 1m, 10m, 1h). Maximum: 24h'
+          example: 30s
+          pattern: ^\d+(s|m|h)$
     ClusterLogs:
       type: object
       properties:
@@ -2886,70 +2808,159 @@ components:
                 name:
                   type: string
                   example: cluster-name
-    AlertingConfig:
-      title: AlertingConfig
-      x-stoplight:
-        id: 079kamufdt1pm
+    ClusterInfrastructureEksAnywhereBackupParameters:
       type: object
       required:
-      - enabled
+      - s3
       properties:
         enabled:
           type: boolean
-          x-stoplight:
-            id: spv3usiee6mc9
-        default_rule_labels:
-          type:
-          - object
-          - 'null'
-          additionalProperties:
-            type: string
-          description: Key-value pairs of default labels to be applied to alert rules
-          x-stoplight:
-            id: tsp767d421sed
-        spec_config_secret:
+          default: true
+          description: Enable or disable EKS Anywhere cluster backup.
+        timeout_seconds:
+          type: integer
+          format: int64
+          default: 300
+          description: Timeout in seconds for backup operations.
+        certs_secret_name:
           type: string
-          x-stoplight:
-            id: vhloqa7s6ta17
-        spec_external_url:
-          type: string
-          x-stoplight:
-            id: 53c0p049mktbg
-        config_name:
-          type: string
-          x-stoplight:
-            id: 6ueyhx8jelz3f
-    AwsRoleArnAuthDto:
+          description: Optional Kubernetes secret name holding etcd certificates.
+        s3:
+          $ref: '#/components/schemas/ClusterInfrastructureEksAnywhereBackupS3Parameters'
+    ClusterReadinessStatus:
       type: object
-      required:
-      - mode
-      - role_arn
       properties:
-        mode:
-          type: string
-          enum:
-          - AWS_ROLE_ARN
-        role_arn:
-          type: string
-    ReferenceObject:
+        is_ready:
+          type: boolean
+    SecretManagerAccessRequest:
       type: object
       required:
-      - id
+      - name
+      - endpoint
+      - authentication
       properties:
         id:
-          type: string
+          type:
+          - string
+          - 'null'
           format: uuid
-          readOnly: true
-    ClusterInfrastructureCertManagerChartParameters:
-      title: InfrastructureCertManagerChartParameters
+        name:
+          type: string
+        endpoint:
+          $ref: '#/components/schemas/SecretManagerEndpointConfigurationDto'
+        authentication:
+          $ref: '#/components/schemas/SecretManagerAuthenticationDto'
+    CpuArchitectureEnum:
+      title: CpuArchitectureEnum
       x-stoplight:
-        id: xsidu7mikkhq3
+        id: jlrd3r03vjzoy
+      enum:
+      - AMD64
+      - ARM64
+    ClusterRoutingTable:
       type: object
       properties:
-        kubernetes_namespace:
+        results:
+          type: array
+          items:
+            type: object
+            required:
+            - destination
+            - target
+            - description
+            properties:
+              destination:
+                type: string
+              target:
+                type: string
+              description:
+                type: string
+    KarpenterNodePoolRequirementOperator:
+      title: KarpenterNodePoolRequirementOperator
+      x-stoplight:
+        id: wkzlvifywpa0t
+      enum:
+      - In
+    KarpenterNodePoolRequirement:
+      title: KarpenterNodePoolRequirement
+      x-stoplight:
+        id: 4ebed64emvn09
+      type: object
+      required:
+      - key
+      - operator
+      - values
+      properties:
+        key:
+          $ref: '#/components/schemas/KarpenterNodePoolRequirementKey'
+        operator:
+          $ref: '#/components/schemas/KarpenterNodePoolRequirementOperator'
+        values:
+          type: array
+          x-stoplight:
+            id: qf036o7tch5ed
+          items:
+            x-stoplight:
+              id: 02kz5mierypik
+            type: string
+    ClusterLock:
+      title: ClusterLock
+      x-stoplight:
+        id: cfl44h3tyj8p9
+      type: object
+      required:
+      - reason
+      - cluster_id
+      - locked_at
+      - owner_name
+      properties:
+        reason:
           type: string
           x-stoplight:
-            id: y5txd86avhe6j
+            id: 24t21mhr6yvb8
+        ttl_in_days:
+          type: integer
+          x-stoplight:
+            id: hkgmap89j628o
+        cluster_id:
+          type: string
+          x-stoplight:
+            id: uvcmzekexkogh
+          format: uuid
+        locked_at:
+          type: string
+          format: date-time
+          x-stoplight:
+            id: aqpw2xs6xlw6b
+        owner_name:
+          type: string
+          x-stoplight:
+            id: 92n5bq5he0utp
+    AksInfrastructureOutputs:
+      type: object
+      required:
+      - kind
+      - cluster_name
+      - cluster_oidc_issuer
+      properties:
+        kind:
+          enum:
+          - AKS
+        cluster_name:
+          type: string
+        cluster_oidc_issuer:
+          type: string
+  responses:
+    '404':
+      description: Resource not found
+    '401':
+      description: Access token is missing or invalid
+    '403':
+      description: Access forbidden
+    '400':
+      description: Bad request
+    204-deletion:
+      description: The resource was deleted successfully
   parameters:
     clusterId:
       name: clusterId
@@ -2967,17 +2978,6 @@ components:
       schema:
         type: string
         format: uuid
-  responses:
-    '401':
-      description: Access token is missing or invalid
-    '403':
-      description: Access forbidden
-    204-deletion:
-      description: The resource was deleted successfully
-    '400':
-      description: Bad request
-    '404':
-      description: Resource not found
   securitySchemes:
     bearerAuth:
       type: http

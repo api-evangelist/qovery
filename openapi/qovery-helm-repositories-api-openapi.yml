@@ -180,31 +180,77 @@ paths:
           $ref: '#/components/responses/404'
 components:
   responses:
-    '401':
-      description: Access token is missing or invalid
-    '403':
-      description: Access forbidden
-    '404':
-      description: Resource not found
     204-deletion:
       description: The resource was deleted successfully
+    '403':
+      description: Access forbidden
     '400':
       description: Bad request
+    '404':
+      description: Resource not found
+    '401':
+      description: Access token is missing or invalid
   schemas:
-    AvailableHelmRepositoryResponse:
+    Base:
       type: object
       required:
-      - kind
-      - required_config
-      - is_mandatory
+      - id
+      - created_at
       properties:
-        kind:
-          $ref: '#/components/schemas/HelmRepositoryKindEnum'
-        required_config:
-          type: object
-          additionalProperties: true
-        is_mandatory:
-          type: boolean
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          readOnly: true
+          format: date-time
+        updated_at:
+          type: string
+          readOnly: true
+          format: date-time
+    HelmVersionResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/HelmVersionResponse'
+    AvailableHelmRepositoryResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/AvailableHelmRepositoryResponse'
+    HelmRepositoryKindEnum:
+      type: string
+      enum:
+      - HTTPS
+      - OCI_ECR
+      - OCI_SCALEWAY_CR
+      - OCI_DOCKER_HUB
+      - OCI_PUBLIC_ECR
+      - OCI_GENERIC_CR
+      - OCI_GITHUB_CR
+      - OCI_GITLAB_CR
+      description: The type of your helm repository
+    HelmVersionResponse:
+      type: object
+      properties:
+        chart_name:
+          type: string
+        versions:
+          type: array
+          items:
+            type: string
+    HelmRepositoryResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/HelmRepositoryResponse'
     HelmRepositoryResponse:
       allOf:
       - $ref: '#/components/schemas/Base'
@@ -264,54 +310,20 @@ components:
                 type: string
                 x-stoplight:
                   id: rs3gk07qe1oy1
-    Base:
+    AvailableHelmRepositoryResponse:
       type: object
       required:
-      - id
-      - created_at
+      - kind
+      - required_config
+      - is_mandatory
       properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        created_at:
-          type: string
-          readOnly: true
-          format: date-time
-        updated_at:
-          type: string
-          readOnly: true
-          format: date-time
-    AvailableHelmRepositoryResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/AvailableHelmRepositoryResponse'
-    HelmVersionResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/HelmVersionResponse'
-    HelmVersionResponse:
-      type: object
-      properties:
-        chart_name:
-          type: string
-        versions:
-          type: array
-          items:
-            type: string
-    HelmRepositoryResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/HelmRepositoryResponse'
+        kind:
+          $ref: '#/components/schemas/HelmRepositoryKindEnum'
+        required_config:
+          type: object
+          additionalProperties: true
+        is_mandatory:
+          type: boolean
     HelmRepositoryRequest:
       type: object
       required:
@@ -381,25 +393,7 @@ components:
             role_arn:
               type: string
               description: For ECR, you can either set a static access_key or use a role arn that we are going to assume
-    HelmRepositoryKindEnum:
-      type: string
-      enum:
-      - HTTPS
-      - OCI_ECR
-      - OCI_SCALEWAY_CR
-      - OCI_DOCKER_HUB
-      - OCI_PUBLIC_ECR
-      - OCI_GENERIC_CR
-      - OCI_GITHUB_CR
-      - OCI_GITLAB_CR
-      description: The type of your helm repository
   parameters:
-    chartName:
-      name: chartName
-      in: query
-      description: Helm chart name to filter the result on
-      schema:
-        type: string
     helmRepositoryId:
       name: helmRepositoryId
       in: path
@@ -408,6 +402,12 @@ components:
       schema:
         type: string
         format: uuid
+    chartName:
+      name: chartName
+      in: query
+      description: Helm chart name to filter the result on
+      schema:
+        type: string
     organizationId:
       name: organizationId
       in: path

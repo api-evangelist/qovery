@@ -94,27 +94,15 @@ paths:
           $ref: '#/components/responses/404'
 components:
   schemas:
-    ProjectStatsResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/ProjectStats'
-    ServiceTotalNumber:
+    ReferenceObject:
       type: object
       required:
-      - number
+      - id
       properties:
-        service_total_number:
-          type: number
-    ProjectResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/Project'
+        id:
+          type: string
+          format: uuid
+          readOnly: true
     Base:
       type: object
       required:
@@ -133,16 +121,13 @@ components:
           type: string
           readOnly: true
           format: date-time
-    ProjectRequest:
+    ServiceTotalNumber:
       type: object
       required:
-      - name
+      - number
       properties:
-        name:
-          type: string
-          description: name is case insensitive
-        description:
-          type: string
+        service_total_number:
+          type: number
     Project:
       allOf:
       - $ref: '#/components/schemas/Base'
@@ -160,15 +145,28 @@ components:
             type: integer
           organization:
             $ref: '#/components/schemas/ReferenceObject'
-    ReferenceObject:
+    ProjectRequest:
       type: object
       required:
-      - id
+      - name
       properties:
-        id:
+        name:
           type: string
-          format: uuid
-          readOnly: true
+          description: name is case insensitive
+        description:
+          type: string
+    ProjectStatsResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProjectStats'
+    ProjectStats:
+      allOf:
+      - $ref: '#/components/schemas/ReferenceObject'
+      - $ref: '#/components/schemas/ServiceTotalNumber'
+      - $ref: '#/components/schemas/EnvironmentTotalNumber'
     EnvironmentTotalNumber:
       type: object
       required:
@@ -176,18 +174,20 @@ components:
       properties:
         environment_total_number:
           type: number
-    ProjectStats:
-      allOf:
-      - $ref: '#/components/schemas/ReferenceObject'
-      - $ref: '#/components/schemas/ServiceTotalNumber'
-      - $ref: '#/components/schemas/EnvironmentTotalNumber'
+    ProjectResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Project'
   responses:
     '403':
       description: Access forbidden
-    '404':
-      description: Resource not found
     '400':
       description: Bad request
+    '404':
+      description: Resource not found
     '401':
       description: Access token is missing or invalid
   parameters:

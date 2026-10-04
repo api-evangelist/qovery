@@ -200,6 +200,28 @@ paths:
           $ref: '#/components/responses/404'
 components:
   schemas:
+    ArgoCdInstanceMappingResponseList:
+      type: object
+      required:
+      - results
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ArgoCdInstanceMappingResponse'
+    ArgoCdCredentialsRequest:
+      type: object
+      required:
+      - argocd_url
+      - argocd_token
+      properties:
+        argocd_url:
+          type: string
+          description: The URL of the ArgoCD instance (e.g. https://argocd.example.com)
+          example: https://argocd.example.com
+        argocd_token:
+          type: string
+          description: ArgoCD API authentication token
     Base:
       type: object
       required:
@@ -218,40 +240,55 @@ components:
           type: string
           readOnly: true
           format: date-time
-    ArgoCdDestinationClusterMappingResponse:
+    ArgoCdLinkedClusterDetails:
       type: object
       required:
-      - agent_cluster_id
       - argocd_cluster_url
-      - cluster_id
+      - argocd_cluster_name
+      - qovery_cluster_id
+      - qovery_cluster_name
+      - qovery_cluster_cloud_provider
+      - qovery_cluster_type
+      - applications_count
       properties:
-        agent_cluster_id:
-          type: string
-          format: uuid
         argocd_cluster_url:
           type: string
+          description: ArgoCD destination cluster URL
           example: https://kubernetes.default.svc
-        cluster_id:
-          type:
-          - string
-          - 'null'
+        argocd_cluster_name:
+          type: string
+          description: ArgoCD cluster name (currently same as URL; will use ArgoCD alias in future)
+          example: https://kubernetes.default.svc
+        qovery_cluster_id:
+          type: string
           format: uuid
-    ArgoCdConnectionStatusEnum:
+          description: ID of the Qovery cluster this destination is mapped to
+        qovery_cluster_name:
+          type: string
+          description: Display name of the mapped Qovery cluster
+          example: My EKS Cluster
+        qovery_cluster_cloud_provider:
+          $ref: '#/components/schemas/CloudVendorEnum'
+        qovery_cluster_type:
+          $ref: '#/components/schemas/KubernetesEnum'
+        applications_count:
+          type: integer
+          description: Number of ArgoCD applications targeting this destination
+          example: 4
+    CloudVendorEnum:
       type: string
-      description: Connection status of an ArgoCD instance
       enum:
-      - connected
-      - error
-      example: connected
-    ArgoCdInstanceMappingResponseList:
-      type: object
-      required:
-      - results
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/ArgoCdInstanceMappingResponse'
+      - AWS
+      - SCW
+      - GCP
+      - DO
+      - AZURE
+      - OVH
+      - CIVO
+      - HETZNER
+      - ORACLE
+      - IBM
+      - ON_PREMISE
     ArgocdAppResponse:
       allOf:
       - $ref: '#/components/schemas/Base'
@@ -294,91 +331,6 @@ components:
             - string
             - 'null'
       description: An ArgoCD service
-    CloudVendorEnum:
-      type: string
-      enum:
-      - AWS
-      - SCW
-      - GCP
-      - DO
-      - AZURE
-      - OVH
-      - CIVO
-      - HETZNER
-      - ORACLE
-      - IBM
-      - ON_PREMISE
-    ServiceTypeEnum:
-      type: string
-      x-stoplight:
-        id: d66063cd29913
-      description: type of the service (application, database, job, ...)
-      enum:
-      - APPLICATION
-      - DATABASE
-      - CONTAINER
-      - JOB
-      - HELM
-      - TERRAFORM
-      - ARGOCD_APP
-    ArgoCdDestinationClusterMappingRequest:
-      type: object
-      required:
-      - agent_cluster_id
-      - argocd_cluster_url
-      - cluster_id
-      properties:
-        agent_cluster_id:
-          type: string
-          format: uuid
-          description: ID of the Qovery cluster where the ArgoCD instance is running
-        argocd_cluster_url:
-          type: string
-          description: ArgoCD destination cluster URL as reported by ArgoCD
-          example: https://kubernetes.default.svc
-        cluster_id:
-          type: string
-          format: uuid
-          description: ID of the Qovery cluster to map this ArgoCD destination to
-    ArgoCdUnlinkedClusterDetails:
-      type: object
-      required:
-      - argocd_cluster_url
-      - argocd_cluster_name
-      - applications_count
-      properties:
-        argocd_cluster_url:
-          type: string
-          description: ArgoCD destination cluster URL for this stale mapping
-          example: https://old-cluster.example.com
-        argocd_cluster_name:
-          type: string
-          description: ArgoCD cluster name (currently same as URL; will use ArgoCD alias in future)
-          example: https://old-cluster.example.com
-        applications_count:
-          type: integer
-          description: Number of ArgoCD applications targeting this destination
-          example: 0
-    KubernetesEnum:
-      type: string
-      enum:
-      - MANAGED
-      - SELF_MANAGED
-      - PARTIALLY_MANAGED
-      default: MANAGED
-    ArgoCdCredentialsRequest:
-      type: object
-      required:
-      - argocd_url
-      - argocd_token
-      properties:
-        argocd_url:
-          type: string
-          description: The URL of the ArgoCD instance (e.g. https://argocd.example.com)
-          example: https://argocd.example.com
-        argocd_token:
-          type: string
-          description: ArgoCD API authentication token
     ArgoCdInstanceMappingResponse:
       type: object
       required:
@@ -426,6 +378,108 @@ components:
           description: ArgoCD clusters detected but mapping is missing
           items:
             $ref: '#/components/schemas/ArgoCdUnlinkedClusterDetails'
+    KubernetesEnum:
+      type: string
+      enum:
+      - MANAGED
+      - SELF_MANAGED
+      - PARTIALLY_MANAGED
+      default: MANAGED
+    ArgoCdDestinationClusterMappingRequest:
+      type: object
+      required:
+      - agent_cluster_id
+      - argocd_cluster_url
+      - cluster_id
+      properties:
+        agent_cluster_id:
+          type: string
+          format: uuid
+          description: ID of the Qovery cluster where the ArgoCD instance is running
+        argocd_cluster_url:
+          type: string
+          description: ArgoCD destination cluster URL as reported by ArgoCD
+          example: https://kubernetes.default.svc
+        cluster_id:
+          type: string
+          format: uuid
+          description: ID of the Qovery cluster to map this ArgoCD destination to
+    ArgoCdUnlinkedClusterDetails:
+      type: object
+      required:
+      - argocd_cluster_url
+      - argocd_cluster_name
+      - applications_count
+      properties:
+        argocd_cluster_url:
+          type: string
+          description: ArgoCD destination cluster URL for this stale mapping
+          example: https://old-cluster.example.com
+        argocd_cluster_name:
+          type: string
+          description: ArgoCD cluster name (currently same as URL; will use ArgoCD alias in future)
+          example: https://old-cluster.example.com
+        applications_count:
+          type: integer
+          description: Number of ArgoCD applications targeting this destination
+          example: 0
+    ArgoCdConnectionStatusEnum:
+      type: string
+      description: Connection status of an ArgoCD instance
+      enum:
+      - connected
+      - error
+      example: connected
+    ArgoCdConnectionCheckResponse:
+      type: object
+      required:
+      - status
+      properties:
+        status:
+          $ref: '#/components/schemas/ArgoCdConnectionStatusEnum'
+        app_count:
+          type: integer
+          description: Number of ArgoCD applications visible with the provided token. Present only when status is "connected".
+          example: 42
+        reason:
+          type: string
+          description: Failure reason. Present only when status is "error".
+          enum:
+          - authentication_failed
+          - unreachable
+          - insufficient_permissions
+          example: authentication_failed
+    ServiceTypeEnum:
+      type: string
+      x-stoplight:
+        id: d66063cd29913
+      description: type of the service (application, database, job, ...)
+      enum:
+      - APPLICATION
+      - DATABASE
+      - CONTAINER
+      - JOB
+      - HELM
+      - TERRAFORM
+      - ARGOCD_APP
+    ArgoCdDestinationClusterMappingResponse:
+      type: object
+      required:
+      - agent_cluster_id
+      - argocd_cluster_url
+      - cluster_id
+      properties:
+        agent_cluster_id:
+          type: string
+          format: uuid
+        argocd_cluster_url:
+          type: string
+          example: https://kubernetes.default.svc
+        cluster_id:
+          type:
+          - string
+          - 'null'
+          format: uuid
     ArgoCdCredentialsResponse:
       type: object
       required:
@@ -460,60 +514,15 @@ components:
         updated_at:
           type: string
           format: date-time
-    ArgoCdConnectionCheckResponse:
-      type: object
-      required:
-      - status
-      properties:
-        status:
-          $ref: '#/components/schemas/ArgoCdConnectionStatusEnum'
-        app_count:
-          type: integer
-          description: Number of ArgoCD applications visible with the provided token. Present only when status is "connected".
-          example: 42
-        reason:
-          type: string
-          description: Failure reason. Present only when status is "error".
-          enum:
-          - authentication_failed
-          - unreachable
-          - insufficient_permissions
-          example: authentication_failed
-    ArgoCdLinkedClusterDetails:
-      type: object
-      required:
-      - argocd_cluster_url
-      - argocd_cluster_name
-      - qovery_cluster_id
-      - qovery_cluster_name
-      - qovery_cluster_cloud_provider
-      - qovery_cluster_type
-      - applications_count
-      properties:
-        argocd_cluster_url:
-          type: string
-          description: ArgoCD destination cluster URL
-          example: https://kubernetes.default.svc
-        argocd_cluster_name:
-          type: string
-          description: ArgoCD cluster name (currently same as URL; will use ArgoCD alias in future)
-          example: https://kubernetes.default.svc
-        qovery_cluster_id:
-          type: string
-          format: uuid
-          description: ID of the Qovery cluster this destination is mapped to
-        qovery_cluster_name:
-          type: string
-          description: Display name of the mapped Qovery cluster
-          example: My EKS Cluster
-        qovery_cluster_cloud_provider:
-          $ref: '#/components/schemas/CloudVendorEnum'
-        qovery_cluster_type:
-          $ref: '#/components/schemas/KubernetesEnum'
-        applications_count:
-          type: integer
-          description: Number of ArgoCD applications targeting this destination
-          example: 4
+  responses:
+    '404':
+      description: Resource not found
+    '401':
+      description: Access token is missing or invalid
+    '403':
+      description: Access forbidden
+    '400':
+      description: Bad request
   parameters:
     clusterId:
       name: clusterId
@@ -539,15 +548,6 @@ components:
       schema:
         type: string
         format: uuid
-  responses:
-    '401':
-      description: Access token is missing or invalid
-    '400':
-      description: Bad request
-    '403':
-      description: Access forbidden
-    '404':
-      description: Resource not found
   securitySchemes:
     bearerAuth:
       type: http

@@ -132,29 +132,16 @@ components:
       schema:
         type: string
         format: uuid
+  responses:
+    '403':
+      description: Access forbidden
+    '404':
+      description: Resource not found
+    '400':
+      description: Bad request
+    '401':
+      description: Access token is missing or invalid
   schemas:
-    ApplicationNetwork:
-      type: object
-      properties:
-        sticky_session:
-          type: boolean
-          description: 'Specify if the sticky session option (also called persistant session) is activated or not for this application.
-
-            If activated, user will be redirected by the load balancer to the same instance each time he access to the application.
-
-            '
-          default: false
-    ApplicationNetworkRequest:
-      type: object
-      properties:
-        sticky_session:
-          type: boolean
-          description: 'Specify if the sticky session option (also called persistant session) is activated or not for this application.
-
-            If activated, user will be redirected by the load balancer to the same instance each time he access to the application.
-
-            '
-          default: false
     ApplicationAdvancedSettings:
       type: object
       properties:
@@ -343,15 +330,28 @@ components:
           description: 'Mounts the container''s root filesystem as read-only
 
             '
-  responses:
-    '403':
-      description: Access forbidden
-    '404':
-      description: Resource not found
-    '400':
-      description: Bad request
-    '401':
-      description: Access token is missing or invalid
+    ApplicationNetworkRequest:
+      type: object
+      properties:
+        sticky_session:
+          type: boolean
+          description: 'Specify if the sticky session option (also called persistant session) is activated or not for this application.
+
+            If activated, user will be redirected by the load balancer to the same instance each time he access to the application.
+
+            '
+          default: false
+    ApplicationNetwork:
+      type: object
+      properties:
+        sticky_session:
+          type: boolean
+          description: 'Specify if the sticky session option (also called persistant session) is activated or not for this application.
+
+            If activated, user will be redirected by the load balancer to the same instance each time he access to the application.
+
+            '
+          default: false
   securitySchemes:
     bearerAuth:
       type: http

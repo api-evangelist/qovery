@@ -115,31 +115,18 @@ paths:
         '404':
           $ref: '#/components/responses/404'
 components:
+  responses:
+    204-deletion:
+      description: The resource was deleted successfully
+    '403':
+      description: Access forbidden
+    '400':
+      description: Bad request
+    '404':
+      description: Resource not found
+    '401':
+      description: Access token is missing or invalid
   schemas:
-    HelmDeploymentRestrictionRequest:
-      type: object
-      required:
-      - mode
-      - type
-      - value
-      properties:
-        mode:
-          $ref: '#/components/schemas/DeploymentRestrictionModeEnum'
-        type:
-          $ref: '#/components/schemas/DeploymentRestrictionTypeEnum'
-        value:
-          type: string
-          description: For `PATH` restrictions, the value must not start with `/`
-          example: helm1/src/
-    HelmDeploymentRestrictionResponse:
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - $ref: '#/components/schemas/HelmDeploymentRestrictionRequest'
-    DeploymentRestrictionTypeEnum:
-      type: string
-      enum:
-      - PATH
-      example: PATH
     Base:
       type: object
       required:
@@ -165,6 +152,25 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/HelmDeploymentRestrictionResponse'
+    HelmDeploymentRestrictionRequest:
+      type: object
+      required:
+      - mode
+      - type
+      - value
+      properties:
+        mode:
+          $ref: '#/components/schemas/DeploymentRestrictionModeEnum'
+        type:
+          $ref: '#/components/schemas/DeploymentRestrictionTypeEnum'
+        value:
+          type: string
+          description: For `PATH` restrictions, the value must not start with `/`
+          example: helm1/src/
+    HelmDeploymentRestrictionResponse:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - $ref: '#/components/schemas/HelmDeploymentRestrictionRequest'
     DeploymentRestrictionModeEnum:
       type: string
       description: Match mode will rebuild app only if specified items are updated. Exclude mode will not rebuild app if specified items are updated.
@@ -172,17 +178,11 @@ components:
       - EXCLUDE
       - MATCH
       example: MATCH
-  responses:
-    '403':
-      description: Access forbidden
-    '404':
-      description: Resource not found
-    204-deletion:
-      description: The resource was deleted successfully
-    '400':
-      description: Bad request
-    '401':
-      description: Access token is missing or invalid
+    DeploymentRestrictionTypeEnum:
+      type: string
+      enum:
+      - PATH
+      example: PATH
   parameters:
     deploymentRestrictionId:
       name: deploymentRestrictionId

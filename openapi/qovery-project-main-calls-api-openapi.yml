@@ -89,27 +89,16 @@ paths:
         '404':
           $ref: '#/components/responses/404'
 components:
-  responses:
-    '403':
-      description: Access forbidden
-    204-deletion:
-      description: The resource was deleted successfully
-    '400':
-      description: Bad request
-    '404':
-      description: Resource not found
-    '401':
-      description: Access token is missing or invalid
-  parameters:
-    projectId:
-      name: projectId
-      in: path
-      description: Project ID
-      required: true
-      schema:
-        type: string
-        format: uuid
   schemas:
+    ReferenceObject:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
     Base:
       type: object
       required:
@@ -128,16 +117,6 @@ components:
           type: string
           readOnly: true
           format: date-time
-    ProjectRequest:
-      type: object
-      required:
-      - name
-      properties:
-        name:
-          type: string
-          description: name is case insensitive
-        description:
-          type: string
     Project:
       allOf:
       - $ref: '#/components/schemas/Base'
@@ -155,15 +134,36 @@ components:
             type: integer
           organization:
             $ref: '#/components/schemas/ReferenceObject'
-    ReferenceObject:
+    ProjectRequest:
       type: object
       required:
-      - id
+      - name
       properties:
-        id:
+        name:
           type: string
-          format: uuid
-          readOnly: true
+          description: name is case insensitive
+        description:
+          type: string
+  responses:
+    204-deletion:
+      description: The resource was deleted successfully
+    '403':
+      description: Access forbidden
+    '400':
+      description: Bad request
+    '404':
+      description: Resource not found
+    '401':
+      description: Access token is missing or invalid
+  parameters:
+    projectId:
+      name: projectId
+      in: path
+      description: Project ID
+      required: true
+      schema:
+        type: string
+        format: uuid
   securitySchemes:
     bearerAuth:
       type: http
