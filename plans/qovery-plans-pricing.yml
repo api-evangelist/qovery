@@ -54,3 +54,45 @@ rate_limit_statements:
 - Up to 3
 - 10,000 min then + $0.16/minute
 - 4 vCPU / 8GB
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - hybrid
+  - seat
+  - subscription
+  units:
+  - compute
+  - seat
+  plans:
+  - name: Business
+    access: other
+    model: seat
+    model_how: derived
+    units:
+    - seat
+    periods:
+    - month
+  - name: Enterprise
+    access: other
+    model: unstated
+    model_how: derived
+    units:
+    - seat
+    periods:
+    - none
+  - name: Observe package
+    access: other
+    model: hybrid
+    model_how: derived
+    units:
+    - compute
+    periods:
+    - month
+  - name: Custom builder size
+    access: other
+    model: subscription
+    model_how: derived
+    units: []
+    periods:
+    - month
