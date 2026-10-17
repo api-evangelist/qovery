@@ -164,59 +164,7 @@ paths:
         '404':
           $ref: '#/components/responses/404'
 components:
-  responses:
-    204-deletion:
-      description: The resource was deleted successfully
-    '403':
-      description: Access forbidden
-    '400':
-      description: Bad request
-    '404':
-      description: Resource not found
-    '401':
-      description: Access token is missing or invalid
   schemas:
-    Base:
-      type: object
-      required:
-      - id
-      - created_at
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        created_at:
-          type: string
-          readOnly: true
-          format: date-time
-        updated_at:
-          type: string
-          readOnly: true
-          format: date-time
-    CustomDomainStatusEnum:
-      type: string
-      enum:
-      - VALIDATION_PENDING
-      example: VALIDATION_PENDING
-    CheckedCustomDomainResponse:
-      title: CheckedCustomDomainResponse
-      type: object
-      required:
-      - domain_name
-      - status
-      properties:
-        domain_name:
-          type: string
-          description: domain name checked
-          example: my.domain.tld
-        status:
-          $ref: '#/components/schemas/CheckedCustomDomainStatus'
-        error_details:
-          type:
-          - string
-          - 'null'
-          description: optional field containing information about failure check
     CheckedCustomDomainsResponse:
       title: CheckedCustomDomainsResponse
       type: object
@@ -227,15 +175,11 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/CheckedCustomDomainResponse'
-    CheckedCustomDomainStatus:
+    CustomDomainStatusEnum:
       type: string
       enum:
-      - RESOLVES_TO_IP
-      - MATCHES_LOAD_BALANCER_HOST
-      - DOMAIN_NOT_CONFIGURED
-      - DOMAIN_LINKED_TO_WRONG_HOST
-      - GENERIC_FAILURE
-      description: "This enum represents the final status for your domain.\nThere are 2 successful statuses:\n  * `RESOLVES_TO_IP`: we succeeded to resolve an IP to your domain. This is the successful final status for custom domains where `use_cdn` is `true`\n  * `MATCHES_LOAD_BALANCER_HOST`: we succeeded to lookup CNAMEs & found that it matches your cluser Load Balancer host. This is the successful final status for custom domain where `use_cdn` is `false`\n  * `DOMAIN_NOT_CONFIGURED`: the domain is not configured, look at the `error_details` field for more information \n  * `DOMAIN_LINKED_TO_WRONG_HOST`: the domain has CNAME(s) that matches a different host than your Load Balancer one\n  * `GENERIC_FAILURE`: an error occured when attempting to validate your domain, look at the `error_details` field for more information\n"
+      - VALIDATION_PENDING
+      example: VALIDATION_PENDING
     CustomDomainRequest:
       type: object
       required:
@@ -260,6 +204,58 @@ components:
             * If `false` then we check that the domain resolves to the correct service Load Balancer
 
             '
+    Base:
+      type: object
+      required:
+      - id
+      - created_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          readOnly: true
+          format: date-time
+        updated_at:
+          type: string
+          readOnly: true
+          format: date-time
+    CheckedCustomDomainStatus:
+      type: string
+      enum:
+      - RESOLVES_TO_IP
+      - MATCHES_LOAD_BALANCER_HOST
+      - DOMAIN_NOT_CONFIGURED
+      - DOMAIN_LINKED_TO_WRONG_HOST
+      - GENERIC_FAILURE
+      description: "This enum represents the final status for your domain.\nThere are 2 successful statuses:\n  * `RESOLVES_TO_IP`: we succeeded to resolve an IP to your domain. This is the successful final status for custom domains where `use_cdn` is `true`\n  * `MATCHES_LOAD_BALANCER_HOST`: we succeeded to lookup CNAMEs & found that it matches your cluser Load Balancer host. This is the successful final status for custom domain where `use_cdn` is `false`\n  * `DOMAIN_NOT_CONFIGURED`: the domain is not configured, look at the `error_details` field for more information \n  * `DOMAIN_LINKED_TO_WRONG_HOST`: the domain has CNAME(s) that matches a different host than your Load Balancer one\n  * `GENERIC_FAILURE`: an error occured when attempting to validate your domain, look at the `error_details` field for more information\n"
+    CustomDomainResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomDomain'
+    CheckedCustomDomainResponse:
+      title: CheckedCustomDomainResponse
+      type: object
+      required:
+      - domain_name
+      - status
+      properties:
+        domain_name:
+          type: string
+          description: domain name checked
+          example: my.domain.tld
+        status:
+          $ref: '#/components/schemas/CheckedCustomDomainStatus'
+        error_details:
+          type:
+          - string
+          - 'null'
+          description: optional field containing information about failure check
     CustomDomain:
       allOf:
       - $ref: '#/components/schemas/Base'
@@ -285,13 +281,17 @@ components:
               * If `false` then we check that the domain resolves to the correct service Load Balancer
 
               '
-    CustomDomainResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/CustomDomain'
+  responses:
+    204-deletion:
+      description: The resource was deleted successfully
+    '401':
+      description: Access token is missing or invalid
+    '400':
+      description: Bad request
+    '403':
+      description: Access forbidden
+    '404':
+      description: Resource not found
   parameters:
     helmId:
       name: helmId

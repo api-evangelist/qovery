@@ -191,30 +191,58 @@ paths:
           $ref: '#/components/responses/404'
 components:
   schemas:
-    OrganizationEventTargetResponseList:
+    OrganizationEventResponse:
       type: object
       properties:
-        targets:
-          type: array
-          items:
-            type: object
-            properties:
-              id:
-                type: string
-                format: uuid
-              name:
-                type: string
-    OrganizationEventOrigin:
-      type: string
-      description: Origin of the organization event
-      enum:
-      - API
-      - CLI
-      - CONSOLE
-      - GIT
-      - QOVERY_INTERNAL
-      - TERRAFORM_PROVIDER
-      example: API
+        id:
+          type: string
+          format: uuid
+        timestamp:
+          type: string
+          format: date-time
+        event_type:
+          $ref: '#/components/schemas/OrganizationEventType'
+        target_id:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        target_name:
+          type: string
+        target_type:
+          $ref: '#/components/schemas/OrganizationEventTargetType'
+        sub_target_type:
+          $ref: '#/components/schemas/OrganizationEventSubTargetType'
+        change:
+          type: string
+        origin:
+          $ref: '#/components/schemas/OrganizationEventOrigin'
+        triggered_by:
+          type: string
+        project_id:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        project_name:
+          type: string
+        environment_id:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        environment_name:
+          type: string
+        user_agent:
+          type:
+          - string
+          - 'null'
+        original_change:
+          type:
+          - string
+          - 'null'
+      description: ''
+      title: ''
     OrganizationEventTargetType:
       type: string
       description: Type of the organization event
@@ -296,6 +324,19 @@ components:
       - LOCK
       - UNLOCK
       example: CREATE
+    OrganizationEventTargetResponseList:
+      type: object
+      properties:
+        targets:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              name:
+                type: string
     OrganizationEventResponseList:
       type: object
       properties:
@@ -353,58 +394,17 @@ components:
       - TRANSFER_OWNERSHIP
       - VARIABLE
       example: ADVANCED_SETTINGS
-    OrganizationEventResponse:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        timestamp:
-          type: string
-          format: date-time
-        event_type:
-          $ref: '#/components/schemas/OrganizationEventType'
-        target_id:
-          type:
-          - string
-          - 'null'
-          format: uuid
-        target_name:
-          type: string
-        target_type:
-          $ref: '#/components/schemas/OrganizationEventTargetType'
-        sub_target_type:
-          $ref: '#/components/schemas/OrganizationEventSubTargetType'
-        change:
-          type: string
-        origin:
-          $ref: '#/components/schemas/OrganizationEventOrigin'
-        triggered_by:
-          type: string
-        project_id:
-          type:
-          - string
-          - 'null'
-          format: uuid
-        project_name:
-          type: string
-        environment_id:
-          type:
-          - string
-          - 'null'
-          format: uuid
-        environment_name:
-          type: string
-        user_agent:
-          type:
-          - string
-          - 'null'
-        original_change:
-          type:
-          - string
-          - 'null'
-      description: ''
-      title: ''
+    OrganizationEventOrigin:
+      type: string
+      description: Origin of the organization event
+      enum:
+      - API
+      - CLI
+      - CONSOLE
+      - GIT
+      - QOVERY_INTERNAL
+      - TERRAFORM_PROVIDER
+      example: API
     OrganizationEventTargetLevel:
       type: string
       description: The target level to fetch
@@ -412,12 +412,12 @@ components:
       - PROJECT
       - ENVIRONMENT
   responses:
-    '403':
-      description: Access forbidden
-    '404':
-      description: Resource not found
     '401':
       description: Access token is missing or invalid
+    '404':
+      description: Resource not found
+    '403':
+      description: Access forbidden
   parameters:
     organizationId:
       name: organizationId

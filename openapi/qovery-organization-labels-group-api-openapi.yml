@@ -158,6 +158,67 @@ paths:
           $ref: '#/components/responses/404'
 components:
   schemas:
+    LabelsGroupAssociatedItemType:
+      type: string
+      description: Labels Group Associated Item Type
+      enum:
+      - APPLICATION
+      - DATABASE
+      - CONTAINER
+      - LIFECYCLE
+      - ENVIRONMENT
+      - CLUSTER
+      - CRON
+    Label:
+      type: object
+      required:
+      - key
+      - value
+      - propagate_to_cloud_provider
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+        propagate_to_cloud_provider:
+          type: boolean
+    OrganizationLabelsGroupResponse:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        required:
+        - name
+        - labels
+        properties:
+          name:
+            type: string
+          labels:
+            type: array
+            items:
+              $ref: '#/components/schemas/Label'
+      title: ''
+    OrganizationLabelsGroupEnrichedResponse:
+      title: OrganizationLabelsGroupEnrichedResponse
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        required:
+        - name
+        - labels
+        properties:
+          name:
+            type: string
+          labels:
+            type: array
+            items:
+              $ref: '#/components/schemas/Label'
+          associated_items_count:
+            type: integer
+    OrganizationLabelsGroupEnrichedResponseList:
+      title: OrganizationLabelsGroupEnrichedResponseList
+      type: array
+      items:
+        $ref: '#/components/schemas/OrganizationLabelsGroupEnrichedResponse'
     Base:
       type: object
       required:
@@ -176,30 +237,6 @@ components:
           type: string
           readOnly: true
           format: date-time
-    LabelsGroupAssociatedItemType:
-      type: string
-      description: Labels Group Associated Item Type
-      enum:
-      - APPLICATION
-      - DATABASE
-      - CONTAINER
-      - LIFECYCLE
-      - ENVIRONMENT
-      - CLUSTER
-      - CRON
-    OrganizationLabelsGroupCreateRequest:
-      type: object
-      required:
-      - name
-      - labels
-      properties:
-        name:
-          type: string
-          description: name of the labels group
-        labels:
-          type: array
-          items:
-            $ref: '#/components/schemas/Label'
     OrganizationLabelsGroupAssociatedItemsResponseList:
       type: object
       properties:
@@ -234,80 +271,43 @@ components:
                 type: string
               item_type:
                 $ref: '#/components/schemas/LabelsGroupAssociatedItemType'
-    OrganizationLabelsGroupResponse:
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - type: object
-        required:
-        - name
-        - labels
-        properties:
-          name:
-            type: string
-          labels:
-            type: array
-            items:
-              $ref: '#/components/schemas/Label'
-      title: ''
-    OrganizationLabelsGroupEnrichedResponseList:
-      title: OrganizationLabelsGroupEnrichedResponseList
-      type: array
-      items:
-        $ref: '#/components/schemas/OrganizationLabelsGroupEnrichedResponse'
-    OrganizationLabelsGroupEnrichedResponse:
-      title: OrganizationLabelsGroupEnrichedResponse
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - type: object
-        required:
-        - name
-        - labels
-        properties:
-          name:
-            type: string
-          labels:
-            type: array
-            items:
-              $ref: '#/components/schemas/Label'
-          associated_items_count:
-            type: integer
-    Label:
+    OrganizationLabelsGroupCreateRequest:
       type: object
       required:
-      - key
-      - value
-      - propagate_to_cloud_provider
+      - name
+      - labels
       properties:
-        key:
+        name:
           type: string
-        value:
-          type: string
-        propagate_to_cloud_provider:
-          type: boolean
+          description: name of the labels group
+        labels:
+          type: array
+          items:
+            $ref: '#/components/schemas/Label'
   responses:
     '204':
       description: no content
-    '403':
-      description: Access forbidden
-    '400':
-      description: Bad request
-    '404':
-      description: Resource not found
     '401':
       description: Access token is missing or invalid
+    '400':
+      description: Bad request
+    '403':
+      description: Access forbidden
+    '404':
+      description: Resource not found
   parameters:
-    labelsGroupId:
-      name: labelsGroupId
-      in: path
-      description: Organization labels group ID
-      required: true
-      schema:
-        type: string
-        format: uuid
     organizationId:
       name: organizationId
       in: path
       description: Organization ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+    labelsGroupId:
+      name: labelsGroupId
+      in: path
+      description: Organization labels group ID
       required: true
       schema:
         type: string

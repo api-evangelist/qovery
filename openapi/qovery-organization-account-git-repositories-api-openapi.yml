@@ -192,13 +192,6 @@ paths:
           $ref: '#/components/responses/401'
 components:
   schemas:
-    GitAuthProviderResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/GitAuthProvider'
     GitRepositoryBranch:
       type: object
       required:
@@ -207,6 +200,13 @@ components:
         name:
           type: string
           example: main
+    GitAuthProviderResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/GitAuthProvider'
     GitRepositoryResponseList:
       type: object
       properties:
@@ -214,6 +214,26 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/GitRepository'
+    GitRepository:
+      type: object
+      required:
+      - name
+      - url
+      - id
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+          example: simple-node-app
+        url:
+          type: string
+          example: https://github.com/Qovery/simple-node-app
+        default_branch:
+          type: string
+          example: master
+        is_private:
+          type: boolean
     GitRepositoryBranchResponseList:
       type: object
       properties:
@@ -236,26 +256,6 @@ components:
           type: string
           example: John Doe
         use_bot:
-          type: boolean
-    GitRepository:
-      type: object
-      required:
-      - name
-      - url
-      - id
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-          example: simple-node-app
-        url:
-          type: string
-          example: https://github.com/Qovery/simple-node-app
-        default_branch:
-          type: string
-          example: master
-        is_private:
           type: boolean
   responses:
     '401':

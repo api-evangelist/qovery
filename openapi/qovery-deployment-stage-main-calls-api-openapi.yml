@@ -227,15 +227,23 @@ paths:
           $ref: '#/components/responses/404'
 components:
   schemas:
-    ReferenceObject:
+    DeploymentStageServiceResponseList:
+      type: array
+      items:
+        $ref: '#/components/schemas/DeploymentStageServiceResponse'
+    DeploymentStageRequest:
       type: object
       required:
-      - id
+      - name
       properties:
-        id:
+        name:
           type: string
-          format: uuid
-          readOnly: true
+          description: The name of the deployment stage
+        description:
+          type:
+          - string
+          - 'null'
+          description: free test describing this stage
     Base:
       type: object
       required:
@@ -254,17 +262,6 @@ components:
           type: string
           readOnly: true
           format: date-time
-    DeploymentStageServiceResponseList:
-      type: array
-      items:
-        $ref: '#/components/schemas/DeploymentStageServiceResponse'
-    DeploymentStageResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/DeploymentStageResponse'
     DeploymentStageResponse:
       allOf:
       - $ref: '#/components/schemas/Base'
@@ -285,6 +282,22 @@ components:
             example: 1
           services:
             $ref: '#/components/schemas/DeploymentStageServiceResponseList'
+    ReferenceObject:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+    DeploymentStageResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/DeploymentStageResponse'
     DeploymentStageServiceResponse:
       allOf:
       - $ref: '#/components/schemas/Base'
@@ -300,33 +313,11 @@ components:
           is_skipped:
             type: boolean
             description: whether the service is excluded from environment-level deployments
-    DeploymentStageRequest:
-      type: object
-      required:
-      - name
-      properties:
-        name:
-          type: string
-          description: The name of the deployment stage
-        description:
-          type:
-          - string
-          - 'null'
-          description: free test describing this stage
-  responses:
-    '204':
-      description: no content
-    '403':
-      description: Access forbidden
-    '404':
-      description: Resource not found
-    '401':
-      description: Access token is missing or invalid
   parameters:
-    deploymentStageId:
-      name: deploymentStageId
+    environmentId:
+      name: environmentId
       in: path
-      description: Deployment Stage ID
+      description: Environment ID
       required: true
       schema:
         type: string
@@ -339,14 +330,6 @@ components:
       schema:
         type: string
         format: uuid
-    environmentId:
-      name: environmentId
-      in: path
-      description: Environment ID
-      required: true
-      schema:
-        type: string
-        format: uuid
     stageId:
       name: stageId
       in: path
@@ -355,6 +338,23 @@ components:
       schema:
         type: string
         format: uuid
+    deploymentStageId:
+      name: deploymentStageId
+      in: path
+      description: Deployment Stage ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+  responses:
+    '204':
+      description: no content
+    '403':
+      description: Access forbidden
+    '404':
+      description: Resource not found
+    '401':
+      description: Access token is missing or invalid
   securitySchemes:
     bearerAuth:
       type: http

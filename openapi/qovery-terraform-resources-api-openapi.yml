@@ -45,13 +45,6 @@ paths:
         '404':
           $ref: '#/components/responses/404'
 components:
-  responses:
-    '403':
-      description: Access forbidden
-    '404':
-      description: Resource not found
-    '401':
-      description: Access token is missing or invalid
   parameters:
     terraformId:
       name: terraformId
@@ -61,7 +54,26 @@ components:
         type: string
         format: uuid
       description: Terraform ID
+  responses:
+    '401':
+      description: Access token is missing or invalid
+    '404':
+      description: Resource not found
+    '403':
+      description: Access forbidden
   schemas:
+    TerraformResourcesResponse:
+      type: object
+      title: Terraform Resources List Response
+      description: List of Terraform resources from the latest deployment
+      required:
+      - results
+      properties:
+        results:
+          type: array
+          description: Array of Terraform resources
+          items:
+            $ref: '#/components/schemas/TerraformResourceResponse'
     TerraformResourceResponse:
       type: object
       title: Terraform Resource Response
@@ -118,18 +130,6 @@ components:
           format: date-time
           description: Timestamp when the resource was extracted from Terraform state
           example: '2023-01-15T10:30:00Z'
-    TerraformResourcesResponse:
-      type: object
-      title: Terraform Resources List Response
-      description: List of Terraform resources from the latest deployment
-      required:
-      - results
-      properties:
-        results:
-          type: array
-          description: Array of Terraform resources
-          items:
-            $ref: '#/components/schemas/TerraformResourceResponse'
   securitySchemes:
     bearerAuth:
       type: http

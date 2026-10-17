@@ -115,18 +115,11 @@ paths:
         '404':
           $ref: '#/components/responses/404'
 components:
-  responses:
-    204-deletion:
-      description: The resource was deleted successfully
-    '403':
-      description: Access forbidden
-    '401':
-      description: Access token is missing or invalid
-    '400':
-      description: Bad request
-    '404':
-      description: Resource not found
   schemas:
+    JobDeploymentRestrictionResponse:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - $ref: '#/components/schemas/JobDeploymentRestrictionRequest'
     Base:
       type: object
       required:
@@ -160,13 +153,6 @@ components:
           type: string
           description: For `PATH` restrictions, the value must not start with `/`
           example: job1/src/
-    DeploymentRestrictionModeEnum:
-      type: string
-      description: Match mode will rebuild app only if specified items are updated. Exclude mode will not rebuild app if specified items are updated.
-      enum:
-      - EXCLUDE
-      - MATCH
-      example: MATCH
     JobDeploymentRestrictionResponseList:
       type: object
       properties:
@@ -174,28 +160,42 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/JobDeploymentRestrictionResponse'
+    DeploymentRestrictionModeEnum:
+      type: string
+      description: Match mode will rebuild app only if specified items are updated. Exclude mode will not rebuild app if specified items are updated.
+      enum:
+      - EXCLUDE
+      - MATCH
+      example: MATCH
     DeploymentRestrictionTypeEnum:
       type: string
       enum:
       - PATH
       example: PATH
-    JobDeploymentRestrictionResponse:
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - $ref: '#/components/schemas/JobDeploymentRestrictionRequest'
+  responses:
+    204-deletion:
+      description: The resource was deleted successfully
+    '401':
+      description: Access token is missing or invalid
+    '400':
+      description: Bad request
+    '404':
+      description: Resource not found
+    '403':
+      description: Access forbidden
   parameters:
-    jobId:
-      name: jobId
-      in: path
-      description: Job ID
-      required: true
-      schema:
-        type: string
-        format: uuid
     deploymentRestrictionId:
       name: deploymentRestrictionId
       in: path
       description: Deployment Restriction ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+    jobId:
+      name: jobId
+      in: path
+      description: Job ID
       required: true
       schema:
         type: string

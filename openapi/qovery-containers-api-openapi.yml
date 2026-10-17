@@ -234,6 +234,603 @@ paths:
           description: Operation is in progress
 components:
   schemas:
+    Probe:
+      type:
+      - object
+      - 'null'
+      properties:
+        type:
+          type: object
+          properties:
+            tcp:
+              type:
+              - object
+              - 'null'
+              properties:
+                port:
+                  type: integer
+                host:
+                  type:
+                  - string
+                  - 'null'
+                  default: null
+            http:
+              type:
+              - object
+              - 'null'
+              properties:
+                path:
+                  type: string
+                  default: /
+                scheme:
+                  type: string
+                  default: HTTP
+                port:
+                  type: integer
+            exec:
+              type:
+              - object
+              - 'null'
+              description: Execute a command inside the container. The probe succeeds if the command exits with status code 0.
+              properties:
+                command:
+                  type: array
+                  description: 'Command to execute inside the container, specified as an array of strings. The first element is the executable, followed by its arguments. Example: ["sh", "-c", "test -f /tmp/healthy"]'
+                  example:
+                  - sh
+                  - -c
+                  - test -f /tmp/healthy
+                  items:
+                    type: string
+                  minItems: 1
+            grpc:
+              type:
+              - object
+              - 'null'
+              properties:
+                service:
+                  type:
+                  - string
+                  - 'null'
+                  default: null
+                port:
+                  type: integer
+        initial_delay_seconds:
+          type: integer
+          default: 30
+        period_seconds:
+          type: integer
+          default: 10
+        timeout_seconds:
+          type: integer
+          default: 5
+        success_threshold:
+          type: integer
+          default: 1
+        failure_threshold:
+          type: integer
+          default: 9
+    StepMetricStatusEnum:
+      type: string
+      enum:
+      - SUCCESS
+      - ERROR
+      - CANCEL
+      - SKIP
+      description: 'The status of completion for the step:
+
+        - SUCCESS: The step completed successfully.
+
+        - ERROR: The step completed with an error.
+
+        - CANCEL: The step was canceled.
+
+        - SKIP: The step was skipped because it was not necessary.
+
+        '
+    OrganizationLabelsGroupResponse:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        required:
+        - name
+        - labels
+        properties:
+          name:
+            type: string
+          labels:
+            type: array
+            items:
+              $ref: '#/components/schemas/Label'
+      title: ''
+    ContainerResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContainerResponse'
+    ServiceTypeEnum:
+      type: string
+      x-stoplight:
+        id: d66063cd29913
+      description: type of the service (application, database, job, ...)
+      enum:
+      - APPLICATION
+      - DATABASE
+      - CONTAINER
+      - JOB
+      - HELM
+      - TERRAFORM
+      - ARGOCD_APP
+    OrganizationLabelsGroupResponseList:
+      type: array
+      items:
+        $ref: '#/components/schemas/OrganizationLabelsGroupResponse'
+      title: ''
+    Status:
+      type: object
+      required:
+      - id
+      - state
+      - service_deployment_status
+      - status_details
+      - is_part_last_deployment
+      - deployment_requests_count
+      - deployment_request_id
+      properties:
+        id:
+          type: string
+          format: uuid
+        state:
+          $ref: '#/components/schemas/StateEnum'
+        service_deployment_status:
+          $ref: '#/components/schemas/ServiceDeploymentStatusEnum'
+        last_deployment_date:
+          type: string
+          format: date-time
+        is_part_last_deployment:
+          type: boolean
+        steps:
+          $ref: '#/components/schemas/ServiceStepMetrics'
+        execution_id:
+          type: string
+          x-stoplight:
+            id: 3o9tz4272s2ct
+        status_details:
+          $ref: '#/components/schemas/StatusDetails'
+        deployment_request_id:
+          type:
+          - string
+          - 'null'
+          x-stoplight:
+            id: bepixrb7tyzme
+          format: uuid
+        deployment_requests_count:
+          type: integer
+          x-stoplight:
+            id: crku532vt3v4p
+    ReferenceObjectStatusResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReferenceObjectStatus'
+    AutoscalingMode:
+      title: AutoscalingMode
+      x-stoplight:
+        id: vmgo27882mrl3
+      type: string
+      enum:
+      - KEDA
+    AutoscalingPolicyRequest:
+      title: AutoscalingPolicyRequest
+      x-stoplight:
+        id: ylgyx3ozik2hf
+      oneOf:
+      - $ref: '#/components/schemas/KedaAutoscalingRequest'
+      discriminator:
+        propertyName: mode
+        mapping:
+          KEDA: '#/components/schemas/KedaAutoscalingRequest'
+    Annotation:
+      type: object
+      required:
+      - key
+      - value
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+    OrganizationAnnotationsGroupResponseList:
+      type: array
+      items:
+        $ref: '#/components/schemas/OrganizationAnnotationsGroupResponse'
+    ServiceAnnotationRequest:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          type: string
+          format: uuid
+    ContainerRegistryKindEnum:
+      type: string
+      enum:
+      - ECR
+      - SCALEWAY_CR
+      - DOCKER_HUB
+      - GITHUB_CR
+      - GITHUB_ENTERPRISE_CR
+      - GITLAB_CR
+      - PUBLIC_ECR
+      - DOCR
+      - GENERIC_CR
+      - GCP_ARTIFACT_REGISTRY
+      - AZURE_CR
+      description: The type of your container registry
+    PortProtocolEnum:
+      type: string
+      default: HTTP
+      enum:
+      - HTTP
+      - GRPC
+      - TCP
+      - UDP
+    ServiceAnnotationsRequestList:
+      type: array
+      items:
+        $ref: '#/components/schemas/ServiceAnnotationRequest'
+    Label:
+      type: object
+      required:
+      - key
+      - value
+      - propagate_to_cloud_provider
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+        propagate_to_cloud_provider:
+          type: boolean
+    ContainerSource:
+      type: object
+      required:
+      - image_name
+      - tag
+      - registry
+      properties:
+        image_name:
+          type: string
+          description: 'The image name pattern differs according to chosen container registry provider:
+
+            * `ECR`: `repository`
+
+            * `SCALEWAY_CR`: `namespace/image`
+
+            * `DOCKER_HUB`: `image` or `repository/image`
+
+            * `PUBLIC_ECR`: `registry_alias/repository`
+
+            '
+        tag:
+          type: string
+          description: tag of the image container
+        registry_id:
+          type: string
+          description: tag of the image container
+        registry:
+          $ref: '#/components/schemas/ContainerRegistryProviderDetailsResponse'
+    AutoscalingPolicyResponse:
+      title: AutoscalingPolicyResponse
+      x-stoplight:
+        id: mjawsx6obi237
+      oneOf:
+      - $ref: '#/components/schemas/KedaAutoscalingResponse'
+      discriminator:
+        propertyName: mode
+        mapping:
+          KEDA: '#/components/schemas/KedaAutoscalingResponse'
+    ContainerRegistryProviderDetailsResponse:
+      type: object
+      required:
+      - id
+      - name
+      - url
+      - kind
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        url:
+          type: string
+          description: URL of the container registry
+        kind:
+          $ref: '#/components/schemas/ContainerRegistryKindEnum'
+    CloneServiceRequest:
+      type: object
+      required:
+      - name
+      - environment_id
+      properties:
+        name:
+          type: string
+        environment_id:
+          type: string
+          format: uuid
+    StorageTypeEnum:
+      type: string
+      enum:
+      - FAST_SSD
+    StatusDetails:
+      type: object
+      required:
+      - action
+      - status
+      - sub_action
+      properties:
+        action:
+          $ref: '#/components/schemas/ServiceActionEnum'
+        status:
+          $ref: '#/components/schemas/ServiceActionStatusEnum'
+        sub_action:
+          $ref: '#/components/schemas/ServiceSubActionEnum'
+    ServicePortRequest:
+      type: object
+      properties:
+        ports:
+          type: array
+          items:
+            type: object
+            required:
+            - internal_port
+            - publicly_accessible
+            properties:
+              id:
+                type: string
+                format: uuid
+              name:
+                type: string
+              internal_port:
+                type: integer
+                example: 8080
+                description: The listening port of your service.
+              external_port:
+                type: integer
+                example: 8080
+                description: The exposed port for your service. This is optional. If not set a default port will be used.
+              publicly_accessible:
+                type: boolean
+                description: Expose the port to the world
+              is_default:
+                type: boolean
+                description: is the default port to use for domain
+              protocol:
+                $ref: '#/components/schemas/PortProtocolEnum'
+              public_path:
+                type: string
+                description: "Indicate the path or regex that must match for traffic to be accepted on your service\ni.e: /api/ will only accept http calls that start with /api/ \nOnly valid for publicly_accessible HTTP or GRPC ports."
+              public_path_rewrite:
+                type: string
+                description: "Indicate the new path that will be used to reach your service after replacement\ni.e: public_path -> /(.*)  public_path_rewrite -> /api/$1 will append /api/ on all externaly requested url when reaching the service \nexternal/use url -> example.com/foobar  -> url seen by the service -> example.com/api/foobar\nOnly valid for publicly_accessible HTTP or GRPC ports."
+    KedaScalerResponse:
+      title: KedaScalerResponse
+      x-stoplight:
+        id: gaaqg32ivl48h
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        x-stoplight:
+          id: 74tt3hgf95nfe
+        required:
+        - scaler_type
+        - enabled
+        - role
+        properties:
+          scaler_type:
+            type: string
+            x-stoplight:
+              id: 1ckp76ziimkg4
+          enabled:
+            type: boolean
+            x-stoplight:
+              id: 0dnjwnlkuj3kp
+          role:
+            $ref: '#/components/schemas/KedaScalerRole'
+          config_json:
+            type:
+            - object
+            - 'null'
+          config_yaml:
+            type:
+            - string
+            - 'null'
+          trigger_authentication:
+            $ref: '#/components/schemas/KedaTriggerAuthenticationResponse'
+    KedaTriggerAuthenticationRequest:
+      title: KedaTriggerAuthenticationRequest
+      x-stoplight:
+        id: wp51tmturog3b
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          x-stoplight:
+            id: ka4ltf1usuola
+        config_yaml:
+          type: string
+          x-stoplight:
+            id: 65znz6jclbew5
+          description: Optional raw KEDA TriggerAuthentication YAML configuration.
+    StateEnum:
+      type: string
+      enum:
+      - BUILDING
+      - BUILD_ERROR
+      - CANCELED
+      - CANCELING
+      - DELETED
+      - DELETE_ERROR
+      - DELETE_QUEUED
+      - DELETING
+      - DEPLOYED
+      - DEPLOYING
+      - DEPLOYMENT_ERROR
+      - DEPLOYMENT_QUEUED
+      - EXECUTING
+      - QUEUED
+      - READY
+      - RECAP
+      - RESTARTED
+      - RESTARTING
+      - RESTART_ERROR
+      - RESTART_QUEUED
+      - STOPPED
+      - STOPPING
+      - STOP_ERROR
+      - STOP_QUEUED
+      - UNAVAILABLE
+      - WAITING_DELETING
+      - WAITING_RESTARTING
+      - WAITING_RUNNING
+      - WAITING_STOPPING
+    OrganizationAnnotationsGroupScopeEnum:
+      type: string
+      description: Annotations Group Scope
+      enum:
+      - DEPLOYMENTS
+      - STATEFUL_SETS
+      - SERVICES
+      - INGRESS
+      - GATEWAY_API_ROUTES
+      - HPA
+      - PODS
+      - SECRETS
+      - JOBS
+      - CRON_JOBS
+    KedaAutoscalingRequest:
+      title: KedaAutoscalingRequest
+      x-stoplight:
+        id: 4vq8n2a7z3pen
+      type: object
+      required:
+      - mode
+      - scalers
+      properties:
+        mode:
+          $ref: '#/components/schemas/AutoscalingMode'
+        polling_interval_seconds:
+          type: integer
+          x-stoplight:
+            id: wy5blh9au1d85
+          format: int32
+        cooldown_period_seconds:
+          type: integer
+          x-stoplight:
+            id: zy5rt4bh9fyph
+          format: int32
+        scalers:
+          type: array
+          x-stoplight:
+            id: 6oh134v1tqb28
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/KedaScalerRequest'
+    OrganizationContainerAutoDeployRequest:
+      type: object
+      properties:
+        image_name:
+          type: string
+          description: the container image name to deploy
+        tag:
+          type: string
+          description: the new tag to deploy
+    ServiceSubActionEnum:
+      type: string
+      default: NONE
+      enum:
+      - NONE
+      - TERRAFORM_PLAN_ONLY
+      - TERRAFORM_PLAN_AND_APPLY
+      - TERRAFORM_DESTROY
+      - TERRAFORM_FORCE_UNLOCK_STATE
+      - TERRAFORM_MIGRATE_STATE
+    ServiceStepMetricNameEnum:
+      type: string
+      enum:
+      - REGISTRY_CREATE_REPOSITORY
+      - GIT_CLONE
+      - BUILD_QUEUEING
+      - BUILD
+      - DEPLOYMENT_QUEUEING
+      - DEPLOYMENT
+      - ROUTER_DEPLOYMENT
+      - MIRROR_IMAGE
+      - EXECUTING
+      description: "The name of the deployment step at the service level:\n- REGISTRY_CREATE_REPOSITORY: The step to create the repository in the registry.\n- GIT_CLONE: The step to clone the source code repository. \n- BUILD_QUEUEING: The queuing time preceding the actual building step.\n- BUILD: The step to build the source code.\n- DEPLOYMENT_QUEUEING: The queuing time preceding the actual deployment step.\n- DEPLOYMENT: The step to deploy the service. \n- ROUTER_DEPLOYMENT: The step to deploy the router. \n- MIRROR_IMAGE: The step to mirror the image to the private registry.\n- EXECUTING: The step to execute a job or terraform apply.\n"
+    ReferenceObjectStatus:
+      allOf:
+      - $ref: '#/components/schemas/ReferenceObject'
+      - $ref: '#/components/schemas/Status'
+    ServiceActionEnum:
+      type: string
+      enum:
+      - DEPLOY
+      - DELETE
+      - RESTART
+      - STOP
+      - UNKNOWN
+    OrganizationContainerPreviewRequest:
+      type: object
+      properties:
+        image_name:
+          type: string
+          description: the container image name to trigger preview environment
+        tag:
+          type: string
+          description: the tag to be used in the preview environment
+    Base:
+      type: object
+      required:
+      - id
+      - created_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          readOnly: true
+          format: date-time
+        updated_at:
+          type: string
+          readOnly: true
+          format: date-time
+    ServicePortResponseList:
+      type: array
+      items:
+        $ref: '#/components/schemas/ServicePort'
+    ReferenceObject:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+    ServiceLabelsRequestList:
+      type: array
+      items:
+        $ref: '#/components/schemas/ServiceLabelRequest'
     ContainerResponse:
       allOf:
       - $ref: '#/components/schemas/Base'
@@ -343,277 +940,6 @@ components:
             $ref: '#/components/schemas/ServiceTypeEnum'
           autoscaling:
             $ref: '#/components/schemas/AutoscalingPolicyResponse'
-    AutoscalingPolicyRequest:
-      title: AutoscalingPolicyRequest
-      x-stoplight:
-        id: ylgyx3ozik2hf
-      oneOf:
-      - $ref: '#/components/schemas/KedaAutoscalingRequest'
-      discriminator:
-        propertyName: mode
-        mapping:
-          KEDA: '#/components/schemas/KedaAutoscalingRequest'
-    ServiceStepMetricNameEnum:
-      type: string
-      enum:
-      - REGISTRY_CREATE_REPOSITORY
-      - GIT_CLONE
-      - BUILD_QUEUEING
-      - BUILD
-      - DEPLOYMENT_QUEUEING
-      - DEPLOYMENT
-      - ROUTER_DEPLOYMENT
-      - MIRROR_IMAGE
-      - EXECUTING
-      description: "The name of the deployment step at the service level:\n- REGISTRY_CREATE_REPOSITORY: The step to create the repository in the registry.\n- GIT_CLONE: The step to clone the source code repository. \n- BUILD_QUEUEING: The queuing time preceding the actual building step.\n- BUILD: The step to build the source code.\n- DEPLOYMENT_QUEUEING: The queuing time preceding the actual deployment step.\n- DEPLOYMENT: The step to deploy the service. \n- ROUTER_DEPLOYMENT: The step to deploy the router. \n- MIRROR_IMAGE: The step to mirror the image to the private registry.\n- EXECUTING: The step to execute a job or terraform apply.\n"
-    StepMetricStatusEnum:
-      type: string
-      enum:
-      - SUCCESS
-      - ERROR
-      - CANCEL
-      - SKIP
-      description: 'The status of completion for the step:
-
-        - SUCCESS: The step completed successfully.
-
-        - ERROR: The step completed with an error.
-
-        - CANCEL: The step was canceled.
-
-        - SKIP: The step was skipped because it was not necessary.
-
-        '
-    Annotation:
-      type: object
-      required:
-      - key
-      - value
-      properties:
-        key:
-          type: string
-        value:
-          type: string
-    ServicePortRequest:
-      type: object
-      properties:
-        ports:
-          type: array
-          items:
-            type: object
-            required:
-            - internal_port
-            - publicly_accessible
-            properties:
-              id:
-                type: string
-                format: uuid
-              name:
-                type: string
-              internal_port:
-                type: integer
-                example: 8080
-                description: The listening port of your service.
-              external_port:
-                type: integer
-                example: 8080
-                description: The exposed port for your service. This is optional. If not set a default port will be used.
-              publicly_accessible:
-                type: boolean
-                description: Expose the port to the world
-              is_default:
-                type: boolean
-                description: is the default port to use for domain
-              protocol:
-                $ref: '#/components/schemas/PortProtocolEnum'
-              public_path:
-                type: string
-                description: "Indicate the path or regex that must match for traffic to be accepted on your service\ni.e: /api/ will only accept http calls that start with /api/ \nOnly valid for publicly_accessible HTTP or GRPC ports."
-              public_path_rewrite:
-                type: string
-                description: "Indicate the new path that will be used to reach your service after replacement\ni.e: public_path -> /(.*)  public_path_rewrite -> /api/$1 will append /api/ on all externaly requested url when reaching the service \nexternal/use url -> example.com/foobar  -> url seen by the service -> example.com/api/foobar\nOnly valid for publicly_accessible HTTP or GRPC ports."
-    OrganizationAnnotationsGroupResponseList:
-      type: array
-      items:
-        $ref: '#/components/schemas/OrganizationAnnotationsGroupResponse'
-    KedaTriggerAuthenticationRequest:
-      title: KedaTriggerAuthenticationRequest
-      x-stoplight:
-        id: wp51tmturog3b
-      type: object
-      required:
-      - name
-      properties:
-        name:
-          type: string
-          x-stoplight:
-            id: ka4ltf1usuola
-        config_yaml:
-          type: string
-          x-stoplight:
-            id: 65znz6jclbew5
-          description: Optional raw KEDA TriggerAuthentication YAML configuration.
-    OrganizationContainerAutoDeployRequest:
-      type: object
-      properties:
-        image_name:
-          type: string
-          description: the container image name to deploy
-        tag:
-          type: string
-          description: the new tag to deploy
-    KedaAutoscalingRequest:
-      title: KedaAutoscalingRequest
-      x-stoplight:
-        id: 4vq8n2a7z3pen
-      type: object
-      required:
-      - mode
-      - scalers
-      properties:
-        mode:
-          $ref: '#/components/schemas/AutoscalingMode'
-        polling_interval_seconds:
-          type: integer
-          x-stoplight:
-            id: wy5blh9au1d85
-          format: int32
-        cooldown_period_seconds:
-          type: integer
-          x-stoplight:
-            id: zy5rt4bh9fyph
-          format: int32
-        scalers:
-          type: array
-          x-stoplight:
-            id: 6oh134v1tqb28
-          minItems: 1
-          items:
-            $ref: '#/components/schemas/KedaScalerRequest'
-    ReferenceObjectStatus:
-      allOf:
-      - $ref: '#/components/schemas/ReferenceObject'
-      - $ref: '#/components/schemas/Status'
-    ServiceStepMetric:
-      type: object
-      properties:
-        step_name:
-          $ref: '#/components/schemas/ServiceStepMetricNameEnum'
-        status:
-          $ref: '#/components/schemas/StepMetricStatusEnum'
-        duration_sec:
-          description: The duration of the step in seconds.
-          type: integer
-    ReferenceObject:
-      type: object
-      required:
-      - id
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-    Base:
-      type: object
-      required:
-      - id
-      - created_at
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        created_at:
-          type: string
-          readOnly: true
-          format: date-time
-        updated_at:
-          type: string
-          readOnly: true
-          format: date-time
-    StateEnum:
-      type: string
-      enum:
-      - BUILDING
-      - BUILD_ERROR
-      - CANCELED
-      - CANCELING
-      - DELETED
-      - DELETE_ERROR
-      - DELETE_QUEUED
-      - DELETING
-      - DEPLOYED
-      - DEPLOYING
-      - DEPLOYMENT_ERROR
-      - DEPLOYMENT_QUEUED
-      - EXECUTING
-      - QUEUED
-      - READY
-      - RECAP
-      - RESTARTED
-      - RESTARTING
-      - RESTART_ERROR
-      - RESTART_QUEUED
-      - STOPPED
-      - STOPPING
-      - STOP_ERROR
-      - STOP_QUEUED
-      - UNAVAILABLE
-      - WAITING_DELETING
-      - WAITING_RESTARTING
-      - WAITING_RUNNING
-      - WAITING_STOPPING
-    AutoscalingMode:
-      title: AutoscalingMode
-      x-stoplight:
-        id: vmgo27882mrl3
-      type: string
-      enum:
-      - KEDA
-    ContainerRegistryKindEnum:
-      type: string
-      enum:
-      - ECR
-      - SCALEWAY_CR
-      - DOCKER_HUB
-      - GITHUB_CR
-      - GITHUB_ENTERPRISE_CR
-      - GITLAB_CR
-      - PUBLIC_ECR
-      - DOCR
-      - GENERIC_CR
-      - GCP_ARTIFACT_REGISTRY
-      - AZURE_CR
-      description: The type of your container registry
-    OrganizationAnnotationsGroupScopeEnum:
-      type: string
-      description: Annotations Group Scope
-      enum:
-      - DEPLOYMENTS
-      - STATEFUL_SETS
-      - SERVICES
-      - INGRESS
-      - GATEWAY_API_ROUTES
-      - HPA
-      - PODS
-      - SECRETS
-      - JOBS
-      - CRON_JOBS
-    PortProtocolEnum:
-      type: string
-      default: HTTP
-      enum:
-      - HTTP
-      - GRPC
-      - TCP
-      - UDP
-    Healthcheck:
-      type: object
-      properties:
-        readiness_probe:
-          $ref: '#/components/schemas/Probe'
-        liveness_probe:
-          $ref: '#/components/schemas/Probe'
     ContainerAdvancedSettings:
       type: object
       properties:
@@ -776,75 +1102,38 @@ components:
           description: 'Mounts the container''s root filesystem as read-only
 
             '
-    OrganizationLabelsGroupResponseList:
-      type: array
-      items:
-        $ref: '#/components/schemas/OrganizationLabelsGroupResponse'
-      title: ''
-    ReferenceObjectStatusResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/ReferenceObjectStatus'
-    ServiceActionStatusEnum:
-      type: string
-      enum:
-      - QUEUED
-      - ONGOING
-      - SUCCESS
-      - ERROR
-      - EXECUTING
-      - CANCELED
-      - CANCELING
-      - NEVER
-    StorageTypeEnum:
-      type: string
-      enum:
-      - FAST_SSD
-    KedaScalerRequest:
-      title: KedaScalerRequest
+    KedaTriggerAuthenticationResponse:
+      title: KedaTriggerAuthenticationResponse
       x-stoplight:
-        id: hfn4tfrtivkcs
-      type: object
-      required:
-      - scaler_type
-      - role
-      properties:
-        scaler_type:
-          type: string
-          x-stoplight:
-            id: 3ba9iisjwqgsp
-        enabled:
-          type: boolean
-          x-stoplight:
-            id: 9m67trg9m0ioz
-        role:
-          $ref: '#/components/schemas/KedaScalerRole'
-        config_json:
-          type: object
-          x-stoplight:
-            id: si5ekni2hc6w9
-        config_yaml:
-          type: string
-          x-stoplight:
-            id: 8c7vktd7svl30
-        trigger_authentication:
-          $ref: '#/components/schemas/KedaTriggerAuthenticationRequest'
-    Label:
-      type: object
-      required:
-      - key
-      - value
-      - propagate_to_cloud_provider
-      properties:
-        key:
-          type: string
-        value:
-          type: string
-        propagate_to_cloud_provider:
-          type: boolean
+        id: 7mm4a4sk9jhz3
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        x-stoplight:
+          id: ssejnexbsra11
+        required:
+        - organization_id
+        - name
+        properties:
+          organization_id:
+            type: string
+            x-stoplight:
+              id: akxa3zctvjj5h
+          name:
+            type: string
+            x-stoplight:
+              id: gpvwed95xygk1
+          config_yaml:
+            type: string
+            x-stoplight:
+              id: r5lmrzakyk9o6
+            description: ' Optional raw KEDA TriggerAuthentication YAML configuration.'
+    ServiceDeploymentStatusEnum:
+      type: string
+      enum:
+      - NEVER_DEPLOYED
+      - OUT_OF_DATE
+      - UP_TO_DATE
     KedaAutoscalingResponse:
       title: KedaAutoscalingResponse
       x-stoplight:
@@ -886,73 +1175,13 @@ components:
             items:
               $ref: '#/components/schemas/KedaScalerResponse'
       description: ''
-    ServiceStorage:
+    Healthcheck:
       type: object
       properties:
-        storage:
-          type: array
-          items:
-            type: object
-            required:
-            - id
-            - type
-            - size
-            - mount_point
-            properties:
-              id:
-                type: string
-                format: uuid
-              type:
-                $ref: '#/components/schemas/StorageTypeEnum'
-              size:
-                type: integer
-                description: unit is GB
-                example: 16
-              mount_point:
-                type: string
-                example: /mnt/images
-    KedaScalerRole:
-      title: KedaScalerRole
-      x-stoplight:
-        id: 1sl0mlxoqzr8w
-      type: string
-      enum:
-      - PRIMARY
-      - SAFETY
-    KedaScalerResponse:
-      title: KedaScalerResponse
-      x-stoplight:
-        id: gaaqg32ivl48h
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - type: object
-        x-stoplight:
-          id: 74tt3hgf95nfe
-        required:
-        - scaler_type
-        - enabled
-        - role
-        properties:
-          scaler_type:
-            type: string
-            x-stoplight:
-              id: 1ckp76ziimkg4
-          enabled:
-            type: boolean
-            x-stoplight:
-              id: 0dnjwnlkuj3kp
-          role:
-            $ref: '#/components/schemas/KedaScalerRole'
-          config_json:
-            type:
-            - object
-            - 'null'
-          config_yaml:
-            type:
-            - string
-            - 'null'
-          trigger_authentication:
-            $ref: '#/components/schemas/KedaTriggerAuthenticationResponse'
+        readiness_probe:
+          $ref: '#/components/schemas/Probe'
+        liveness_probe:
+          $ref: '#/components/schemas/Probe'
     ServiceStorageRequest:
       type: object
       properties:
@@ -981,10 +1210,6 @@ components:
               mount_point:
                 type: string
                 example: /mnt/images
-    ServiceLabelsRequestList:
-      type: array
-      items:
-        $ref: '#/components/schemas/ServiceLabelRequest'
     ServiceStepMetrics:
       type: object
       required:
@@ -1005,222 +1230,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ServiceStepMetric'
-    ServicePort:
-      type: object
-      required:
-      - id
-      - internal_port
-      - publicly_accessible
-      - protocol
-      properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          type: string
-        internal_port:
-          type: integer
-          example: 8080
-          description: The listening port of your service.
-        external_port:
-          type: integer
-          example: 8080
-          description: The exposed port for your service. This is optional. If not set a default port will be used.
-        publicly_accessible:
-          type: boolean
-          description: Expose the port to the world
-        is_default:
-          type: boolean
-          description: is the default port to use for domain
-        protocol:
-          $ref: '#/components/schemas/PortProtocolEnum'
-        public_path:
-          type: string
-          description: "Indicate the path or regex that must match for traffic to be accepted on your service\ni.e: /api/ will only accept http calls that start with /api/ \nOnly valid for publicly_accessible HTTP or GRPC ports."
-        public_path_rewrite:
-          type: string
-          description: "Indicate the new path that will be used to reach your service after replacement\ni.e: public_path -> /(.*)  public_path_rewrite -> /api/$1 will append /api/ on all externaly requested url when reaching the service \nexternal/use url -> example.com/foobar  -> url seen by the service -> example.com/api/foobar\nOnly valid for publicly_accessible HTTP or GRPC ports."
-    ServiceActionEnum:
-      type: string
-      enum:
-      - DEPLOY
-      - DELETE
-      - RESTART
-      - STOP
-      - UNKNOWN
-    CloneServiceRequest:
-      type: object
-      required:
-      - name
-      - environment_id
-      properties:
-        name:
-          type: string
-        environment_id:
-          type: string
-          format: uuid
-    ServiceAnnotationsRequestList:
-      type: array
-      items:
-        $ref: '#/components/schemas/ServiceAnnotationRequest'
-    ServiceDeploymentStatusEnum:
-      type: string
-      enum:
-      - NEVER_DEPLOYED
-      - OUT_OF_DATE
-      - UP_TO_DATE
-    KedaTriggerAuthenticationResponse:
-      title: KedaTriggerAuthenticationResponse
-      x-stoplight:
-        id: 7mm4a4sk9jhz3
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - type: object
-        x-stoplight:
-          id: ssejnexbsra11
-        required:
-        - organization_id
-        - name
-        properties:
-          organization_id:
-            type: string
-            x-stoplight:
-              id: akxa3zctvjj5h
-          name:
-            type: string
-            x-stoplight:
-              id: gpvwed95xygk1
-          config_yaml:
-            type: string
-            x-stoplight:
-              id: r5lmrzakyk9o6
-            description: ' Optional raw KEDA TriggerAuthentication YAML configuration.'
-    OrganizationContainerPreviewRequest:
-      type: object
-      properties:
-        image_name:
-          type: string
-          description: the container image name to trigger preview environment
-        tag:
-          type: string
-          description: the tag to be used in the preview environment
-    ContainerSource:
-      type: object
-      required:
-      - image_name
-      - tag
-      - registry
-      properties:
-        image_name:
-          type: string
-          description: 'The image name pattern differs according to chosen container registry provider:
-
-            * `ECR`: `repository`
-
-            * `SCALEWAY_CR`: `namespace/image`
-
-            * `DOCKER_HUB`: `image` or `repository/image`
-
-            * `PUBLIC_ECR`: `registry_alias/repository`
-
-            '
-        tag:
-          type: string
-          description: tag of the image container
-        registry_id:
-          type: string
-          description: tag of the image container
-        registry:
-          $ref: '#/components/schemas/ContainerRegistryProviderDetailsResponse'
-    ServicePortResponseList:
-      type: array
-      items:
-        $ref: '#/components/schemas/ServicePort'
-    StatusDetails:
-      type: object
-      required:
-      - action
-      - status
-      - sub_action
-      properties:
-        action:
-          $ref: '#/components/schemas/ServiceActionEnum'
-        status:
-          $ref: '#/components/schemas/ServiceActionStatusEnum'
-        sub_action:
-          $ref: '#/components/schemas/ServiceSubActionEnum'
-    ServiceTypeEnum:
-      type: string
-      x-stoplight:
-        id: d66063cd29913
-      description: type of the service (application, database, job, ...)
-      enum:
-      - APPLICATION
-      - DATABASE
-      - CONTAINER
-      - JOB
-      - HELM
-      - TERRAFORM
-      - ARGOCD_APP
-    ServiceSubActionEnum:
-      type: string
-      default: NONE
-      enum:
-      - NONE
-      - TERRAFORM_PLAN_ONLY
-      - TERRAFORM_PLAN_AND_APPLY
-      - TERRAFORM_DESTROY
-      - TERRAFORM_FORCE_UNLOCK_STATE
-      - TERRAFORM_MIGRATE_STATE
-    Status:
-      type: object
-      required:
-      - id
-      - state
-      - service_deployment_status
-      - status_details
-      - is_part_last_deployment
-      - deployment_requests_count
-      - deployment_request_id
-      properties:
-        id:
-          type: string
-          format: uuid
-        state:
-          $ref: '#/components/schemas/StateEnum'
-        service_deployment_status:
-          $ref: '#/components/schemas/ServiceDeploymentStatusEnum'
-        last_deployment_date:
-          type: string
-          format: date-time
-        is_part_last_deployment:
-          type: boolean
-        steps:
-          $ref: '#/components/schemas/ServiceStepMetrics'
-        execution_id:
-          type: string
-          x-stoplight:
-            id: 3o9tz4272s2ct
-        status_details:
-          $ref: '#/components/schemas/StatusDetails'
-        deployment_request_id:
-          type:
-          - string
-          - 'null'
-          x-stoplight:
-            id: bepixrb7tyzme
-          format: uuid
-        deployment_requests_count:
-          type: integer
-          x-stoplight:
-            id: crku532vt3v4p
-    ContainerResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/ContainerResponse'
     ContainerRequest:
       allOf:
       - $ref: '#/components/schemas/ServiceStorageRequest'
@@ -1311,97 +1320,6 @@ components:
               id: jiypvl6nd63dm
           autoscaling:
             $ref: '#/components/schemas/AutoscalingPolicyRequest'
-    Probe:
-      type:
-      - object
-      - 'null'
-      properties:
-        type:
-          type: object
-          properties:
-            tcp:
-              type:
-              - object
-              - 'null'
-              properties:
-                port:
-                  type: integer
-                host:
-                  type:
-                  - string
-                  - 'null'
-                  default: null
-            http:
-              type:
-              - object
-              - 'null'
-              properties:
-                path:
-                  type: string
-                  default: /
-                scheme:
-                  type: string
-                  default: HTTP
-                port:
-                  type: integer
-            exec:
-              type:
-              - object
-              - 'null'
-              description: Execute a command inside the container. The probe succeeds if the command exits with status code 0.
-              properties:
-                command:
-                  type: array
-                  description: 'Command to execute inside the container, specified as an array of strings. The first element is the executable, followed by its arguments. Example: ["sh", "-c", "test -f /tmp/healthy"]'
-                  example:
-                  - sh
-                  - -c
-                  - test -f /tmp/healthy
-                  items:
-                    type: string
-                  minItems: 1
-            grpc:
-              type:
-              - object
-              - 'null'
-              properties:
-                service:
-                  type:
-                  - string
-                  - 'null'
-                  default: null
-                port:
-                  type: integer
-        initial_delay_seconds:
-          type: integer
-          default: 30
-        period_seconds:
-          type: integer
-          default: 10
-        timeout_seconds:
-          type: integer
-          default: 5
-        success_threshold:
-          type: integer
-          default: 1
-        failure_threshold:
-          type: integer
-          default: 9
-    OrganizationLabelsGroupResponse:
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - type: object
-        required:
-        - name
-        - labels
-        properties:
-          name:
-            type: string
-          labels:
-            type: array
-            items:
-              $ref: '#/components/schemas/Label'
-      title: ''
     OrganizationAnnotationsGroupResponse:
       allOf:
       - $ref: '#/components/schemas/Base'
@@ -1421,42 +1339,35 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/OrganizationAnnotationsGroupScopeEnum'
-    ServiceAnnotationRequest:
-      type: object
-      required:
-      - id
-      properties:
-        id:
-          type: string
-          format: uuid
-    ContainerRegistryProviderDetailsResponse:
-      type: object
-      required:
-      - id
-      - name
-      - url
-      - kind
-      properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          type: string
-        url:
-          type: string
-          description: URL of the container registry
-        kind:
-          $ref: '#/components/schemas/ContainerRegistryKindEnum'
-    AutoscalingPolicyResponse:
-      title: AutoscalingPolicyResponse
+    KedaScalerRequest:
+      title: KedaScalerRequest
       x-stoplight:
-        id: mjawsx6obi237
-      oneOf:
-      - $ref: '#/components/schemas/KedaAutoscalingResponse'
-      discriminator:
-        propertyName: mode
-        mapping:
-          KEDA: '#/components/schemas/KedaAutoscalingResponse'
+        id: hfn4tfrtivkcs
+      type: object
+      required:
+      - scaler_type
+      - role
+      properties:
+        scaler_type:
+          type: string
+          x-stoplight:
+            id: 3ba9iisjwqgsp
+        enabled:
+          type: boolean
+          x-stoplight:
+            id: 9m67trg9m0ioz
+        role:
+          $ref: '#/components/schemas/KedaScalerRole'
+        config_json:
+          type: object
+          x-stoplight:
+            id: si5ekni2hc6w9
+        config_yaml:
+          type: string
+          x-stoplight:
+            id: 8c7vktd7svl30
+        trigger_authentication:
+          $ref: '#/components/schemas/KedaTriggerAuthenticationRequest'
     ServiceLabelRequest:
       type: object
       required:
@@ -1465,28 +1376,108 @@ components:
         id:
           type: string
           format: uuid
-  responses:
-    '404':
-      description: Resource not found
-    '401':
-      description: Access token is missing or invalid
-    '403':
-      description: Access forbidden
-    '400':
-      description: Bad request
+    ServiceActionStatusEnum:
+      type: string
+      enum:
+      - QUEUED
+      - ONGOING
+      - SUCCESS
+      - ERROR
+      - EXECUTING
+      - CANCELED
+      - CANCELING
+      - NEVER
+    ServiceStepMetric:
+      type: object
+      properties:
+        step_name:
+          $ref: '#/components/schemas/ServiceStepMetricNameEnum'
+        status:
+          $ref: '#/components/schemas/StepMetricStatusEnum'
+        duration_sec:
+          description: The duration of the step in seconds.
+          type: integer
+    KedaScalerRole:
+      title: KedaScalerRole
+      x-stoplight:
+        id: 1sl0mlxoqzr8w
+      type: string
+      enum:
+      - PRIMARY
+      - SAFETY
+    ServicePort:
+      type: object
+      required:
+      - id
+      - internal_port
+      - publicly_accessible
+      - protocol
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        internal_port:
+          type: integer
+          example: 8080
+          description: The listening port of your service.
+        external_port:
+          type: integer
+          example: 8080
+          description: The exposed port for your service. This is optional. If not set a default port will be used.
+        publicly_accessible:
+          type: boolean
+          description: Expose the port to the world
+        is_default:
+          type: boolean
+          description: is the default port to use for domain
+        protocol:
+          $ref: '#/components/schemas/PortProtocolEnum'
+        public_path:
+          type: string
+          description: "Indicate the path or regex that must match for traffic to be accepted on your service\ni.e: /api/ will only accept http calls that start with /api/ \nOnly valid for publicly_accessible HTTP or GRPC ports."
+        public_path_rewrite:
+          type: string
+          description: "Indicate the new path that will be used to reach your service after replacement\ni.e: public_path -> /(.*)  public_path_rewrite -> /api/$1 will append /api/ on all externaly requested url when reaching the service \nexternal/use url -> example.com/foobar  -> url seen by the service -> example.com/api/foobar\nOnly valid for publicly_accessible HTTP or GRPC ports."
+    ServiceStorage:
+      type: object
+      properties:
+        storage:
+          type: array
+          items:
+            type: object
+            required:
+            - id
+            - type
+            - size
+            - mount_point
+            properties:
+              id:
+                type: string
+                format: uuid
+              type:
+                $ref: '#/components/schemas/StorageTypeEnum'
+              size:
+                type: integer
+                description: unit is GB
+                example: 16
+              mount_point:
+                type: string
+                example: /mnt/images
   parameters:
-    containerRegistryId:
-      name: containerRegistryId
+    organizationId:
+      name: organizationId
       in: path
-      description: Container Registry ID
+      description: Organization ID
       required: true
       schema:
         type: string
         format: uuid
-    environmentId:
-      name: environmentId
+    containerRegistryId:
+      name: containerRegistryId
       in: path
-      description: Environment ID
+      description: Container Registry ID
       required: true
       schema:
         type: string
@@ -1499,14 +1490,23 @@ components:
       schema:
         type: string
         format: uuid
-    organizationId:
-      name: organizationId
+    environmentId:
+      name: environmentId
       in: path
-      description: Organization ID
+      description: Environment ID
       required: true
       schema:
         type: string
         format: uuid
+  responses:
+    '403':
+      description: Access forbidden
+    '401':
+      description: Access token is missing or invalid
+    '400':
+      description: Bad request
+    '404':
+      description: Resource not found
   securitySchemes:
     bearerAuth:
       type: http

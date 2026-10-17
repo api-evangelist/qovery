@@ -115,18 +115,11 @@ paths:
         '404':
           $ref: '#/components/responses/404'
 components:
-  responses:
-    204-deletion:
-      description: The resource was deleted successfully
-    '403':
-      description: Access forbidden
-    '400':
-      description: Bad request
-    '404':
-      description: Resource not found
-    '401':
-      description: Access token is missing or invalid
   schemas:
+    HelmDeploymentRestrictionResponse:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - $ref: '#/components/schemas/HelmDeploymentRestrictionRequest'
     Base:
       type: object
       required:
@@ -152,6 +145,13 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/HelmDeploymentRestrictionResponse'
+    DeploymentRestrictionModeEnum:
+      type: string
+      description: Match mode will rebuild app only if specified items are updated. Exclude mode will not rebuild app if specified items are updated.
+      enum:
+      - EXCLUDE
+      - MATCH
+      example: MATCH
     HelmDeploymentRestrictionRequest:
       type: object
       required:
@@ -167,35 +167,35 @@ components:
           type: string
           description: For `PATH` restrictions, the value must not start with `/`
           example: helm1/src/
-    HelmDeploymentRestrictionResponse:
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - $ref: '#/components/schemas/HelmDeploymentRestrictionRequest'
-    DeploymentRestrictionModeEnum:
-      type: string
-      description: Match mode will rebuild app only if specified items are updated. Exclude mode will not rebuild app if specified items are updated.
-      enum:
-      - EXCLUDE
-      - MATCH
-      example: MATCH
     DeploymentRestrictionTypeEnum:
       type: string
       enum:
       - PATH
       example: PATH
+  responses:
+    204-deletion:
+      description: The resource was deleted successfully
+    '401':
+      description: Access token is missing or invalid
+    '400':
+      description: Bad request
+    '403':
+      description: Access forbidden
+    '404':
+      description: Resource not found
   parameters:
-    deploymentRestrictionId:
-      name: deploymentRestrictionId
-      in: path
-      description: Deployment Restriction ID
-      required: true
-      schema:
-        type: string
-        format: uuid
     helmId:
       name: helmId
       in: path
       description: Helm ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+    deploymentRestrictionId:
+      name: deploymentRestrictionId
+      in: path
+      description: Deployment Restriction ID
       required: true
       schema:
         type: string

@@ -424,6 +424,175 @@ paths:
         id: gjin553b2f7mz
 components:
   schemas:
+    ManagedDatabaseInstanceTypeResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ManagedDatabaseInstanceTypeResponse'
+    ClusterFeatureResponseTypeEnum:
+      type: string
+      enum:
+      - STRING
+      - BOOLEAN
+      - AWS_USER_PROVIDED_NETWORK
+      - GCP_USER_PROVIDED_NETWORK
+      - KARPENTER
+    ClusterFeatureGcpExistingVpc:
+      type: object
+      required:
+      - vpc_name
+      properties:
+        vpc_name:
+          type: string
+        vpc_project_id:
+          type:
+          - string
+          - 'null'
+        subnetwork_name:
+          type:
+          - string
+          - 'null'
+        ip_range_services_name:
+          type:
+          - string
+          - 'null'
+        ip_range_pods_name:
+          type:
+          - string
+          - 'null'
+        additional_ip_range_pods_names:
+          type: array
+          items:
+            type: string
+    ManagedDatabaseInstanceTypeResponse:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          example: db.t3.medium
+    KarpenterStableNodePoolOverride:
+      title: KarpenterStableNodePoolOverride
+      type: object
+      properties:
+        consolidation:
+          $ref: '#/components/schemas/KarpenterNodePoolConsolidation'
+        limits:
+          $ref: '#/components/schemas/KarpenterNodePoolLimits'
+        consolidate_after:
+          type: string
+          description: 'Time to wait before consolidating empty or underutilized nodes (e.g., 1m, 10m, 1h). Maximum: 24h'
+          example: 30s
+          pattern: ^\d+(s|m|h)$
+    ClusterInstanceAttributes:
+      title: ClusterInstanceAttributes
+      x-stoplight:
+        id: nxbpo7v2ecz72
+      type: object
+      properties:
+        instance_category:
+          type: string
+          x-stoplight:
+            id: epo9cqt13zoqp
+          description: The category of the instance.
+        instance_generation:
+          type: integer
+          x-stoplight:
+            id: 274hjvkvlycxp
+          description: The generation of the instance.
+        instance_family:
+          type: string
+          x-stoplight:
+            id: ixmy1d0nokjh5
+          description: The family or series of the instance.
+        instance_size:
+          type: string
+          x-stoplight:
+            id: dmnfjmvowgd0a
+          description: Specifies the size of the instance within its family.
+        meets_resource_reqs:
+          type: boolean
+          x-stoplight:
+            id: 8gytpdzm751we
+          description: The instance has sufficient resources to be chosen as a standalone instance in a cluster.
+    KarpenterNodePoolConsolidation:
+      title: KarpenterNodePoolConsolidation
+      type: object
+      required:
+      - enabled
+      - days
+      - start_time
+      - duration
+      properties:
+        enabled:
+          type: boolean
+          default: false
+        days:
+          type: array
+          items:
+            $ref: '#/components/schemas/WeekdayEnum'
+        start_time:
+          description: 'The start date of the consolidation.
+
+            The format should follow ISO-8601 convention: "PThh:mm"
+
+            '
+          type: string
+          example: PT22:30
+        duration:
+          description: 'The duration during the consolidation will be active.
+
+            The format should follow ISO-8601 convention: "PThhHmmM"
+
+            '
+          type: string
+          example: PT2H45M
+    ClusterFeatureGcpExistingVpcResponse:
+      type: object
+      required:
+      - type
+      - value
+      properties:
+        type:
+          $ref: '#/components/schemas/ClusterFeatureResponseTypeEnum'
+        value:
+          $ref: '#/components/schemas/ClusterFeatureGcpExistingVpc'
+    ClusterInstanceGpuInfo:
+      title: ClusterInstanceGpuInfo
+      x-stoplight:
+        id: dfdp50z2mr1cs
+      type: object
+      properties:
+        count:
+          type: integer
+          x-stoplight:
+            id: hbl5jxfcth747
+          description: The number of GPUs included in the instance.
+        name:
+          type: string
+          x-stoplight:
+            id: pregmt5l22afi
+          description: The model name of the GPU.
+        manufacturer:
+          type: string
+          x-stoplight:
+            id: a0e1rvah0xfms
+          description: The manufacturer of the GPUs in the instance.
+        memory_in_mib:
+          type: string
+          x-stoplight:
+            id: 20yjj7h8sjtdu
+          description: The total GPU memory available.
+    ClusterFeatureResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClusterFeatureResponse'
     ClusterFeatureKarpenterParameters:
       title: ClusterFeatureKarpenterParameters
       x-stoplight:
@@ -459,6 +628,149 @@ components:
           $ref: '#/components/schemas/CpuArchitectureEnum'
         qovery_node_pools:
           $ref: '#/components/schemas/KarpenterNodePool'
+    KarpenterNodePool:
+      title: KarpenterNodePool
+      x-stoplight:
+        id: q8vks57rql8x1
+      type: object
+      required:
+      - requirements
+      properties:
+        requirements:
+          x-stoplight:
+            id: pkowctfxv7q77
+          type: array
+          items:
+            $ref: '#/components/schemas/KarpenterNodePoolRequirement'
+        stable_override:
+          $ref: '#/components/schemas/KarpenterStableNodePoolOverride'
+        default_override:
+          $ref: '#/components/schemas/KarpenterDefaultNodePoolOverride'
+        gpu_override:
+          $ref: '#/components/schemas/KarpenterGpuNodePoolOverride'
+        cronjob_override:
+          $ref: '#/components/schemas/KarpenterCronjobNodePoolOverride'
+    KarpenterNodePoolRequirement:
+      title: KarpenterNodePoolRequirement
+      x-stoplight:
+        id: 4ebed64emvn09
+      type: object
+      required:
+      - key
+      - operator
+      - values
+      properties:
+        key:
+          $ref: '#/components/schemas/KarpenterNodePoolRequirementKey'
+        operator:
+          $ref: '#/components/schemas/KarpenterNodePoolRequirementOperator'
+        values:
+          type: array
+          x-stoplight:
+            id: qf036o7tch5ed
+          items:
+            x-stoplight:
+              id: 02kz5mierypik
+            type: string
+    ClusterRegionResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClusterRegion'
+    ManagedDatabaseTypeResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ManagedDatabaseTypeResponse'
+    KarpenterGpuNodePoolOverride:
+      title: KarpenterGpuNodePoolOverride
+      x-stoplight:
+        id: fi2s446xdrdu1
+      type: object
+      properties:
+        consolidation:
+          $ref: '#/components/schemas/KarpenterNodePoolConsolidation'
+        limits:
+          $ref: '#/components/schemas/KarpenterNodePoolLimits'
+        requirements:
+          type: array
+          x-stoplight:
+            id: 38pdri17ozql9
+          items:
+            $ref: '#/components/schemas/KarpenterNodePoolRequirement'
+        disk_size_in_gib:
+          type: integer
+          x-stoplight:
+            id: xq5ycmme7o025
+          minimum: 0
+          default: 100
+          example: 150
+        disk_iops:
+          type: integer
+          x-stoplight:
+            id: gpu1d1skiops
+          minimum: 3000
+          maximum: 16000
+          example: 7800
+          description: Unit is operation/seconds. The disk IOPS to be used for the GPU node pool configuration
+        disk_throughput:
+          type: integer
+          x-stoplight:
+            id: gpu1d1skthr
+          minimum: 125
+          maximum: 1000
+          example: 255
+          description: Unit is in MB/s. The disk throughput to be used for the GPU node pool configuration
+        spot_enabled:
+          type: boolean
+          x-stoplight:
+            id: rjzxs0e2rn0ij
+          default: false
+        consolidate_after:
+          type: string
+          description: 'Time to wait before consolidating empty or underutilized nodes (e.g., 1m, 10m, 1h). Maximum: 24h'
+          example: 30s
+          pattern: ^\d+(s|m|h)$
+    ClusterRegion:
+      type: object
+      required:
+      - name
+      - country_code
+      - country
+      - city
+      properties:
+        name:
+          type: string
+        country_code:
+          type: string
+        country:
+          type: string
+        city:
+          type: string
+        zones:
+          type: array
+          description: List of availability zones supported by this region
+          items:
+            type: string
+          example:
+          - '1'
+          - '2'
+          - '3'
+    KarpenterDefaultNodePoolOverride:
+      title: KarpenterDefaultNodePoolOverride
+      type: object
+      properties:
+        limits:
+          $ref: '#/components/schemas/KarpenterNodePoolLimits'
+        consolidate_after:
+          type: string
+          description: 'Time to wait before consolidating empty or underutilized nodes (e.g., 1m, 10m, 1h). Maximum: 24h'
+          example: 1m
+          pattern: ^\d+(s|m|h)$
     ClusterFeatureBooleanResponse:
       type: object
       required:
@@ -469,13 +781,6 @@ components:
           $ref: '#/components/schemas/ClusterFeatureResponseTypeEnum'
         value:
           type: boolean
-    ClusterFeatureResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/ClusterFeatureResponse'
     ClusterFeatureAwsExistingVpc:
       type: object
       required:
@@ -585,317 +890,6 @@ components:
         eks_create_nodes_in_private_subnet:
           type: boolean
           default: true
-    KarpenterGpuNodePoolOverride:
-      title: KarpenterGpuNodePoolOverride
-      x-stoplight:
-        id: fi2s446xdrdu1
-      type: object
-      properties:
-        consolidation:
-          $ref: '#/components/schemas/KarpenterNodePoolConsolidation'
-        limits:
-          $ref: '#/components/schemas/KarpenterNodePoolLimits'
-        requirements:
-          type: array
-          x-stoplight:
-            id: 38pdri17ozql9
-          items:
-            $ref: '#/components/schemas/KarpenterNodePoolRequirement'
-        disk_size_in_gib:
-          type: integer
-          x-stoplight:
-            id: xq5ycmme7o025
-          minimum: 0
-          default: 100
-          example: 150
-        disk_iops:
-          type: integer
-          x-stoplight:
-            id: gpu1d1skiops
-          minimum: 3000
-          maximum: 16000
-          example: 7800
-          description: Unit is operation/seconds. The disk IOPS to be used for the GPU node pool configuration
-        disk_throughput:
-          type: integer
-          x-stoplight:
-            id: gpu1d1skthr
-          minimum: 125
-          maximum: 1000
-          example: 255
-          description: Unit is in MB/s. The disk throughput to be used for the GPU node pool configuration
-        spot_enabled:
-          type: boolean
-          x-stoplight:
-            id: rjzxs0e2rn0ij
-          default: false
-        consolidate_after:
-          type: string
-          description: 'Time to wait before consolidating empty or underutilized nodes (e.g., 1m, 10m, 1h). Maximum: 24h'
-          example: 30s
-          pattern: ^\d+(s|m|h)$
-    ManagedDatabaseInstanceTypeResponse:
-      type: object
-      required:
-      - name
-      properties:
-        name:
-          type: string
-          example: db.t3.medium
-    ClusterInstanceGpuInfo:
-      title: ClusterInstanceGpuInfo
-      x-stoplight:
-        id: dfdp50z2mr1cs
-      type: object
-      properties:
-        count:
-          type: integer
-          x-stoplight:
-            id: hbl5jxfcth747
-          description: The number of GPUs included in the instance.
-        name:
-          type: string
-          x-stoplight:
-            id: pregmt5l22afi
-          description: The model name of the GPU.
-        manufacturer:
-          type: string
-          x-stoplight:
-            id: a0e1rvah0xfms
-          description: The manufacturer of the GPUs in the instance.
-        memory_in_mib:
-          type: string
-          x-stoplight:
-            id: 20yjj7h8sjtdu
-          description: The total GPU memory available.
-    KarpenterNodePoolRequirementKey:
-      title: KarpenterNodePoolRequirementKey
-      x-stoplight:
-        id: eancn656efy06
-      enum:
-      - InstanceFamily
-      - InstanceSize
-      - Arch
-      - SkuFamily
-      - SkuVersion
-    ClusterFeatureGcpExistingVpcResponse:
-      type: object
-      required:
-      - type
-      - value
-      properties:
-        type:
-          $ref: '#/components/schemas/ClusterFeatureResponseTypeEnum'
-        value:
-          $ref: '#/components/schemas/ClusterFeatureGcpExistingVpc'
-    ClusterFeatureResponseTypeEnum:
-      type: string
-      enum:
-      - STRING
-      - BOOLEAN
-      - AWS_USER_PROVIDED_NETWORK
-      - GCP_USER_PROVIDED_NETWORK
-      - KARPENTER
-    WeekdayEnum:
-      type: string
-      enum:
-      - MONDAY
-      - TUESDAY
-      - WEDNESDAY
-      - THURSDAY
-      - FRIDAY
-      - SATURDAY
-      - SUNDAY
-      example: MONDAY
-    ClusterFeatureGcpExistingVpc:
-      type: object
-      required:
-      - vpc_name
-      properties:
-        vpc_name:
-          type: string
-        vpc_project_id:
-          type:
-          - string
-          - 'null'
-        subnetwork_name:
-          type:
-          - string
-          - 'null'
-        ip_range_services_name:
-          type:
-          - string
-          - 'null'
-        ip_range_pods_name:
-          type:
-          - string
-          - 'null'
-        additional_ip_range_pods_names:
-          type: array
-          items:
-            type: string
-    CloudProviderResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/CloudProvider'
-    CloudProvider:
-      type: object
-      properties:
-        short_name:
-          type: string
-        name:
-          type: string
-        logo_url:
-          type: string
-        regions:
-          type: array
-          items:
-            $ref: '#/components/schemas/ClusterRegion'
-    ClusterRegion:
-      type: object
-      required:
-      - name
-      - country_code
-      - country
-      - city
-      properties:
-        name:
-          type: string
-        country_code:
-          type: string
-        country:
-          type: string
-        city:
-          type: string
-        zones:
-          type: array
-          description: List of availability zones supported by this region
-          items:
-            type: string
-          example:
-          - '1'
-          - '2'
-          - '3'
-    ClusterRegionResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/ClusterRegion'
-    ClusterFeatureAwsExistingVpcResponse:
-      type: object
-      required:
-      - type
-      - value
-      properties:
-        type:
-          $ref: '#/components/schemas/ClusterFeatureResponseTypeEnum'
-        value:
-          $ref: '#/components/schemas/ClusterFeatureAwsExistingVpc'
-    ClusterFeatureKarpenterParametersResponse:
-      title: ClusterFeatureKarpenterParametersResponse
-      x-stoplight:
-        id: q33tdlz4ychh5
-      type: object
-      required:
-      - type
-      - value
-      properties:
-        type:
-          $ref: '#/components/schemas/ClusterFeatureResponseTypeEnum'
-        value:
-          $ref: '#/components/schemas/ClusterFeatureKarpenterParameters'
-    KarpenterNodePoolConsolidation:
-      title: KarpenterNodePoolConsolidation
-      type: object
-      required:
-      - enabled
-      - days
-      - start_time
-      - duration
-      properties:
-        enabled:
-          type: boolean
-          default: false
-        days:
-          type: array
-          items:
-            $ref: '#/components/schemas/WeekdayEnum'
-        start_time:
-          description: 'The start date of the consolidation.
-
-            The format should follow ISO-8601 convention: "PThh:mm"
-
-            '
-          type: string
-          example: PT22:30
-        duration:
-          description: 'The duration during the consolidation will be active.
-
-            The format should follow ISO-8601 convention: "PThhHmmM"
-
-            '
-          type: string
-          example: PT2H45M
-    KarpenterDefaultNodePoolOverride:
-      title: KarpenterDefaultNodePoolOverride
-      type: object
-      properties:
-        limits:
-          $ref: '#/components/schemas/KarpenterNodePoolLimits'
-        consolidate_after:
-          type: string
-          description: 'Time to wait before consolidating empty or underutilized nodes (e.g., 1m, 10m, 1h). Maximum: 24h'
-          example: 1m
-          pattern: ^\d+(s|m|h)$
-    KarpenterStableNodePoolOverride:
-      title: KarpenterStableNodePoolOverride
-      type: object
-      properties:
-        consolidation:
-          $ref: '#/components/schemas/KarpenterNodePoolConsolidation'
-        limits:
-          $ref: '#/components/schemas/KarpenterNodePoolLimits'
-        consolidate_after:
-          type: string
-          description: 'Time to wait before consolidating empty or underutilized nodes (e.g., 1m, 10m, 1h). Maximum: 24h'
-          example: 30s
-          pattern: ^\d+(s|m|h)$
-    ClusterInstanceAttributes:
-      title: ClusterInstanceAttributes
-      x-stoplight:
-        id: nxbpo7v2ecz72
-      type: object
-      properties:
-        instance_category:
-          type: string
-          x-stoplight:
-            id: epo9cqt13zoqp
-          description: The category of the instance.
-        instance_generation:
-          type: integer
-          x-stoplight:
-            id: 274hjvkvlycxp
-          description: The generation of the instance.
-        instance_family:
-          type: string
-          x-stoplight:
-            id: ixmy1d0nokjh5
-          description: The family or series of the instance.
-        instance_size:
-          type: string
-          x-stoplight:
-            id: dmnfjmvowgd0a
-          description: Specifies the size of the instance within its family.
-        meets_resource_reqs:
-          type: boolean
-          x-stoplight:
-            id: 8gytpdzm751we
-          description: The instance has sufficient resources to be chosen as a standalone instance in a cluster.
     ClusterInstanceTypeResponseList:
       type: object
       properties:
@@ -936,69 +930,6 @@ components:
                 $ref: '#/components/schemas/ClusterInstanceGpuInfo'
               attributes:
                 $ref: '#/components/schemas/ClusterInstanceAttributes'
-    KarpenterCronjobNodePoolOverride:
-      title: KarpenterCronjobNodePoolOverride
-      type: object
-      properties:
-        consolidation:
-          $ref: '#/components/schemas/KarpenterNodePoolConsolidation'
-        limits:
-          $ref: '#/components/schemas/KarpenterNodePoolLimits'
-        consolidate_after:
-          type: string
-          description: 'Time to wait before consolidating empty or underutilized nodes (e.g., 1m, 10m, 1h). Maximum: 24h'
-          example: 30s
-          pattern: ^\d+(s|m|h)$
-    CpuArchitectureEnum:
-      title: CpuArchitectureEnum
-      x-stoplight:
-        id: jlrd3r03vjzoy
-      enum:
-      - AMD64
-      - ARM64
-    KarpenterNodePool:
-      title: KarpenterNodePool
-      x-stoplight:
-        id: q8vks57rql8x1
-      type: object
-      required:
-      - requirements
-      properties:
-        requirements:
-          x-stoplight:
-            id: pkowctfxv7q77
-          type: array
-          items:
-            $ref: '#/components/schemas/KarpenterNodePoolRequirement'
-        stable_override:
-          $ref: '#/components/schemas/KarpenterStableNodePoolOverride'
-        default_override:
-          $ref: '#/components/schemas/KarpenterDefaultNodePoolOverride'
-        gpu_override:
-          $ref: '#/components/schemas/KarpenterGpuNodePoolOverride'
-        cronjob_override:
-          $ref: '#/components/schemas/KarpenterCronjobNodePoolOverride'
-    ManagedDatabaseTypeResponse:
-      type: object
-      required:
-      - name
-      properties:
-        name:
-          type: string
-          example: MYSQL
-    ManagedDatabaseInstanceTypeResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/ManagedDatabaseInstanceTypeResponse'
-    KarpenterNodePoolRequirementOperator:
-      title: KarpenterNodePoolRequirementOperator
-      x-stoplight:
-        id: wkzlvifywpa0t
-      enum:
-      - In
     ClusterFeatureStringResponse:
       type: object
       required:
@@ -1009,28 +940,31 @@ components:
           $ref: '#/components/schemas/ClusterFeatureResponseTypeEnum'
         value:
           type: string
-    KarpenterNodePoolRequirement:
-      title: KarpenterNodePoolRequirement
+    CpuArchitectureEnum:
+      title: CpuArchitectureEnum
       x-stoplight:
-        id: 4ebed64emvn09
+        id: jlrd3r03vjzoy
+      enum:
+      - AMD64
+      - ARM64
+    WeekdayEnum:
+      type: string
+      enum:
+      - MONDAY
+      - TUESDAY
+      - WEDNESDAY
+      - THURSDAY
+      - FRIDAY
+      - SATURDAY
+      - SUNDAY
+      example: MONDAY
+    CloudProviderResponseList:
       type: object
-      required:
-      - key
-      - operator
-      - values
       properties:
-        key:
-          $ref: '#/components/schemas/KarpenterNodePoolRequirementKey'
-        operator:
-          $ref: '#/components/schemas/KarpenterNodePoolRequirementOperator'
-        values:
+        results:
           type: array
-          x-stoplight:
-            id: qf036o7tch5ed
           items:
-            x-stoplight:
-              id: 02kz5mierypik
-            type: string
+            $ref: '#/components/schemas/CloudProvider'
     ClusterFeatureResponse:
       type: object
       properties:
@@ -1105,13 +1039,73 @@ components:
             oneOf:
             - type: string
             - type: boolean
-    ManagedDatabaseTypeResponseList:
+    ClusterFeatureKarpenterParametersResponse:
+      title: ClusterFeatureKarpenterParametersResponse
+      x-stoplight:
+        id: q33tdlz4ychh5
+      type: object
+      required:
+      - type
+      - value
+      properties:
+        type:
+          $ref: '#/components/schemas/ClusterFeatureResponseTypeEnum'
+        value:
+          $ref: '#/components/schemas/ClusterFeatureKarpenterParameters'
+    KarpenterCronjobNodePoolOverride:
+      title: KarpenterCronjobNodePoolOverride
       type: object
       properties:
-        results:
+        consolidation:
+          $ref: '#/components/schemas/KarpenterNodePoolConsolidation'
+        limits:
+          $ref: '#/components/schemas/KarpenterNodePoolLimits'
+        consolidate_after:
+          type: string
+          description: 'Time to wait before consolidating empty or underutilized nodes (e.g., 1m, 10m, 1h). Maximum: 24h'
+          example: 30s
+          pattern: ^\d+(s|m|h)$
+    CloudProvider:
+      type: object
+      properties:
+        short_name:
+          type: string
+        name:
+          type: string
+        logo_url:
+          type: string
+        regions:
           type: array
           items:
-            $ref: '#/components/schemas/ManagedDatabaseTypeResponse'
+            $ref: '#/components/schemas/ClusterRegion'
+    ManagedDatabaseTypeResponse:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          example: MYSQL
+    KarpenterNodePoolRequirementKey:
+      title: KarpenterNodePoolRequirementKey
+      x-stoplight:
+        id: eancn656efy06
+      enum:
+      - InstanceFamily
+      - InstanceSize
+      - Arch
+      - SkuFamily
+      - SkuVersion
+    ClusterFeatureAwsExistingVpcResponse:
+      type: object
+      required:
+      - type
+      - value
+      properties:
+        type:
+          $ref: '#/components/schemas/ClusterFeatureResponseTypeEnum'
+        value:
+          $ref: '#/components/schemas/ClusterFeatureAwsExistingVpc'
     KarpenterNodePoolLimits:
       title: KarpenterNodePoolLimits
       type: object
@@ -1138,6 +1132,12 @@ components:
           example: 10
           minimum: 0
           description: GPU limit that will be applied for the node pool
+    KarpenterNodePoolRequirementOperator:
+      title: KarpenterNodePoolRequirementOperator
+      x-stoplight:
+        id: wkzlvifywpa0t
+      enum:
+      - In
   parameters:
     databaseType:
       name: databaseType
@@ -1156,12 +1156,12 @@ components:
         type: string
         example: us-east-2
   responses:
-    '404':
-      description: Resource not found
-    '401':
-      description: Access token is missing or invalid
     '403':
       description: Access forbidden
+    '401':
+      description: Access token is missing or invalid
+    '404':
+      description: Resource not found
   securitySchemes:
     bearerAuth:
       type: http

@@ -163,48 +163,15 @@ components:
   responses:
     204-deletion:
       description: The resource was deleted successfully
-    '403':
-      description: Access forbidden
-    '400':
-      description: Bad request
-    '404':
-      description: Resource not found
     '401':
       description: Access token is missing or invalid
+    '400':
+      description: Bad request
+    '403':
+      description: Access forbidden
+    '404':
+      description: Resource not found
   schemas:
-    Base:
-      type: object
-      required:
-      - id
-      - created_at
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        created_at:
-          type: string
-          readOnly: true
-          format: date-time
-        updated_at:
-          type: string
-          readOnly: true
-          format: date-time
-    EnvironmentModeEnum:
-      type: string
-      enum:
-      - DEVELOPMENT
-      - PREVIEW
-      - PRODUCTION
-      - STAGING
-      example: PRODUCTION
-    ProjectDeploymentRuleResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/ProjectDeploymentRule'
     ProjectDeploymentRule:
       allOf:
       - $ref: '#/components/schemas/Base'
@@ -214,15 +181,6 @@ components:
           priority_index:
             type: integer
             description: used to select the first deployment rule to match new created environments
-    ProjectDeploymentRulesPriorityOrderRequest:
-      type: object
-      properties:
-        project_deployment_rule_ids_in_order:
-          type: array
-          items:
-            type: string
-            format: uuid
-            description: project deployment rule id
     ProjectDeploymentRuleRequest:
       type: object
       required:
@@ -282,19 +240,61 @@ components:
       - SATURDAY
       - SUNDAY
       example: MONDAY
+    EnvironmentModeEnum:
+      type: string
+      enum:
+      - DEVELOPMENT
+      - PREVIEW
+      - PRODUCTION
+      - STAGING
+      example: PRODUCTION
+    Base:
+      type: object
+      required:
+      - id
+      - created_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          readOnly: true
+          format: date-time
+        updated_at:
+          type: string
+          readOnly: true
+          format: date-time
+    ProjectDeploymentRulesPriorityOrderRequest:
+      type: object
+      properties:
+        project_deployment_rule_ids_in_order:
+          type: array
+          items:
+            type: string
+            format: uuid
+            description: project deployment rule id
+    ProjectDeploymentRuleResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProjectDeploymentRule'
   parameters:
-    projectId:
-      name: projectId
-      in: path
-      description: Project ID
-      required: true
-      schema:
-        type: string
-        format: uuid
     deploymentRuleId:
       name: deploymentRuleId
       in: path
       description: Deployment Rule ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+    projectId:
+      name: projectId
+      in: path
+      description: Project ID
       required: true
       schema:
         type: string

@@ -133,14 +133,14 @@ components:
         type: string
         format: uuid
   responses:
-    '403':
-      description: Access forbidden
-    '404':
-      description: Resource not found
-    '400':
-      description: Bad request
     '401':
       description: Access token is missing or invalid
+    '403':
+      description: Access forbidden
+    '400':
+      description: Bad request
+    '404':
+      description: Resource not found
   schemas:
     ApplicationAdvancedSettings:
       type: object
@@ -330,7 +330,7 @@ components:
           description: 'Mounts the container''s root filesystem as read-only
 
             '
-    ApplicationNetworkRequest:
+    ApplicationNetwork:
       type: object
       properties:
         sticky_session:
@@ -341,7 +341,7 @@ components:
 
             '
           default: false
-    ApplicationNetwork:
+    ApplicationNetworkRequest:
       type: object
       properties:
         sticky_session:

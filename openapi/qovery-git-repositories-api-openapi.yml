@@ -194,19 +194,6 @@ paths:
           $ref: '#/components/responses/401'
 components:
   schemas:
-    GitProviderEnum:
-      type: string
-      enum:
-      - BITBUCKET
-      - GITHUB
-      - GITLAB
-    GitAuthProviderResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/GitAuthProvider'
     GitRepositoryBranch:
       type: object
       required:
@@ -215,6 +202,13 @@ components:
         name:
           type: string
           example: main
+    GitAuthProviderResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/GitAuthProvider'
     GitRepositoryResponseList:
       type: object
       properties:
@@ -222,29 +216,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/GitRepository'
-    GitRepositoryBranchResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/GitRepositoryBranch'
-    GitAuthProvider:
-      type: object
-      required:
-      - name
-      - owner
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-          example: GITHUB
-        owner:
-          type: string
-          example: John Doe
-        use_bot:
-          type: boolean
     GitRepository:
       type: object
       required:
@@ -297,15 +268,44 @@ components:
           description: The git token id on Qovery side
         provider:
           $ref: '#/components/schemas/GitProviderEnum'
+    GitProviderEnum:
+      type: string
+      enum:
+      - BITBUCKET
+      - GITHUB
+      - GITLAB
+    GitRepositoryBranchResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/GitRepositoryBranch'
+    GitAuthProvider:
+      type: object
+      required:
+      - name
+      - owner
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+          example: GITHUB
+        owner:
+          type: string
+          example: John Doe
+        use_bot:
+          type: boolean
   responses:
-    '403':
-      description: Access forbidden
+    '401':
+      description: Access token is missing or invalid
     '404':
       description: Resource not found
     '400':
       description: Bad request
-    '401':
-      description: Access token is missing or invalid
+    '403':
+      description: Access forbidden
   parameters:
     organizationId:
       name: organizationId

@@ -135,64 +135,15 @@ components:
   responses:
     204-deletion:
       description: The resource was deleted successfully
-    '403':
-      description: Access forbidden
-    '400':
-      description: Bad request
-    '404':
-      description: Resource not found
     '401':
       description: Access token is missing or invalid
+    '400':
+      description: Bad request
+    '403':
+      description: Access forbidden
+    '404':
+      description: Resource not found
   schemas:
-    Base:
-      type: object
-      required:
-      - id
-      - created_at
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        created_at:
-          type: string
-          readOnly: true
-          format: date-time
-        updated_at:
-          type: string
-          readOnly: true
-          format: date-time
-    TerraformDeploymentRestrictionResponse:
-      title: TerraformDeploymentRestrictionResponse
-      x-stoplight:
-        id: 9t9zdouc9tao0
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - $ref: '#/components/schemas/TerraformDeploymentRestrictionRequest'
-    TerraformDeploymentRestrictionResponseList:
-      title: TerraformDeploymentRestrictionResponseList
-      x-stoplight:
-        id: olvqymwxtdfeq
-      type: object
-      properties:
-        results:
-          x-stoplight:
-            id: iu0k7b7tkayre
-          type: array
-          items:
-            $ref: '#/components/schemas/TerraformDeploymentRestrictionResponse'
-    DeploymentRestrictionModeEnum:
-      type: string
-      description: Match mode will rebuild app only if specified items are updated. Exclude mode will not rebuild app if specified items are updated.
-      enum:
-      - EXCLUDE
-      - MATCH
-      example: MATCH
-    DeploymentRestrictionTypeEnum:
-      type: string
-      enum:
-      - PATH
-      example: PATH
     TerraformDeploymentRestrictionRequest:
       title: TerraformDeploymentRestrictionRequest
       x-stoplight:
@@ -212,6 +163,55 @@ components:
           x-stoplight:
             id: hsk8w0ydpuwm4
           description: ‘For `PATH` restrictions, the value must not start with `/`’
+    Base:
+      type: object
+      required:
+      - id
+      - created_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          readOnly: true
+          format: date-time
+        updated_at:
+          type: string
+          readOnly: true
+          format: date-time
+    DeploymentRestrictionModeEnum:
+      type: string
+      description: Match mode will rebuild app only if specified items are updated. Exclude mode will not rebuild app if specified items are updated.
+      enum:
+      - EXCLUDE
+      - MATCH
+      example: MATCH
+    TerraformDeploymentRestrictionResponseList:
+      title: TerraformDeploymentRestrictionResponseList
+      x-stoplight:
+        id: olvqymwxtdfeq
+      type: object
+      properties:
+        results:
+          x-stoplight:
+            id: iu0k7b7tkayre
+          type: array
+          items:
+            $ref: '#/components/schemas/TerraformDeploymentRestrictionResponse'
+    DeploymentRestrictionTypeEnum:
+      type: string
+      enum:
+      - PATH
+      example: PATH
+    TerraformDeploymentRestrictionResponse:
+      title: TerraformDeploymentRestrictionResponse
+      x-stoplight:
+        id: 9t9zdouc9tao0
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - $ref: '#/components/schemas/TerraformDeploymentRestrictionRequest'
   securitySchemes:
     bearerAuth:
       type: http

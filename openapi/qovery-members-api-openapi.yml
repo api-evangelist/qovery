@@ -230,20 +230,79 @@ paths:
         '404':
           $ref: '#/components/responses/404'
 components:
-  responses:
-    204-deletion:
-      description: The resource was deleted successfully
-    '204':
-      description: no content
-    '403':
-      description: Access forbidden
-    '400':
-      description: Bad request
-    '404':
-      description: Resource not found
-    '401':
-      description: Access token is missing or invalid
   schemas:
+    MemberRoleUpdateRequest:
+      type: object
+      required:
+      - user_id
+      - role_id
+      properties:
+        user_id:
+          type: string
+          description: specify the git provider user id
+        role_id:
+          type: string
+          format: uuid
+    InviteMember:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        required:
+        - email
+        - role
+        - invitation_link
+        - invitation_status
+        - inviter
+        properties:
+          email:
+            type: string
+            format: email
+          role:
+            $ref: '#/components/schemas/InviteMemberRoleEnum'
+          invitation_link:
+            type: string
+            format: uri
+          invitation_status:
+            $ref: '#/components/schemas/InviteStatusEnum'
+          organization_name:
+            type: string
+          inviter:
+            type: string
+          logo_url:
+            type: string
+            format: uri
+          role_id:
+            type: string
+            format: uuid
+          role_name:
+            type: string
+    InviteMemberRequest:
+      type: object
+      required:
+      - email
+      properties:
+        email:
+          type: string
+        role:
+          $ref: '#/components/schemas/InviteMemberRoleEnum'
+        role_id:
+          type: string
+          format: uuid
+          description: the target role to attribute to the new member
+    MemberResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Member'
+    InviteMemberResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/InviteMember'
     Base:
       type: object
       required:
@@ -291,44 +350,6 @@ components:
           role_id:
             type: string
             format: uuid
-    InviteStatusEnum:
-      type: string
-      enum:
-      - EXPIRED
-      - PENDING
-    InviteMember:
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - type: object
-        required:
-        - email
-        - role
-        - invitation_link
-        - invitation_status
-        - inviter
-        properties:
-          email:
-            type: string
-            format: email
-          role:
-            $ref: '#/components/schemas/InviteMemberRoleEnum'
-          invitation_link:
-            type: string
-            format: uri
-          invitation_status:
-            $ref: '#/components/schemas/InviteStatusEnum'
-          organization_name:
-            type: string
-          inviter:
-            type: string
-          logo_url:
-            type: string
-            format: uri
-          role_id:
-            type: string
-            format: uuid
-          role_name:
-            type: string
     TransferOwnershipRequest:
       type: object
       required:
@@ -337,6 +358,11 @@ components:
         user_id:
           type: string
           format: uuid
+    InviteStatusEnum:
+      type: string
+      enum:
+      - EXPIRED
+      - PENDING
     InviteMemberRoleEnum:
       type: string
       description: deprecated
@@ -345,45 +371,6 @@ components:
       - DEVELOPER
       - OWNER
       - VIEWER
-    InviteMemberResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/InviteMember'
-    MemberRoleUpdateRequest:
-      type: object
-      required:
-      - user_id
-      - role_id
-      properties:
-        user_id:
-          type: string
-          description: specify the git provider user id
-        role_id:
-          type: string
-          format: uuid
-    InviteMemberRequest:
-      type: object
-      required:
-      - email
-      properties:
-        email:
-          type: string
-        role:
-          $ref: '#/components/schemas/InviteMemberRoleEnum'
-        role_id:
-          type: string
-          format: uuid
-          description: the target role to attribute to the new member
-    MemberResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/Member'
   parameters:
     inviteId:
       name: inviteId
@@ -401,6 +388,19 @@ components:
       schema:
         type: string
         format: uuid
+  responses:
+    '204':
+      description: no content
+    204-deletion:
+      description: The resource was deleted successfully
+    '401':
+      description: Access token is missing or invalid
+    '404':
+      description: Resource not found
+    '403':
+      description: Access forbidden
+    '400':
+      description: Bad request
   securitySchemes:
     bearerAuth:
       type: http

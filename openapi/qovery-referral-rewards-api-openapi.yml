@@ -51,6 +51,9 @@ paths:
         '200':
           description: Claim reward
 components:
+  responses:
+    '401':
+      description: Access token is missing or invalid
   schemas:
     RewardClaim:
       type: object
@@ -71,9 +74,6 @@ components:
         invitation_link:
           type: string
           example: https://join.qovery.com/xDowkWEl
-  responses:
-    '401':
-      description: Access token is missing or invalid
   securitySchemes:
     bearerAuth:
       type: http

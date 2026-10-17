@@ -89,16 +89,35 @@ paths:
         '404':
           $ref: '#/components/responses/404'
 components:
+  responses:
+    204-deletion:
+      description: The resource was deleted successfully
+    '401':
+      description: Access token is missing or invalid
+    '403':
+      description: Access forbidden
+    '404':
+      description: Resource not found
+    '400':
+      description: Bad request
   schemas:
-    ReferenceObject:
-      type: object
-      required:
-      - id
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
+    Project:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        required:
+        - name
+        - organization
+        - associated_environments_count
+        properties:
+          name:
+            type: string
+          description:
+            type: string
+          associated_environments_count:
+            type: integer
+          organization:
+            $ref: '#/components/schemas/ReferenceObject'
     Base:
       type: object
       required:
@@ -117,23 +136,15 @@ components:
           type: string
           readOnly: true
           format: date-time
-    Project:
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - type: object
-        required:
-        - name
-        - organization
-        - associated_environments_count
-        properties:
-          name:
-            type: string
-          description:
-            type: string
-          associated_environments_count:
-            type: integer
-          organization:
-            $ref: '#/components/schemas/ReferenceObject'
+    ReferenceObject:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
     ProjectRequest:
       type: object
       required:
@@ -144,17 +155,6 @@ components:
           description: name is case insensitive
         description:
           type: string
-  responses:
-    204-deletion:
-      description: The resource was deleted successfully
-    '403':
-      description: Access forbidden
-    '400':
-      description: Bad request
-    '404':
-      description: Resource not found
-    '401':
-      description: Access token is missing or invalid
   parameters:
     projectId:
       name: projectId

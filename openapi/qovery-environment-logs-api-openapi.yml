@@ -69,6 +69,15 @@ paths:
         '404':
           $ref: '#/components/responses/404'
 components:
+  parameters:
+    environmentId:
+      name: environmentId
+      in: path
+      description: Environment ID
+      required: true
+      schema:
+        type: string
+        format: uuid
   schemas:
     EnvironmentLogs:
       type: object
@@ -185,12 +194,6 @@ components:
         hint:
           type: string
           example: only for errors. it gives a possible action to the user -- Markdown can be injected
-    EnvironmentLogTypeEnum:
-      type: string
-      enum:
-      - APPLICATION
-      - DATABASE
-      - ENVIRONMENT
     EnvironmentLogResponseList:
       type: object
       properties:
@@ -198,6 +201,16 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/EnvironmentLog'
+    EnvironmentLogTypeEnum:
+      type: string
+      enum:
+      - APPLICATION
+      - DATABASE
+      - ENVIRONMENT
+    EnvironmentLogsResponseList:
+      type: array
+      items:
+        $ref: '#/components/schemas/EnvironmentLogs'
     StatusKindEnum:
       type: string
       enum:
@@ -214,26 +227,13 @@ components:
       - PAUSE_ERROR
       - PAUSE_IN_PROGRESS
       - WAITING
-    EnvironmentLogsResponseList:
-      type: array
-      items:
-        $ref: '#/components/schemas/EnvironmentLogs'
   responses:
+    '401':
+      description: Access token is missing or invalid
     '403':
       description: Access forbidden
     '404':
       description: Resource not found
-    '401':
-      description: Access token is missing or invalid
-  parameters:
-    environmentId:
-      name: environmentId
-      in: path
-      description: Environment ID
-      required: true
-      schema:
-        type: string
-        format: uuid
   securitySchemes:
     bearerAuth:
       type: http

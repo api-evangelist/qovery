@@ -64,42 +64,12 @@ paths:
           $ref: '#/components/responses/404'
 components:
   schemas:
-    Base:
-      type: object
-      required:
-      - id
-      - created_at
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        created_at:
-          type: string
-          readOnly: true
-          format: date-time
-        updated_at:
-          type: string
-          readOnly: true
-          format: date-time
-    CompanySizeEnum:
-      type: string
-      enum:
-      - 1-10
-      - 11-50
-      - 51-200
-      - 201-500
-      - 500+
     TypeOfUseEnum:
       type: string
       enum:
       - PERSONAL
       - SCHOOL
       - WORK
-    SignUp:
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - $ref: '#/components/schemas/SignUpRequest'
     SignUpRequest:
       type: object
       required:
@@ -149,15 +119,45 @@ components:
           type:
           - string
           - 'null'
+    Base:
+      type: object
+      required:
+      - id
+      - created_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        created_at:
+          type: string
+          readOnly: true
+          format: date-time
+        updated_at:
+          type: string
+          readOnly: true
+          format: date-time
+    CompanySizeEnum:
+      type: string
+      enum:
+      - 1-10
+      - 11-50
+      - 51-200
+      - 201-500
+      - 500+
+    SignUp:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - $ref: '#/components/schemas/SignUpRequest'
   responses:
-    '403':
-      description: Access forbidden
-    '400':
-      description: Bad request
-    '404':
-      description: Resource not found
     '401':
       description: Access token is missing or invalid
+    '400':
+      description: Bad request
+    '403':
+      description: Access forbidden
+    '404':
+      description: Resource not found
   securitySchemes:
     bearerAuth:
       type: http

@@ -68,14 +68,23 @@ paths:
           $ref: '#/components/responses/404'
 components:
   responses:
-    '403':
-      description: Access forbidden
-    '400':
-      description: Bad request
-    '404':
-      description: Resource not found
     '401':
       description: Access token is missing or invalid
+    '400':
+      description: Bad request
+    '403':
+      description: Access forbidden
+    '404':
+      description: Resource not found
+  parameters:
+    organizationId:
+      name: organizationId
+      in: path
+      description: Organization ID
+      required: true
+      schema:
+        type: string
+        format: uuid
   schemas:
     OrganizationGithubAppConnectRequest:
       type: object
@@ -87,15 +96,6 @@ components:
           type: string
         code:
           type: string
-  parameters:
-    organizationId:
-      name: organizationId
-      in: path
-      description: Organization ID
-      required: true
-      schema:
-        type: string
-        format: uuid
   securitySchemes:
     bearerAuth:
       type: http

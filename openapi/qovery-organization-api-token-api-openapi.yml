@@ -109,6 +109,34 @@ paths:
           $ref: '#/components/responses/404'
 components:
   schemas:
+    OrganizationApiTokenResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrganizationApiToken'
+    OrganizationApiToken:
+      allOf:
+      - $ref: '#/components/schemas/Base'
+      - type: object
+        properties:
+          name:
+            type: string
+          description:
+            type: string
+          role_name:
+            type: string
+          role_id:
+            type: string
+            format: uuid
+    OrganizationApiTokenScope:
+      type:
+      - string
+      - 'null'
+      description: deprecated
+      enum:
+      - ADMIN
     Base:
       type: object
       required:
@@ -127,30 +155,6 @@ components:
           type: string
           readOnly: true
           format: date-time
-    OrganizationApiTokenResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/OrganizationApiToken'
-    OrganizationApiTokenCreate:
-      allOf:
-      - $ref: '#/components/schemas/Base'
-      - type: object
-        properties:
-          name:
-            type: string
-          description:
-            type: string
-          token:
-            type: string
-            description: the generated token to send in 'Authorization' header prefixed by 'Token '
-          role_name:
-            type: string
-          role_id:
-            type: string
-            format: uuid
     OrganizationApiTokenCreateRequest:
       type: object
       required:
@@ -169,14 +173,7 @@ components:
           - 'null'
           format: uuid
           description: the roleId provided by the "List organization custom roles" endpoint.
-    OrganizationApiTokenScope:
-      type:
-      - string
-      - 'null'
-      description: deprecated
-      enum:
-      - ADMIN
-    OrganizationApiToken:
+    OrganizationApiTokenCreate:
       allOf:
       - $ref: '#/components/schemas/Base'
       - type: object
@@ -185,6 +182,9 @@ components:
             type: string
           description:
             type: string
+          token:
+            type: string
+            description: the generated token to send in 'Authorization' header prefixed by 'Token '
           role_name:
             type: string
           role_id:
@@ -193,14 +193,14 @@ components:
   responses:
     '204':
       description: no content
-    '403':
-      description: Access forbidden
-    '400':
-      description: Bad request
-    '404':
-      description: Resource not found
     '401':
       description: Access token is missing or invalid
+    '400':
+      description: Bad request
+    '403':
+      description: Access forbidden
+    '404':
+      description: Resource not found
   parameters:
     organizationId:
       name: organizationId

@@ -80,7 +80,22 @@ paths:
         '404':
           $ref: '#/components/responses/404'
 components:
+  responses:
+    '401':
+      description: Access token is missing or invalid
+    '404':
+      description: Resource not found
+    '403':
+      description: Access forbidden
   schemas:
+    CloudProviderEnum:
+      type: string
+      enum:
+      - AWS
+      - SCW
+      - GCP
+      - ON_PREMISE
+      - AZURE
     LifecycleTemplateListResponse:
       title: LifecycleTemplateListResponse
       x-stoplight:
@@ -263,21 +278,6 @@ components:
           x-stoplight:
             id: 0xkypu9qkowv3
           description: Dockerfile of the template
-    CloudProviderEnum:
-      type: string
-      enum:
-      - AWS
-      - SCW
-      - GCP
-      - ON_PREMISE
-      - AZURE
-  responses:
-    '403':
-      description: Access forbidden
-    '404':
-      description: Resource not found
-    '401':
-      description: Access token is missing or invalid
   securitySchemes:
     bearerAuth:
       type: http

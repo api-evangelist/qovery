@@ -138,13 +138,6 @@ paths:
           $ref: '#/components/responses/404'
 components:
   schemas:
-    EnvironmentStatsResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/EnvironmentStats'
     EnvironmentStatusEventOriginEnum:
       type:
       - string
@@ -176,143 +169,6 @@ components:
         - SKIP: The step was skipped because it was not necessary.
 
         '
-    EnvironmentOverviewResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/EnvironmentOverviewResponse'
-    ClusterOverviewResponse:
-      type: object
-      required:
-      - id
-      - name
-      - cloud_provider
-      - is_demo
-      properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          type: string
-        cloud_provider:
-          $ref: '#/components/schemas/CloudVendorEnum'
-        is_demo:
-          type: boolean
-    ReferenceObject:
-      type: object
-      required:
-      - id
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-    Base:
-      type: object
-      required:
-      - id
-      - created_at
-      properties:
-        id:
-          type: string
-          format: uuid
-          readOnly: true
-        created_at:
-          type: string
-          readOnly: true
-          format: date-time
-        updated_at:
-          type: string
-          readOnly: true
-          format: date-time
-    StateEnum:
-      type: string
-      enum:
-      - BUILDING
-      - BUILD_ERROR
-      - CANCELED
-      - CANCELING
-      - DELETED
-      - DELETE_ERROR
-      - DELETE_QUEUED
-      - DELETING
-      - DEPLOYED
-      - DEPLOYING
-      - DEPLOYMENT_ERROR
-      - DEPLOYMENT_QUEUED
-      - EXECUTING
-      - QUEUED
-      - READY
-      - RECAP
-      - RESTARTED
-      - RESTARTING
-      - RESTART_ERROR
-      - RESTART_QUEUED
-      - STOPPED
-      - STOPPING
-      - STOP_ERROR
-      - STOP_QUEUED
-      - UNAVAILABLE
-      - WAITING_DELETING
-      - WAITING_RESTARTING
-      - WAITING_RUNNING
-      - WAITING_STOPPING
-    CloudVendorEnum:
-      type: string
-      enum:
-      - AWS
-      - SCW
-      - GCP
-      - DO
-      - AZURE
-      - OVH
-      - CIVO
-      - HETZNER
-      - ORACLE
-      - IBM
-      - ON_PREMISE
-    StageStepMetric:
-      type: object
-      properties:
-        stage_id:
-          type: string
-          format: uuid
-        step_name:
-          $ref: '#/components/schemas/StageStepMetricNameEnum'
-        status:
-          $ref: '#/components/schemas/StepMetricStatusEnum'
-        duration_sec:
-          description: The duration of the step in seconds.
-          type: integer
-    EnvironmentDeploymentStatusEnum:
-      title: EnvironmentDeploymentStatusEnum
-      x-stoplight:
-        id: sbw3iw6yteyba
-      enum:
-      - NEVER_DEPLOYED
-      - UP_TO_DATE
-      - OUT_OF_DATE
-    EnvironmentModeEnum:
-      type: string
-      enum:
-      - DEVELOPMENT
-      - PREVIEW
-      - PRODUCTION
-      - STAGING
-      example: PRODUCTION
-    CreateEnvironmentModeEnum:
-      type: string
-      enum:
-      - DEVELOPMENT
-      - PRODUCTION
-      - STAGING
-      example: PRODUCTION
-    EnvironmentStats:
-      allOf:
-      - $ref: '#/components/schemas/ReferenceObject'
-      - $ref: '#/components/schemas/ServiceTotalNumber'
     ServicesOverviewResponse:
       type: object
       required:
@@ -328,26 +184,6 @@ components:
           - QOVERY
           - ARGOCD
           - MIXED
-    CreateEnvironmentRequest:
-      type: object
-      required:
-      - name
-      properties:
-        name:
-          type: string
-          description: name is case insensitive
-        cluster:
-          type: string
-          format: uuid
-        mode:
-          $ref: '#/components/schemas/CreateEnvironmentModeEnum'
-    ServiceTotalNumber:
-      type: object
-      required:
-      - number
-      properties:
-        service_total_number:
-          type: number
     StageStepMetrics:
       type: object
       properties:
@@ -410,37 +246,155 @@ components:
           - 'null'
           items:
             $ref: '#/components/schemas/StageStepMetrics'
-    EnvironmentOverviewResponse:
+    ClusterOverviewResponse:
       type: object
       required:
       - id
-      - created_at
-      - updated_at
       - name
-      - mode
-      - services_overview
-      - cluster
+      - cloud_provider
+      - is_demo
       properties:
         id:
           type: string
           format: uuid
+        name:
+          type: string
+        cloud_provider:
+          $ref: '#/components/schemas/CloudVendorEnum'
+        is_demo:
+          type: boolean
+    EnvironmentDeploymentStatusEnum:
+      title: EnvironmentDeploymentStatusEnum
+      x-stoplight:
+        id: sbw3iw6yteyba
+      enum:
+      - NEVER_DEPLOYED
+      - UP_TO_DATE
+      - OUT_OF_DATE
+    CreateEnvironmentModeEnum:
+      type: string
+      enum:
+      - DEVELOPMENT
+      - PRODUCTION
+      - STAGING
+      example: PRODUCTION
+    EnvironmentStats:
+      allOf:
+      - $ref: '#/components/schemas/ReferenceObject'
+      - $ref: '#/components/schemas/ServiceTotalNumber'
+    EnvironmentOverviewResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/EnvironmentOverviewResponse'
+    StateEnum:
+      type: string
+      enum:
+      - BUILDING
+      - BUILD_ERROR
+      - CANCELED
+      - CANCELING
+      - DELETED
+      - DELETE_ERROR
+      - DELETE_QUEUED
+      - DELETING
+      - DEPLOYED
+      - DEPLOYING
+      - DEPLOYMENT_ERROR
+      - DEPLOYMENT_QUEUED
+      - EXECUTING
+      - QUEUED
+      - READY
+      - RECAP
+      - RESTARTED
+      - RESTARTING
+      - RESTART_ERROR
+      - RESTART_QUEUED
+      - STOPPED
+      - STOPPING
+      - STOP_ERROR
+      - STOP_QUEUED
+      - UNAVAILABLE
+      - WAITING_DELETING
+      - WAITING_RESTARTING
+      - WAITING_RUNNING
+      - WAITING_STOPPING
+    EnvironmentResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Environment'
+    StageStepMetric:
+      type: object
+      properties:
+        stage_id:
+          type: string
+          format: uuid
+        step_name:
+          $ref: '#/components/schemas/StageStepMetricNameEnum'
+        status:
+          $ref: '#/components/schemas/StepMetricStatusEnum'
+        duration_sec:
+          description: The duration of the step in seconds.
+          type: integer
+    ServiceTotalNumber:
+      type: object
+      required:
+      - number
+      properties:
+        service_total_number:
+          type: number
+    CreateEnvironmentRequest:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          description: name is case insensitive
+        cluster:
+          type: string
+          format: uuid
+        mode:
+          $ref: '#/components/schemas/CreateEnvironmentModeEnum'
+    EnvironmentStatusList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/EnvironmentStatus'
+    Base:
+      type: object
+      required:
+      - id
+      - created_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
         created_at:
           type: string
+          readOnly: true
           format: date-time
         updated_at:
           type: string
+          readOnly: true
           format: date-time
-        name:
+    ReferenceObject:
+      type: object
+      required:
+      - id
+      properties:
+        id:
           type: string
-        mode:
-          $ref: '#/components/schemas/EnvironmentModeEnum'
-        cluster:
-          $ref: '#/components/schemas/ClusterOverviewResponse'
-        services_overview:
-          $ref: '#/components/schemas/ServicesOverviewResponse'
-        deployment_status:
-          allOf:
-          - $ref: '#/components/schemas/EnvironmentStatus'
+          format: uuid
+          readOnly: true
     StageStepMetricNameEnum:
       type: string
       enum:
@@ -456,13 +410,20 @@ components:
         - PROVISION_BUILDER: The step to provision builders before the actual build.
 
         '
-    EnvironmentResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/Environment'
+    CloudVendorEnum:
+      type: string
+      enum:
+      - AWS
+      - SCW
+      - GCP
+      - DO
+      - AZURE
+      - OVH
+      - CIVO
+      - HETZNER
+      - ORACLE
+      - IBM
+      - ON_PREMISE
     Environment:
       allOf:
       - $ref: '#/components/schemas/Base'
@@ -503,22 +464,61 @@ components:
           cluster_name:
             type: string
             format: string
-    EnvironmentStatusList:
+    EnvironmentOverviewResponse:
+      type: object
+      required:
+      - id
+      - created_at
+      - updated_at
+      - name
+      - mode
+      - services_overview
+      - cluster
+      properties:
+        id:
+          type: string
+          format: uuid
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        name:
+          type: string
+        mode:
+          $ref: '#/components/schemas/EnvironmentModeEnum'
+        cluster:
+          $ref: '#/components/schemas/ClusterOverviewResponse'
+        services_overview:
+          $ref: '#/components/schemas/ServicesOverviewResponse'
+        deployment_status:
+          allOf:
+          - $ref: '#/components/schemas/EnvironmentStatus'
+    EnvironmentStatsResponseList:
       type: object
       properties:
         results:
           type: array
           items:
-            $ref: '#/components/schemas/EnvironmentStatus'
+            $ref: '#/components/schemas/EnvironmentStats'
+    EnvironmentModeEnum:
+      type: string
+      enum:
+      - DEVELOPMENT
+      - PREVIEW
+      - PRODUCTION
+      - STAGING
+      example: PRODUCTION
   responses:
-    '404':
-      description: Resource not found
-    '401':
-      description: Access token is missing or invalid
     '403':
       description: Access forbidden
+    '401':
+      description: Access token is missing or invalid
     '400':
       description: Bad request
+    '404':
+      description: Resource not found
   parameters:
     projectId:
       name: projectId

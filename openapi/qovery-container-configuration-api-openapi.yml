@@ -135,6 +135,17 @@ components:
 
             '
           default: false
+    ContainerNetworkRequest:
+      type: object
+      properties:
+        sticky_session:
+          type: boolean
+          description: 'Specify if the sticky session option (also called persistant session) is activated or not for this container.
+
+            If activated, user will be redirected by the load balancer to the same instance each time he access to the container.
+
+            '
+          default: false
     ContainerAdvancedSettings:
       type: object
       properties:
@@ -297,26 +308,15 @@ components:
           description: 'Mounts the container''s root filesystem as read-only
 
             '
-    ContainerNetworkRequest:
-      type: object
-      properties:
-        sticky_session:
-          type: boolean
-          description: 'Specify if the sticky session option (also called persistant session) is activated or not for this container.
-
-            If activated, user will be redirected by the load balancer to the same instance each time he access to the container.
-
-            '
-          default: false
   responses:
-    '403':
-      description: Access forbidden
-    '400':
-      description: Bad request
-    '404':
-      description: Resource not found
     '401':
       description: Access token is missing or invalid
+    '400':
+      description: Bad request
+    '403':
+      description: Access forbidden
+    '404':
+      description: Resource not found
   parameters:
     containerId:
       name: containerId

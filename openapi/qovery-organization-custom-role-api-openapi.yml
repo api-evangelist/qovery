@@ -134,14 +134,43 @@ paths:
         '404':
           $ref: '#/components/responses/404'
 components:
+  responses:
+    '204':
+      description: no content
+    '401':
+      description: Access token is missing or invalid
+    '400':
+      description: Bad request
+    '403':
+      description: Access forbidden
+    '404':
+      description: Resource not found
   schemas:
-    OrganizationCustomRoleList:
+    OrganizationCustomRoleCreateRequest:
       type: object
+      required:
+      - name
       properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/OrganizationCustomRole'
+        name:
+          type: string
+        description:
+          type: string
+    OrganizationCustomRoleClusterPermission:
+      type: string
+      description: 'Indicates the permission for a target cluster, from the lowest to the highest:
+
+        - `VIEWER` user has only read access on target cluster
+
+        - `ENV_CREATOR` user can deploy on the cluster
+
+        - `ADMIN` user can modify the cluster settings
+
+        '
+      enum:
+      - VIEWER
+      - ENV_CREATOR
+      - ADMIN
+      example: VIEWER
     EnvironmentModeEnum:
       type: string
       enum:
@@ -150,6 +179,76 @@ components:
       - PRODUCTION
       - STAGING
       example: PRODUCTION
+    OrganizationCustomRole:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        cluster_permissions:
+          type: array
+          items:
+            type: object
+            properties:
+              cluster_id:
+                type: string
+                format: uuid
+              cluster_name:
+                type: string
+              permission:
+                $ref: '#/components/schemas/OrganizationCustomRoleClusterPermission'
+        project_permissions:
+          type: array
+          items:
+            type: object
+            properties:
+              project_id:
+                type: string
+                format: uuid
+              project_name:
+                type: string
+              is_admin:
+                type: boolean
+                description: "If `is_admin` is `true`, the user is:\n- automatically `MANAGER` for each environment type\n- allowed to manage project deployment rules\n- able to delete the project  \n\nNote that `permissions` can then be ignored for this project\n"
+                default: false
+              permissions:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    environment_type:
+                      $ref: '#/components/schemas/EnvironmentModeEnum'
+                    permission:
+                      $ref: '#/components/schemas/OrganizationCustomRoleProjectPermission'
+    OrganizationCustomRoleProjectPermission:
+      type: string
+      description: 'Indicates the permission for a target project and a given environment type, from the lowest to the highest:
+
+        - `NO_ACCESS` user has no access
+
+        - `VIEWER` user can access the environment (and applications / containers / databases / variables)
+
+        - `DEPLOYER` user can deploy the environment (dependent on the required cluster permission `ENV_CREATOR`)
+
+        - `MANAGER` user can create an environment (and applications / containers / databases / variables)
+
+        '
+      enum:
+      - NO_ACCESS
+      - VIEWER
+      - DEPLOYER
+      - MANAGER
+      example: NO_ACCESS
+    OrganizationCustomRoleList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrganizationCustomRole'
     OrganizationCustomRoleUpdateRequest:
       type: object
       required:
@@ -195,105 +294,6 @@ components:
                       $ref: '#/components/schemas/EnvironmentModeEnum'
                     permission:
                       $ref: '#/components/schemas/OrganizationCustomRoleProjectPermission'
-    OrganizationCustomRole:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        description:
-          type: string
-        cluster_permissions:
-          type: array
-          items:
-            type: object
-            properties:
-              cluster_id:
-                type: string
-                format: uuid
-              cluster_name:
-                type: string
-              permission:
-                $ref: '#/components/schemas/OrganizationCustomRoleClusterPermission'
-        project_permissions:
-          type: array
-          items:
-            type: object
-            properties:
-              project_id:
-                type: string
-                format: uuid
-              project_name:
-                type: string
-              is_admin:
-                type: boolean
-                description: "If `is_admin` is `true`, the user is:\n- automatically `MANAGER` for each environment type\n- allowed to manage project deployment rules\n- able to delete the project  \n\nNote that `permissions` can then be ignored for this project\n"
-                default: false
-              permissions:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    environment_type:
-                      $ref: '#/components/schemas/EnvironmentModeEnum'
-                    permission:
-                      $ref: '#/components/schemas/OrganizationCustomRoleProjectPermission'
-    OrganizationCustomRoleClusterPermission:
-      type: string
-      description: 'Indicates the permission for a target cluster, from the lowest to the highest:
-
-        - `VIEWER` user has only read access on target cluster
-
-        - `ENV_CREATOR` user can deploy on the cluster
-
-        - `ADMIN` user can modify the cluster settings
-
-        '
-      enum:
-      - VIEWER
-      - ENV_CREATOR
-      - ADMIN
-      example: VIEWER
-    OrganizationCustomRoleCreateRequest:
-      type: object
-      required:
-      - name
-      properties:
-        name:
-          type: string
-        description:
-          type: string
-    OrganizationCustomRoleProjectPermission:
-      type: string
-      description: 'Indicates the permission for a target project and a given environment type, from the lowest to the highest:
-
-        - `NO_ACCESS` user has no access
-
-        - `VIEWER` user can access the environment (and applications / containers / databases / variables)
-
-        - `DEPLOYER` user can deploy the environment (dependent on the required cluster permission `ENV_CREATOR`)
-
-        - `MANAGER` user can create an environment (and applications / containers / databases / variables)
-
-        '
-      enum:
-      - NO_ACCESS
-      - VIEWER
-      - DEPLOYER
-      - MANAGER
-      example: NO_ACCESS
-  responses:
-    '204':
-      description: no content
-    '403':
-      description: Access forbidden
-    '404':
-      description: Resource not found
-    '400':
-      description: Bad request
-    '401':
-      description: Access token is missing or invalid
   parameters:
     organizationId:
       name: organizationId

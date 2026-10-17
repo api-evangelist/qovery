@@ -43,23 +43,14 @@ paths:
         '404':
           $ref: '#/components/responses/404'
 components:
-  parameters:
-    applicationId:
-      name: applicationId
-      in: path
-      description: Application ID
-      required: true
-      schema:
-        type: string
-        format: uuid
-  responses:
-    '403':
-      description: Access forbidden
-    '404':
-      description: Resource not found
-    '401':
-      description: Access token is missing or invalid
   schemas:
+    LogResponseList:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Log'
     Log:
       type: object
       required:
@@ -83,13 +74,22 @@ components:
         version:
           type: string
           example: 2bfd61fe45946c74f318050b26210be486c43a39
-    LogResponseList:
-      type: object
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/Log'
+  parameters:
+    applicationId:
+      name: applicationId
+      in: path
+      description: Application ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+  responses:
+    '401':
+      description: Access token is missing or invalid
+    '404':
+      description: Resource not found
+    '403':
+      description: Access forbidden
   securitySchemes:
     bearerAuth:
       type: http
